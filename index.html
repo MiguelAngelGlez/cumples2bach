@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Los cumpleaños de 2º Bach · 2026–27</title>
+<meta name="theme-color" content="#f6f4fb">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f6f4fb;
+  --paper:#ffffff;
+  --ink:#1b1730;
+  --muted:#6b6683;
+  --line:#e4e0f0;
+  --accent:#5b46f0;
+  --accent-soft:#ebe8ff;
+
+  --peach:#ffe1d1;
+  --sky:#d6ecff;
+  --lilac:#e4dcff;
+  --mint:#d3f3e6;
+  --rose:#ffd9e6;
+  --butter:#fff0bd;
+
+  --sombra:0 14px 34px -16px rgba(60,40,140,.32);
+  --sombra-alta:0 26px 50px -18px rgba(60,40,140,.42);
+  --font:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font);
+  font-size:17px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+button,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+/* ---------- Parte superior ---------- */
+.arriba{position:relative;overflow:hidden;isolation:isolate}
+.arriba::before,.arriba::after{
+  content:"";position:absolute;z-index:-1;border-radius:50%;filter:blur(20px);
+}
+.arriba::before{
+  width:620px;height:620px;right:-160px;top:-180px;
+  background:radial-gradient(circle,#ffd6c2 0,rgba(255,214,194,0) 68%);
+}
+.arriba::after{
+  width:700px;height:700px;left:-260px;bottom:-320px;
+  background:radial-gradient(circle,#d5c8ff 0,rgba(213,200,255,0) 68%);
+}
+
+.cabecera{
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  max-width:1300px;margin:0 auto;padding:22px 5vw;
+}
+.marca{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.75);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid var(--line);border-radius:999px;
+  padding:7px 16px 7px 12px;font-weight:700;font-size:15px;
+}
+.marca i{width:10px;height:10px;border-radius:50%;background:var(--accent);display:block}
+.centro{font-size:14px;font-weight:500;color:var(--muted);text-align:right}
+
+/* ---------- Portada ---------- */
+.portada{
+  max-width:1300px;margin:0 auto;
+  padding:50px 5vw 110px;
+  display:grid;grid-template-columns:1fr;gap:50px;align-items:center;
+}
+.portada h1{
+  margin:0;
+  font-size:clamp(66px,13vw,188px);
+  line-height:.86;font-weight:800;letter-spacing:-.055em;
+  font-variation-settings:"opsz" 96;
+}
+.portada h1 span{display:block}
+.portada-texto{
+  max-width:42ch;margin:34px 0 0;
+  font-size:clamp(18px,2vw,21px);line-height:1.5;color:#4a4563;
+}
+.boton-bajar{
+  display:inline-flex;align-items:center;gap:12px;
+  margin-top:30px;padding:8px 8px 8px 24px;
+  background:var(--ink);color:#fff;
+  border-radius:999px;font-weight:700;text-decoration:none;
+  transition:background .2s ease,translate .2s ease;
+}
+.boton-bajar b{
+  width:38px;height:38px;border-radius:50%;
+  display:grid;place-items:center;
+  background:#fff;color:var(--ink);font-weight:700;
+  transition:translate .2s ease;
+}
+.boton-bajar:hover{background:var(--accent)}
+.boton-bajar:hover b{translate:0 3px}
+
+.collage{position:relative;height:460px;display:none}
+.collage .mini{
+  position:absolute;width:220px;
+  background:#fff;padding:7px;border-radius:28px;
+  box-shadow:var(--sombra-alta);
+}
+.collage .mini img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:22px}
+.collage .mini:nth-child(1){left:0;top:8%;rotate:-6deg}
+.collage .mini:nth-child(2){right:2%;top:0;rotate:4deg}
+.collage .mini:nth-child(3){left:28%;bottom:0;rotate:-1.5deg}
+
+@media (min-width:920px){
+  .portada{grid-template-columns:1.3fr .8fr}
+  .collage.hay{display:block}
+}
+
+/* ---------- Galería ---------- */
+.galeria{max-width:1300px;margin:0 auto;padding:20px 5vw 100px}
+.galeria-cabecera{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;
+  margin-bottom:44px;
+}
+.galeria-cabecera h2{
+  margin:0;font-size:clamp(38px,5.5vw,60px);line-height:1;font-weight:800;letter-spacing:-.045em;
+}
+.cuenta{
+  display:inline-block;margin-left:10px;vertical-align:middle;
+  background:var(--accent-soft);color:var(--accent);
+  border-radius:999px;padding:3px 14px;
+  font-size:17px;font-weight:700;letter-spacing:0;
+}
+.buscador{
+  width:min(100%,310px);
+  background:var(--paper) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%236b6683' stroke-width='2.4' stroke-linecap='round'><circle cx='11' cy='11' r='7'/><path d='m20 20-3.5-3.5'/></svg>") no-repeat 18px center;
+  border:1px solid var(--line);border-radius:999px;
+  padding:13px 20px 13px 46px;font-weight:500;
+  transition:border-color .2s ease,box-shadow .2s ease;
+}
+.buscador::placeholder{color:#8f8aa6}
+.buscador:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));
+  gap:34px 26px;
+}
+
+.card{
+  --c:var(--sky);
+  display:block;width:100%;text-align:left;cursor:pointer;
+  background:var(--paper);
+  border:1px solid var(--line);border-radius:28px;
+  padding:10px 10px 18px;
+  box-shadow:var(--sombra);
+  transition:translate .3s ease,box-shadow .3s ease;
+}
+.card:hover,.card:focus-visible{translate:0 -8px;box-shadow:var(--sombra-alta)}
+.card:active{translate:0 -3px}
+.card-foto{
+  display:block;aspect-ratio:1;background:var(--c);
+  border-radius:20px;overflow:hidden;
+}
+.card-foto img{width:100%;height:100%;object-fit:cover;transition:scale .5s ease}
+.card:hover .card-foto img{scale:1.05}
+.card-nombre{
+  display:block;margin:16px 10px 0;
+  font-size:clamp(24px,2.3vw,29px);font-weight:800;line-height:1;letter-spacing:-.04em;
+}
+.card-meta{
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+  margin:12px 10px 0;font-size:14px;font-weight:500;color:var(--muted);
+}
+.edad{
+  background:var(--c);color:var(--ink);
+  border-radius:999px;padding:3px 12px;
+  font-weight:700;white-space:nowrap;
+}
+
+.entrada .card{animation:aparece .7s cubic-bezier(.2,.8,.3,1) backwards;animation-delay:var(--d,0s)}
+@keyframes aparece{from{translate:0 28px;opacity:0}to{translate:0 0;opacity:1}}
+
+.vacio{
+  grid-column:1/-1;max-width:560px;
+  background:var(--paper);border:1px solid var(--line);border-radius:26px;
+  padding:34px;box-shadow:var(--sombra);
+  font-size:19px;color:var(--muted);
+}
+.vacio strong{display:block;color:var(--ink);font-size:28px;letter-spacing:-.03em;margin-bottom:6px}
+
+/* ---------- Final ---------- */
+.final{
+  position:relative;overflow:hidden;isolation:isolate;
+  text-align:center;
+  padding:clamp(70px,10vw,130px) 5vw clamp(80px,10vw,120px);
+}
+.final::before,.final::after{content:"";position:absolute;z-index:-1;border-radius:50%;filter:blur(20px)}
+.final::before{
+  width:620px;height:620px;left:-220px;top:-140px;
+  background:radial-gradient(circle,#d5c8ff 0,rgba(213,200,255,0) 68%);
+}
+.final::after{
+  width:660px;height:660px;right:-240px;bottom:-280px;
+  background:radial-gradient(circle,#ffd6c2 0,rgba(255,214,194,0) 68%);
+}
+.rostros{display:flex;justify-content:center;margin-bottom:38px;padding-bottom:8px}
+.rostros:empty{display:none}
+.rostros img{
+  width:68px;height:68px;border-radius:50%;object-fit:cover;
+  border:4px solid var(--bg);
+  box-shadow:0 10px 20px -10px rgba(60,40,140,.55);
+  margin-left:-16px;background:var(--sky);
+}
+.rostros img:first-child{margin-left:0}
+.rostros img:nth-child(even){translate:0 8px}
+.final p{
+  margin:0 auto;max-width:13em;
+  font-size:clamp(42px,7.5vw,104px);line-height:.92;font-weight:800;letter-spacing:-.05em;
+}
+.final .final-sub{
+  margin:28px auto 0;max-width:36ch;
+  font-size:clamp(17px,2vw,20px);line-height:1.5;font-weight:500;letter-spacing:0;
+  color:var(--muted);
+}
+.subir{
+  display:inline-flex;align-items:center;gap:10px;
+  margin-top:34px;padding:13px 24px;
+  background:var(--paper);color:var(--ink);
+  border:1px solid var(--line);border-radius:999px;
+  font-weight:700;text-decoration:none;
+  transition:background .2s ease,color .2s ease,border-color .2s ease;
+}
+.subir:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+footer{
+  max-width:1300px;margin:0 auto;
+  padding:0 5vw 36px;
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  font-size:14px;font-weight:500;color:var(--muted);
+}
+
+/* ---------- Confeti ---------- */
+#confeti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:300}
+
+/* ---------- Modal ---------- */
+.modal{
+  position:fixed;inset:0;z-index:200;
+  display:none;justify-content:center;align-items:flex-start;
+  padding:32px 16px;overflow-y:auto;
+  background:rgba(27,23,48,.5);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.modal.activo{display:flex;animation:velo .25s ease}
+@keyframes velo{from{opacity:0}to{opacity:1}}
+.modal-caja{
+  --c:var(--sky);
+  position:relative;flex-shrink:0;margin:auto 0;
+  width:min(1020px,100%);
+  background:var(--paper);
+  border-radius:36px;
+  box-shadow:0 40px 90px -30px rgba(20,10,70,.6);
+  overflow:hidden;
+}
+.modal.activo .modal-caja{animation:sube .4s cubic-bezier(.2,.8,.3,1)}
+@keyframes sube{from{translate:0 36px;opacity:0;scale:.98}to{translate:0 0;opacity:1;scale:1}}
+
+.modal-barra{position:absolute;top:16px;right:16px;z-index:5;display:flex;gap:8px}
+.icono{
+  width:44px;height:44px;display:grid;place-items:center;
+  background:rgba(255,255,255,.9);
+  border:1px solid var(--line);border-radius:50%;
+  font-size:19px;font-weight:600;cursor:pointer;
+  box-shadow:0 6px 16px -8px rgba(40,20,120,.4);
+  transition:background .2s ease,color .2s ease;
+}
+.icono:hover{background:var(--ink);color:#fff}
+
+.modal-grid{display:grid;grid-template-columns:1fr}
+.lado{
+  position:relative;overflow:hidden;isolation:isolate;
+  background:var(--c);
+  padding:68px 26px 32px;
+}
+.lado-num{
+  position:absolute;z-index:-1;right:-10px;bottom:-46px;
+  font-size:250px;line-height:1;font-weight:800;letter-spacing:-.09em;
+  color:rgba(27,23,48,.07);pointer-events:none;user-select:none;
+}
+.lado-foto{
+  max-width:330px;margin:0 auto;
+  background:#fff;padding:7px;border-radius:30px;
+  box-shadow:0 24px 44px -20px rgba(27,23,48,.5);
+}
+.lado-foto img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:24px}
+.lado-nombre{
+  margin:28px 0 12px;text-align:center;
+  font-size:clamp(42px,6vw,60px);line-height:.92;font-weight:800;letter-spacing:-.05em;
+}
+.lado-datos{
+  display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px;
+  font-weight:600;
+}
+.lado-datos .edad{background:#fff}
+
+.principal{padding:30px 26px 36px}
+.principal-cabecera{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-bottom:22px;
+}
+.principal-cabecera h3{margin:0;font-size:30px;font-weight:800;letter-spacing:-.04em;line-height:1}
+.principal-cabecera span{
+  min-width:34px;text-align:center;
+  background:var(--accent-soft);color:var(--accent);
+  border-radius:999px;padding:3px 12px;font-weight:700;font-size:15px;
+}
+
+.notas{display:grid;gap:14px}
+.nota-msg{
+  --n:var(--butter);
+  position:relative;
+  background:var(--n);
+  border-radius:24px;
+  padding:44px 24px 20px;
+}
+.nota-msg::before{
+  content:"“";position:absolute;left:22px;top:6px;
+  font-size:70px;line-height:1;font-weight:800;color:rgba(27,23,48,.2);
+}
+.nota-msg:nth-child(6n+1){--n:var(--butter)}
+.nota-msg:nth-child(6n+2){--n:var(--rose)}
+.nota-msg:nth-child(6n+3){--n:var(--mint)}
+.nota-msg:nth-child(6n+4){--n:var(--sky)}
+.nota-msg:nth-child(6n+5){--n:var(--peach)}
+.nota-msg:nth-child(6n+6){--n:var(--lilac)}
+.nota-msg.nueva{animation:nueva .6s cubic-bezier(.2,.8,.3,1)}
+@keyframes nueva{from{translate:0 20px;opacity:0;scale:.97}to{translate:0 0;opacity:1;scale:1}}
+.nota-texto{
+  margin:0;
+  font-size:clamp(19px,2.3vw,23px);line-height:1.25;font-weight:600;letter-spacing:-.02em;
+  overflow-wrap:anywhere;
+}
+.nota-autor{display:flex;align-items:center;gap:10px;margin:16px 0 0;font-size:15px;font-weight:700}
+.nota-autor i{
+  width:30px;height:30px;border-radius:50%;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.75);font-style:normal;font-size:14px;font-weight:800;
+}
+.notas-estado{padding:16px 0;color:var(--muted);font-weight:500;font-size:18px;margin:0}
+
+.boton-mensaje{
+  margin-top:26px;
+  background:var(--ink);color:#fff;
+  border:0;border-radius:999px;
+  padding:15px 28px;font-weight:700;cursor:pointer;
+  transition:background .2s ease,translate .2s ease;
+}
+.boton-mensaje:hover{background:var(--accent)}
+.boton-mensaje:active{translate:0 2px}
+.boton-mensaje[hidden]{display:none}
+
+.formulario{
+  margin-top:26px;padding:24px;
+  background:var(--bg);
+  border:1px solid var(--line);border-radius:26px;
+}
+.formulario[hidden]{display:none}
+.formulario h4{margin:0 0 16px;font-size:22px;font-weight:800;letter-spacing:-.03em}
+.formulario label{display:block;margin-bottom:14px}
+.formulario label span{display:block;margin-bottom:6px;font-weight:600;font-size:15px}
+.formulario input[type=text],.formulario textarea{
+  width:100%;background:var(--paper);
+  border:1.5px solid var(--line);border-radius:16px;
+  padding:13px 16px;font-weight:500;
+  transition:border-color .2s ease,box-shadow .2s ease;
+}
+.formulario textarea{min-height:112px;resize:vertical}
+.formulario input:focus,.formulario textarea:focus{
+  outline:none;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);
+}
+.trampa{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.formulario-pie{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.contador{font-size:14px;font-weight:500;color:var(--muted)}
+.botones{display:flex;gap:10px}
+.botones button{
+  border-radius:999px;padding:12px 22px;font-weight:700;cursor:pointer;
+  border:1.5px solid var(--line);background:var(--paper);
+  transition:background .2s ease,color .2s ease,border-color .2s ease;
+}
+.botones button:hover{border-color:var(--ink)}
+.botones .enviar{background:var(--accent);border-color:var(--accent);color:#fff}
+.botones .enviar:hover{background:var(--ink);border-color:var(--ink)}
+.botones button:disabled{opacity:.6;cursor:wait}
+
+.aviso{
+  margin-top:20px;padding:14px 18px;
+  border-radius:18px;background:var(--mint);font-weight:600;
+}
+.aviso[hidden]{display:none}
+.aviso.error{background:var(--rose)}
+
+@media (min-width:860px){
+  .modal-grid{grid-template-columns:.85fr 1.15fr}
+  .lado{padding:72px 32px 36px}
+  .principal{padding:72px 38px 42px}
+}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  .cabecera{padding:16px 18px}
+  .centro{font-size:12px;max-width:140px}
+  .portada{padding:28px 18px 70px}
+  .galeria{padding:10px 18px 70px}
+  .galeria-cabecera{margin-bottom:30px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:22px 14px}
+  .card{padding:7px 7px 14px;border-radius:22px}
+  .card-foto{border-radius:16px}
+  .card-nombre{font-size:21px;margin:12px 6px 0}
+  .card-meta{flex-direction:column;align-items:flex-start;gap:6px;margin:10px 6px 0;font-size:12px}
+  .edad{font-size:12px;padding:2px 10px}
+  .final{padding:64px 18px 70px}
+  .rostros img{width:52px;height:52px;margin-left:-13px}
+  footer{padding:0 18px 30px}
+  .modal{padding:12px 10px}
+  .modal-caja{border-radius:28px}
+  .lado{padding:68px 20px 28px}
+  .lado-num{font-size:190px}
+  .principal{padding:24px 18px 28px}
+  .nota-msg{padding:42px 20px 18px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+}
+
+/* ---------- Visor de foto a pantalla completa ---------- */
+.visor-foto{
+  position:fixed;
+  inset:0;
+  z-index:500;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:30px;
+  background:rgba(27,23,48,.94);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  cursor:zoom-out;
+}
+
+.visor-foto.activo{
+  display:flex;
+  animation:visorEntrada .25s ease;
+}
+
+@keyframes visorEntrada{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+.visor-foto img{
+  max-width:min(94vw,1200px);
+  max-height:90vh;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  border-radius:18px;
+  box-shadow:0 30px 80px -25px rgba(0,0,0,.7);
+  animation:fotoGrande .35s cubic-bezier(.2,.8,.3,1);
+  cursor:default;
+}
+
+@keyframes fotoGrande{
+  from{
+    opacity:0;
+    scale:.94;
+  }
+  to{
+    opacity:1;
+    scale:1;
+  }
+}
+
+.visor-cerrar{
+  position:absolute;
+  top:22px;
+  right:22px;
+  z-index:2;
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+  transition:background .2s ease,scale .2s ease;
+}
+
+.visor-cerrar:hover{
+  background:rgba(255,255,255,.25);
+  scale:1.06;
+}
+
+@media (max-width:560px){
+  .visor-foto{
+    padding:15px;
+  }
+
+  .visor-foto img{
+    max-width:96vw;
+    max-height:88vh;
+    border-radius:14px;
+  }
+
+  .visor-cerrar{
+    top:14px;
+    right:14px;
+    width:44px;
+    height:44px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="arriba" id="top">
+  <header class="cabecera">
+    <span class="marca"><i></i>2º Bach</span>
+    <span class="centro">IES El Molinillo, Guillena</span>
+  </header>
+
+  <section class="portada">
+    <div>
+      <h1>
+        <span>Un día más.</span>
+        <span>Para ti.</span>
+      </h1>
+      <p class="portada-texto">
+        Cada curso tiene fechas que se repiten. Aquí guardamos las de este año:
+        una foto, un día y los mensajes de la clase para quien cumple.
+      </p>
+      <a class="boton-bajar" href="#galeria">Ver los cumpleaños <b aria-hidden="true">↓</b></a>
+    </div>
+    <div class="collage" id="collage" aria-hidden="true"></div>
+  </section>
+</div>
+
+<section class="galeria" id="galeria">
+  <div class="galeria-cabecera">
+    <h2>Cumpleaños <span class="cuenta" id="contador">0</span></h2>
+    <input class="buscador" id="buscador" type="search" placeholder="Buscar a alguien" aria-label="Buscar por nombre" autocomplete="off">
+  </div>
+  <div class="grid entrada" id="grid"></div>
+</section>
+
+<section class="final">
+  <div class="rostros" id="rostros" aria-hidden="true"></div>
+  <p>Porque cumplir años también es formar parte.</p>
+  <p class="final-sub">Cada foto que se suma es un día que ya forma parte de esta clase.</p>
+  <a class="subir" href="#top">Volver arriba <span aria-hidden="true">↑</span></a>
+</section>
+
+<footer>
+  <span>2º Bach, curso 2026–27</span>
+  <span>IES El Molinillo, Guillena</span>
+</footer>
+
+<!-- ================= VISOR DE FOTO ================= -->
+<div class="visor-foto" id="visorFoto" aria-hidden="true">
+  <button class="visor-cerrar" id="visorCerrar" aria-label="Cerrar foto">✕</button>
+  <img id="visorImagen" src="" alt="">
+</div>
+
+<canvas id="confeti"></canvas>
+
+<!-- ================= MODAL ================= -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-caja" id="modalCaja" role="dialog" aria-modal="true" aria-labelledby="mNombre">
+
+    <div class="modal-barra">
+      <button class="icono" id="anterior" aria-label="Cumpleaños anterior">←</button>
+      <button class="icono" id="siguiente" aria-label="Cumpleaños siguiente">→</button>
+      <button class="icono" id="cerrar" aria-label="Cerrar">✕</button>
+    </div>
+
+    <div class="modal-grid">
+      <aside class="lado">
+        <div class="lado-num" id="mNum" aria-hidden="true"></div>
+        <div class="lado-foto"><img id="mImg" src="" alt=""></div>
+        <h2 class="lado-nombre" id="mNombre"></h2>
+        <div class="lado-datos">
+          <span id="mFecha"></span>
+          <span class="edad" id="mEdad"></span>
+        </div>
+      </aside>
+
+      <section class="principal">
+        <div class="principal-cabecera">
+          <h3>Palabras para ti</h3>
+          <span id="mCuenta">0</span>
+        </div>
+
+        <div class="notas" id="mMensajes"></div>
+
+        <button class="boton-mensaje" id="botonMensaje" type="button">Dejar un mensaje</button>
+
+        <form class="formulario" id="formulario" hidden>
+          <h4>Escribe algo bonito</h4>
+          <label>
+            <span>Tu nombre</span>
+            <input type="text" id="autorMensaje" maxlength="40" autocomplete="name" required>
+          </label>
+          <label>
+            <span>Tu mensaje</span>
+            <textarea id="textoMensaje" maxlength="300" required></textarea>
+          </label>
+          <input class="trampa" type="text" id="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="formulario-pie">
+            <span class="contador" id="contadorTexto">0 / 300</span>
+            <div class="botones">
+              <button type="button" id="cancelarMensaje">Cancelar</button>
+              <button type="submit" class="enviar" id="enviarMensaje">Enviar mensaje</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="aviso" id="aviso" role="status" hidden></div>
+      </section>
+    </div>
+  </div>
+</div>
+
+
+<script>
+/* ============================================================
+   CONFIGURACIÓN
+============================================================ */
+const URL_MENSAJES =
+"https://script.google.com/macros/s/AKfycbx2ttHOz5Ni5pITnqZKdVAkkPC39WF8H7UWjmJQgSvGGv3gWiVxdsjhKGdMqKmUf0N2pg/exec";
+
+const TINTES = ["#d6ecff","#ffd9e6","#fff0bd","#d3f3e6","#ffe1d1","#e4dcff"];
+const CONFETI_COLORES = ["#5b46f0","#ff8fab","#ffc857","#5fd1b0","#7cc4ff","#ffa48a"];
+
+/* ============================================================
+   UTILIDADES
+============================================================ */
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm = s => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const reducir = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function hoy() {
+  const d = new Date();
+  return String(d.getDate()).padStart(2, "0") + "/" +
+         String(d.getMonth() + 1).padStart(2, "0") + "/" + d.getFullYear();
+}
+
+/* avatar de emergencia si una foto no carga */
+function avatar(nombre, color) {
+  const ini = esc((nombre || "?").trim().charAt(0).toUpperCase());
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="${color}"/><text x="100" y="128" font-family="Arial" font-weight="800" font-size="96" text-anchor="middle" fill="#1b1730">${ini}</text></svg>`;
+  return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+}
+function conFallback(img, nombre, color) {
+  img.addEventListener("error", () => {
+    img.onerror = null;
+    img.src = avatar(nombre, color);
+  }, { once: true });
+}
+
+/* ============================================================
+   CONFETI (solo al enviar un mensaje)
+============================================================ */
+const cv = $("confeti"), ctx = cv.getContext("2d");
+let particulas = [], raf = 0;
+
+function ajustarCanvas() { cv.width = innerWidth; cv.height = innerHeight; }
+ajustarCanvas();
+addEventListener("resize", ajustarCanvas);
+
+function confeti(x = innerWidth / 2, y = innerHeight / 2, n = 80) {
+  if (reducir) return;
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * Math.PI * 2, v = 3 + Math.random() * 9;
+    particulas.push({
+      x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 5,
+      w: 5 + Math.random() * 6, h: 3 + Math.random() * 5,
+      r: Math.random() * 6, vr: (Math.random() - .5) * .35,
+      c: CONFETI_COLORES[i % CONFETI_COLORES.length], vida: 0
+    });
+  }
+  if (!raf) raf = requestAnimationFrame(pasoConfeti);
+}
+function pasoConfeti() {
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  particulas = particulas.filter(p => p.vida < 140 && p.y < cv.height + 40);
+  for (const p of particulas) {
+    p.vida++; p.vx *= .985; p.vy += .26; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+    ctx.save();
+    ctx.translate(p.x, p.y); ctx.rotate(p.r);
+    ctx.globalAlpha = Math.min(1, (140 - p.vida) / 40);
+    ctx.fillStyle = p.c;
+    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+    ctx.restore();
+  }
+  raf = particulas.length ? requestAnimationFrame(pasoConfeti) : 0;
+}
+
+/* ============================================================
+   ESTADO Y GALERÍA
+============================================================ */
+let fotos = [];
+let actual = -1;
+let primeraVez = true;
+const cache = new Map();
+
+function pintarGaleria() {
+  const grid = $("grid");
+  const q = norm($("buscador").value.trim());
+  const lista = fotos
+    .map((p, i) => ({ p, i }))
+    .filter(({ p }) => !q || norm(p.nombre).includes(q));
+
+  $("contador").textContent = lista.length;
+  grid.innerHTML = "";
+
+  if (fotos.length === 0) {
+    grid.innerHTML = `<div class="vacio"><strong>Aquí empieza la colección.</strong>La primera foto aparecerá cuando llegue el primer cumpleaños.</div>`;
+    return;
+  }
+  if (lista.length === 0) {
+    grid.innerHTML = `<div class="vacio"><strong>No hay nadie con ese nombre.</strong>Prueba con otra búsqueda.</div>`;
+    return;
+  }
+
+  grid.classList.toggle("entrada", primeraVez);
+
+  lista.forEach(({ p, i }, pos) => {
+    const color = TINTES[i % TINTES.length];
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "card";
+    card.style.setProperty("--c", color);
+    card.style.setProperty("--d", (pos * 0.06) + "s");
+    card.setAttribute("aria-label", `Abrir el cumpleaños de ${p.nombre}`);
+
+    card.innerHTML = `
+      <span class="card-foto"><img src="${esc(p.foto)}" alt="${esc(p.nombre)}" loading="lazy"></span>
+      <span class="card-nombre">${esc(p.nombre)}</span>
+      <span class="card-meta">
+        <span>${esc(p.fecha)}</span>
+        <span class="edad">${esc(p.edad)} años</span>
+      </span>`;
+
+    conFallback(card.querySelector("img"), p.nombre, color);
+    card.addEventListener("click", () => abrirModal(i));
+    grid.appendChild(card);
+  });
+
+  if (primeraVez) {
+    primeraVez = false;
+    setTimeout(() => grid.classList.remove("entrada"), 1600);
+  }
+}
+
+function pintarCollage() {
+  const cont = $("collage");
+  const muestra = fotos.slice(0, 3);
+  if (!muestra.length) return;
+  cont.innerHTML = "";
+  muestra.forEach((p, i) => {
+    const d = document.createElement("div");
+    d.className = "mini";
+    const img = document.createElement("img");
+    img.src = p.foto; img.alt = "";
+    conFallback(img, p.nombre, TINTES[i]);
+    d.appendChild(img);
+    cont.appendChild(d);
+  });
+  cont.classList.add("hay");
+}
+
+function pintarRostros() {
+  const cont = $("rostros");
+  cont.innerHTML = "";
+  fotos.slice(0, 8).forEach((p, i) => {
+    const img = document.createElement("img");
+    img.src = p.foto; img.alt = ""; img.loading = "lazy";
+    conFallback(img, p.nombre, TINTES[i % TINTES.length]);
+    cont.appendChild(img);
+  });
+}
+
+fetch("datos.json")
+  .then(r => r.json())
+  .then(datos => {
+    fotos = datos.fotos || [];
+    pintarCollage();
+    pintarRostros();
+    pintarGaleria();
+  })
+  .catch(err => {
+    console.error("Error cargando datos.json:", err);
+    $("grid").innerHTML = `<div class="vacio"><strong>No se han podido cargar los cumpleaños.</strong>Recarga la página en unos segundos.</div>`;
+  });
+
+$("buscador").addEventListener("input", pintarGaleria);
+
+/* ============================================================
+   MODAL
+============================================================ */
+let ultimoFoco = null;
+
+function abrirModal(i) {
+  if (i < 0) i = fotos.length - 1;
+  if (i >= fotos.length) i = 0;
+  actual = i;
+  const p = fotos[i];
+  const color = TINTES[i % TINTES.length];
+
+  $("modalCaja").style.setProperty("--c", color);
+  const img = $("mImg");
+  img.src = p.foto; img.alt = p.nombre;
+  conFallback(img, p.nombre, color);
+
+  $("mNombre").textContent = p.nombre;
+  $("mFecha").textContent = p.fecha;
+  $("mEdad").textContent = `${p.edad} años`;
+  $("mNum").textContent = p.edad;
+
+  // reiniciar formulario y avisos
+  $("formulario").hidden = true;
+  $("botonMensaje").hidden = false;
+  $("aviso").hidden = true;
+  $("textoMensaje").value = "";
+  $("contadorTexto").textContent = "0 / 300";
+  try { $("autorMensaje").value = localStorage.getItem("autorCumple") || ""; } catch (e) {}
+
+  const modal = $("modal");
+  if (!modal.classList.contains("activo")) {
+    ultimoFoco = document.activeElement;
+    modal.classList.add("activo");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    $("cerrar").focus();
+  }
+  modal.scrollTop = 0;
+
+  cargarMensajes(p.id);
+}
+
+function cerrarModal() {
+  const modal = $("modal");
+  modal.classList.remove("activo");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+  actual = -1;
+  if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
+}
+
+$("cerrar").addEventListener("click", cerrarModal);
+$("anterior").addEventListener("click", () => abrirModal(actual - 1));
+$("siguiente").addEventListener("click", () => abrirModal(actual + 1));
+$("modal").addEventListener("click", e => { if (e.target.id === "modal") cerrarModal(); });
+
+document.addEventListener("keydown", e => {
+  if (actual < 0) return;
+  if (e.key === "Escape") cerrarModal();
+  const escribiendo = /INPUT|TEXTAREA/.test(document.activeElement.tagName);
+  if (!escribiendo && e.key === "ArrowLeft")  abrirModal(actual - 1);
+  if (!escribiendo && e.key === "ArrowRight") abrirModal(actual + 1);
+});
+
+/* ============================================================
+   MENSAJES
+============================================================ */
+function pintarMensajes(lista, indiceNuevo = -1) {
+  const cont = $("mMensajes");
+  $("mCuenta").textContent = lista.length;
+  cont.innerHTML = "";
+
+  if (!lista.length) {
+    cont.innerHTML = `<p class="notas-estado">Todavía no hay mensajes. Escribe el primero.</p>`;
+    return;
+  }
+  lista.forEach((m, i) => {
+    const nota = document.createElement("article");
+    nota.className = "nota-msg" + (i === indiceNuevo ? " nueva" : "");
+
+    const t = document.createElement("p");
+    t.className = "nota-texto";
+    t.textContent = m.mensaje || "";
+
+    const a = document.createElement("p");
+    a.className = "nota-autor";
+    const nombre = m.autor || "Alguien de la clase";
+    const ini = document.createElement("i");
+    ini.textContent = nombre.trim().charAt(0).toUpperCase();
+    const tx = document.createElement("span");
+    tx.textContent = nombre;
+    a.append(ini, tx);
+
+    nota.append(t, a);
+    cont.appendChild(nota);
+  });
+
+  if (indiceNuevo >= 0) {
+    cont.children[indiceNuevo].scrollIntoView({ behavior: reducir ? "auto" : "smooth", block: "center" });
+  }
+}
+
+async function cargarMensajes(id) {
+  const cont = $("mMensajes");
+  $("mCuenta").textContent = "…";
+
+  if (cache.has(String(id))) { pintarMensajes(cache.get(String(id))); return; }
+
+  cont.innerHTML = `<p class="notas-estado">Cargando mensajes…</p>`;
+  try {
+    const r = await fetch(`${URL_MENSAJES}?id=${encodeURIComponent(id)}`);
+    const datos = await r.json();
+    const lista = Array.isArray(datos) ? datos : [];
+    cache.set(String(id), lista);
+    if (actual >= 0 && String(fotos[actual].id) === String(id)) pintarMensajes(lista);
+  } catch (err) {
+    console.error("Error cargando mensajes:", err);
+    if (actual >= 0 && String(fotos[actual].id) === String(id)) {
+      $("mCuenta").textContent = "0";
+      cont.innerHTML = `<p class="notas-estado">No se han podido cargar los mensajes. Vuelve a abrir esta foto en unos segundos.</p>`;
+    }
+  }
+}
+
+/* ============================================================
+   FORMULARIO
+============================================================ */
+function aviso(texto, error = false) {
+  const a = $("aviso");
+  a.textContent = texto;
+  a.classList.toggle("error", error);
+  a.hidden = false;
+}
+
+$("botonMensaje").addEventListener("click", () => {
+  $("aviso").hidden = true;
+  $("botonMensaje").hidden = true;
+  $("formulario").hidden = false;
+  ($("autorMensaje").value ? $("textoMensaje") : $("autorMensaje")).focus();
+});
+
+$("cancelarMensaje").addEventListener("click", () => {
+  $("formulario").hidden = true;
+  $("botonMensaje").hidden = false;
+});
+
+$("textoMensaje").addEventListener("input", e => {
+  $("contadorTexto").textContent = `${e.target.value.length} / 300`;
+});
+
+$("formulario").addEventListener("submit", async e => {
+  e.preventDefault();
+  if ($("trampa").value) return;                       // anti-spam
+
+  const autor = $("autorMensaje").value.trim();
+  const mensaje = $("textoMensaje").value.trim();
+  if (!autor || !mensaje) { aviso("Escribe tu nombre y tu mensaje antes de enviar.", true); return; }
+
+  try {
+    const ultimo = Number(localStorage.getItem("ultimoMensajeCumple") || 0);
+    if (Date.now() - ultimo < 15000) { aviso("Espera unos segundos antes de enviar otro mensaje.", true); return; }
+  } catch (err) {}
+
+  const p = fotos[actual];
+  const boton = $("enviarMensaje");
+  boton.disabled = true;
+  boton.textContent = "Enviando…";
+
+  try {
+    await fetch(URL_MENSAJES, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        idAlumno: p.id,
+        nombreAlumno: p.nombre,
+        autor,
+        mensaje,
+        fecha: hoy(),
+        aprobado: "SI"
+      })
+    });
+
+    try {
+      localStorage.setItem("autorCumple", autor);
+      localStorage.setItem("ultimoMensajeCumple", String(Date.now()));
+    } catch (err) {}
+
+    // se publica al momento: lo añadimos a la lista sin recargar
+    const clave = String(p.id);
+    const lista = (cache.get(clave) || []).concat({ autor, mensaje });
+    cache.set(clave, lista);
+
+    $("textoMensaje").value = "";
+    $("contadorTexto").textContent = "0 / 300";
+    $("formulario").hidden = true;
+    $("botonMensaje").hidden = false;
+    pintarMensajes(lista, lista.length - 1);
+    aviso("¡Mensaje enviado! Gracias por escribir.");
+    confeti(innerWidth / 2, innerHeight * .55, 80);
+  } catch (err) {
+    console.error("Error enviando mensaje:", err);
+    aviso("No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.", true);
+  } finally {
+    boton.disabled = false;
+    boton.textContent = "Enviar mensaje";
+  }
+});
+
+/* ============================================================
+   VISOR DE FOTO
+============================================================ */
+
+function abrirVisorFoto() {
+  const visor = $("visorFoto");
+  const imagen = $("visorImagen");
+  const foto = $("mImg");
+
+  imagen.src = foto.src;
+  imagen.alt = foto.alt;
+
+  visor.classList.add("activo");
+  visor.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function cerrarVisorFoto() {
+  const visor = $("visorFoto");
+
+  visor.classList.remove("activo");
+  visor.setAttribute("aria-hidden", "true");
+
+  // Solo restauramos el scroll si el modal principal también está cerrado
+  if (!$("modal").classList.contains("activo")) {
+    document.body.style.overflow = "";
+  }
+}
+
+$("mImg").addEventListener("click", abrirVisorFoto);
+
+$("visorCerrar").addEventListener("click", cerrarVisorFoto);
+
+$("visorFoto").addEventListener("click", e => {
+  if (e.target === $("visorFoto")) {
+    cerrarVisorFoto();
+  }
+});
+
+document.addEventListener("keydown", e => {
+  if (!$("visorFoto").classList.contains("activo")) return;
+
+  if (e.key === "Escape") {
+    cerrarVisorFoto();
+  }
+});
+</script>
+</body>
+</html>
