@@ -8,21 +8,21 @@
       "nombre": "Ana",
       "fecha": "12/10/2026",
       "edad": 17,
-      "foto": "fotos/ana.jpg"
+      "foto": "fotos/Ana.jpg"
     },
     {
       "id": 2,
       "nombre": "Carlos",
       "fecha": "03/11/2026",
       "edad": 18,
-      "foto": "fotos/carlos.jpg"
+      "foto": "fotos/Carlos.jpg"
     },
     {
       "id": 3,
       "nombre": "Lucía",
       "fecha": "20/11/2026",
       "edad": 18,
-      "foto": "fotos/lucia.jpg"
+      "foto": "fotos/Lucia.jpg"
     }
   ]
 }
