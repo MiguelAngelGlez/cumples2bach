@@ -3,685 +3,626 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>El móvil de la clase · 2º Bach · IES El Molinillo</title>
-<meta name="theme-color" content="#2a1b6e">
+<title>Molinillo Fest · Cumpleaños de 2º Bach · IES El Molinillo</title>
+<meta name="theme-color" content="#f4eddf">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=DM+Sans:opsz,wght@9..40,400..700&family=DM+Mono:wght@400;500&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400..800&family=DM+Mono:wght@400;500&family=Reenie+Beanie&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --tinta:#12101a;
-  --muted:#8e8e93;
-  --azul:#0a84ff;
-  --naranja:#ff8a3d;
-  --rosa:#e8258b;
-  --violeta:#7c3aed;
-  --cielo:#3b82ff;
-  --lima:#b8f04d;
-  --sol:#ffd23f;
+  --papel:#f4eddf;
+  --tinta:#161320;
+  --rosa:#ff4d8d;
+  --rosa-c:#ffb3cd;
+  --azul:#2b4bff;
+  --azul-c:#c2cbff;
+  --sol:#ffd93b;
+  --menta:#a8f0d8;
+  --muted:#6d6577;
+  --linea:rgba(22,19,32,.2);
 
-  --display:'Bricolage Grotesque','Arial Black',system-ui,sans-serif;
+  --anton:'Anton','Impact','Arial Narrow',sans-serif;
   --sans:'DM Sans',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
   --mono:'DM Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
   --mano:'Reenie Beanie','Segoe Script',cursive;
 }
 
 *{box-sizing:border-box}
-html,body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none;background:#0b0912}
+html{scroll-behavior:smooth}
 body{
-  color:#fff;font-family:var(--sans);font-size:16px;line-height:1.4;
+  margin:0;
+  background:var(--papel);
+  color:var(--tinta);
+  font-family:var(--sans);
+  font-size:17px;
+  line-height:1.5;
   -webkit-font-smoothing:antialiased;
+  overflow-x:clip;
 }
-img{display:block;max-width:100%}
+img{max-width:100%;display:block}
 button,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
-button{-webkit-tap-highlight-color:transparent}
-:focus-visible{outline:3px solid #fff;outline-offset:2px}
+:focus-visible{outline:3px solid var(--azul);outline-offset:3px}
+
+/* el grano del papel, como en un póster serigrafiado */
+body::after{
+  content:"";position:fixed;inset:0;z-index:900;pointer-events:none;opacity:.1;
+  background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
 
 @keyframes gira{to{rotate:360deg}}
-@keyframes flota{from{translate:0 0;scale:1}to{translate:8cqw 6cqw;scale:1.2}}
-@keyframes entra{from{opacity:0;translate:0 5cqw;scale:.96}to{opacity:1;translate:0 0;scale:1}}
-@keyframes icoIn{from{opacity:0;scale:.3}to{opacity:1;scale:1}}
-@keyframes sube{from{translate:0 3cqw;opacity:0}to{translate:0 0;opacity:1}}
+@keyframes sale{from{translate:0 14vh;opacity:0}to{translate:0 0;opacity:1}}
+@keyframes aparece{from{opacity:0;translate:0 26px}to{opacity:1;translate:0 0}}
 @keyframes velo{from{opacity:0}to{opacity:1}}
-@keyframes rebota{0%,100%{translate:0 0}50%{translate:0 -1.6cqw}}
-@keyframes pop{from{opacity:0;scale:.94}to{opacity:1;scale:1}}
-@keyframes deslizaD{from{opacity:0;translate:7cqw 0}to{opacity:1;translate:0 0}}
-@keyframes deslizaI{from{opacity:0;translate:-7cqw 0}to{opacity:1;translate:0 0}}
-
-/* dentro del móvil nada se selecciona: solo los campos de escribir */
-.mundo,.mundo *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-.mundo input,.mundo textarea{-webkit-user-select:text;user-select:text}
-.mundo img{-webkit-user-drag:none;user-drag:none}
+@keyframes sube{from{translate:0 40px;opacity:0}to{translate:0 0;opacity:1}}
+@keyframes corre{to{translate:-50% 0}}
+@keyframes titila{0%,100%{opacity:1;scale:1}50%{opacity:.35;scale:.7}}
+@keyframes sello{from{opacity:0;scale:1.5;rotate:-18deg}to{opacity:1;scale:1;rotate:-6deg}}
 
 /* ============================================================
-   EL ESCRITORIO: el móvil, en grande, al lado de un texto
+   BARRA FIJA
 ============================================================ */
-.mundo{
-  position:fixed;inset:0;
-  display:flex;align-items:center;justify-content:center;gap:clamp(30px,7vw,110px);
-  padding:0 4vw;overflow:hidden;
-  background:
-    radial-gradient(60vmax 60vmax at 10% 10%,rgba(232,37,139,.4),transparent 60%),
-    radial-gradient(60vmax 60vmax at 95% 90%,rgba(59,130,255,.4),transparent 60%),
-    #0b0912;
+.barra{position:fixed;top:12px;right:12px;z-index:120}
+.busca{
+  display:flex;align-items:center;gap:9px;
+  height:46px;width:min(58vw,270px);padding:0 16px;
+  background:#fff;border:2.5px solid var(--tinta);border-radius:999px;
+  box-shadow:3px 3px 0 var(--tinta);
 }
-.lado-desktop{flex:0 1 460px;min-width:0}
-.lado-desktop .etq{
-  margin:0 0 18px;font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65);
-}
-.lado-desktop h1{
-  margin:0;font-family:var(--display);font-weight:800;
-  font-size:clamp(46px,6.6vw,104px);line-height:.9;letter-spacing:-.05em;
-}
-.lado-desktop h1 span{
-  background:linear-gradient(95deg,#ff8a3d,#e8258b 50%,#7c3aed);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-.lado-desktop p.txt{margin:22px 0 0;font-size:clamp(17px,1.5vw,21px);line-height:1.4;color:rgba(255,255,255,.78);max-width:22em}
-@media (max-width:900px){.lado-desktop{display:none}}
+.busca:focus-within{box-shadow:3px 3px 0 var(--azul)}
+.busca svg{flex:none;width:17px;height:17px;stroke:var(--tinta)}
+.busca input{flex:1;min-width:0;border:0;background:none;outline:none;font-weight:600}
+.busca input::placeholder{color:#8f879a;font-weight:500}
 
 /* ============================================================
-   EL MÓVIL
+   PORTADA
 ============================================================ */
-.telefono{
-  --alto:min(880px,94vh);
-  --g1:#ff8a3d;--g2:#e8258b;
-  position:relative;flex:none;
-  height:var(--alto);width:calc(var(--alto) * .462);
-  border-radius:calc(var(--alto) * .056);
-  overflow:hidden;background:#000;
-  container-type:size;
-  box-shadow:
-    0 0 0 calc(var(--alto) * .011) #1b1824,
-    0 0 0 calc(var(--alto) * .014) #4a4560,
-    0 60px 120px -30px rgba(0,0,0,.85);
-  touch-action:manipulation;
+.hero{
+  position:relative;isolation:isolate;overflow:hidden;
+  padding:clamp(88px,12vh,124px) 5vw 0;
 }
-@supports (height:1dvh){.telefono{--alto:min(880px,94dvh)}}
-@media (max-width:900px){
-  .mundo{padding:0}
-  .telefono{--alto:100vh;height:100vh;width:100vw;border-radius:0;box-shadow:none}
+.sol{
+  position:absolute;z-index:-1;right:-14vw;top:clamp(60px,9vh,110px);
+  width:min(74vw,760px);aspect-ratio:1;border-radius:50%;background:var(--sol);
+  animation:sale 1.6s cubic-bezier(.2,.8,.2,1) both;
 }
-@supports (height:1dvh){
-  @media (max-width:900px){.telefono{--alto:100dvh;height:100dvh}}
+.sol::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background-image:radial-gradient(circle,var(--rosa) 34%,transparent 37%);background-size:17px 17px;
+  -webkit-mask-image:linear-gradient(to top,#000,transparent 75%);mask-image:linear-gradient(to top,#000,transparent 75%);
 }
+.hero-interior{max-width:1400px;margin:0 auto}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.etq{
+  margin:0;max-width:15em;
+  font-family:var(--mono);font-size:clamp(11px,1.1vw,13px);letter-spacing:.12em;text-transform:uppercase;font-weight:500;
+}
+/* la ruedecita: un sello sólido que gira */
+.rueda{
+  position:relative;flex:none;width:clamp(86px,10vw,132px);aspect-ratio:1;border-radius:50%;
+  background:var(--sol);box-shadow:0 0 0 3px var(--tinta),4px 5px 0 3px var(--tinta);
+}
+.rueda svg.giro{position:absolute;inset:0;width:100%;height:100%;animation:gira 50s linear infinite}
+.rueda text{font-family:var(--mono);font-size:6.1px;font-weight:500;fill:var(--tinta)}
+.rueda .estrella{position:absolute;inset:0;display:grid;place-items:center}
+.rueda .estrella svg{width:34%;height:auto}
 
-/* el fondo de pantalla, con manchas de color que se mueven despacio */
-.papel{
-  position:absolute;inset:0;overflow:hidden;
-  background:linear-gradient(165deg,#2a1b6e,#7c3aed 42%,#e8258b 76%,#ff8a3d);
+.titulo{
+  margin:clamp(16px,3vw,40px) 0 0;
+  font-family:var(--anton);font-weight:400;text-transform:uppercase;line-height:.86;
 }
-.papel i{position:absolute;border-radius:50%;filter:blur(8cqw);opacity:.8;animation:flota 14s ease-in-out infinite alternate}
-.papel i:nth-child(1){width:70cqw;height:70cqw;left:-16cqw;top:8cqw;background:#3b82ff}
-.papel i:nth-child(2){width:64cqw;height:64cqw;right:-20cqw;top:38cqh;background:#ff8a3d;animation-duration:18s}
-.papel i:nth-child(3){width:60cqw;height:60cqw;left:10cqw;bottom:-14cqw;background:#e8258b;animation-duration:22s}
+.titulo .l1,.titulo .l2{
+  display:block;white-space:nowrap;font-size:clamp(60px,19.4vw,310px);color:var(--tinta);
+  text-shadow:.028em .028em 0 var(--rosa),.056em .056em 0 var(--azul);
+}
+.titulo .l2{display:flex;align-items:center;flex-wrap:wrap;gap:0 3.4vw}
+.pegata{
+  display:inline-block;padding:.28em .6em .22em;border-radius:.3em;
+  background:var(--tinta);color:var(--sol);text-shadow:none;
+  font-size:clamp(20px,4.6vw,74px);line-height:1;letter-spacing:.02em;text-align:center;
+  rotate:-6deg;animation:sello .7s cubic-bezier(.3,1.4,.5,1) .9s both;
+}
+.lema{
+  margin:clamp(24px,3.4vw,42px) 0 0;max-width:20em;
+  font-size:clamp(22px,2.6vw,36px);font-weight:800;line-height:1.12;letter-spacing:-.02em;
+}
+.sub{margin:14px 0 0;max-width:30em;font-size:clamp(17px,1.7vw,22px);line-height:1.4;color:#3a3345}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 28px;border:2.5px solid var(--tinta);border-radius:999px;
+  font-weight:800;font-size:17px;text-decoration:none;cursor:pointer;
+  box-shadow:4px 4px 0 var(--tinta);
+  transition:translate .15s ease,box-shadow .15s ease,background .2s ease;
+}
+.btn:hover{translate:-2px -2px;box-shadow:6px 6px 0 var(--tinta)}
+.btn:active{translate:3px 3px;box-shadow:0 0 0 var(--tinta)}
+.btn-rosa{background:var(--rosa);color:var(--tinta)}
+.btn-blanco{background:#fff;color:var(--tinta)}
+.btn-sol{background:var(--sol);color:var(--tinta)}
 
-/* barra de estado e isla */
-.estado{
-  position:absolute;top:0;left:0;right:0;z-index:20;height:12cqw;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:2.4cqw 8cqw 0 9cqw;font-size:3.9cqw;font-weight:700;pointer-events:none;
-  transition:color .3s ease;
+.pegatinas{display:flex;flex-wrap:wrap;gap:10px 12px;margin-top:26px}
+.peg{
+  --r:-3deg;display:inline-block;padding:7px 15px;border:2.5px solid var(--tinta);border-radius:999px;
+  font-weight:800;font-size:15px;rotate:var(--r);background:#fff;
 }
-.telefono.claro .estado{color:#111}
-.estado .iconos{display:flex;align-items:center;gap:1.4cqw}
-.estado svg{height:3.2cqw;width:auto;fill:currentColor}
-/* candado: para volver a bloquear el móvil */
-.candado{
-  position:absolute;z-index:20;left:21cqw;top:2.6cqw;width:8cqw;height:8cqw;padding:0;border:0;border-radius:50%;
-  display:none;place-items:center;color:#fff;background:rgba(255,255,255,.22);
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);cursor:pointer;
+.peg:nth-child(2){--r:2.5deg;background:var(--azul-c)}
+.peg:nth-child(3){--r:-1.5deg;background:var(--menta)}
+
+/* las fotos que pasan como en un telón */
+.tiras{margin:clamp(34px,5vw,64px) -5vw 0;display:grid;gap:14px}
+.tira{
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
 }
-.candado svg{width:4.2cqw;height:4.2cqw}
-.telefono.desbloqueado .candado{display:grid}
-.telefono.claro .candado{color:#111;background:rgba(0,0,0,.08)}
-/* la cortina: arrastrar desde arriba baja la pantalla de bloqueo */
-.cortina-zona{position:absolute;left:0;right:0;top:0;height:14cqw;z-index:15;touch-action:none;display:none}
-.telefono.desbloqueado:not(.capa-abierta) .cortina-zona{display:block}
-.isla{
-  position:absolute;z-index:21;top:2.6cqw;left:50%;translate:-50% 0;
-  height:8.4cqw;width:27cqw;border-radius:6cqw;background:#000;
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-  color:#fff;font-size:3.5cqw;font-weight:600;white-space:nowrap;
-  transition:width .45s cubic-bezier(.3,1.3,.5,1);
-  cursor:pointer;border:0;padding:0;
+.tira-pista{display:flex;width:max-content;animation:corre var(--dur,60s) linear infinite}
+.tira.inversa .tira-pista{animation-direction:reverse}
+.tira:hover .tira-pista{animation-play-state:paused}
+.tira-foto{
+  --r:0deg;--h:clamp(110px,17vw,182px);
+  flex:none;height:var(--h);margin:6px 14px 6px 0;padding:6px;border:0;border-radius:6px;
+  background:#fff;rotate:var(--r);cursor:pointer;
+  box-shadow:3px 4px 0 var(--tinta);
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
 }
-.isla.abierta{width:72cqw}
-.isla span{opacity:0;transition:opacity .25s ease .15s}
-.isla.abierta span{opacity:1}
+.tira-foto img{height:100%;width:auto;aspect-ratio:4/3;border-radius:3px;background:#ddd5c5}
+
+/* banda inclinada */
+.banda{
+  overflow:hidden;background:var(--tinta);color:var(--sol);
+  rotate:-1.4deg;margin:clamp(24px,4vw,52px) -3vw 0;padding:12px 0 8px;
+  font-family:var(--anton);font-size:clamp(22px,3.2vw,40px);letter-spacing:.02em;text-transform:uppercase;white-space:nowrap;
+}
+.banda-pista{display:flex;width:max-content;animation:corre 46s linear infinite}
+.banda-pista span{display:block;padding-right:0}
 
 /* ============================================================
-   PANTALLA DE BLOQUEO
+   EL CARTEL
 ============================================================ */
-.lock{
-  position:absolute;inset:0;z-index:9;
-  display:flex;flex-direction:column;align-items:center;
-  padding:16cqw 6cqw 0;
-  touch-action:none;cursor:grab;
-  transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .45s ease;
+.cartel{padding-top:clamp(70px,9vw,130px)}
+.cartel-cab{max-width:1400px;margin:0 auto;padding:0 5vw}
+.cartel-cab h2{
+  margin:0;font-family:var(--anton);font-weight:400;text-transform:uppercase;
+  font-size:clamp(54px,10.4vw,168px);line-height:.88;
 }
-.lock.arrastrando{transition:none;cursor:grabbing}
-.lock.fuera{transform:translateY(-104%);opacity:0;pointer-events:none}
-.lock-reloj{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:60cqw}
-.lock-anillo{position:absolute;left:50%;top:50%;translate:-50% -50%;width:70cqw;aspect-ratio:1;pointer-events:none;opacity:.9}
-.lock-anillo svg{width:100%;height:100%;animation:gira 70s linear infinite}
-.lock-anillo text{font-family:var(--mono);font-size:5.3px;font-weight:500;fill:rgba(255,255,255,.85)}
-.lock-etq{position:relative;margin:0;font-family:var(--mono);font-size:3.2cqw;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
-.lock-fecha{position:relative;margin:1.6cqw 0 0;font-size:4.4cqw;font-weight:600;opacity:.95}
-.lock-hora{
-  position:relative;margin:0;
-  font-family:var(--display);font-weight:800;font-size:23cqw;line-height:.95;letter-spacing:-.06em;
-  text-shadow:0 2cqw 6cqw rgba(0,0,0,.25);
+.cartel-cab p{margin:16px 0 0;max-width:28em;font-size:clamp(18px,1.8vw,23px);color:#3a3345}
+.dias{margin-top:clamp(30px,5vw,60px);border-top:4px solid var(--tinta)}
+.dia{
+  padding:clamp(28px,4.4vw,64px) 5vw;border-bottom:4px solid var(--tinta);
+  opacity:0;translate:0 34px;transition:opacity .7s ease,translate .7s cubic-bezier(.2,.8,.2,1);
 }
-.lock-notis{width:100%;display:flex;flex-direction:column;gap:2.4cqw;margin-top:5cqw}
-.noti{
-  display:flex;gap:3cqw;align-items:flex-start;
-  padding:3.2cqw 4cqw;border-radius:6cqw;
-  background:rgba(255,255,255,.22);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  animation:entra .6s cubic-bezier(.2,.8,.2,1) var(--d) both;
+.dia.in{opacity:1;translate:0 0}
+.dia:nth-child(4n+2){background:var(--sol)}
+.dia:nth-child(4n+3){background:var(--rosa-c)}
+.dia:nth-child(4n+4){background:var(--azul-c)}
+.dia-interior{max-width:1400px;margin:0 auto}
+.dia-cab{display:flex;flex-wrap:wrap;align-items:center;gap:6px 22px}
+.dia-cab h3{
+  margin:0;font-family:var(--anton);font-weight:400;text-transform:uppercase;
+  font-size:clamp(46px,9vw,150px);line-height:.92;
+  color:transparent;-webkit-text-stroke:2px var(--tinta);
 }
-.noti-ico{
-  flex:none;width:9cqw;height:9cqw;border-radius:2.6cqw;display:grid;place-items:center;
-  font-size:5cqw;font-weight:800;color:#fff;
+.escenario{
+  padding:7px 15px;border-radius:999px;background:var(--tinta);color:#fff;
+  font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;
 }
-.noti-cuerpo{min-width:0;flex:1}
-.noti-cuerpo b{display:flex;justify-content:space-between;gap:2cqw;font-size:3.9cqw;font-weight:700}
-.noti-cuerpo b small{font-weight:500;font-size:3.2cqw;opacity:.75}
-.noti-cuerpo p{margin:.6cqw 0 0;font-size:3.9cqw;line-height:1.25;opacity:.95}
-.lock-pie{
-  position:absolute;left:0;right:0;bottom:9cqw;
-  display:flex;flex-direction:column;align-items:center;
+.lineup{
+  margin:clamp(16px,2.2vw,30px) 0 0;
+  font-family:var(--anton);text-transform:uppercase;
+  font-size:clamp(34px,7.4vw,116px);line-height:1.04;letter-spacing:.005em;
 }
-.lock-pista{margin:0;font-size:3.7cqw;font-weight:600;opacity:.9;animation:rebota 2s ease-in-out infinite}
+.artista{
+  display:inline-block;max-width:100%;padding:0 .05em;border:0;background:none;
+  font:inherit;color:inherit;text-transform:inherit;letter-spacing:inherit;cursor:pointer;text-align:left;
+  -webkit-tap-highlight-color:transparent;
+}
+.artista sup{font-family:var(--mono);font-size:.2em;vertical-align:top;margin-left:.14em;letter-spacing:.04em;position:relative;top:.5em}
+.artista:hover,.artista:focus-visible{background:var(--tinta);color:var(--sol)}
+.sep{display:inline-block;margin:0 .16em;color:var(--rosa);font-size:.55em;vertical-align:.22em}
+.dia:nth-child(4n+3) .sep{color:var(--azul)}
+.dia:nth-child(4n+2) .sep{color:var(--rosa)}
+.vacio{
+  max-width:560px;margin:0 5vw;padding:26px;
+  background:#fff;border:2.5px solid var(--tinta);border-radius:16px;box-shadow:5px 5px 0 var(--tinta);
+  font-size:19px;color:var(--muted);
+}
+.vacio strong{display:block;margin-bottom:6px;font-family:var(--anton);font-weight:400;text-transform:uppercase;font-size:32px;color:var(--tinta)}
 
-/* en pantallas más bajas se muestran menos notificaciones para que nada se pise */
-@container (min-aspect-ratio: 53/100){ .noti:nth-child(4){display:none} .w-mini small{display:none} }
-@container (min-aspect-ratio: 3/5){ .noti:nth-child(3){display:none} }
-@container (min-aspect-ratio: 7/10){ .noti:nth-child(2){display:none} }
+/* miniatura que sigue al ratón (solo en ordenador) */
+.vista{
+  position:fixed;z-index:400;display:none;pointer-events:none;
+  padding:8px 8px 10px;background:#fff;border-radius:4px;rotate:-3deg;
+  box-shadow:4px 6px 0 var(--tinta);
+}
+.vista img{max-width:250px;max-height:250px;width:auto;height:auto}
+.vista b{display:block;margin-top:6px;font-family:var(--anton);font-weight:400;text-transform:uppercase;font-size:20px;text-align:center}
 
 /* ============================================================
-   PANTALLA DE INICIO
+   LA PULSERA
 ============================================================ */
-.home{
-  position:absolute;inset:0;z-index:2;
-  opacity:0;transform:scale(1.08);pointer-events:none;
-  transition:transform .55s cubic-bezier(.2,.8,.2,1),filter .45s ease,opacity .45s ease;
+.pulsera{
+  margin-top:clamp(70px,9vw,130px);padding:clamp(50px,7vw,100px) 5vw;
+  background:var(--azul);color:#fff;border-top:4px solid var(--tinta);border-bottom:4px solid var(--tinta);
 }
-.telefono.desbloqueado .home{opacity:1;transform:none;pointer-events:auto}
-.telefono.desbloqueado .home.atras{transform:scale(.93);filter:blur(1.2cqw);opacity:.55}
-.paginas{
-  --fila:min(24cqw,calc((100cqh - 50cqw) / 6));
-  --ico:min(16.5cqw,calc(var(--fila) * .68));
-  position:absolute;top:13cqw;left:0;right:0;bottom:37cqw;
-  display:flex;overflow-x:auto;overflow-y:hidden;
-  scroll-snap-type:x mandatory;scrollbar-width:none;
-  overscroll-behavior-x:contain;
+.pulsera-interior{
+  max-width:1400px;margin:0 auto;display:grid;gap:clamp(30px,5vw,70px);
+  grid-template-columns:1fr;align-items:center;
 }
-.paginas::-webkit-scrollbar{display:none}
-.pagina{
-  flex:none;width:100%;scroll-snap-align:start;scroll-snap-stop:always;
-  display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:var(--fila);
-  padding:0 5cqw;column-gap:1cqw;align-content:start;
+.pulsera h2{
+  margin:0;font-family:var(--anton);font-weight:400;text-transform:uppercase;
+  font-size:clamp(46px,8vw,130px);line-height:.92;color:var(--sol);
 }
-
-/* aplicaciones: una por cumpleaños */
-.app-ico{
-  --d:0s;
-  display:flex;flex-direction:column;align-items:center;gap:1.2cqw;
-  padding:0;border:0;background:none;cursor:pointer;
-  opacity:0;
+.pulsera p{margin:18px 0 0;max-width:26em;font-size:clamp(18px,1.8vw,23px);line-height:1.4}
+.form-pulsera{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.form-pulsera input{
+  flex:1 1 200px;min-width:0;padding:15px 20px;border:2.5px solid var(--tinta);border-radius:999px;
+  background:#fff;color:var(--tinta);font-weight:700;outline:none;box-shadow:4px 4px 0 var(--tinta);
 }
-.telefono.desbloqueado .app-ico{animation:icoIn .55s cubic-bezier(.3,1.4,.5,1) var(--d) both}
-.app-ico:active .ico{scale:.9}
-.ico{
-  position:relative;width:var(--ico);height:var(--ico);border-radius:23%;
-  overflow:hidden;background:#222;
-  box-shadow:0 1.6cqw 3cqw -1cqw rgba(0,0,0,.5);
-  transition:scale .15s ease;
+.form-pulsera input::placeholder{color:#8f879a;font-weight:500}
+.acciones{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+.acciones[hidden]{display:none}
+.vista-entrada{justify-self:center;width:min(100%,400px)}
+.vista-entrada canvas{
+  display:block;width:100%;height:auto;rotate:2deg;background:var(--papel);
+  box-shadow:8px 10px 0 var(--tinta);border:3px solid var(--tinta);
 }
-.ico-fondo{position:absolute;inset:-25%;background-size:cover;background-position:center;filter:blur(2cqw) saturate(1.4) brightness(.8)}
-.ico img{position:absolute;inset:7%;width:86%;height:86%;object-fit:contain;border-radius:10%}
-.insignia{
-  position:absolute;right:-1.6cqw;top:-1.6cqw;z-index:2;
-  min-width:6cqw;height:6cqw;padding:0 1.4cqw;border-radius:3cqw;
-  background:#ff3b30;color:#fff;display:grid;place-items:center;
-  font-size:3.3cqw;font-weight:800;box-shadow:0 0 0 .5cqw rgba(0,0,0,.15);
-}
-.app-ico .ico{overflow:visible}
-.app-ico .ico-in{position:absolute;inset:0;border-radius:23%;overflow:hidden}
-.ico-nombre{
-  max-width:100%;font-size:3.3cqw;font-weight:600;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 6px rgba(0,0,0,.4);
-}
-
-/* widgets */
-.widget{
-  border-radius:7cqw;padding:3.6cqw 4cqw;overflow:hidden;
-  background:rgba(255,255,255,.22);
-  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  animation:pop .5s ease both;
-}
-.w-foto{grid-column:1 / -1;grid-row:span 2;margin-bottom:2.4cqw;display:flex;flex-direction:column;padding:2.4cqw;cursor:pointer;border:0;text-align:left}
-.w-foto .w-marco{
-  position:relative;flex:1;min-height:0;border-radius:5cqw;overflow:hidden;background:#111;
-  display:flex;align-items:center;justify-content:center;
-}
-.w-foto .w-fondo{position:absolute;inset:-20%;background-size:cover;background-position:center;filter:blur(5cqw) brightness(.7) saturate(1.4)}
-.w-foto img{position:absolute;inset:0;margin:auto;max-width:96%;max-height:96%;width:auto;height:auto;border-radius:3cqw}
-.w-foto .w-pie{display:flex;justify-content:space-between;align-items:baseline;gap:2cqw;padding:2cqw 2cqw 0.6cqw}
-.w-foto .w-pie b{font-size:4.3cqw;font-weight:700}
-.w-foto .w-pie small{font-size:3.2cqw;opacity:.85}
-.w-mini{
-  grid-column:span 2;grid-row:span 1;margin-bottom:2.4cqw;padding:3cqw 3.6cqw;
-  display:flex;flex-direction:column;justify-content:space-between;gap:1cqw;
-}
-.w-mini small{font-family:var(--mono);font-size:2.8cqw;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
-.w-mini b{display:block;font-size:3.8cqw;line-height:1.15;font-weight:700}
-.w-bateria .barra{height:2.6cqw;border-radius:2cqw;background:rgba(255,255,255,.3);overflow:hidden}
-.w-bateria .barra i{display:block;height:100%;width:100%;background:var(--lima)}
-
-.vacio-home{
-  grid-column:1 / -1;margin:2cqw 0 0;padding:5cqw;border-radius:6cqw;
-  background:rgba(255,255,255,.22);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  font-size:4.2cqw;line-height:1.3;
-}
-.vacio-home b{display:block;font-family:var(--display);font-weight:800;font-size:6cqw;letter-spacing:-.03em;margin-bottom:1cqw}
-
-/* puntos de las páginas y dock */
-.puntos{position:absolute;left:0;right:0;bottom:31cqw;display:flex;justify-content:center;gap:2cqw}
-.puntos button{width:1.9cqw;height:1.9cqw;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer}
-.puntos button.on{background:#fff}
-.dock{
-  position:absolute;left:4cqw;right:4cqw;bottom:8cqw;height:22cqw;border-radius:8cqw;
-  background:rgba(255,255,255,.24);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  display:grid;grid-template-columns:repeat(4,1fr);align-items:center;justify-items:center;
-}
-.dock .app-ico{opacity:1;gap:0}
-.dock .ico{width:15.5cqw;height:15.5cqw;display:grid;place-items:center;font-size:8cqw;color:#fff}
-.dock .ico-nombre{display:none}
-.ico.buscar{background:linear-gradient(160deg,#5ac8fa,#0a84ff)}
-.ico.sorpresa{background:linear-gradient(160deg,#ff9f0a,#ff375f)}
-.ico.notas{background:linear-gradient(180deg,#ffe066,#ffd23f)}
-.ico.ajustes{background:linear-gradient(160deg,#9a9aa2,#5a5a63)}
-.dock svg{width:8cqw;height:8cqw}
-
-.indicador{
-  touch-action:none;
-  position:absolute;left:50%;bottom:0;translate:-50% 0;z-index:30;
-  width:44cqw;height:7cqw;padding:0;border:0;background:none;cursor:pointer;
-}
-.indicador::after{
-  content:"";position:absolute;left:50%;bottom:2.2cqw;translate:-50% 0;
-  width:34cqw;height:1.3cqw;border-radius:2cqw;background:#fff;
-  box-shadow:0 0 0 1px rgba(0,0,0,.1);
-}
-.telefono.capa-abierta .indicador::after{background:#111}
 
 /* ============================================================
-   LAS APLICACIONES (se abren desde el icono)
+   FINAL
 ============================================================ */
-.capa{
-  position:absolute;inset:0;z-index:6;display:none;flex-direction:column;
-  background:#f2f2f7;color:#111;
-  transform:scale(var(--e,.2));opacity:0;border-radius:14cqw;overflow:hidden;
-  transition:transform .46s cubic-bezier(.2,.8,.2,1),opacity .28s ease,border-radius .46s ease;
+.final{
+  padding:clamp(80px,11vw,150px) 6vw clamp(90px,11vw,140px);
+  background:var(--tinta);color:#fff;text-align:center;
 }
-.capa.visible{display:flex}
-.capa.abierta{transform:scale(1);opacity:1;border-radius:0}
+.agotado{
+  display:inline-block;padding:8px 20px;border:4px solid var(--rosa);border-radius:8px;color:var(--rosa);
+  font-family:var(--anton);font-size:clamp(22px,3vw,38px);letter-spacing:.08em;text-transform:uppercase;
+  rotate:-6deg;margin-bottom:26px;
+}
+.final h2{
+  margin:0 auto;max-width:9em;
+  font-family:var(--anton);font-weight:400;text-transform:uppercase;
+  font-size:clamp(56px,11vw,180px);line-height:.9;color:var(--sol);
+  text-shadow:.03em .03em 0 var(--rosa);
+}
+.final-texto{margin:32px auto 0;max-width:27em;font-size:clamp(19px,2vw,26px);line-height:1.42;color:#e9e3f2}
+.final-firma{margin:22px 0 0;font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:#a59cb6}
+.final .btn{margin-top:32px}
 
-.capa-cab{
-  flex:none;padding:13cqw 4cqw 3cqw;
-  background:linear-gradient(160deg,var(--g1),var(--g2));color:#fff;
-  display:flex;align-items:center;gap:2cqw;
+/* ============================================================
+   FICHA DEL ARTISTA (modal)
+============================================================ */
+.modal{
+  position:fixed;inset:0;z-index:200;display:none;align-items:flex-end;justify-content:center;
+  background:rgba(22,19,32,.72);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
 }
-.capa-cab.sencilla{background:#f9f9fb;color:#111;border-bottom:1px solid #dcdce1}
-.capa-cab.notas{background:#ffe066;color:#3b2f00;border-bottom:1px solid #e6c84a}
-.btn-atras{
-  flex:none;padding:1.4cqw 3cqw 1.4cqw 1.4cqw;border:0;border-radius:999px;
-  background:rgba(255,255,255,.25);color:inherit;font-size:4cqw;font-weight:700;cursor:pointer;
+.modal.activo{display:flex;animation:velo .25s ease}
+.modal-caja{
+  position:relative;width:min(1100px,100%);max-height:96vh;max-height:96svh;overflow-y:auto;overscroll-behavior:contain;
+  background:var(--papel);border:4px solid var(--tinta);border-bottom:0;border-radius:22px 22px 0 0;
 }
-.capa-cab.sencilla .btn-atras,.capa-cab.notas .btn-atras{background:rgba(0,0,0,.07)}
-.capa-cab.sencilla .cab-nav button{background:rgba(0,0,0,.07)}
-.cab-nav .pildora{width:auto;height:auto;padding:1.8cqw 3.6cqw;border-radius:999px;font-size:3.5cqw;font-weight:700}
-.desliza-d{animation:deslizaD .3s ease}
-.desliza-i{animation:deslizaI .3s ease}
+.modal.activo .modal-caja{animation:sube .4s cubic-bezier(.2,.8,.3,1)}
+.modal-barra{
+  position:sticky;top:0;z-index:6;display:flex;justify-content:flex-end;gap:8px;
+  padding:12px 12px 0;height:0;overflow:visible;
+}
+.icono{
+  width:46px;height:46px;display:grid;place-items:center;flex:none;
+  background:#fff;border:2.5px solid var(--tinta);border-radius:50%;
+  font-size:19px;font-weight:800;cursor:pointer;box-shadow:2px 3px 0 var(--tinta);
+  transition:background .2s ease;
+}
+.icono:hover{background:var(--sol)}
+.modal-grid{display:grid;grid-template-columns:1fr}
 
-/* la app de Fotos: todo a la vista, con scroll libre */
-.fotos-grid{columns:2;column-gap:3.4cqw;padding:4cqw}
-.foto-item{
-  display:block;width:100%;margin:0 0 4.4cqw;padding:0;border:0;background:none;
-  text-align:left;break-inside:avoid;cursor:pointer;color:#111;
+.lado{
+  position:relative;isolation:isolate;overflow:hidden;
+  background:var(--rosa-c);padding:64px 22px 34px;text-align:center;
 }
-.foto-item img{
-  width:100%;height:auto;aspect-ratio:4/3;border-radius:4cqw;background:#ddd;
-  box-shadow:0 1.6cqw 4cqw -1.6cqw rgba(0,0,0,.35);
+.lado::before{
+  content:"";position:absolute;z-index:-1;inset:0;
+  background-image:radial-gradient(circle,rgba(255,77,141,.85) 30%,transparent 33%);background-size:16px 16px;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 30%,#000);mask-image:linear-gradient(to bottom,transparent 30%,#000);
 }
-.foto-item:active img{scale:.97}
-.foto-item b{display:block;margin:1.8cqw 1cqw 0;font-size:4cqw;font-weight:700;line-height:1.15}
-.foto-item small{display:block;margin:0 1cqw;font-size:3.2cqw;color:var(--muted)}
-.ico.fotos{background:#fff}
-.ico.fotos svg{width:10cqw;height:10cqw}
-.cab-tit{flex:1;min-width:0;text-align:center;line-height:1.15}
-.cab-tit b{display:block;font-size:4.7cqw;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cab-tit small{font-size:3.3cqw;opacity:.85}
-.cab-nav{flex:none;display:flex;gap:1.4cqw}
-.cab-nav button{
-  width:8cqw;height:8cqw;border:0;border-radius:50%;background:rgba(255,255,255,.25);
-  color:inherit;font-size:5cqw;font-weight:700;cursor:pointer;line-height:1;
+/* la foto, siempre entera */
+.lado-foto{
+  position:relative;display:inline-block;max-width:100%;
+  background:#fff;padding:12px 12px 14px;rotate:-2deg;box-shadow:6px 8px 0 var(--tinta);
 }
+.lado-foto::before{
+  content:"";position:absolute;left:50%;top:-14px;translate:-50% 0;rotate:3deg;
+  width:96px;height:28px;background:rgba(255,217,59,.85);
+}
+.lado-foto img{
+  display:block;width:auto;height:auto;max-width:100%;max-height:min(50vh,460px);
+  cursor:zoom-in;background:#ddd5c5;
+}
+.lado-nombre{
+  margin:32px 0 12px;font-family:var(--anton);font-weight:400;text-transform:uppercase;
+  font-size:clamp(50px,7vw,90px);line-height:.92;overflow-wrap:anywhere;
+  text-shadow:.03em .03em 0 var(--azul-c);
+}
+.lado-datos{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+.lado-datos span{
+  padding:5px 13px;border:2px solid var(--tinta);border-radius:999px;background:#fff;
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;font-weight:500;
+}
+.lado-datos span.esc{background:var(--tinta);color:#fff}
 
-.capa-cuerpo{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:10cqw}
+.principal{padding:30px 22px 44px}
+.principal-cab{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.principal-cab h3{
+  margin:0;font-family:var(--anton);font-weight:400;text-transform:uppercase;
+  font-size:clamp(34px,4vw,46px);line-height:1;
+}
+.principal-cab span{
+  min-width:34px;text-align:center;background:var(--tinta);color:#fff;
+  border-radius:999px;padding:3px 12px;font-family:var(--mono);font-weight:500;font-size:14px;
+}
+.postits{display:grid;gap:22px}
+.postit{
+  --c:#ffe36b;--r:-1.2deg;
+  position:relative;background:var(--c);rotate:var(--r);
+  padding:22px 20px 10px;box-shadow:4px 5px 0 rgba(22,19,32,.85);
+}
+.postit:nth-child(4n+2){--c:#ffa6c4;--r:1.4deg}
+.postit:nth-child(4n+3){--c:#c2cbff;--r:-.8deg}
+.postit:nth-child(4n+4){--c:#a8f0d8;--r:1deg}
+.postit::before{
+  content:"";position:absolute;left:50%;top:-9px;translate:-50% 0;rotate:-2deg;
+  width:70px;height:20px;background:rgba(255,255,255,.55);
+}
+.postit.nueva{animation:sube .5s cubic-bezier(.2,.8,.3,1)}
+.postit p{margin:0;font-size:18px;line-height:1.4;overflow-wrap:anywhere}
+.postit .autor{margin:4px 0 0;text-align:right;font-family:var(--mano);font-size:34px;line-height:1}
+.estado{padding:8px 0;color:var(--muted);font-weight:600;font-size:18px;margin:0}
 
-/* app de cumpleaños */
-.a-foto{
-  margin:4cqw 4cqw 0;padding:2.4cqw;border-radius:6cqw;background:#fff;
-  box-shadow:0 2cqw 5cqw -2cqw rgba(0,0,0,.25);text-align:center;
+.boton-mensaje{margin-top:30px}
+.boton-mensaje[hidden]{display:none}
+.formulario{
+  margin-top:28px;padding:22px;background:#fff;
+  border:2.5px solid var(--tinta);border-radius:16px;box-shadow:5px 5px 0 var(--tinta);
 }
-.a-foto img{
-  display:inline-block;width:auto;height:auto;max-width:100%;max-height:50cqh;
-  border-radius:4cqw;background:#ddd;cursor:zoom-in;
+.formulario[hidden]{display:none}
+.formulario h4{margin:0 0 16px;font-family:var(--anton);font-weight:400;text-transform:uppercase;font-size:30px;line-height:1}
+.formulario label{display:block;margin-bottom:14px}
+.formulario label span{display:block;margin-bottom:6px;font-weight:700;font-size:15px}
+.formulario input[type=text],.formulario textarea{
+  width:100%;background:var(--papel);
+  border:2.5px solid var(--tinta);border-radius:10px;padding:12px 14px;font-weight:600;
 }
-.a-chips{display:flex;flex-wrap:wrap;gap:2cqw;margin:3.4cqw 4cqw 0}
-.a-chips span{padding:1.6cqw 3.4cqw;border-radius:999px;background:#fff;font-size:3.6cqw;font-weight:700;box-shadow:0 .4cqw 1.4cqw rgba(0,0,0,.08)}
-.a-chips span.color{background:linear-gradient(95deg,var(--g1),var(--g2));color:#fff}
-.a-ia{
-  margin:3cqw 4cqw 0;padding:3cqw 4cqw;border-radius:5cqw;background:#e8e8ef;
-  font-size:3.9cqw;line-height:1.3;color:#3a3a44;
-}
-.a-ia em{
-  font-style:normal;font-family:var(--mono);font-size:3cqw;letter-spacing:.1em;margin-right:2cqw;
-  padding:.8cqw 2.2cqw;border-radius:999px;background:var(--lima);color:#111;
-}
-.a-tit{margin:5cqw 4cqw 2.4cqw;display:flex;align-items:center;gap:2cqw;font-size:5.4cqw;font-weight:800;letter-spacing:-.02em}
-.a-tit span{font-family:var(--mono);font-size:3.3cqw;font-weight:500;padding:.6cqw 2.4cqw;border-radius:999px;background:#dcdce1}
-.a-msgs{display:flex;flex-direction:column;gap:2cqw;padding:0 4cqw}
-.msg{align-self:flex-start;max-width:84%}
-.msg small{display:block;margin:0 3cqw .6cqw;font-size:3cqw;color:var(--muted);font-weight:600}
-.msg p{
-  margin:0;padding:2.8cqw 4cqw;border-radius:5.4cqw 5.4cqw 5.4cqw 1.2cqw;
-  background:#e5e5ea;color:#111;font-size:4.2cqw;line-height:1.3;overflow-wrap:anywhere;
-}
-.msg.propio{align-self:flex-end}
-.msg.propio small{text-align:right}
-.msg.propio p{background:var(--azul);color:#fff;border-radius:5.4cqw 5.4cqw 1.2cqw 5.4cqw}
-.msg.nueva{animation:sube .4s cubic-bezier(.2,.8,.3,1)}
-.msg-estado{margin:1cqw 6cqw;text-align:center;font-size:4cqw;color:var(--muted)}
-
-.a-form{
-  flex:none;padding:2.4cqw 3.4cqw 8cqw;
-  background:rgba(249,249,251,.96);border-top:1px solid #d6d6dc;
-}
-.a-nombre{
-  width:46%;margin:0 0 1.8cqw 1cqw;padding:2cqw 3.4cqw;border:1px solid #d0d0d6;border-radius:999px;
-  background:#fff;font-size:3.7cqw;font-weight:600;outline:none;color:#111;
-}
-.a-fila{display:flex;gap:2cqw;align-items:flex-end}
-.a-texto{
-  flex:1;min-width:0;height:11.5cqw;max-height:22cqw;padding:2.8cqw 4cqw;resize:none;
-  border:1px solid #d0d0d6;border-radius:5.8cqw;background:#fff;font-size:4.1cqw;line-height:1.25;outline:none;color:#111;
-}
-.a-nombre:focus,.a-texto:focus{border-color:var(--azul)}
-.a-enviar{
-  flex:none;width:11.5cqw;height:11.5cqw;border:0;border-radius:50%;
-  background:var(--azul);color:#fff;font-size:5.6cqw;font-weight:800;cursor:pointer;
-}
-.a-enviar:disabled{opacity:.5}
-.a-pie{display:flex;justify-content:space-between;margin:1.2cqw 2cqw 0;font-family:var(--mono);font-size:2.8cqw;color:var(--muted)}
-.a-aviso{margin:1.6cqw 1cqw 0;padding:2.2cqw 3.6cqw;border-radius:3.6cqw;background:#d4f6e4;color:#0d5c37;font-size:3.6cqw;font-weight:600}
-.a-aviso[hidden]{display:none}
-.a-aviso.error{background:#ffe0e3;color:#a1132b}
+.formulario textarea{min-height:110px;resize:vertical;line-height:1.4}
+.formulario input:focus,.formulario textarea:focus{outline:none;background:#fff;box-shadow:0 0 0 4px rgba(43,75,255,.25)}
 .trampa{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.formulario-pie{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.contador{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.botones{display:flex;gap:10px;flex-wrap:wrap}
+.botones .btn{padding:11px 22px;font-size:16px}
+.botones button:disabled{opacity:.6;cursor:wait}
+.aviso{margin-top:20px;padding:14px 18px;border:2.5px solid var(--tinta);border-radius:12px;background:var(--menta);font-weight:700}
+.aviso[hidden]{display:none}
+.aviso.error{background:var(--rosa-c)}
 
-/* notas y ajustes */
-.nota-hoja{
-  padding:5cqw 6cqw 8cqw;
-  background:repeating-linear-gradient(to bottom,#fffbe6 0 7.4cqw,#f1e6a6 7.4cqw calc(7.4cqw + 1px));
-  min-height:100%;color:#3b2f00;
+@media (min-width:860px){
+  .modal{align-items:center;padding:26px}
+  .modal-caja{max-height:100%;border-bottom:4px solid var(--tinta);border-radius:20px}
+  .modal-grid{grid-template-columns:.92fr 1.08fr}
+  .lado{padding:74px 30px 40px}
+  .principal{padding:72px 40px 44px}
 }
-.nota-hoja h2{margin:0;font-family:var(--mano);font-weight:400;font-size:15cqw;line-height:.9;color:#c2410c}
-.nota-hoja p{margin:5cqw 0 0;font-size:5cqw;line-height:7.4cqw;font-weight:500}
-.nota-hoja .firma{margin-top:6cqw;font-family:var(--mono);font-size:3.4cqw;letter-spacing:.06em;line-height:1.4;color:#7a6a20}
-.ajustes-lista{margin:5cqw 4cqw 0;border-radius:5cqw;overflow:hidden;background:#fff}
-.ajuste{display:flex;justify-content:space-between;gap:3cqw;padding:3.6cqw 4.4cqw;border-bottom:1px solid #eee;font-size:4.2cqw}
-.ajuste:last-child{border-bottom:0}
-.ajuste span{color:var(--muted);text-align:right}
-.ajuste b{font-weight:600}
-.ajustes-pie{margin:4cqw 8cqw 0;text-align:center;font-size:3.4cqw;color:var(--muted)}
-
-/* buscador (pantalla completa) */
-.busq-caja{
-  flex:none;padding:13cqw 4cqw 3cqw;background:#f9f9fb;border-bottom:1px solid #dcdce1;
-  display:flex;align-items:center;gap:2.4cqw;
-}
-.busq-input{
-  flex:1;min-width:0;display:flex;align-items:center;gap:2cqw;
-  padding:2.6cqw 3.6cqw;border-radius:3.6cqw;background:#e9e9ee;
-}
-.busq-input svg{width:4.4cqw;height:4.4cqw;stroke:#8e8e93;flex:none}
-.busq-input input{flex:1;min-width:0;border:0;background:none;outline:none;font-size:4.4cqw;color:#111}
-.busq-lista{flex:1;min-height:0;overflow-y:auto;padding:2cqw 4cqw 10cqw}
-.busq-caja .btn-atras{background:none;color:var(--azul);padding:1.4cqw 1cqw}
-.busq-item{
-  width:100%;display:flex;align-items:center;gap:3.4cqw;padding:2.4cqw;border:0;border-radius:4cqw;
-  background:none;cursor:pointer;text-align:left;color:#111;
-}
-.busq-item:active{background:#e9e9ee}
-.busq-item .mini{position:relative;flex:none;width:12cqw;height:12cqw;border-radius:23%;overflow:hidden;background:#222}
-.busq-item .mini .ico-fondo{inset:-25%}
-.busq-item .mini img{position:absolute;inset:7%;width:86%;height:86%;object-fit:contain;border-radius:10%}
-.busq-item b{display:block;font-size:4.4cqw}
-.busq-item small{font-size:3.4cqw;color:var(--muted)}
-.busq-vacio{padding:6cqw;text-align:center;font-size:4.2cqw;color:var(--muted)}
 
 /* ============================================================
-   VISOR DE FOTO (por encima de todo)
+   VISOR DE FOTO
 ============================================================ */
 .visor-foto{
-  position:fixed;inset:0;z-index:500;
-  display:none;align-items:center;justify-content:center;
-  padding:30px;background:rgba(8,6,16,.96);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  cursor:zoom-out;
+  position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;
+  padding:30px;background:rgba(14,10,22,.95);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);cursor:zoom-out;
 }
 .visor-foto.activo{display:flex;animation:velo .25s ease}
 .visor-foto img{
   max-width:min(94vw,1200px);max-height:90vh;width:auto;height:auto;object-fit:contain;
-  border-radius:14px;box-shadow:0 30px 80px -25px rgba(0,0,0,.7);
-  animation:pop .35s cubic-bezier(.2,.8,.3,1) both;cursor:default;
+  border:6px solid #fff;box-shadow:8px 10px 0 var(--rosa);cursor:default;
 }
 .visor-cerrar{
-  position:absolute;top:22px;right:22px;z-index:2;
-  width:48px;height:48px;display:grid;place-items:center;
-  border:1px solid rgba(255,255,255,.25);border-radius:50%;
-  background:rgba(255,255,255,.12);color:#fff;font-size:20px;cursor:pointer;
+  position:absolute;top:22px;right:22px;z-index:2;width:48px;height:48px;display:grid;place-items:center;
+  border:2.5px solid #fff;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:20px;cursor:pointer;
 }
-@media (max-width:600px){
+.visor-cerrar:hover{background:var(--rosa)}
+
+/* ============================================================
+   MÓVIL
+============================================================ */
+@media (max-width:640px){
+  body{font-size:16px}
+  .busca{width:min(52vw,200px);padding:0 12px}
+  .hero{padding-left:20px;padding-right:20px}
+  .tiras{margin-left:-20px;margin-right:-20px}
+  .cartel-cab,.dia{padding-left:20px;padding-right:20px}
+  .vacio{margin:0 20px}
+  .pulsera,.final{padding-left:20px;padding-right:20px}
+  .modal-caja{border-radius:18px 18px 0 0}
+  .lado{padding:64px 16px 30px}
+  .principal{padding:26px 16px 40px}
+  .postit p{font-size:17px}
   .visor-foto{padding:15px}
   .visor-cerrar{top:14px;right:14px;width:44px;height:44px}
 }
-
+@media (min-width:900px){
+  .pulsera-interior{grid-template-columns:1.1fr .9fr}
+}
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none !important;transition:none !important}
-  .app-ico{opacity:1}
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+  .dia{opacity:1;translate:0 0}
 }
 </style>
 </head>
 
 <body>
 
-<div class="mundo" id="mundo">
-
-  <aside class="lado-desktop">
-    <p class="etq">IES El Molinillo · 2º Bach · Curso 2026–27</p>
-    <h1>El móvil <span>de la clase.</span></h1>
-    <p class="txt">Desbloquéalo deslizando hacia arriba. Dentro hay una aplicación por cada cumpleaños, y todas funcionan. Para volver a bloquearlo, usa el candado de arriba.</p>
-  </aside>
-
-  <div class="telefono" id="telefono">
-
-    <!-- fondo de pantalla -->
-    <div class="papel" aria-hidden="true"><i></i><i></i><i></i></div>
-
-    <!-- barra de estado e isla -->
-    <div class="estado" aria-hidden="true">
-      <span id="horaEstado">9:41</span>
-      <span class="iconos">
-        <svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></svg>
-        <svg viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3.2" fill="none" stroke="currentColor" opacity=".55"/><rect x="2" y="2" width="19" height="8" rx="2"/><rect x="23.5" y="4" width="2" height="4" rx="1" opacity=".6"/></svg>
-      </span>
-    </div>
-    <button class="candado" id="candado" type="button" aria-label="Bloquear el móvil">
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17 9V7a5 5 0 0 0-10 0v2H5v12h14V9h-2zM9 7a3 3 0 0 1 6 0v2H9V7z"/></svg>
-    </button>
-    <div class="cortina-zona" id="cortinaZona"></div>
-    <button class="isla" id="isla" type="button" aria-label="Isla dinámica"><span id="islaTexto">♪ Cumpleaños feliz, sin ensayar</span></button>
-
-    <!-- pantalla de inicio -->
-    <div class="home" id="home">
-      <div class="paginas" id="paginas"></div>
-      <div class="puntos" id="puntos"></div>
-
-      <div class="dock" id="dock">
-        <button class="app-ico" id="dBuscar" type="button" aria-label="Buscar">
-          <span class="ico buscar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></svg></span>
-        </button>
-        <button class="app-ico" id="dFotos" type="button" aria-label="Fotos">
-          <span class="ico fotos"><svg viewBox="0 0 24 24"><g style="mix-blend-mode:multiply"><circle cx="12" cy="7.2" r="4.2" fill="#ffb020"/><circle cx="16.8" cy="12" r="4.2" fill="#ff375f"/><circle cx="12" cy="16.8" r="4.2" fill="#0a84ff"/><circle cx="7.2" cy="12" r="4.2" fill="#30d158"/></g></svg></span>
-        </button>
-        <button class="app-ico" id="dNotas" type="button" aria-label="Notas">
-          <span class="ico notas"><svg viewBox="0 0 24 24" fill="none" stroke="#7a5b00" stroke-width="2.2" stroke-linecap="round"><path d="M6 8h12M6 12h12M6 16h7"/></svg></span>
-        </button>
-        <button class="app-ico" id="dAjustes" type="button" aria-label="Ajustes">
-          <span class="ico ajustes"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span>
-        </button>
-      </div>
-    </div>
-
-    <!-- aplicación de un cumpleaños -->
-    <section class="capa" id="capaApp" aria-label="Cumpleaños">
-      <header class="capa-cab" id="aCab">
-        <button class="btn-atras" id="aAtras" type="button">‹ Inicio</button>
-        <div class="cab-tit"><b id="aNombre"></b><small id="aFecha"></small></div>
-        <div class="cab-nav">
-          <button id="aPrev" type="button" aria-label="Cumpleaños anterior">‹</button>
-          <button id="aNext" type="button" aria-label="Cumpleaños siguiente">›</button>
-        </div>
-      </header>
-
-      <div class="capa-cuerpo" id="aCuerpo">
-        <div class="a-foto"><img id="aImg" src="" alt=""></div>
-        <div class="a-chips"><span class="color" id="aEdad"></span><span id="aCuando"></span></div>
-        <p class="a-ia"><em>IA</em><span id="aIA"></span></p>
-        <h3 class="a-tit">Mensajes <span id="mCuenta">0</span></h3>
-        <div class="a-msgs" id="mMensajes"></div>
-      </div>
-
-      <form class="a-form" id="formulario" autocomplete="off">
-        <input class="a-nombre" type="text" id="autorMensaje" maxlength="40" placeholder="Tu nombre" autocomplete="name" required>
-        <div class="a-fila">
-          <textarea class="a-texto" id="textoMensaje" maxlength="300" placeholder="Escribe un mensaje…" required></textarea>
-          <button class="a-enviar" id="enviarMensaje" type="submit" aria-label="Enviar mensaje">↑</button>
-        </div>
-        <input class="trampa" type="text" id="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <div class="a-pie"><span>Se publica al momento</span><span id="contadorTexto">0 / 300</span></div>
-        <div class="a-aviso" id="aviso" role="status" hidden></div>
-      </form>
-    </section>
-
-    <!-- notas: el mensaje final -->
-    <section class="capa" id="capaNotas" aria-label="Notas">
-      <header class="capa-cab notas">
-        <button class="btn-atras" id="nAtras" type="button">‹ Inicio</button>
-        <div class="cab-tit"><b>Notas</b></div>
-        <div class="cab-nav"></div>
-      </header>
-      <div class="capa-cuerpo">
-        <div class="nota-hoja">
-          <h2>Sin copia de seguridad.</h2>
-          <p>
-            Esta clase no se puede restaurar. Así que cuídala: sin dejarla en modo avión,
-            sin desinstalarla por error y sin quedarte sin batería justo antes de la foto.
-          </p>
-          <p class="firma">IES El Molinillo · 2º Bach · curso 2026–27</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ajustes -->
-    <section class="capa" id="capaAjustes" aria-label="Ajustes">
-      <header class="capa-cab sencilla">
-        <button class="btn-atras" id="jAtras" type="button">‹ Inicio</button>
-        <div class="cab-tit"><b>Acerca de</b></div>
-        <div class="cab-nav"></div>
-      </header>
-      <div class="capa-cuerpo">
-        <div class="ajustes-lista">
-          <div class="ajuste"><b>Nombre</b><span>2º Bach</span></div>
-          <div class="ajuste"><b>Modelo</b><span>IES El Molinillo</span></div>
-          <div class="ajuste"><b>Versión</b><span>curso 2026–27</span></div>
-          <div class="ajuste"><b>Almacenamiento</b><span>lleno de risas</span></div>
-          <div class="ajuste"><b>Batería</b><span>ganas de fiesta: 100%</span></div>
-          <div class="ajuste"><b>Actualización pendiente</b><span>el curso que viene</span></div>
-        </div>
-        <p class="ajustes-pie">Se recomienda no actualizar antes de la foto de grupo.</p>
-      </div>
-    </section>
-
-    <!-- fotos: todo a la vista -->
-    <section class="capa" id="capaFotos" aria-label="Fotos">
-      <header class="capa-cab sencilla">
-        <button class="btn-atras" id="fAtras" type="button">‹ Inicio</button>
-        <div class="cab-tit"><b>Fotos</b><small>todas, sin recortar</small></div>
-        <div class="cab-nav"><button class="pildora" id="fSorpresa" type="button">Sorpresa</button></div>
-      </header>
-      <div class="capa-cuerpo"><div class="fotos-grid" id="fotosGrid"></div></div>
-    </section>
-
-    <!-- buscador -->
-    <section class="capa" id="capaBusca" aria-label="Buscar">
-      <div class="busq-caja">
-        <label class="busq-input">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <input id="buscador" type="search" placeholder="Buscar a alguien" aria-label="Buscar por nombre" autocomplete="off">
-        </label>
-        <button class="btn-atras" id="bAtras" type="button">Cancelar</button>
-      </div>
-      <div class="busq-lista" id="busqLista"></div>
-    </section>
-
-    <!-- pantalla de bloqueo -->
-    <div class="lock" id="lock" role="button" tabindex="0" aria-label="Pantalla de bloqueo. Desliza hacia arriba o pulsa Intro para desbloquear.">
-      <div class="lock-reloj">
-        <div class="lock-anillo" aria-hidden="true">
-          <svg viewBox="0 0 100 100">
-            <defs><path id="caminoLock" d="M50,50 m0,-45 a45,45 0 1,1 0,90 a45,45 0 1,1 0,-90"/></defs>
-            <text><textPath href="#caminoLock" textLength="280" lengthAdjust="spacing">IES EL MOLINILLO · 2º BACH · CURSO 2026–27 · IES EL MOLINILLO · 2º BACH · </textPath></text>
-          </svg>
-        </div>
-        <p class="lock-etq">El móvil de la clase</p>
-        <p class="lock-fecha" id="lockFecha"></p>
-        <p class="lock-hora" id="lockHora">9:41</p>
-      </div>
-
-      <div class="lock-notis" id="lockNotis"></div>
-
-      <div class="lock-pie">
-        <p class="lock-pista">Desliza hacia arriba para desbloquear</p>
-      </div>
-    </div>
-
-    <button class="indicador" id="indicador" type="button" aria-label="Volver al inicio"></button>
-  </div>
+<!-- ================= BARRA FIJA ================= -->
+<div class="barra">
+  <label class="busca">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="buscador" type="search" placeholder="Buscar artista" aria-label="Buscar por nombre" autocomplete="off">
+  </label>
 </div>
+
+<!-- ================= PORTADA ================= -->
+<header class="hero" id="top">
+  <div class="sol" aria-hidden="true"></div>
+
+  <div class="hero-interior">
+    <div class="hero-top">
+      <p class="etq">IES El Molinillo · 2º Bach · Curso 2026–27</p>
+      <div class="rueda" aria-hidden="true">
+        <svg class="giro" viewBox="0 0 100 100">
+          <defs><path id="caminoRueda" d="M50,50 m0,-36 a36,36 0 1,1 0,72 a36,36 0 1,1 0,-72"/></defs>
+          <text><textPath href="#caminoRueda" textLength="222" lengthAdjust="spacing">TODOS SON CABEZA DE CARTEL · IES EL MOLINILLO · </textPath></text>
+        </svg>
+        <span class="estrella"><svg viewBox="0 0 24 24" fill="#161320"><path d="M12 1.5l2.9 6.9 7.6.6-5.8 4.9 1.8 7.3L12 17.3l-6.5 3.9 1.8-7.3-5.8-4.9 7.6-.6z"/></svg></span>
+      </div>
+    </div>
+
+    <h1 class="titulo">
+      <span class="l1">Molinillo</span>
+      <span class="l2">Fest <span class="pegata">2º Bach<br>26/27</span></span>
+    </h1>
+
+    <p class="lema">Sin teloneros: aquí todos son cabeza de cartel.</p>
+    <p class="sub">Doce meses de conciertos en directo. Entrada: una porción de tarta. Sonido: el cumpleaños feliz, desafinado.</p>
+
+    <div class="btns">
+      <a class="btn btn-rosa" href="#cartel">Ver el cartel ↓</a>
+      <a class="btn btn-blanco" href="#pulsera">Conseguir mi pulsera</a>
+    </div>
+
+    <div class="pegatinas" aria-hidden="true">
+      <span class="peg">sin filtro</span>
+      <span class="peg">hoy no hay clase</span>
+      <span class="peg">ojos cerrados: mínimo 1</span>
+    </div>
+
+    <div class="tiras" id="tiras" aria-label="Fotos del festival"></div>
+  </div>
+
+  <div class="banda" aria-hidden="true">
+    <div class="banda-pista">
+      <span>✦ Sin teloneros ✦ Entrada: una porción de tarta ✦ Sonido: el cumpleaños feliz, desafinado ✦ Prohibido irse antes del último bis&nbsp;</span>
+      <span>✦ Sin teloneros ✦ Entrada: una porción de tarta ✦ Sonido: el cumpleaños feliz, desafinado ✦ Prohibido irse antes del último bis&nbsp;</span>
+    </div>
+  </div>
+</header>
+
+<!-- ================= EL CARTEL ================= -->
+<section class="cartel" id="cartel">
+  <div class="cartel-cab">
+    <h2>Cartel completo</h2>
+    <p>Todos los artistas, por orden de actuación. El número pequeño es el día del concierto.</p>
+  </div>
+  <div class="dias" id="dias"></div>
+</section>
+
+<!-- ================= LA PULSERA ================= -->
+<section class="pulsera" id="pulsera">
+  <div class="pulsera-interior">
+    <div>
+      <h2>Tu pulsera de acceso total.</h2>
+      <p>Escribe tu nombre y llévate tu entrada en imagen. Vale para todos los cumpleaños de la clase. No vale para repetir tarta.</p>
+      <form class="form-pulsera" id="formPulsera" autocomplete="off">
+        <input type="text" id="nombrePulsera" maxlength="22" placeholder="Tu nombre" aria-label="Tu nombre para la entrada" required>
+        <button class="btn btn-sol" type="submit">Generar mi entrada</button>
+      </form>
+      <div class="acciones" id="acciones" hidden>
+        <button class="btn btn-blanco" id="guardarEntrada" type="button">Guardar imagen ↓</button>
+        <button class="btn btn-blanco" id="compartirEntrada" type="button" hidden>Compartir</button>
+      </div>
+    </div>
+    <div class="vista-entrada">
+      <canvas id="lienzo" width="1080" height="1350" aria-label="Tu entrada del Molinillo Fest"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FINAL ================= -->
+<section class="final">
+  <span class="agotado">Sold out</span>
+  <h2>Entradas agotadas.</h2>
+  <p class="final-texto">
+    Esta clase no repite gira. Así que cuídala: sin perder la pulsera, sin irte antes
+    del último bis y sin dejar a nadie fuera del cartel.
+  </p>
+  <p class="final-firma">IES El Molinillo · 2º Bach · curso 2026–27</p>
+  <a class="btn btn-sol" href="#top">Volver al principio ↑</a>
+</section>
+
+<!-- miniatura que sigue al ratón -->
+<div class="vista" id="vista" aria-hidden="true"><img id="vistaImg" src="" alt=""><b id="vistaNombre"></b></div>
 
 <!-- ================= VISOR DE FOTO ================= -->
 <div class="visor-foto" id="visorFoto" aria-hidden="true">
   <button class="visor-cerrar" id="visorCerrar" aria-label="Cerrar foto">✕</button>
   <img id="visorImagen" src="" alt="">
+</div>
+
+<!-- ================= FICHA DEL ARTISTA ================= -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-caja" id="modalCaja" role="dialog" aria-modal="true" aria-labelledby="mNombre">
+
+    <div class="modal-barra">
+      <button class="icono" id="anterior" aria-label="Artista anterior">←</button>
+      <button class="icono" id="siguiente" aria-label="Artista siguiente">→</button>
+      <button class="icono" id="cerrar" aria-label="Cerrar">✕</button>
+    </div>
+
+    <div class="modal-grid">
+      <aside class="lado">
+        <div class="lado-foto"><img id="mImg" src="" alt=""></div>
+        <h2 class="lado-nombre" id="mNombre"></h2>
+        <div class="lado-datos">
+          <span class="esc" id="mEscenario"></span>
+          <span id="mFecha"></span>
+          <span id="mEdad"></span>
+        </div>
+      </aside>
+
+      <section class="principal">
+        <div class="principal-cab">
+          <h3>Desde el público</h3>
+          <span id="mCuenta">0</span>
+        </div>
+
+        <div class="postits" id="mMensajes"></div>
+
+        <button class="btn btn-rosa boton-mensaje" id="botonMensaje" type="button">Gritar algo</button>
+
+        <form class="formulario" id="formulario" hidden>
+          <h4>Grita desde las primeras filas</h4>
+          <label>
+            <span>Tu nombre</span>
+            <input type="text" id="autorMensaje" maxlength="40" autocomplete="name" required>
+          </label>
+          <label>
+            <span>Tu mensaje</span>
+            <textarea id="textoMensaje" maxlength="300" required></textarea>
+          </label>
+          <input class="trampa" type="text" id="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="formulario-pie">
+            <span class="contador" id="contadorTexto">0 / 300</span>
+            <div class="botones">
+              <button type="button" class="btn btn-blanco" id="cancelarMensaje">Cancelar</button>
+              <button type="submit" class="btn btn-sol" id="enviarMensaje">Enviar mensaje</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="aviso" id="aviso" role="status" hidden></div>
+      </section>
+    </div>
+  </div>
 </div>
 
 
@@ -694,33 +635,14 @@ const URL_MENSAJES =
 
 const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto",
                "septiembre","octubre","noviembre","diciembre"];
-const DIAS = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
 
-/* notificaciones de la pantalla de bloqueo */
-const NOTIS = [
-  { app: "Tarta",           color: "#ff5d73", letra: "T", tiempo: "ahora",       texto: "Se ha detectado una vela. Ya vamos." },
-  { app: "Grupo de clase",  color: "#16c7a5", letra: "G", tiempo: "hace 2 min",  texto: "Alguien: ¿quién trae la tarta? · Visto" },
-  { app: "Recordatorios",   color: "#ff9f0a", letra: "R", tiempo: "hace 1 h",    texto: "Felicitar a quien cumpla hoy. Sin excusas." },
-  { app: "Cámara",          color: "#5b5b66", letra: "C", tiempo: "ayer",        texto: "Alguien ha salido con los ojos cerrados. Otra vez." }
-];
-
-/* la estación del cumpleaños da el color de su aplicación */
-function estacion(m) {
-  if (m >= 8 && m <= 10) return { g1: "#ff8a3d", g2: "#e8258b" };   // otoño
-  if (m === 11 || m <= 1) return { g1: "#3b82ff", g2: "#7c3aed" };  // invierno
-  if (m >= 2 && m <= 4)  return { g1: "#16c7a5", g2: "#3b82ff" };   // primavera
-  return { g1: "#ffb020", g2: "#ff5d73" };                          // verano
+/* cada estación tiene su escenario */
+function escenarioDe(m) {
+  if (m >= 8 && m <= 10) return "Escenario Tarta";        // otoño
+  if (m === 11 || m <= 1) return "Escenario Bufanda";     // invierno
+  if (m >= 2 && m <= 4)  return "Escenario Alergia";      // primavera
+  return "Escenario Ventilador";                          // verano
 }
-const ESTACION_ESP = { g1: "#7c3aed", g2: "#3b82ff" };
-
-const ANALISIS = [
-  "Ojos cerrados detectados: mínimo uno. Es tradición.",
-  "Nivel de apretujón: máximo.",
-  "Sonrisas detectadas: casi todas.",
-  "Nadie sabe dónde poner las manos. Confirmado.",
-  "Autenticidad: 100%. Filtros: 0%.",
-  "Se ha intentado hacer una segunda foto. Sin éxito."
-];
 
 /* ============================================================
    UTILIDADES
@@ -731,7 +653,6 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
 const norm = s => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 const reducir = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const dos = n => String(n).padStart(2, "0");
-const urlCss = u => `url("${String(u).replace(/"/g, "%22")}")`;
 
 function hoy() {
   const d = new Date();
@@ -741,7 +662,7 @@ function hoy() {
 /* avatar de emergencia si una foto no carga */
 function avatar(nombre) {
   const ini = esc((nombre || "?").trim().charAt(0).toUpperCase());
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><rect width="200" height="150" fill="#ddd7cb"/><text x="100" y="98" font-family="Arial" font-weight="800" font-size="80" text-anchor="middle" fill="#12101a">${ini}</text></svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><rect width="200" height="150" fill="#ddd5c5"/><text x="100" y="98" font-family="Arial" font-weight="800" font-size="80" text-anchor="middle" fill="#161320">${ini}</text></svg>`;
   return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
 }
 function conFallback(img, nombre) {
@@ -794,27 +715,9 @@ function diaCurso(f) {
   return (Date.UTC(y, f.m, f.d) - INICIO) / 864e5;
 }
 function anioDe(f) { return f.m >= 8 ? ANIO0 : ANIO0 + 1; }
-
-/* "20 de octubre" */
 function fechaBonita(p) {
   const f = parseFecha(p.fecha);
   return f ? `${f.d} de ${MESES[f.m]}` : String(p.fecha || "");
-}
-
-/* "Hace 3 días", "Hace 2 meses"… */
-function tiempoDesde(p) {
-  const f = parseFecha(p.fecha);
-  if (!f) return "";
-  const dia = Date.UTC(anioDe(f), f.m, f.d);
-  const hoyU = Date.UTC(AHORA.getFullYear(), AHORA.getMonth(), AHORA.getDate());
-  const d = Math.round((hoyU - dia) / 864e5);
-  if (d === 0) return "Hoy";
-  if (d === 1) return "Ayer";
-  if (d > 1 && d < 7) return `Hace ${d} días`;
-  if (d >= 7 && d < 60) return `Hace ${Math.round(d / 7)} semanas`;
-  if (d >= 60) return `Hace ${Math.round(d / 30)} meses`;
-  if (d === -1) return "Mañana";
-  return `Dentro de ${-d} días`;
 }
 
 /* ============================================================
@@ -824,7 +727,6 @@ let fotos = [];
 let ordenIdx = [];
 let actual = -1;
 const cache = new Map();
-let telefono, home;
 
 function construirOrden() {
   ordenIdx = fotos
@@ -837,388 +739,241 @@ function construirOrden() {
 }
 
 /* ============================================================
-   RELOJ, ISLA Y NOTIFICACIONES
+   LAS FOTOS QUE PASAN (dos telones en sentidos contrarios)
 ============================================================ */
-function ponerHora() {
-  const d = new Date();
-  const h = `${d.getHours()}:${dos(d.getMinutes())}`;
-  $("horaEstado").textContent = h;
-  $("lockHora").textContent = h;
-  $("lockFecha").textContent = `${DIAS[d.getDay()]}, ${d.getDate()} de ${MESES[d.getMonth()]}`;
-}
-
-function pintarNotis() {
-  const cont = $("lockNotis");
+function pintarTiras() {
+  const cont = $("tiras");
   cont.innerHTML = "";
-  NOTIS.forEach((n, k) => {
-    const el = document.createElement("div");
-    el.className = "noti";
-    el.style.setProperty("--d", (0.5 + k * 0.28) + "s");
-    el.innerHTML = `
-      <span class="noti-ico" style="background:${n.color}">${n.letra}</span>
-      <span class="noti-cuerpo"><b>${esc(n.app)}<small>${esc(n.tiempo)}</small></b><p>${esc(n.texto)}</p></span>`;
-    cont.appendChild(el);
-  });
-}
+  if (!ordenIdx.length) { cont.hidden = true; return; }
+  cont.hidden = false;
 
-const ISLA_DEF = "♪ Cumpleaños feliz, sin ensayar";
-let islaTemp;
-function mostrarIsla(texto = ISLA_DEF, ms = 3600) {
-  const isla = $("isla");
-  $("islaTexto").textContent = texto;
-  isla.classList.add("abierta");
-  clearTimeout(islaTemp);
-  islaTemp = setTimeout(() => isla.classList.remove("abierta"), ms);
-}
-function activarIsla() {
-  const isla = $("isla");
-  isla.addEventListener("click", () => {
-    if (isla.classList.contains("abierta")) { isla.classList.remove("abierta"); clearTimeout(islaTemp); }
-    else mostrarIsla(ISLA_DEF);
-  });
-  if (!reducir) setTimeout(() => mostrarIsla(ISLA_DEF), 1800);
-}
+  let base = ordenIdx.slice();
+  while (base.length < 10) base = base.concat(ordenIdx);      // si hay pocas, se repiten
 
-/* ============================================================
-   DESBLOQUEO: deslizar hacia arriba (o tocar)
-============================================================ */
-let bloqueado = true;
-let tOcultar;
-let avisoDado = false;
+  const filas = [
+    { lista: base, inversa: false },
+    { lista: base.slice().reverse().slice(Math.floor(base.length / 3)).concat(base.slice().reverse().slice(0, Math.floor(base.length / 3))), inversa: true }
+  ];
 
-function desbloquear() {
-  if (!bloqueado) return;
-  bloqueado = false;
-  const lock = $("lock");
-  lock.style.transform = "";
-  lock.classList.remove("arrastrando");
-  lock.classList.add("fuera");
-  telefono.classList.add("desbloqueado");
-  clearTimeout(tOcultar);
-  tOcultar = setTimeout(() => { lock.style.display = "none"; }, 650);
+  filas.forEach(fila => {
+    const tira = document.createElement("div");
+    tira.className = "tira" + (fila.inversa ? " inversa" : "");
+    const pista = document.createElement("div");
+    pista.className = "tira-pista";
+    pista.style.setProperty("--dur", Math.max(36, fila.lista.length * 4.2) + "s");
 
-  /* la primera vez, la isla cuenta cómo volver a bloquear */
-  if (!avisoDado && !reducir) {
-    avisoDado = true;
-    setTimeout(() => { if (!bloqueado) mostrarIsla("Baja desde arriba para bloquear", 4200); }, 1100);
-  }
-}
-
-/* volver a bloquear con el candado */
-function bloquear() {
-  if (bloqueado) return;
-  if (capaAbierta) { const c = capaAbierta; cerrarCapa(c, true); if (c.id === "capaApp") actual = -1; }
-  bloqueado = true;
-  const lock = $("lock");
-  clearTimeout(tOcultar);
-  pintarNotis();
-  ponerHora();
-  lock.style.display = "";
-  lock.style.transform = "";
-  lock.classList.add("fuera");
-  void lock.offsetWidth;
-  lock.classList.remove("fuera");
-  telefono.classList.remove("desbloqueado");
-}
-
-/* o arrastrando desde arriba: la pantalla de bloqueo baja siguiendo el dedo */
-function activarCortina() {
-  const zona = $("cortinaZona");
-  const lock = $("lock");
-  let arr = false, y0 = 0, dy = 0, H = 1;
-
-  zona.addEventListener("pointerdown", e => {
-    if (bloqueado || capaAbierta) return;
-    arr = true; y0 = e.clientY; dy = 0;
-    H = telefono.getBoundingClientRect().height;
-    clearTimeout(tOcultar);
-    pintarNotis();
-    ponerHora();
-    lock.style.display = "";
-    lock.classList.add("fuera", "arrastrando");
-    lock.style.opacity = "1";
-    lock.style.transform = "translateY(-104%)";
-    try { zona.setPointerCapture(e.pointerId); } catch (err) {}
-  });
-  zona.addEventListener("pointermove", e => {
-    if (!arr) return;
-    dy = Math.max(0, Math.min(H, e.clientY - y0));
-    lock.style.transform = `translateY(${-104 + (dy / H) * 104}%)`;
-  });
-  const soltar = () => {
-    if (!arr) return;
-    arr = false;
-    lock.classList.remove("arrastrando");
-    lock.style.opacity = "";
-    lock.style.transform = "";
-    if (dy > H * 0.2) {
-      lock.classList.remove("fuera");
-      bloqueado = true;
-      telefono.classList.remove("desbloqueado");
-    } else {
-      tOcultar = setTimeout(() => { lock.style.display = "none"; }, 650);
-    }
-  };
-  zona.addEventListener("pointerup", soltar);
-  zona.addEventListener("pointercancel", soltar);
-}
-
-function activarBloqueo() {
-  const lock = $("lock");
-  let arr = false, y0 = 0, dy = 0;
-
-  lock.addEventListener("pointerdown", e => {
-    if (!bloqueado) return;
-    arr = true; y0 = e.clientY; dy = 0;
-    lock.classList.add("arrastrando");
-    try { lock.setPointerCapture(e.pointerId); } catch (err) {}
-  });
-  lock.addEventListener("pointermove", e => {
-    if (!arr) return;
-    dy = Math.min(0, e.clientY - y0);
-    lock.style.transform = `translateY(${dy}px)`;
-  });
-  const soltar = () => {
-    if (!arr) return;
-    arr = false;
-    lock.classList.remove("arrastrando");
-    if (dy < -80 || Math.abs(dy) < 8) desbloquear();       // deslizar o simplemente tocar
-    else lock.style.transform = "";
-  };
-  lock.addEventListener("pointerup", soltar);
-  lock.addEventListener("pointercancel", soltar);
-  lock.addEventListener("keydown", e => {
-    if (e.key === "Enter" || e.key === " " || e.key === "ArrowUp") { e.preventDefault(); desbloquear(); }
-  });
-}
-
-/* ============================================================
-   LA PANTALLA DE INICIO: widgets, aplicaciones y páginas
-============================================================ */
-function crearIcono(i, retraso) {
-  const p = fotos[i];
-  const f = parseFecha(p.fecha);
-  const b = document.createElement("button");
-  b.type = "button";
-  b.className = "app-ico";
-  b.style.setProperty("--d", retraso + "s");
-  b.setAttribute("aria-label", `Abrir la aplicación de ${p.nombre}`);
-  b.innerHTML = `
-    <span class="ico">
-      <span class="ico-in">
-        <span class="ico-fondo" style="background-image:${urlCss(p.foto)}"></span>
-        <img src="${esc(p.foto)}" alt="" loading="lazy" draggable="false">
-      </span>
-      <span class="insignia">${f ? f.d : "·"}</span>
-    </span>
-    <span class="ico-nombre">${esc(p.nombre)}</span>`;
-  conFallback(b.querySelector("img"), p.nombre);
-  b.addEventListener("click", () => abrirApp(i, b.querySelector(".ico")));
-  return b;
-}
-
-function crearWidgets() {
-  const frag = document.createDocumentFragment();
-
-  if (fotos.length) {
-    const i = ordenIdx[Math.floor(Math.random() * ordenIdx.length)];
-    const p = fotos[i];
-    const w = document.createElement("button");
-    w.type = "button";
-    w.className = "widget w-foto";
-    w.setAttribute("aria-label", `Abrir el cumpleaños de ${p.nombre}`);
-    w.innerHTML = `
-      <span class="w-marco"><span class="w-fondo" style="background-image:${urlCss(p.foto)}"></span><img src="${esc(p.foto)}" alt="" draggable="false"></span>
-      <span class="w-pie"><b>Cumple de ${esc(p.nombre)}</b><small>${esc(tiempoDesde(p))}</small></span>`;
-    conFallback(w.querySelector("img"), p.nombre);
-    w.addEventListener("click", () => abrirApp(i, w));
-    frag.appendChild(w);
-  }
-
-  const t = document.createElement("div");
-  t.className = "widget w-mini w-tiempo";
-  t.innerHTML = `<small>Tiempo</small><b>90% de probabilidad de tarta</b>`;
-  frag.appendChild(t);
-
-  const b = document.createElement("div");
-  b.className = "widget w-mini w-bateria";
-  b.innerHTML = `<small>Batería de la clase</small><b>Ganas de fiesta: 100%</b><span class="barra"><i></i></span>`;
-  frag.appendChild(b);
-
-  return frag;
-}
-
-function pintarHome() {
-  const cont = $("paginas");
-  cont.innerHTML = "";
-  const N = ordenIdx.length;
-
-  const cap1 = 12, capN = 24;                           // aplicaciones que caben en cada página
-  const resto = ordenIdx.slice();
-  const grupos = [resto.splice(0, cap1)];
-  while (resto.length) grupos.push(resto.splice(0, capN));
-
-  let contador = 0;
-  grupos.forEach((grupo, k) => {
-    const pag = document.createElement("div");
-    pag.className = "pagina";
-    if (k === 0) pag.appendChild(crearWidgets());
-    grupo.forEach(i => pag.appendChild(crearIcono(i, 0.25 + (contador++) * 0.035)));
-    if (k === 0 && N === 0) {
-      const v = document.createElement("div");
-      v.className = "vacio-home";
-      v.innerHTML = `<b>Aún no hay aplicaciones.</b>Cada cumpleaños se instalará aquí con su foto.`;
-      pag.appendChild(v);
-    }
-    cont.appendChild(pag);
-  });
-
-  /* puntos de las páginas */
-  const pts = $("puntos");
-  pts.innerHTML = "";
-  if (grupos.length > 1) {
-    grupos.forEach((_, k) => {
-      const d = document.createElement("button");
-      d.type = "button";
-      d.setAttribute("aria-label", `Página ${k + 1}`);
-      d.addEventListener("click", () => cont.scrollTo({ left: k * cont.clientWidth, behavior: reducir ? "auto" : "smooth" }));
-      pts.appendChild(d);
+    [0, 1].forEach(copia => {
+      fila.lista.forEach((i, k) => {
+        const p = fotos[i];
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "tira-foto";
+        b.style.setProperty("--r", (((k * 7) % 5) - 2) * 0.8 + "deg");
+        b.setAttribute("aria-label", `Abrir el concierto de ${p.nombre}`);
+        if (copia === 1) { b.setAttribute("aria-hidden", "true"); b.tabIndex = -1; }
+        const img = document.createElement("img");
+        img.src = p.foto;
+        img.alt = "";
+        img.loading = "lazy";
+        img.draggable = false;
+        conFallback(img, p.nombre);
+        fijarProporcion(img);
+        b.appendChild(img);
+        b.addEventListener("click", () => abrirModal(i));
+        pista.appendChild(b);
+      });
     });
-  }
-  marcarPunto();
-}
 
-function marcarPunto() {
-  const cont = $("paginas");
-  const k = Math.round(cont.scrollLeft / Math.max(1, cont.clientWidth));
-  [...$("puntos").children].forEach((d, n) => d.classList.toggle("on", n === k));
-}
-
-/* con el ratón, las páginas también se arrastran */
-function activarPaginas() {
-  const cont = $("paginas");
-  cont.addEventListener("scroll", marcarPunto, { passive: true });
-
-  let arr = false, x0 = 0, s0 = 0, movido = 0;
-  cont.addEventListener("pointerdown", e => {
-    if (e.pointerType !== "mouse") return;
-    arr = true; x0 = e.clientX; s0 = cont.scrollLeft; movido = 0;
+    tira.appendChild(pista);
+    cont.appendChild(tira);
   });
-  addEventListener("pointermove", e => {
-    if (!arr) return;
-    const dx = e.clientX - x0;
-    movido = Math.max(movido, Math.abs(dx));
-    cont.style.scrollSnapType = "none";
-    cont.scrollLeft = s0 - dx;
-  });
-  addEventListener("pointerup", () => {
-    if (!arr) return;
-    arr = false;
-    const k = Math.round(cont.scrollLeft / Math.max(1, cont.clientWidth));
-    cont.style.scrollSnapType = "";
-    cont.scrollTo({ left: k * cont.clientWidth, behavior: reducir ? "auto" : "smooth" });
-  });
-  /* que un arrastre no cuente como un toque en una aplicación */
-  cont.addEventListener("click", e => { if (movido > 6) { e.stopPropagation(); e.preventDefault(); movido = 0; } }, true);
-
-  cont.addEventListener("wheel", e => {
-    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { cont.scrollLeft += e.deltaY; e.preventDefault(); }
-  }, { passive: false });
 }
 
 /* ============================================================
-   LAS CAPAS: cada aplicación se abre desde su icono
+   EL CARTEL: los artistas, agrupados por mes
 ============================================================ */
-let capaAbierta = null;
+const observador = "IntersectionObserver" in window
+  ? new IntersectionObserver(entradas => {
+      entradas.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add("in");
+          observador.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 })
+  : null;
 
-function abrirCapa(capa, origen) {
-  const t = telefono.getBoundingClientRect();
-  let ox = t.width / 2, oy = t.height / 2, esc_ = 0.35;
-  if (origen) {
-    const r = origen.getBoundingClientRect();
-    ox = r.left + r.width / 2 - t.left;
-    oy = r.top + r.height / 2 - t.top;
-    esc_ = Math.max(0.12, Math.min(0.9, r.width / t.width));
-  }
-  if (capaAbierta && capaAbierta !== capa) cerrarCapa(capaAbierta, true);
-
-  capa.style.transformOrigin = `${ox}px ${oy}px`;
-  capa.style.setProperty("--e", esc_);
-  capa.classList.add("visible");
-  void capa.offsetWidth;
-  capa.classList.add("abierta");
-  home.classList.add("atras");
-  telefono.classList.add("capa-abierta");
-  telefono.classList.toggle("claro", capa.id !== "capaApp");   // la app tiene cabecera de color: texto blanco
-  capaAbierta = capa;
+/* agrupa los índices por mes, respetando el orden del curso */
+function agruparPorMes(indices) {
+  const grupos = new Map();
+  indices.forEach(i => {
+    const f = parseFecha(fotos[i].fecha);
+    const m = f ? f.m : -1;
+    if (!grupos.has(m)) grupos.set(m, []);
+    grupos.get(m).push(i);
+  });
+  return grupos;
 }
 
-function cerrarCapa(capa, rapido = false) {
-  capa.classList.remove("abierta");
-  setTimeout(() => capa.classList.remove("visible"), rapido ? 0 : 480);
-  if (capaAbierta === capa) {
-    capaAbierta = null;
-    home.classList.remove("atras");
-    telefono.classList.remove("claro", "capa-abierta");
+function pintarCartel() {
+  const cont = $("dias");
+  cont.innerHTML = "";
+
+  if (!fotos.length) {
+    cont.innerHTML = `<div class="vacio"><strong>El cartel está en imprenta.</strong>Cada cumpleaños se irá sumando a la lista de artistas.</div>`;
+    return;
   }
+
+  const q = norm($("buscador").value.trim());
+  const lista = ordenIdx.filter(i => !q || norm(fotos[i].nombre).includes(q));
+  if (!lista.length) {
+    cont.innerHTML = `<div class="vacio"><strong>Ese artista no está en el cartel.</strong>Prueba con otro nombre.</div>`;
+    return;
+  }
+
+  agruparPorMes(lista).forEach((idxs, m) => {
+    const art = document.createElement("article");
+    art.className = "dia";
+
+    const nombreMes = m >= 0 ? MESES[m] : "Fecha por confirmar";
+    const escenario = m >= 0 ? escenarioDe(m) : "Escenario sorpresa";
+
+    let html = `<div class="dia-interior">
+      <div class="dia-cab"><h3>${esc(nombreMes)}</h3><span class="escenario">${esc(escenario)}</span></div>
+      <p class="lineup">`;
+    idxs.forEach((i, k) => {
+      const f = parseFecha(fotos[i].fecha);
+      html += `<button type="button" class="artista" data-i="${i}" aria-label="Abrir el concierto de ${esc(fotos[i].nombre)}">${esc(fotos[i].nombre)}${f ? `<sup>${f.d}</sup>` : ""}</button>`;
+      if (k < idxs.length - 1) html += `<span class="sep" aria-hidden="true">✦</span> `;
+    });
+    html += `</p></div>`;
+    art.innerHTML = html;
+
+    cont.appendChild(art);
+    if (observador) observador.observe(art); else art.classList.add("in");
+  });
+}
+
+/* pulsar un nombre abre su ficha */
+$("dias").addEventListener("click", e => {
+  const b = e.target.closest(".artista");
+  if (b) abrirModal(+b.dataset.i);
+});
+
+/* con ratón: la foto aparece junto al cursor al pasar por un nombre */
+function activarVista() {
+  if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  const v = $("vista"), img = $("vistaImg"), dias = $("dias");
+
+  dias.addEventListener("mouseover", e => {
+    const b = e.target.closest(".artista");
+    if (!b) return;
+    const p = fotos[+b.dataset.i];
+    img.src = p.foto;
+    $("vistaNombre").textContent = p.nombre;
+    v.style.display = "block";
+  });
+  dias.addEventListener("mousemove", e => {
+    if (v.style.display !== "block") return;
+    const w = v.offsetWidth, h = v.offsetHeight;
+    let x = e.clientX + 26;
+    if (x + w > innerWidth - 10) x = e.clientX - w - 26;
+    const y = Math.max(10, Math.min(innerHeight - h - 10, e.clientY - h / 2));
+    v.style.left = x + "px";
+    v.style.top = y + "px";
+  });
+  dias.addEventListener("mouseout", e => {
+    const a = e.relatedTarget;
+    if (!a || !a.closest || !a.closest(".artista")) v.style.display = "none";
+  });
 }
 
 /* ============================================================
-   APLICACIÓN DE UN CUMPLEAÑOS
+   BUSCADOR
 ============================================================ */
-function pintarApp() {
-  const p = fotos[actual];
-  const f = parseFecha(p.fecha);
-  const est = f ? estacion(f.m) : ESTACION_ESP;
-  const capa = $("capaApp");
-  capa.style.setProperty("--g1", est.g1);
-  capa.style.setProperty("--g2", est.g2);
+$("buscador").addEventListener("input", () => {
+  pintarCartel();
+  const q = $("buscador").value.trim();
+  if (q && !reducir) {
+    const destino = $("cartel").getBoundingClientRect().top + scrollY - 60;
+    if (scrollY < destino - 10) scrollTo({ top: destino, behavior: "smooth" });
+  }
+});
 
-  $("aNombre").textContent = p.nombre;
-  $("aFecha").textContent = fechaBonita(p);
-  $("aEdad").textContent = `${p.edad} años`;
-  $("aCuando").textContent = tiempoDesde(p);
-  $("aIA").textContent = ANALISIS[(actual * 3 + 2) % ANALISIS.length];
+/* ============================================================
+   FICHA DEL ARTISTA
+============================================================ */
+let ultimoFoco = null;
 
-  const img = $("aImg");
-  img.style.aspectRatio = "";
-  img.src = p.foto;
-  img.alt = p.nombre;
-  conFallback(img, p.nombre);
-
-  $("textoMensaje").placeholder = `Escribe a ${p.nombre}…`;
-  $("aviso").hidden = true;
-  $("textoMensaje").value = "";
-  $("contadorTexto").textContent = "0 / 300";
-  $("aCuerpo").scrollTop = 0;
-  cargarMensajes(p.id);
+function navegar(delta) {
+  const arr = ordenIdx.length ? ordenIdx : fotos.map((_, i) => i);
+  if (!arr.length) return;
+  const pos = arr.indexOf(actual);
+  abrirModal(arr[(pos + delta + arr.length) % arr.length]);
 }
 
-function abrirApp(i, origen) {
+function abrirModal(i) {
   if (i < 0) i = fotos.length - 1;
   if (i >= fotos.length) i = 0;
   actual = i;
-  pintarApp();
+  const p = fotos[i];
+  const f = parseFecha(p.fecha);
+
+  const img = $("mImg");
+  img.style.aspectRatio = "";
+  img.src = p.foto; img.alt = p.nombre;
+  conFallback(img, p.nombre);
+
+  $("mNombre").textContent = p.nombre;
+  $("mEscenario").textContent = f ? escenarioDe(f.m) : "Escenario sorpresa";
+  $("mFecha").textContent = fechaBonita(p);
+  $("mEdad").textContent = `${p.edad} años`;
+
+  $("formulario").hidden = true;
+  $("botonMensaje").hidden = false;
+  $("aviso").hidden = true;
+  $("textoMensaje").value = "";
+  $("contadorTexto").textContent = "0 / 300";
   try { $("autorMensaje").value = localStorage.getItem("autorCumple") || ""; } catch (e) {}
-  abrirCapa($("capaApp"), origen || null);
+
+  const modal = $("modal");
+  if (!modal.classList.contains("activo")) {
+    ultimoFoco = document.activeElement;
+    modal.classList.add("activo");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    $("cerrar").focus({ preventScroll: true });
+  }
+  $("modalCaja").scrollTop = 0;
+
+  cargarMensajes(p.id);
 }
 
-/* pasar al cumpleaños anterior o siguiente sin volver al inicio */
-function vecina(delta) {
-  const arr = ordenIdx.length ? ordenIdx : fotos.map((_, i) => i);
-  const pos = arr.indexOf(actual);
-  const n = arr[(pos + delta + arr.length) % arr.length];
-  actual = n;
-  pintarApp();
-
-  const cuerpo = $("aCuerpo");
-  cuerpo.classList.remove("desliza-d", "desliza-i");
-  void cuerpo.offsetWidth;
-  cuerpo.classList.add(delta > 0 ? "desliza-d" : "desliza-i");
+function cerrarModal() {
+  const modal = $("modal");
+  modal.classList.remove("activo");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+  actual = -1;
+  if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus({ preventScroll: true });
 }
+
+$("cerrar").addEventListener("click", cerrarModal);
+$("anterior").addEventListener("click", () => navegar(-1));
+$("siguiente").addEventListener("click", () => navegar(1));
+$("modal").addEventListener("click", e => { if (e.target.id === "modal") cerrarModal(); });
+
+document.addEventListener("keydown", e => {
+  if (actual < 0) return;
+  if ($("visorFoto").classList.contains("activo")) return;   // el visor gestiona sus propias teclas
+  if (e.key === "Escape") cerrarModal();
+  const escribiendo = /INPUT|TEXTAREA/.test(document.activeElement.tagName);
+  if (!escribiendo && e.key === "ArrowLeft")  navegar(-1);
+  if (!escribiendo && e.key === "ArrowRight") navegar(1);
+});
 
 /* ============================================================
-   MENSAJES (como una conversación)
+   MENSAJES (post-its)
 ============================================================ */
 function pintarMensajes(lista, indiceNuevo = -1) {
   const cont = $("mMensajes");
@@ -1226,23 +981,23 @@ function pintarMensajes(lista, indiceNuevo = -1) {
   cont.innerHTML = "";
 
   if (!lista.length) {
-    cont.innerHTML = `<p class="msg-estado">Todavía no hay mensajes. Escribe el primero.</p>`;
+    cont.innerHTML = `<p class="estado">Todavía no se ha gritado nada. Sé el primero.</p>`;
     return;
   }
   lista.forEach((m, i) => {
-    const d = document.createElement("div");
-    d.className = "msg" + (m.propio ? " propio" : "") + (i === indiceNuevo ? " nueva" : "");
-    const quien = document.createElement("small");
-    quien.textContent = m.propio ? "Tú" : (m.autor || "alguien de la clase");
+    const n = document.createElement("article");
+    n.className = "postit" + (i === indiceNuevo ? " nueva" : "");
     const t = document.createElement("p");
     t.textContent = m.mensaje || "";
-    d.append(quien, t);
-    cont.appendChild(d);
+    const a = document.createElement("p");
+    a.className = "autor";
+    a.textContent = "— " + (m.autor || "alguien de la clase");
+    n.append(t, a);
+    cont.appendChild(n);
   });
 
   if (indiceNuevo >= 0) {
-    const cuerpo = $("aCuerpo");
-    cuerpo.scrollTo({ top: cuerpo.scrollHeight, behavior: reducir ? "auto" : "smooth" });
+    cont.children[indiceNuevo].scrollIntoView({ behavior: reducir ? "auto" : "smooth", block: "center" });
   }
 }
 
@@ -1252,7 +1007,7 @@ async function cargarMensajes(id) {
 
   if (cache.has(String(id))) { pintarMensajes(cache.get(String(id))); return; }
 
-  cont.innerHTML = `<p class="msg-estado">Cargando mensajes…</p>`;
+  cont.innerHTML = `<p class="estado">Cargando gritos del público…</p>`;
   try {
     const r = await fetch(`${URL_MENSAJES}?id=${encodeURIComponent(id)}`);
     const datos = await r.json();
@@ -1263,7 +1018,7 @@ async function cargarMensajes(id) {
     console.error("Error cargando mensajes:", err);
     if (actual >= 0 && String(fotos[actual].id) === String(id)) {
       $("mCuenta").textContent = "0";
-      cont.innerHTML = `<p class="msg-estado">No se han podido cargar los mensajes. Vuelve a abrir esta aplicación en unos segundos.</p>`;
+      cont.innerHTML = `<p class="estado">No se han podido cargar los mensajes. Vuelve a abrir esta ficha en unos segundos.</p>`;
     }
   }
 }
@@ -1278,6 +1033,16 @@ function aviso(texto, error = false) {
   a.hidden = false;
 }
 
+$("botonMensaje").addEventListener("click", () => {
+  $("aviso").hidden = true;
+  $("botonMensaje").hidden = true;
+  $("formulario").hidden = false;
+  ($("autorMensaje").value ? $("textoMensaje") : $("autorMensaje")).focus();
+});
+$("cancelarMensaje").addEventListener("click", () => {
+  $("formulario").hidden = true;
+  $("botonMensaje").hidden = false;
+});
 $("textoMensaje").addEventListener("input", e => {
   $("contadorTexto").textContent = `${e.target.value.length} / 300`;
 });
@@ -1292,12 +1057,13 @@ $("formulario").addEventListener("submit", async e => {
 
   try {
     const ultimo = Number(localStorage.getItem("ultimoMensajeCumple") || 0);
-    if (Date.now() - ultimo < 15000) { aviso("Espera unos segundos antes de enviar otro mensaje.", true); return; }
+    if (Date.now() - ultimo < 15000) { aviso("Espera unos segundos antes de gritar otra vez.", true); return; }
   } catch (err) {}
 
   const p = fotos[actual];
   const boton = $("enviarMensaje");
   boton.disabled = true;
+  boton.textContent = "Enviando…";
 
   try {
     await fetch(URL_MENSAJES, {
@@ -1319,87 +1085,33 @@ $("formulario").addEventListener("submit", async e => {
       localStorage.setItem("ultimoMensajeCumple", String(Date.now()));
     } catch (err) {}
 
-    // se publica al momento: lo añadimos a la conversación sin recargar
+    // se publica al momento: lo añadimos a la lista sin recargar
     const clave = String(p.id);
-    const lista = (cache.get(clave) || []).concat({ autor, mensaje, propio: true });
+    const lista = (cache.get(clave) || []).concat({ autor, mensaje });
     cache.set(clave, lista);
 
     $("textoMensaje").value = "";
     $("contadorTexto").textContent = "0 / 300";
+    $("formulario").hidden = true;
+    $("botonMensaje").hidden = false;
     pintarMensajes(lista, lista.length - 1);
-    aviso("Enviado. Ya sale en la conversación.");
+    aviso("¡Se te ha oído hasta el fondo! Gracias por escribir.");
   } catch (err) {
     console.error("Error enviando mensaje:", err);
     aviso("No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.", true);
   } finally {
     boton.disabled = false;
+    boton.textContent = "Enviar mensaje";
   }
 });
-
-/* ============================================================
-   FOTOS: todos los cumpleaños de un vistazo, con scroll libre
-============================================================ */
-function pintarFotos() {
-  const cont = $("fotosGrid");
-  cont.innerHTML = "";
-  if (!fotos.length) {
-    cont.innerHTML = `<p class="msg-estado">Todavía no hay fotos. Cada cumpleaños se irá sumando aquí.</p>`;
-    return;
-  }
-  ordenIdx.forEach(i => {
-    const p = fotos[i];
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "foto-item";
-    b.setAttribute("aria-label", `Abrir el cumpleaños de ${p.nombre}`);
-    b.innerHTML = `
-      <img src="${esc(p.foto)}" alt="${esc(p.nombre)}" loading="lazy" draggable="false">
-      <b>${esc(p.nombre)}</b><small>${esc(fechaBonita(p))}</small>`;
-    const img = b.querySelector("img");
-    conFallback(img, p.nombre);
-    fijarProporcion(img);
-    b.addEventListener("click", () => abrirApp(i, img));
-    cont.appendChild(b);
-  });
-}
-
-/* ============================================================
-   BUSCADOR
-============================================================ */
-function pintarBusqueda() {
-  const cont = $("busqLista");
-  const q = norm($("buscador").value.trim());
-  cont.innerHTML = "";
-
-  if (!fotos.length) { cont.innerHTML = `<p class="busq-vacio">Todavía no hay cumpleaños.</p>`; return; }
-  const lista = ordenIdx.filter(i => !q || norm(fotos[i].nombre).includes(q));
-  if (!lista.length) { cont.innerHTML = `<p class="busq-vacio">Nadie con ese nombre.</p>`; return; }
-
-  lista.forEach(i => {
-    const p = fotos[i];
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "busq-item";
-    b.innerHTML = `
-      <span class="mini"><span class="ico-fondo" style="background-image:${urlCss(p.foto)}"></span><img src="${esc(p.foto)}" alt="" loading="lazy" draggable="false"></span>
-      <span><b>${esc(p.nombre)}</b><small>${esc(fechaBonita(p))} · ${esc(p.edad)} años</small></span>`;
-    conFallback(b.querySelector("img"), p.nombre);
-    b.addEventListener("click", () => {
-      cerrarCapa($("capaBusca"), true);
-      setTimeout(() => abrirApp(i, null), 30);
-    });
-    cont.appendChild(b);
-  });
-}
 
 /* ============================================================
    VISOR DE FOTO
 ============================================================ */
 function abrirVisorFoto() {
-  if (actual < 0) return;
   const visorFoto = $("visorFoto");
-  $("visorImagen").src = $("aImg").src || fotos[actual].foto;
-  $("visorImagen").alt = fotos[actual].nombre;
+  $("visorImagen").src = $("mImg").src;
+  $("visorImagen").alt = $("mImg").alt;
   visorFoto.classList.add("activo");
   visorFoto.setAttribute("aria-hidden", "false");
 }
@@ -1408,123 +1120,168 @@ function cerrarVisorFoto() {
   visorFoto.classList.remove("activo");
   visorFoto.setAttribute("aria-hidden", "true");
 }
-$("aImg").addEventListener("click", abrirVisorFoto);
+$("mImg").addEventListener("click", abrirVisorFoto);
 $("visorCerrar").addEventListener("click", cerrarVisorFoto);
 $("visorFoto").addEventListener("click", e => { if (e.target === $("visorFoto")) cerrarVisorFoto(); });
+document.addEventListener("keydown", e => {
+  if ($("visorFoto").classList.contains("activo") && e.key === "Escape") cerrarVisorFoto();
+});
+
+/* ============================================================
+   LA PULSERA: tu entrada, dibujada en un lienzo y descargable
+============================================================ */
+function hash(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return h >>> 0;
+}
+/* reduce el tamaño de letra hasta que el texto quepa */
+function ajustar(g, texto, fuente, maxAncho, tam) {
+  let t = tam;
+  g.font = `${t}px ${fuente}`;
+  while (g.measureText(texto).width > maxAncho && t > 20) { t -= 4; g.font = `${t}px ${fuente}`; }
+  return t;
+}
+
+async function dibujarEntrada(nombre) {
+  const lienzo = $("lienzo"), g = lienzo.getContext("2d");
+  const W = lienzo.width, H = lienzo.height;
+  const AN = "Anton, Impact, 'Arial Narrow', sans-serif";
+  const MO = "'DM Mono', ui-monospace, monospace";
+  try { await Promise.all([document.fonts.load("100px Anton"), document.fonts.load("20px 'DM Mono'")]); } catch (e) {}
+
+  const nom = (nombre || "TU NOMBRE").trim().toUpperCase();
+
+  /* papel */
+  g.fillStyle = "#f4eddf"; g.fillRect(0, 0, W, H);
+
+  /* sol con puntitos */
+  const cx = 800, cy = 330, R = 300;
+  g.fillStyle = "#ffd93b"; g.beginPath(); g.arc(cx, cy, R, 0, Math.PI * 2); g.fill();
+  g.save(); g.beginPath(); g.arc(cx, cy, R, 0, Math.PI * 2); g.clip();
+  g.fillStyle = "#ff4d8d";
+  for (let y = cy - R; y < cy + R; y += 26) {
+    for (let x = cx - R; x < cx + R; x += 26) {
+      const k = (y - (cy - R)) / (2 * R);              // más grandes abajo
+      const r = 2 + k * 9;
+      g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill();
+    }
+  }
+  g.restore();
+
+  /* título con desajuste de tintas */
+  g.textBaseline = "alphabetic";
+  const t1 = ajustar(g, "MOLINILLO", AN, W - 120, 260);
+  const dib = (txt, x, y, tam) => {
+    g.font = `${tam}px ${AN}`;
+    g.fillStyle = "#2b4bff"; g.fillText(txt, x + 16, y + 16);
+    g.fillStyle = "#ff4d8d"; g.fillText(txt, x + 8, y + 8);
+    g.fillStyle = "#161320"; g.fillText(txt, x, y);
+  };
+  dib("MOLINILLO", 60, 300, t1);
+  dib("FEST", 60, 300 + t1 * 0.92, t1);
+
+  /* banda */
+  const yb = 300 + t1 * 0.92 + 70;
+  g.save();
+  g.translate(0, yb); g.rotate(-0.025);
+  g.fillStyle = "#161320"; g.fillRect(-40, 0, W + 80, 96);
+  g.fillStyle = "#ffd93b"; g.font = `52px ${AN}`;
+  g.fillText("ACCESO TOTAL  ✦  2º BACH  ✦  2026–27  ✦  ACCESO TOTAL", 40, 68);
+  g.restore();
+
+  /* nombre */
+  const yn = yb + 200;
+  g.fillStyle = "#161320"; g.font = `26px ${MO}`;
+  g.fillText("CABEZA DE CARTEL", 64, yn - 60);
+  const tn = ajustar(g, nom, AN, W - 128, 240);
+  g.font = `${tn}px ${AN}`;
+  g.fillStyle = "#2b4bff"; g.fillText(nom, 64 + 8, yn + tn * 0.55 + 8);
+  g.fillStyle = "#161320"; g.fillText(nom, 64, yn + tn * 0.55);
+
+  /* perforación */
+  const yp = H - 250;
+  g.strokeStyle = "#161320"; g.lineWidth = 4; g.setLineDash([18, 14]);
+  g.beginPath(); g.moveTo(0, yp); g.lineTo(W, yp); g.stroke(); g.setLineDash([]);
+  g.fillStyle = "#f4eddf";
+  g.beginPath(); g.arc(0, yp, 34, 0, Math.PI * 2); g.fill();
+  g.beginPath(); g.arc(W, yp, 34, 0, Math.PI * 2); g.fill();
+  g.strokeStyle = "#161320";
+  g.beginPath(); g.arc(0, yp, 34, -Math.PI / 2, Math.PI / 2); g.stroke();
+  g.beginPath(); g.arc(W, yp, 34, Math.PI / 2, Math.PI * 1.5); g.stroke();
+
+  /* código de barras (distinto para cada nombre) */
+  let sem = hash(nom);
+  const aleat = () => { sem = (Math.imul(sem, 1664525) + 1013904223) >>> 0; return sem / 4294967296; };
+  g.fillStyle = "#161320";
+  let x = 64;
+  while (x < W - 380) { const a = 4 + Math.floor(aleat() * 4) * 3; g.fillRect(x, yp + 50, a, 130); x += a + 4 + Math.floor(aleat() * 3) * 3; }
+
+  g.font = `24px ${MO}`;
+  g.fillText("IES EL MOLINILLO · 2º BACH", W - 360, yp + 88);
+  g.fillText("VÁLIDA PARA TODOS", W - 360, yp + 124);
+  g.fillText("LOS CUMPLEAÑOS. NO VÁLIDA", W - 360, yp + 152);
+  g.fillText("PARA REPETIR TARTA.", W - 360, yp + 180);
+
+  /* marco */
+  g.strokeStyle = "#161320"; g.lineWidth = 10; g.strokeRect(5, 5, W - 10, H - 10);
+}
+
+function activarPulsera() {
+  const inp = $("nombrePulsera");
+  try { inp.value = localStorage.getItem("autorCumple") || ""; } catch (e) {}
+  dibujarEntrada(inp.value);
+
+  $("formPulsera").addEventListener("submit", async e => {
+    e.preventDefault();
+    await dibujarEntrada(inp.value);
+    $("acciones").hidden = false;
+    if (navigator.canShare) $("compartirEntrada").hidden = false;
+  });
+
+  const archivo = () => new Promise(res => $("lienzo").toBlob(b => res(b), "image/png"));
+
+  $("guardarEntrada").addEventListener("click", async () => {
+    const blob = await archivo();
+    if (!blob) return;
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "entrada-molinillo-fest.png";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  });
+
+  $("compartirEntrada").addEventListener("click", async () => {
+    const blob = await archivo();
+    if (!blob) return;
+    const file = new File([blob], "entrada-molinillo-fest.png", { type: "image/png" });
+    try {
+      if (navigator.canShare && navigator.canShare({ files: [file] }))
+        await navigator.share({ files: [file], title: "Molinillo Fest" });
+    } catch (err) { /* el usuario ha cancelado */ }
+  });
+}
 
 /* ============================================================
    ARRANQUE
 ============================================================ */
-function iniciar() {
-  telefono = $("telefono");
-  home = $("home");
-
-  ponerHora();
-  setInterval(ponerHora, 20000);
-  pintarNotis();
-  activarIsla();
-  activarBloqueo();
-  activarPaginas();
-
-  /* que mantener pulsado no seleccione texto ni saque el menú del móvil */
-  $("mundo").addEventListener("selectstart", e => {
-    const n = e.target.nodeType === 3 ? e.target.parentElement : e.target;
-    if (!n || !n.closest("input, textarea")) e.preventDefault();
-  });
-  $("mundo").addEventListener("contextmenu", e => {
-    if (!e.target.closest("input, textarea")) e.preventDefault();
-  });
-
-  /* aplicación de cumpleaños */
-  $("aAtras").addEventListener("click", () => { cerrarCapa($("capaApp")); actual = -1; });
-  $("aPrev").addEventListener("click", () => vecina(-1));
-  $("aNext").addEventListener("click", () => vecina(1));
-
-  /* dock */
-  $("dBuscar").addEventListener("click", () => {
-    $("buscador").value = "";
-    pintarBusqueda();
-    abrirCapa($("capaBusca"), $("dBuscar").querySelector(".ico"));
-    setTimeout(() => $("buscador").focus({ preventScroll: true }), 520);
-  });
-  $("bAtras").addEventListener("click", () => cerrarCapa($("capaBusca")));
-  $("buscador").addEventListener("input", pintarBusqueda);
-
-  $("dFotos").addEventListener("click", () => abrirCapa($("capaFotos"), $("dFotos").querySelector(".ico")));
-  $("fAtras").addEventListener("click", () => cerrarCapa($("capaFotos")));
-  $("fSorpresa").addEventListener("click", () => {
-    if (!fotos.length) return;
-    const i = ordenIdx[Math.floor(Math.random() * ordenIdx.length)];
-    abrirApp(i, $("fSorpresa"));
-  });
-  $("dNotas").addEventListener("click", () => abrirCapa($("capaNotas"), $("dNotas").querySelector(".ico")));
-  $("nAtras").addEventListener("click", () => cerrarCapa($("capaNotas")));
-  $("dAjustes").addEventListener("click", () => abrirCapa($("capaAjustes"), $("dAjustes").querySelector(".ico")));
-  $("jAtras").addEventListener("click", () => cerrarCapa($("capaAjustes")));
-
-  /* la barra de abajo vuelve al inicio: se toca o se desliza hacia arriba, como en el móvil */
-  const irInicio = () => {
-    if (capaAbierta) { const c = capaAbierta; cerrarCapa(c); if (c.id === "capaApp") actual = -1; }
-  };
-  const ind = $("indicador");
-  let iy = 0, iArr = false, suprime = false;
-  ind.addEventListener("pointerdown", e => {
-    iy = e.clientY; iArr = true; suprime = false;
-    try { ind.setPointerCapture(e.pointerId); } catch (err) {}
-  });
-  ind.addEventListener("pointerup", e => {
-    if (!iArr) return;
-    iArr = false;
-    if (iy - e.clientY > 25) { suprime = true; irInicio(); }
-  });
-  ind.addEventListener("click", () => { if (suprime) { suprime = false; return; } irInicio(); });
-
-  /* candado y cortina para volver a bloquear */
-  $("candado").addEventListener("click", bloquear);
-  activarCortina();
-
-  /* en la app de un cumpleaños, deslizar a los lados cambia de persona */
-  const capaApp = $("capaApp");
-  let sx = 0, sy = 0, st = 0, ignora = false;
-  capaApp.addEventListener("touchstart", e => {
-    const t = e.touches[0];
-    sx = t.clientX; sy = t.clientY; st = Date.now();
-    ignora = !!e.target.closest("input, textarea, .a-form");
-  }, { passive: true });
-  capaApp.addEventListener("touchend", e => {
-    if (ignora) return;
-    const t = e.changedTouches[0];
-    const dx = t.clientX - sx, dy = t.clientY - sy;
-    if (Date.now() - st < 700 && Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.5) vecina(dx < 0 ? 1 : -1);
-  }, { passive: true });
-
-  document.addEventListener("keydown", e => {
-    if ($("visorFoto").classList.contains("activo")) { if (e.key === "Escape") cerrarVisorFoto(); return; }
-    if (e.key === "Escape" && capaAbierta) { const c = capaAbierta; cerrarCapa(c); if (c.id === "capaApp") actual = -1; }
-    const escribiendo = /INPUT|TEXTAREA/.test(document.activeElement.tagName);
-    if (capaAbierta && capaAbierta.id === "capaApp" && !escribiendo) {
-      if (e.key === "ArrowRight") vecina(1);
-      if (e.key === "ArrowLeft") vecina(-1);
-    }
-  });
-
-  if (reducir) desbloquear();
-}
-
-iniciar();
+activarVista();
+activarPulsera();
 
 fetch("datos.json")
   .then(r => r.json())
   .then(datos => {
     fotos = datos.fotos || [];
     construirOrden();
-    pintarHome();
-    pintarFotos();
+    pintarTiras();
+    pintarCartel();
   })
   .catch(err => {
     console.error("Error cargando datos.json:", err);
-    pintarHome();
-    pintarFotos();
+    $("tiras").hidden = true;
+    $("dias").innerHTML = `<div class="vacio"><strong>No se ha podido cargar el cartel.</strong>Recarga la página en unos segundos.</div>`;
   });
 </script>
 </body>
