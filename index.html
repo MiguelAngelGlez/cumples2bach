@@ -3,454 +3,394 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La última gira · Cumpleaños de 2º Bach · IES El Molinillo</title>
-<meta name="theme-color" content="#f4eddf">
+<title>La pared de fotos · Cumpleaños de 2º Bach · IES El Molinillo</title>
+<meta name="theme-color" content="#0d0a1f">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400..800&family=DM+Mono:wght@400;500&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=DM+Sans:opsz,wght@9..40,400..700&family=DM+Mono:wght@400;500&family=Yellowtail&family=Caveat:wght@400..700&family=Reenie+Beanie&family=Shadows+Into+Light+Two&family=Nanum+Pen+Script&family=Covered+By+Your+Grace&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --papel:#f4eddf;
-  --tinta:#161320;
-  --rosa:#ff4d8d;
-  --rosa-c:#ffb3cd;
-  --azul:#2b4bff;
-  --azul-c:#c2cbff;
-  --sol:#ffd93b;
-  --menta:#a8f0d8;
-  --muted:#6d6577;
-  --linea:rgba(22,19,32,.2);
+  --noche:#0d0a1f;
+  --noche2:#191340;
+  --texto:#ece8f7;
+  --muted:#9b93b8;
+  --luz:#ffd27a;
+  --rosa:#ff4fa3;
+  --azul:#6ea8ff;
+  --papel:#fbf8f1;
+  --papel2:#efe4cc;
+  --tinta:#1b1630;
 
-  --anton:'Anton','Impact','Arial Narrow',sans-serif;
+  --display:'Bricolage Grotesque','Arial Black',system-ui,sans-serif;
   --sans:'DM Sans',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
   --mono:'DM Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
-  --mano:'Reenie Beanie','Segoe Script',cursive;
+  --neon:'Yellowtail','Brush Script MT',cursive;
+  --caveat:'Caveat',cursive;
 }
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;background:var(--noche)}
 body{
   margin:0;
-  background:var(--papel);
-  color:var(--tinta);
-  font-family:var(--sans);
-  font-size:17px;
-  line-height:1.5;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:clip;
+  color:var(--texto);
+  font-family:var(--sans);font-size:17px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;overflow-x:clip;
+  background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.02) 0 2px,transparent 2px 52px);
 }
 img{max-width:100%;display:block}
 button,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
-:focus-visible{outline:3px solid var(--azul);outline-offset:3px}
+:focus-visible{outline:3px solid var(--luz);outline-offset:3px}
 
-/* el grano del papel, como en un póster serigrafiado */
-body::after{
-  content:"";position:fixed;inset:0;z-index:900;pointer-events:none;opacity:.1;
-  background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-@keyframes gira{to{rotate:360deg}}
-@keyframes sale{from{translate:0 14vh;opacity:0}to{translate:0 0;opacity:1}}
 @keyframes aparece{from{opacity:0;translate:0 26px}to{opacity:1;translate:0 0}}
 @keyframes velo{from{opacity:0}to{opacity:1}}
-@keyframes sube{from{translate:0 40px;opacity:0}to{translate:0 0;opacity:1}}
-@keyframes corre{to{translate:-50% 0}}
-@keyframes titila{0%,100%{opacity:1;scale:1}50%{opacity:.35;scale:.7}}
-@keyframes sello{from{opacity:0;scale:1.5;rotate:-18deg}to{opacity:1;scale:1;rotate:-6deg}}
+@keyframes sube{from{translate:0 34px;opacity:0;scale:.97}to{translate:0 0;opacity:1;scale:1}}
+@keyframes mece{0%,100%{rotate:-1.3deg}50%{rotate:1.3deg}}
+@keyframes titila{from{opacity:1}to{opacity:.72}}
+@keyframes rebota{0%,100%{translate:0 0}50%{translate:0 8px}}
+@keyframes enciende{
+  0%{opacity:0}6%{opacity:.85}9%{opacity:.08}14%{opacity:1}19%{opacity:.25}24%{opacity:1}
+  31%{opacity:.6}36%{opacity:1}100%{opacity:1}
+}
+@keyframes golpe{
+  0%{rotate:var(--r)}
+  16%{rotate:calc(var(--r) + var(--amp) * 1deg)}
+  36%{rotate:calc(var(--r) - var(--amp) * .72deg)}
+  56%{rotate:calc(var(--r) + var(--amp) * .44deg)}
+  76%{rotate:calc(var(--r) - var(--amp) * .22deg)}
+  100%{rotate:var(--r)}
+}
+
+/* el brillo cálido que llena la habitación cuando se encienden las luces */
+.brillo{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity 2.4s ease;
+  background:
+    radial-gradient(60vmax 45vmax at 12% 8%,rgba(255,79,163,.16),transparent 65%),
+    radial-gradient(60vmax 45vmax at 90% 40%,rgba(110,168,255,.14),transparent 65%),
+    radial-gradient(70vmax 50vmax at 40% 100%,rgba(255,190,90,.16),transparent 65%);
+}
+body.luz .brillo{opacity:1}
 
 /* ============================================================
-   BARRA FIJA
+   BARRA Y BOTONES FIJOS
 ============================================================ */
 .barra{position:fixed;top:12px;right:12px;z-index:120}
 .busca{
   display:flex;align-items:center;gap:9px;
   height:46px;width:min(58vw,270px);padding:0 16px;
-  background:#fff;border:2.5px solid var(--tinta);border-radius:999px;
-  box-shadow:3px 3px 0 var(--tinta);
+  background:rgba(25,19,64,.82);border:1.5px solid rgba(255,255,255,.22);border-radius:999px;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  transition:border-color .2s ease,box-shadow .2s ease;
 }
-.busca:focus-within{box-shadow:3px 3px 0 var(--azul)}
-.busca svg{flex:none;width:17px;height:17px;stroke:var(--tinta)}
-.busca input{flex:1;min-width:0;border:0;background:none;outline:none;font-weight:600}
-.busca input::placeholder{color:#8f879a;font-weight:500}
+.busca:focus-within{border-color:var(--rosa);box-shadow:0 0 18px rgba(255,79,163,.35)}
+.busca svg{flex:none;width:17px;height:17px;stroke:var(--muted)}
+.busca input{flex:1;min-width:0;border:0;background:none;outline:none;font-weight:500;color:#fff}
+.busca input::placeholder{color:var(--muted)}
+
+.pill-luz{
+  position:fixed;left:50%;bottom:20px;translate:-50% 0;z-index:110;
+  padding:13px 24px;border:0;border-radius:999px;
+  background:var(--luz);color:#2a1f00;font-weight:800;cursor:pointer;
+  box-shadow:0 0 30px rgba(255,210,122,.55),0 12px 24px -10px rgba(0,0,0,.6);
+}
+.pill-luz[hidden]{display:none}
+
+.toast{
+  position:fixed;left:50%;bottom:26px;translate:-50% 30px;z-index:130;max-width:90vw;
+  padding:13px 22px;border-radius:999px;background:#fff;color:var(--tinta);font-weight:700;text-align:center;
+  opacity:0;pointer-events:none;transition:opacity .3s ease,translate .3s ease;
+}
+.toast.on{opacity:1;translate:-50% 0}
 
 /* ============================================================
-   PORTADA
+   PORTADA: primero a oscuras; con el interruptor se enciende
 ============================================================ */
 .hero{
-  position:relative;isolation:isolate;overflow:hidden;
-  padding:clamp(88px,12vh,124px) 5vw 0;
+  position:relative;min-height:100vh;min-height:100svh;
+  display:grid;place-items:center;text-align:center;
+  padding:96px 6vw 70px;
 }
-.sol{
-  position:absolute;z-index:-1;right:-14vw;top:clamp(60px,9vh,110px);
-  width:min(74vw,760px);aspect-ratio:1;border-radius:50%;background:var(--sol);
-  animation:sale 1.6s cubic-bezier(.2,.8,.2,1) both;
-}
-.sol::after{
-  content:"";position:absolute;inset:0;border-radius:50%;
-  background-image:radial-gradient(circle,var(--rosa) 34%,transparent 37%);background-size:17px 17px;
-  -webkit-mask-image:linear-gradient(to top,#000,transparent 75%);mask-image:linear-gradient(to top,#000,transparent 75%);
-}
-.hero-interior{max-width:1400px;margin:0 auto}
-.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.hero > div{grid-area:1/1;width:100%;max-width:1100px;transition:opacity 1s ease,visibility 1s}
+.hero-luz{opacity:0;visibility:hidden}
+body.luz .hero-oscuro{opacity:0;visibility:hidden}
+body.luz .hero-luz{opacity:1;visibility:visible}
+
 .etq{
-  margin:0;max-width:15em;
-  font-family:var(--mono);font-size:clamp(11px,1.1vw,13px);letter-spacing:.12em;text-transform:uppercase;font-weight:500;
+  margin:0 0 22px;
+  font-family:var(--mono);font-size:clamp(11px,1.1vw,13px);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
 }
-/* la ruedecita: un sello sólido que gira */
-.rueda{
-  position:relative;flex:none;width:clamp(86px,10vw,132px);aspect-ratio:1;border-radius:50%;
-  background:var(--sol);box-shadow:0 0 0 3px var(--tinta),4px 5px 0 3px var(--tinta);
+.hero-oscuro h1{
+  margin:0 auto;max-width:11em;
+  font-family:var(--display);font-weight:800;
+  font-size:clamp(40px,8.4vw,120px);line-height:.94;letter-spacing:-.045em;
+  color:rgba(255,255,255,.9);
 }
-.rueda svg.giro{position:absolute;inset:0;width:100%;height:100%;animation:gira 50s linear infinite}
-.rueda text{font-family:var(--mono);font-size:6.1px;font-weight:500;fill:var(--tinta)}
-.rueda .estrella{position:absolute;inset:0;display:grid;place-items:center}
-.rueda .estrella svg{width:34%;height:auto}
 
-.titulo{
-  margin:clamp(16px,3vw,40px) 0 0;
-  font-family:var(--anton);font-weight:400;text-transform:uppercase;line-height:.86;
+/* el interruptor de la pared */
+.interruptor{
+  display:inline-flex;flex-direction:column;align-items:center;gap:18px;margin-top:clamp(34px,5vw,56px);
+  padding:0;border:0;background:none;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
 }
-.titulo .l1,.titulo .l2{
-  display:block;white-space:nowrap;font-size:clamp(60px,19.4vw,310px);color:var(--tinta);
-  text-shadow:.028em .028em 0 var(--rosa),.056em .056em 0 var(--azul);
+.placa{
+  position:relative;width:96px;height:144px;border-radius:14px;display:grid;place-items:center;
+  background:linear-gradient(160deg,#f5f1e8,#d8d1c0);
+  box-shadow:0 0 0 2px rgba(0,0,0,.25),inset 0 2px 0 rgba(255,255,255,.75),0 26px 50px -14px rgba(0,0,0,.85),0 0 50px rgba(255,210,122,.1);
+  transition:box-shadow .4s ease;
 }
-.titulo .l2{display:flex;align-items:center;flex-wrap:wrap;gap:0 3.4vw}
-.pegata{
-  display:inline-block;padding:.28em .6em .22em;border-radius:.3em;
-  background:var(--tinta);color:var(--sol);text-shadow:none;
-  font-size:clamp(20px,4.6vw,74px);line-height:1;letter-spacing:.02em;text-align:center;
-  rotate:-6deg;animation:sello .7s cubic-bezier(.3,1.4,.5,1) .9s both;
+.interruptor:hover .placa{box-shadow:0 0 0 2px rgba(0,0,0,.25),inset 0 2px 0 rgba(255,255,255,.75),0 26px 50px -14px rgba(0,0,0,.85),0 0 60px rgba(255,210,122,.32)}
+.tornillo{position:absolute;left:50%;translate:-50% 0;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#a49d8b);box-shadow:inset 0 0 0 1px rgba(0,0,0,.3)}
+.tornillo.t1{top:10px}
+.tornillo.t2{bottom:10px}
+.ranura{position:relative;width:46px;height:82px;border-radius:9px;overflow:hidden;background:#aaa290;box-shadow:inset 0 4px 10px rgba(0,0,0,.5)}
+.palanca{
+  position:absolute;left:3px;right:3px;top:3px;height:calc(50% - 4px);border-radius:7px;
+  background:linear-gradient(#fff,#e2dccb);box-shadow:0 5px 7px rgba(0,0,0,.4);
+  transition:top .18s cubic-bezier(.3,1.4,.5,1);
 }
-.lema{
-  margin:clamp(24px,3.4vw,42px) 0 0;max-width:20em;
-  font-size:clamp(22px,2.6vw,36px);font-weight:800;line-height:1.12;letter-spacing:-.02em;
-}
-.sub{margin:14px 0 0;max-width:30em;font-size:clamp(17px,1.7vw,22px);line-height:1.4;color:#3a3345}
-.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-.btn{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:15px 28px;border:2.5px solid var(--tinta);border-radius:999px;
-  font-weight:800;font-size:17px;text-decoration:none;cursor:pointer;
-  box-shadow:4px 4px 0 var(--tinta);
-  transition:translate .15s ease,box-shadow .15s ease,background .2s ease;
-}
-.btn:hover{translate:-2px -2px;box-shadow:6px 6px 0 var(--tinta)}
-.btn:active{translate:3px 3px;box-shadow:0 0 0 var(--tinta)}
-.btn-rosa{background:var(--rosa);color:var(--tinta)}
-.btn-blanco{background:#fff;color:var(--tinta)}
-.btn-sol{background:var(--sol);color:var(--tinta)}
+.interruptor.on .palanca{top:calc(50% + 1px)}
+.int-txt{font-weight:700;font-size:16px;color:rgba(255,255,255,.75);animation:rebota 2s ease-in-out infinite}
 
-.pegatinas{display:flex;flex-wrap:wrap;gap:10px 12px;margin-top:26px}
-.peg{
-  --r:-3deg;display:inline-block;padding:7px 15px;border:2.5px solid var(--tinta);border-radius:999px;
-  font-weight:800;font-size:15px;rotate:var(--r);background:#fff;
+/* el letrero de neón */
+.neon{
+  margin:0;font-family:var(--neon);font-weight:400;
+  font-size:clamp(96px,23vw,300px);line-height:1;color:#fff;
+  text-shadow:0 0 6px #fff,0 0 16px var(--rosa),0 0 36px var(--rosa),0 0 72px var(--rosa),0 0 120px #d8206f;
 }
-.peg:nth-child(2){--r:2.5deg;background:var(--azul-c)}
-.peg:nth-child(3){--r:-1.5deg;background:var(--menta)}
+body.luz .hero-luz .neon{animation:enciende 1.6s steps(1,end) .15s both}
+.hero-luz .sub{margin:6px 0 0;font-size:clamp(20px,2.6vw,32px);font-weight:700;letter-spacing:-.01em}
+.consejo{
+  display:inline-block;margin:26px 0 0;padding:12px 22px;max-width:30em;border-radius:22px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);
+  font-size:clamp(15px,1.4vw,18px);color:#e6e0f5;
+}
+.baja{
+  display:grid;place-items:center;width:48px;height:48px;margin:34px auto 0;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.35);color:#fff;text-decoration:none;font-size:20px;
+  animation:rebota 2s ease-in-out infinite;
+}
 
-/* las fotos que pasan como en un telón */
-.tiras{margin:clamp(34px,5vw,64px) -5vw 0;display:grid;gap:14px}
-.tira{
-  overflow:hidden;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
-          mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+/* ============================================================
+   LA PARED: cuerdas de luces con fotos colgadas
+============================================================ */
+.pared{padding:20px 0 30px}
+.pared-cab{
+  margin:0 0 6px;text-align:center;
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
 }
-.tira-pista{display:flex;width:max-content;animation:corre var(--dur,60s) linear infinite}
-.tira.inversa .tira-pista{animation-direction:reverse}
-.tira:hover .tira-pista{animation-play-state:paused}
-.tira-foto{
-  --r:0deg;--h:clamp(110px,17vw,182px);
-  flex:none;height:var(--h);margin:6px 14px 6px 0;padding:6px;border:0;border-radius:6px;
-  background:#fff;rotate:var(--r);cursor:pointer;
-  box-shadow:3px 4px 0 var(--tinta);
+.cuerda{position:relative;padding-bottom:calc(var(--sag,78px) + 54px)}
+.hilo{position:absolute;left:0;top:0;pointer-events:none;overflow:visible}
+.hilo path{fill:none;stroke:rgba(255,255,255,.26);stroke-width:1.8;transition:stroke 1s ease .3s}
+.cuerda.enc .hilo path{stroke:rgba(255,222,160,.55)}
+.bombillas{position:absolute;left:0;top:0;width:100%;height:0;pointer-events:none}
+.bombilla{
+  --c:#ffd27a;
+  position:absolute;width:12px;height:17px;translate:-50% -2px;border-radius:50% 50% 46% 46%;
+  background:#3b3457;
+  transition:background .6s ease var(--d0,0s),box-shadow .6s ease var(--d0,0s);
+}
+.bombilla::before{content:"";position:absolute;left:50%;top:-5px;translate:-50% 0;width:6px;height:6px;border-radius:1px;background:#2a2544}
+.cuerda.enc .bombilla{
+  background:var(--c);
+  box-shadow:0 0 8px 2px var(--c),0 0 26px 9px rgba(255,200,110,.42);
+  animation:titila 2.6s ease-in-out infinite alternate;animation-delay:var(--tl,0s);
+}
+@supports (color:color-mix(in srgb,red,blue)){
+  .cuerda.enc .bombilla{box-shadow:0 0 8px 2px var(--c),0 0 26px 9px color-mix(in srgb,var(--c) 45%,transparent)}
+}
+.bombilla:nth-child(4n+2){--c:#ff9cc6}
+.bombilla:nth-child(4n+3){--c:#ffe6a8}
+.bombilla:nth-child(4n){--c:#9cc4ff}
+
+.colgados{position:relative;display:flex;justify-content:space-around;align-items:flex-start;padding:0 1vw}
+
+/* cada foto, colgada de una pinza */
+.colgado{
+  --r:0deg;--amp:10;
+  position:relative;flex:none;width:var(--w,160px);padding:0;border:0;background:none;color:inherit;text-align:left;cursor:pointer;
+  translate:0 var(--y,30px);transform-origin:50% 0;rotate:var(--r);z-index:2;
+  filter:brightness(.15) saturate(.35);
+  transition:filter 1.3s ease calc(var(--d0,0s) + var(--dx,0s));
+  -webkit-tap-highlight-color:transparent;
   -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
 }
-.tira-foto img{height:100%;width:auto;aspect-ratio:4/3;border-radius:3px;background:#ddd5c5}
+.cuerda.enc .colgado{filter:none}
+.colgado.golpe{animation:golpe 1.9s ease-out}
+.cuelga{display:block;transform-origin:50% 0;animation:mece var(--s,5.4s) ease-in-out infinite;animation-delay:var(--s0,0s)}
+.pinza{
+  position:absolute;left:50%;top:-16px;translate:-50% 0;z-index:3;width:15px;height:36px;border-radius:3px 3px 5px 5px;
+  background:linear-gradient(90deg,#d9a866,#f0c98a 45%,#c48a4a);box-shadow:0 3px 5px rgba(0,0,0,.45);
+}
+.pinza::after{content:"";position:absolute;left:0;right:0;top:15px;height:2px;background:rgba(0,0,0,.35)}
+.polaroid-c{
+  display:block;padding:8px 8px 10px;background:var(--papel);color:var(--tinta);border-radius:3px;
+  box-shadow:0 14px 26px -12px rgba(0,0,0,.85);
+  transition:translate .3s ease;
+}
+.colgado:hover .polaroid-c,.colgado:focus-visible .polaroid-c{translate:0 -4px}
+.polaroid-c img{width:100%;height:auto;aspect-ratio:4/3;background:#ddd5c5;-webkit-user-drag:none}
+.polaroid-c .pie{display:flex;justify-content:space-between;align-items:baseline;gap:6px;margin-top:6px}
+.polaroid-c .pie b{font-family:var(--caveat);font-weight:700;font-size:clamp(21px,2vw,27px);line-height:1;overflow-wrap:anywhere}
+.polaroid-c .pie small{flex:none;font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:#7a7390;white-space:nowrap}
 
-/* banda inclinada */
-.banda{
-  overflow:hidden;background:var(--tinta);color:var(--sol);
-  rotate:-1.4deg;margin:clamp(24px,4vw,52px) -3vw 0;padding:12px 0 8px;
-  font-family:var(--anton);font-size:clamp(22px,3.2vw,40px);letter-spacing:.02em;text-transform:uppercase;white-space:nowrap;
-}
-.banda-pista{display:flex;width:max-content;animation:corre 46s linear infinite}
-.banda-pista span{display:block;padding-right:0}
-
-/* ============================================================
-   EL CARTEL
-============================================================ */
-.cartel{padding-top:clamp(70px,9vw,130px)}
-.cartel-cab{max-width:1400px;margin:0 auto;padding:0 5vw}
-.cartel-cab h2{
-  margin:0;font-family:var(--anton);font-weight:400;text-transform:uppercase;
-  font-size:clamp(54px,10.4vw,168px);line-height:.88;
-}
-.cartel-cab p{margin:16px 0 0;max-width:28em;font-size:clamp(18px,1.8vw,23px);color:#3a3345}
-.dias{margin-top:clamp(30px,5vw,60px);border-top:4px solid var(--tinta)}
-.dia{
-  padding:clamp(28px,4.4vw,64px) 5vw;border-bottom:4px solid var(--tinta);
-  opacity:0;translate:0 34px;transition:opacity .7s ease,translate .7s cubic-bezier(.2,.8,.2,1);
-}
-.dia.in{opacity:1;translate:0 0}
-.dia:nth-child(4n+2){background:var(--sol)}
-.dia:nth-child(4n+3){background:var(--rosa-c)}
-.dia:nth-child(4n+4){background:var(--azul-c)}
-.dia-interior{max-width:1400px;margin:0 auto}
-.dia-cab{display:flex;flex-wrap:wrap;align-items:center;gap:6px 22px}
-.dia-cab h3{
-  margin:0;font-family:var(--anton);font-weight:400;text-transform:uppercase;
-  font-size:clamp(46px,9vw,150px);line-height:.92;
-  color:transparent;-webkit-text-stroke:2px var(--tinta);
-}
-.escenario{
-  padding:7px 15px;border-radius:999px;background:var(--tinta);color:#fff;
-  font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;
-}
-.lineup{
-  margin:clamp(16px,2.2vw,30px) 0 0;
-  font-family:var(--anton);text-transform:uppercase;
-  font-size:clamp(34px,7.4vw,116px);line-height:1.04;letter-spacing:.005em;
-}
-.artista{
-  display:inline-block;max-width:100%;padding:0 .05em;border:0;background:none;
-  font:inherit;color:inherit;text-transform:inherit;letter-spacing:inherit;cursor:pointer;text-align:left;
-  -webkit-tap-highlight-color:transparent;
-}
-.artista sup{font-family:var(--mono);font-size:.2em;vertical-align:top;margin-left:.14em;letter-spacing:.04em;position:relative;top:.5em}
-.artista:hover,.artista:focus-visible{background:var(--tinta);color:var(--sol)}
-.sep{display:inline-block;margin:0 .16em;color:var(--rosa);font-size:.55em;vertical-align:.22em}
-.dia:nth-child(4n+3) .sep{color:var(--azul)}
-.dia:nth-child(4n+2) .sep{color:var(--rosa)}
 .vacio{
-  max-width:560px;margin:0 5vw;padding:26px;
-  background:#fff;border:2.5px solid var(--tinta);border-radius:16px;box-shadow:5px 5px 0 var(--tinta);
+  max-width:560px;margin:30px auto;padding:28px;border-radius:20px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
   font-size:19px;color:var(--muted);
 }
-.vacio strong{display:block;margin-bottom:6px;font-family:var(--anton);font-weight:400;text-transform:uppercase;font-size:32px;color:var(--tinta)}
-
-/* las fotos de cada mes, como polaroids pegadas al cartel */
-.fotos-mes{
-  display:grid;align-items:start;
-  grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));
-  gap:30px 18px;margin-top:clamp(26px,3.6vw,48px);padding-top:8px;
-}
-.polaroid{
-  --r:0deg;
-  position:relative;display:block;width:100%;padding:9px 9px 12px;border:0;background:#fff;
-  text-align:left;color:inherit;cursor:pointer;rotate:var(--r);
-  box-shadow:4px 5px 0 var(--tinta);
-  transition:rotate .25s ease,translate .25s ease,box-shadow .25s ease;
-  -webkit-tap-highlight-color:transparent;
-}
-.polaroid::before{
-  content:"";position:absolute;left:50%;top:-11px;translate:-50% 0;rotate:-3deg;
-  width:62px;height:20px;background:rgba(255,255,255,.62);border:1px solid rgba(22,19,32,.12);
-}
-.polaroid:hover,.polaroid:focus-visible{rotate:0deg;translate:0 -6px;box-shadow:6px 10px 0 var(--tinta)}
-.polaroid img{width:100%;height:auto;aspect-ratio:4/3;background:#ddd5c5}
-.polaroid .pie{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:8px}
-.polaroid .pie b{font-family:var(--mano);font-weight:400;font-size:clamp(28px,2.4vw,34px);line-height:.95;overflow-wrap:anywhere}
-.polaroid .pie small{flex:none;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);white-space:nowrap}
-@media (min-width:640px){
-  .fotos-mes{grid-template-columns:repeat(auto-fill,minmax(min(100%,228px),1fr));gap:38px 30px}
-}
-
-/* ============================================================
-   LA PULSERA
-============================================================ */
-.pulsera{
-  margin-top:clamp(70px,9vw,130px);padding:clamp(50px,7vw,100px) 5vw;
-  background:var(--azul);color:#fff;border-top:4px solid var(--tinta);border-bottom:4px solid var(--tinta);
-}
-.pulsera-interior{
-  max-width:1400px;margin:0 auto;display:grid;gap:clamp(30px,5vw,70px);
-  grid-template-columns:1fr;align-items:center;
-}
-.pulsera h2{
-  margin:0;font-family:var(--anton);font-weight:400;text-transform:uppercase;
-  font-size:clamp(46px,8vw,130px);line-height:.92;color:var(--sol);
-}
-.pulsera p{margin:18px 0 0;max-width:26em;font-size:clamp(18px,1.8vw,23px);line-height:1.4}
-.form-pulsera{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
-.form-pulsera input{
-  flex:1 1 200px;min-width:0;padding:15px 20px;border:2.5px solid var(--tinta);border-radius:999px;
-  background:#fff;color:var(--tinta);font-weight:700;outline:none;box-shadow:4px 4px 0 var(--tinta);
-}
-.form-pulsera input::placeholder{color:#8f879a;font-weight:500}
-.acciones{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
-.acciones[hidden]{display:none}
-.vista-entrada{justify-self:center;width:min(100%,400px)}
-.vista-entrada canvas{
-  display:block;width:100%;height:auto;rotate:2deg;background:var(--papel);
-  box-shadow:8px 10px 0 var(--tinta);border:3px solid var(--tinta);
-}
+.vacio strong{display:block;margin-bottom:6px;font-family:var(--display);font-weight:800;font-size:28px;letter-spacing:-.03em;color:#fff}
 
 /* ============================================================
    FINAL
 ============================================================ */
 .final{
-  padding:clamp(80px,11vw,150px) 6vw clamp(90px,11vw,140px);
-  background:var(--tinta);color:#fff;text-align:center;
+  text-align:center;padding:clamp(80px,11vw,150px) 6vw clamp(90px,11vw,140px);
+  background:radial-gradient(90vmax 50vmax at 50% 110%,rgba(255,190,90,.2),transparent 65%);
 }
-.agotado{
-  display:inline-block;padding:8px 20px;border:4px solid var(--rosa);border-radius:8px;color:var(--rosa);
-  font-family:var(--anton);font-size:clamp(22px,3vw,38px);letter-spacing:.08em;text-transform:uppercase;
-  rotate:-6deg;margin-bottom:26px;
-}
-.final h2{
+.neon2{
   margin:0 auto;max-width:9em;
-  font-family:var(--anton);font-weight:400;text-transform:uppercase;
-  font-size:clamp(56px,11vw,180px);line-height:.9;color:var(--sol);
-  text-shadow:.03em .03em 0 var(--rosa);
+  font-family:var(--neon);font-weight:400;font-size:clamp(56px,11.5vw,170px);line-height:1;color:#fff;
+  text-shadow:0 0 6px #fff,0 0 16px var(--luz),0 0 38px var(--luz),0 0 76px #ff9f3f,0 0 120px #ff9f3f;
+  opacity:.4;transition:opacity 1.4s ease;
 }
-.final-texto{margin:32px auto 0;max-width:27em;font-size:clamp(19px,2vw,26px);line-height:1.42;color:#e9e3f2}
-.final-mano{margin:26px 0 0;font-family:var(--mano);font-size:clamp(36px,4.6vw,64px);line-height:1;color:var(--rosa)}
-.final-firma{margin:22px 0 0;font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:#a59cb6}
-.final .btn{margin-top:32px}
+body.luz .neon2{opacity:1}
+.final-texto{margin:34px auto 0;max-width:28em;font-size:clamp(19px,2vw,26px);line-height:1.45;color:#e3dcf3}
+.final-firma{margin:22px 0 0;font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--muted)}
+.final-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:34px}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;padding:15px 28px;border:0;border-radius:999px;
+  background:var(--luz);color:#2a1f00;font-weight:800;font-size:17px;text-decoration:none;cursor:pointer;
+  box-shadow:0 0 26px rgba(255,210,122,.4);
+  transition:scale .2s ease,background .2s ease;
+}
+.btn:hover{background:#ffe2a3}
+.btn:active{scale:.97}
+.btn-fantasma{background:rgba(255,255,255,.08);color:#fff;border:1.5px solid rgba(255,255,255,.3);box-shadow:none}
+.btn-fantasma:hover{background:rgba(255,255,255,.18)}
 
 /* ============================================================
-   FICHA DEL ARTISTA (modal)
+   LA FOTO DESCOLGADA (modal con giro)
 ============================================================ */
 .modal{
-  position:fixed;inset:0;z-index:200;display:none;align-items:flex-end;justify-content:center;
-  background:rgba(22,19,32,.72);
-  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  position:fixed;inset:0;z-index:200;display:none;overflow-y:auto;overscroll-behavior:contain;
+  background:rgba(6,4,16,.86);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
 }
-.modal.activo{display:flex;animation:velo .25s ease}
-.modal-caja{
-  position:relative;width:min(1100px,100%);max-height:96vh;max-height:96svh;overflow-y:auto;overscroll-behavior:contain;
-  background:var(--papel);border:4px solid var(--tinta);border-bottom:0;border-radius:22px 22px 0 0;
+.modal.activo{display:block;animation:velo .25s ease}
+.escenario{
+  min-height:100%;display:flex;align-items:center;justify-content:center;
+  padding:72px 14px 26px;
 }
-.modal.activo .modal-caja{animation:sube .4s cubic-bezier(.2,.8,.3,1)}
-.modal-barra{
-  position:sticky;top:0;z-index:6;display:flex;justify-content:flex-end;gap:8px;
-  padding:12px 12px 0;height:0;overflow:visible;
-}
+.controles{position:fixed;top:12px;left:12px;right:12px;z-index:210;display:flex;justify-content:flex-end;gap:8px;pointer-events:none}
 .icono{
-  width:46px;height:46px;display:grid;place-items:center;flex:none;
-  background:#fff;border:2.5px solid var(--tinta);border-radius:50%;
-  font-size:19px;font-weight:800;cursor:pointer;box-shadow:2px 3px 0 var(--tinta);
+  pointer-events:auto;width:46px;height:46px;display:grid;place-items:center;flex:none;
+  background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);border-radius:50%;
+  color:#fff;font-size:19px;font-weight:700;cursor:pointer;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   transition:background .2s ease;
 }
-.icono:hover{background:var(--sol)}
-.modal-grid{display:grid;grid-template-columns:1fr}
+.icono:hover{background:rgba(255,255,255,.28)}
 
-.lado{
-  position:relative;isolation:isolate;overflow:hidden;
-  background:var(--rosa-c);padding:64px 22px 34px;text-align:center;
+.carta{
+  position:relative;width:min(94vw,480px);height:min(78vh,720px);height:min(78svh,720px);
 }
-.lado::before{
-  content:"";position:absolute;z-index:-1;inset:0;
-  background-image:radial-gradient(circle,rgba(255,77,141,.85) 30%,transparent 33%);background-size:16px 16px;
-  -webkit-mask-image:linear-gradient(to bottom,transparent 30%,#000);mask-image:linear-gradient(to bottom,transparent 30%,#000);
+.modal.activo .carta{animation:sube .5s cubic-bezier(.2,.8,.3,1)}
+.cara{
+  position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;
+  border-radius:6px;box-shadow:0 40px 80px -20px rgba(0,0,0,.9);
 }
-/* la foto, siempre entera */
-.lado-foto{
-  position:relative;display:inline-block;max-width:100%;
-  background:#fff;padding:12px 12px 14px;rotate:-2deg;box-shadow:6px 8px 0 var(--tinta);
-}
-.lado-foto::before{
-  content:"";position:absolute;left:50%;top:-14px;translate:-50% 0;rotate:3deg;
-  width:96px;height:28px;background:rgba(255,217,59,.85);
-}
-.lado-foto img{
-  display:block;width:auto;height:auto;max-width:100%;max-height:min(50vh,460px);
-  cursor:zoom-in;background:#ddd5c5;
-}
-.lado-nombre{
-  margin:32px 0 12px;font-family:var(--anton);font-weight:400;text-transform:uppercase;
-  font-size:clamp(50px,7vw,90px);line-height:.92;overflow-wrap:anywhere;
-  text-shadow:.03em .03em 0 var(--azul-c);
-}
-.lado-datos{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
-.lado-datos span{
-  padding:5px 13px;border:2px solid var(--tinta);border-radius:999px;background:#fff;
-  font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;font-weight:500;
-}
-.lado-datos span.esc{background:var(--tinta);color:#fff}
+.cara[hidden]{display:none}
 
-.principal{padding:30px 22px 44px}
-.principal-cab{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
-.principal-cab h3{
-  margin:0;font-family:var(--anton);font-weight:400;text-transform:uppercase;
-  font-size:clamp(34px,4vw,46px);line-height:1;
+/* frente: la foto, entera, en su marco de polaroid */
+.cara.frente{overflow:visible;background:var(--papel);color:var(--tinta);padding:16px 16px 0}
+.frente::before{
+  content:"";position:absolute;left:50%;top:-10px;translate:-50% 0;rotate:-2deg;
+  width:110px;height:28px;background:rgba(255,210,122,.75);z-index:2;
 }
-.principal-cab span{
-  min-width:34px;text-align:center;background:var(--tinta);color:#fff;
-  border-radius:999px;padding:3px 12px;font-family:var(--mono);font-weight:500;font-size:14px;
+.frente-foto{position:relative;flex:1;min-height:0;background:var(--papel)}
+.frente-foto img{
+  position:absolute;inset:0;margin:auto;
+  max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
+  cursor:zoom-in;background:#ddd5c5;box-shadow:0 0 0 1px rgba(0,0,0,.1);
 }
-.postits{display:grid;gap:22px}
-.postit{
-  --c:#ffe36b;--r:-1.2deg;
-  position:relative;background:var(--c);rotate:var(--r);
-  padding:22px 20px 10px;box-shadow:4px 5px 0 rgba(22,19,32,.85);
+.frente-pie{flex:none;padding:12px 4px 0;text-align:center}
+.frente-pie h2{margin:0;font-family:var(--caveat);font-weight:700;font-size:clamp(40px,9vw,54px);line-height:.95;overflow-wrap:anywhere}
+.frente-pie p{margin:4px 0 0;font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;color:#7a7390}
+.girar{
+  flex:none;margin:12px -16px 0;padding:15px 18px;border:0;border-top:1.5px dashed rgba(27,22,48,.25);
+  background:var(--papel);color:var(--tinta);font-weight:800;font-size:16px;cursor:pointer;border-radius:0 0 6px 6px;
 }
-.postit:nth-child(4n+2){--c:#ffa6c4;--r:1.4deg}
-.postit:nth-child(4n+3){--c:#c2cbff;--r:-.8deg}
-.postit:nth-child(4n+4){--c:#a8f0d8;--r:1deg}
-.postit::before{
-  content:"";position:absolute;left:50%;top:-9px;translate:-50% 0;rotate:-2deg;
-  width:70px;height:20px;background:rgba(255,255,255,.55);
-}
-.postit.nueva{animation:sube .5s cubic-bezier(.2,.8,.3,1)}
-.postit p{margin:0;font-size:18px;line-height:1.4;overflow-wrap:anywhere}
-.postit .autor{margin:4px 0 0;text-align:right;font-family:var(--mano);font-size:34px;line-height:1}
-.estado{padding:8px 0;color:var(--muted);font-weight:600;font-size:18px;margin:0}
+.girar:hover{background:#f3ecd9}
+.girar small{font-weight:600;opacity:.65}
 
-.boton-mensaje{margin-top:30px}
-.boton-mensaje[hidden]{display:none}
-.formulario{
-  margin-top:28px;padding:22px;background:#fff;
-  border:2.5px solid var(--tinta);border-radius:16px;box-shadow:5px 5px 0 var(--tinta);
+/* dorso: papel con lo que se ha escrito a mano */
+.dorso{
+  color:#2b2440;
+  background:
+    radial-gradient(circle at 18% 14%,rgba(150,110,50,.16),transparent 38%),
+    radial-gradient(circle at 88% 88%,rgba(150,110,50,.15),transparent 42%),
+    var(--papel2);
 }
-.formulario[hidden]{display:none}
-.formulario h4{margin:0 0 16px;font-family:var(--anton);font-weight:400;text-transform:uppercase;font-size:30px;line-height:1}
-.formulario label{display:block;margin-bottom:14px}
-.formulario label span{display:block;margin-bottom:6px;font-weight:700;font-size:15px}
-.formulario input[type=text],.formulario textarea{
-  width:100%;background:var(--papel);
-  border:2.5px solid var(--tinta);border-radius:10px;padding:12px 14px;font-weight:600;
+.dorso-cab{
+  flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px 8px;
 }
-.formulario textarea{min-height:110px;resize:vertical;line-height:1.4}
-.formulario input:focus,.formulario textarea:focus{outline:none;background:#fff;box-shadow:0 0 0 4px rgba(43,75,255,.25)}
+.dorso-cab h3{margin:0;font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.03em}
+.dorso-cab .sello{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(43,36,64,.5);text-align:right;line-height:1.3}
+.cuenta{display:inline-block;margin-left:8px;padding:1px 10px;border-radius:999px;background:#2b2440;color:#fff;font-family:var(--mono);font-size:13px;font-weight:500;vertical-align:2px;letter-spacing:0}
+.dorso-lista{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:6px 20px 14px;display:flex;flex-direction:column;gap:14px}
+.nota{
+  --pluma:#1d4ed8;
+  color:var(--pluma);line-height:1.12;
+}
+.nota p{margin:0;overflow-wrap:anywhere}
+.nota .firma{margin-top:2px;text-align:right;font-size:1.18em}
+.nota.nueva{animation:sube .5s cubic-bezier(.2,.8,.3,1)}
+.estado{margin:auto;padding:0 10px;text-align:center;font-family:var(--caveat);font-size:28px;line-height:1.1;color:rgba(43,36,64,.6)}
+
+.dorso-form{flex:none;padding:10px 16px 0;border-top:1.5px dashed rgba(43,36,64,.28)}
+.dorso-form input[type=text],.dorso-form textarea{
+  width:100%;display:block;padding:6px 4px;border:0;border-bottom:1.5px solid rgba(43,36,64,.4);
+  background:transparent;outline:none;color:#1d4ed8;font-family:var(--caveat);font-size:26px;line-height:1.05;
+}
+.dorso-form textarea{min-height:64px;max-height:110px;resize:none;margin-top:4px}
+.dorso-form input::placeholder,.dorso-form textarea::placeholder{color:rgba(43,36,64,.45)}
+.dorso-form input:focus,.dorso-form textarea:focus{border-bottom-color:#e0287d}
 .trampa{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-.formulario-pie{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.contador{font-family:var(--mono);font-size:13px;color:var(--muted)}
-.botones{display:flex;gap:10px;flex-wrap:wrap}
-.botones .btn{padding:11px 22px;font-size:16px}
-.botones button:disabled{opacity:.6;cursor:wait}
-.aviso{margin-top:20px;padding:14px 18px;border:2.5px solid var(--tinta);border-radius:12px;background:var(--menta);font-weight:700}
-.aviso[hidden]{display:none}
-.aviso.error{background:var(--rosa-c)}
-
-@media (min-width:860px){
-  .modal{align-items:center;padding:26px}
-  .modal-caja{max-height:100%;border-bottom:4px solid var(--tinta);border-radius:20px}
-  .modal-grid{grid-template-columns:.92fr 1.08fr}
-  .lado{padding:74px 30px 40px}
-  .principal{padding:72px 40px 44px}
+.form-pie{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0 8px}
+.contador{font-family:var(--mono);font-size:12px;color:rgba(43,36,64,.55)}
+.escribir{
+  padding:10px 20px;border:0;border-radius:999px;background:#2b2440;color:#fff;font-weight:800;font-size:15px;cursor:pointer;
 }
+.escribir:hover{background:#e0287d}
+.escribir:disabled{opacity:.6;cursor:wait}
+.aviso{margin:0 0 8px;padding:8px 14px;border-radius:10px;background:#d4f6e4;color:#0d5c37;font-weight:700;font-size:14.5px}
+.aviso[hidden]{display:none}
+.aviso.error{background:#ffdcdf;color:#a1132b}
+.girar-atras{
+  flex:none;padding:13px 18px;border:0;border-top:1.5px dashed rgba(43,36,64,.28);
+  background:rgba(255,255,255,.35);color:#2b2440;font-weight:800;font-size:15px;cursor:pointer;
+}
+.girar-atras:hover{background:rgba(255,255,255,.6)}
 
 /* ============================================================
    VISOR DE FOTO
 ============================================================ */
 .visor-foto{
   position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;
-  padding:30px;background:rgba(14,10,22,.95);
+  padding:30px;background:rgba(6,4,16,.96);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);cursor:zoom-out;
 }
 .visor-foto.activo{display:flex;animation:velo .25s ease}
 .visor-foto img{
   max-width:min(94vw,1200px);max-height:90vh;width:auto;height:auto;object-fit:contain;
-  border:6px solid #fff;box-shadow:8px 10px 0 var(--rosa);cursor:default;
+  border:8px solid var(--papel);border-bottom-width:30px;box-shadow:0 30px 80px -25px rgba(0,0,0,.9);cursor:default;
 }
 .visor-cerrar{
   position:absolute;top:22px;right:22px;z-index:2;width:48px;height:48px;display:grid;place-items:center;
-  border:2.5px solid #fff;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:20px;cursor:pointer;
+  border:1.5px solid rgba(255,255,255,.35);border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:20px;cursor:pointer;
 }
-.visor-cerrar:hover{background:var(--rosa)}
+.visor-cerrar:hover{background:rgba(255,255,255,.28)}
 
 /* ============================================================
    MÓVIL
@@ -459,126 +399,82 @@ body::after{
   body{font-size:16px}
   .busca{width:min(52vw,200px);padding:0 12px}
   .hero{padding-left:20px;padding-right:20px}
-  .tiras{margin-left:-20px;margin-right:-20px}
-  .cartel-cab,.dia{padding-left:20px;padding-right:20px}
-  .vacio{margin:0 20px}
-  .pulsera,.final{padding-left:20px;padding-right:20px}
-  .modal-caja{border-radius:18px 18px 0 0}
-  .lado{padding:64px 16px 30px}
-  .principal{padding:26px 16px 40px}
-  .postit p{font-size:17px}
+  .final{padding-left:20px;padding-right:20px}
+  .escenario{padding:68px 10px 20px}
+  .controles{top:10px;left:10px;right:10px}
   .visor-foto{padding:15px}
   .visor-cerrar{top:14px;right:14px;width:44px;height:44px}
+  .polaroid-c{padding:6px 6px 8px}
+  .pinza{width:13px;height:32px;top:-14px}
 }
-@media (min-width:900px){
-  .pulsera-interior{grid-template-columns:1.1fr .9fr}
-}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
-  .dia{opacity:1;translate:0 0}
 }
 </style>
 </head>
 
 <body>
 
+<div class="brillo" aria-hidden="true"></div>
+
 <!-- ================= BARRA FIJA ================= -->
 <div class="barra">
   <label class="busca">
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-    <input id="buscador" type="search" placeholder="Buscar artista" aria-label="Buscar por nombre" autocomplete="off">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="buscador" type="search" placeholder="Buscar a alguien" aria-label="Buscar por nombre" autocomplete="off">
   </label>
 </div>
 
 <!-- ================= PORTADA ================= -->
 <header class="hero" id="top">
-  <div class="sol" aria-hidden="true"></div>
 
-  <div class="hero-interior">
-    <div class="hero-top">
-      <p class="etq">IES El Molinillo · 2º Bach · Curso 2026–27</p>
-      <div class="rueda" aria-hidden="true">
-        <svg class="giro" viewBox="0 0 100 100">
-          <defs><path id="caminoRueda" d="M50,50 m0,-36 a36,36 0 1,1 0,72 a36,36 0 1,1 0,-72"/></defs>
-          <text><textPath href="#caminoRueda" textLength="222" lengthAdjust="spacing">TODOS SON CABEZA DE CARTEL · 2º BACH · 2026–27 · </textPath></text>
-        </svg>
-        <span class="estrella"><svg viewBox="0 0 24 24" fill="#161320"><path d="M12 1.5l2.9 6.9 7.6.6-5.8 4.9 1.8 7.3L12 17.3l-6.5 3.9 1.8-7.3-5.8-4.9 7.6-.6z"/></svg></span>
-      </div>
-    </div>
-
-    <h1 class="titulo">
-      <span class="l1" id="tit1">La última</span>
-      <span class="l2"><span id="tit2">gira</span> <span class="pegata">2º Bach<br>26/27</span></span>
-    </h1>
-
-    <p class="lema">Sin teloneros: aquí todos son cabeza de cartel.</p>
-    <p class="sub">Cada cumpleaños es un concierto de una sola canción. Todos os sabéis la letra, nadie la canta bien y siempre se pide otra.</p>
-
-    <div class="btns">
-      <a class="btn btn-rosa" href="#cartel">Ver el cartel ↓</a>
-      <a class="btn btn-blanco" href="#pulsera">Conseguir mi pulsera</a>
-    </div>
-
-    <div class="pegatinas" aria-hidden="true">
-      <span class="peg">sin filtro</span>
-      <span class="peg">hoy no hay clase</span>
-      <span class="peg">ojos cerrados: mínimo 1</span>
-    </div>
-
-    <div class="tiras" id="tiras" aria-label="Fotos de la gira"></div>
+  <div class="hero-oscuro" id="heroOscuro">
+    <p class="etq">IES El Molinillo · 2º Bach · Curso 2026–27</p>
+    <h1>Está muy oscuro para hacer una foto.</h1>
+    <button class="interruptor" id="interruptor" type="button" aria-pressed="false" aria-label="Encender las luces">
+      <span class="placa" aria-hidden="true">
+        <span class="tornillo t1"></span>
+        <span class="ranura"><span class="palanca"></span></span>
+        <span class="tornillo t2"></span>
+      </span>
+      <span class="int-txt">Toca el interruptor</span>
+    </button>
   </div>
 
-  <div class="banda" aria-hidden="true">
-    <div class="banda-pista">
-      <span>✦ Sin teloneros ✦ Entrada: una porción de tarta ✦ Sonido: el cumpleaños feliz, desafinado ✦ Prohibido irse antes del último bis&nbsp;</span>
-      <span>✦ Sin teloneros ✦ Entrada: una porción de tarta ✦ Sonido: el cumpleaños feliz, desafinado ✦ Prohibido irse antes del último bis&nbsp;</span>
-    </div>
+  <div class="hero-luz" id="heroLuz" aria-hidden="true">
+    <p class="etq">IES El Molinillo · Curso 2026–27</p>
+    <p class="neon" role="heading" aria-level="1">2º Bach</p>
+    <p class="sub">La pared de fotos de la clase.</p>
+    <p class="consejo">Toca una foto para descolgarla. Dale la vuelta: al dorso está lo bueno.</p>
+    <a class="baja" href="#pared" aria-label="Ir a la pared de fotos">↓</a>
   </div>
+
 </header>
 
-<!-- ================= EL CARTEL ================= -->
-<section class="cartel" id="cartel">
-  <div class="cartel-cab">
-    <h2>Cartel completo</h2>
-    <p>Por orden de actuación, con su foto: un cartel sin caras no es un cartel. El número pequeño es el día del concierto.</p>
-  </div>
-  <div class="dias" id="dias"></div>
-</section>
-
-<!-- ================= LA PULSERA ================= -->
-<section class="pulsera" id="pulsera">
-  <div class="pulsera-interior">
-    <div>
-      <h2>Tu pulsera de acceso total.</h2>
-      <p>Escribe tu nombre y llévate tu entrada en imagen. Vale para todos los cumpleaños de la clase. No vale para repetir tarta.</p>
-      <form class="form-pulsera" id="formPulsera" autocomplete="off">
-        <input type="text" id="nombrePulsera" maxlength="22" placeholder="Tu nombre" aria-label="Tu nombre para la entrada" required>
-        <button class="btn btn-sol" type="submit">Generar mi entrada</button>
-      </form>
-      <div class="acciones" id="acciones" hidden>
-        <button class="btn btn-blanco" id="guardarEntrada" type="button">Guardar imagen ↓</button>
-        <button class="btn btn-blanco" id="compartirEntrada" type="button" hidden>Compartir</button>
-      </div>
-    </div>
-    <div class="vista-entrada">
-      <canvas id="lienzo" width="1080" height="1350" aria-label="Tu entrada de La última gira"></canvas>
-    </div>
-  </div>
+<!-- ================= LA PARED ================= -->
+<section class="pared" id="pared">
+  <p class="pared-cab">Por orden de cumpleaños</p>
+  <div id="cuerdas"></div>
 </section>
 
 <!-- ================= FINAL ================= -->
 <section class="final">
-  <span class="agotado">Fin de gira</span>
-  <h2>Gracias por la gira.</h2>
+  <p class="neon2">Que no se apaguen las luces.</p>
   <p class="final-texto">
-    Dentro de un año cada uno tocará en un escenario distinto, pero el cartel seguirá
-    siendo este. Y de todos los conciertos, los mejores son los cumpleaños: sin focos,
-    sin entradas y con una tarta cortada fatal.
+    Dentro de un año cada uno tendrá su propia pared de fotos, en su propia habitación,
+    en su propia ciudad. Pero esta seguirá encendida. Así que cuídala: sin fundir bombillas,
+    sin enredar los cables y sin apagar hasta que se vaya el último.
   </p>
-  <p class="final-mano">Que os dure la gira, aunque cambie el escenario.</p>
   <p class="final-firma">IES El Molinillo · 2º Bach · curso 2026–27</p>
-  <a class="btn btn-sol" href="#top">Volver al principio ↑</a>
+  <div class="final-btns">
+    <a class="btn" href="#top">Volver arriba ↑</a>
+    <button class="btn btn-fantasma" id="apagar" type="button">Apagar las luces</button>
+  </div>
 </section>
+
+<button class="pill-luz" id="pillLuz" type="button" hidden>Encender las luces</button>
+<div class="toast" id="toast" role="status"></div>
 
 <!-- ================= VISOR DE FOTO ================= -->
 <div class="visor-foto" id="visorFoto" aria-hidden="true">
@@ -586,59 +482,50 @@ body::after{
   <img id="visorImagen" src="" alt="">
 </div>
 
-<!-- ================= FICHA DEL ARTISTA ================= -->
+<!-- ================= LA FOTO DESCOLGADA ================= -->
 <div class="modal" id="modal" aria-hidden="true">
-  <div class="modal-caja" id="modalCaja" role="dialog" aria-modal="true" aria-labelledby="mNombre">
+  <div class="controles">
+    <button class="icono" id="anterior" aria-label="Foto anterior">←</button>
+    <button class="icono" id="siguiente" aria-label="Foto siguiente">→</button>
+    <button class="icono" id="cerrar" aria-label="Cerrar">✕</button>
+  </div>
 
-    <div class="modal-barra">
-      <button class="icono" id="anterior" aria-label="Artista anterior">←</button>
-      <button class="icono" id="siguiente" aria-label="Artista siguiente">→</button>
-      <button class="icono" id="cerrar" aria-label="Cerrar">✕</button>
-    </div>
+  <div class="escenario" id="escenario">
+    <div class="carta" id="carta" role="dialog" aria-modal="true" aria-labelledby="mNombre">
 
-    <div class="modal-grid">
-      <aside class="lado">
-        <div class="lado-foto"><img id="mImg" src="" alt=""></div>
-        <h2 class="lado-nombre" id="mNombre"></h2>
-        <div class="lado-datos">
-          <span class="esc" id="mEscenario"></span>
-          <span id="mFecha"></span>
-          <span id="mEdad"></span>
+      <!-- frente -->
+      <section class="cara frente" id="frente">
+        <div class="frente-foto"><img id="mImg" src="" alt=""></div>
+        <div class="frente-pie">
+          <h2 id="mNombre"></h2>
+          <p><span id="mFecha"></span> · <span id="mEdad"></span></p>
         </div>
-      </aside>
+        <button class="girar" id="girar" type="button">Dale la vuelta ↻ <small>al dorso está lo bueno</small></button>
+      </section>
 
-      <section class="principal">
-        <div class="principal-cab">
-          <h3>Desde el público</h3>
-          <span id="mCuenta">0</span>
+      <!-- dorso -->
+      <section class="cara dorso" id="dorso" hidden>
+        <div class="dorso-cab">
+          <h3>Al dorso <span class="cuenta" id="mCuenta">0</span></h3>
+          <span class="sello">Revelado en 2º Bach<br>No doblar</span>
         </div>
 
-        <div class="postits" id="mMensajes"></div>
+        <div class="dorso-lista" id="mMensajes"></div>
 
-        <button class="btn btn-rosa boton-mensaje" id="botonMensaje" type="button">Gritar algo</button>
-
-        <form class="formulario" id="formulario" hidden>
-          <h4>Grita desde las primeras filas</h4>
-          <label>
-            <span>Tu nombre</span>
-            <input type="text" id="autorMensaje" maxlength="40" autocomplete="name" required>
-          </label>
-          <label>
-            <span>Tu mensaje</span>
-            <textarea id="textoMensaje" maxlength="300" required></textarea>
-          </label>
+        <form class="dorso-form" id="formulario" autocomplete="off">
+          <input type="text" id="autorMensaje" maxlength="40" placeholder="Tu firma" autocomplete="name" required>
+          <textarea id="textoMensaje" maxlength="300" placeholder="Escribe en el dorso…" required></textarea>
           <input class="trampa" type="text" id="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <div class="formulario-pie">
+          <div class="form-pie">
             <span class="contador" id="contadorTexto">0 / 300</span>
-            <div class="botones">
-              <button type="button" class="btn btn-blanco" id="cancelarMensaje">Cancelar</button>
-              <button type="submit" class="btn btn-sol" id="enviarMensaje">Enviar mensaje</button>
-            </div>
+            <button class="escribir" id="enviarMensaje" type="submit">Escribir</button>
           </div>
+          <div class="aviso" id="aviso" role="status" hidden></div>
         </form>
 
-        <div class="aviso" id="aviso" role="status" hidden></div>
+        <button class="girar-atras" id="girarAtras" type="button">↻ Volver a la foto</button>
       </section>
+
     </div>
   </div>
 </div>
@@ -654,16 +541,19 @@ const URL_MENSAJES =
 const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto",
                "septiembre","octubre","noviembre","diciembre"];
 
-/* el nombre del festival: se cambia aquí y se actualiza la portada y la entrada */
-const GIRA = { l1: "La última", l2: "gira" };
+/* cada persona escribe con su propio bolígrafo y su propia letra */
+const LETRAS = [
+  { f: "'Caveat', cursive",                 s: 1.0  },
+  { f: "'Reenie Beanie', cursive",          s: 1.2  },
+  { f: "'Shadows Into Light Two', cursive", s: 0.86 },
+  { f: "'Nanum Pen Script', cursive",       s: 1.12 },
+  { f: "'Covered By Your Grace', cursive",  s: 0.92 }
+];
+const BOLIS = ["#1d4ed8", "#1f2937", "#b91c1c", "#6d28d9", "#047857", "#be185d"];
 
-/* cada estación tiene su escenario */
-function escenarioDe(m) {
-  if (m >= 8 && m <= 10) return "Escenario Tarta";        // otoño
-  if (m === 11 || m <= 1) return "Escenario Bufanda";     // invierno
-  if (m >= 2 && m <= 4)  return "Escenario Alergia";      // primavera
-  return "Escenario Ventilador";                          // verano
-}
+/* geometría de las cuerdas */
+const EXT = 28;     // altura de la cuerda en los extremos
+const SAG = 78;     // cuánto cuelga por el centro
 
 /* ============================================================
    UTILIDADES
@@ -680,10 +570,28 @@ function hoy() {
   return dos(d.getDate()) + "/" + dos(d.getMonth() + 1) + "/" + d.getFullYear();
 }
 
+function hash(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return h >>> 0;
+}
+/* la letra, el color y la inclinación de cada firma salen de su nombre */
+function pluma(nombre) {
+  const h = hash(norm(nombre || "alguien"));
+  const l = LETRAS[h % LETRAS.length];
+  return {
+    fuente: l.f,
+    tam: Math.round(27 * l.s),
+    color: BOLIS[(h >> 3) % BOLIS.length],
+    rot: (((h >> 6) % 5) - 2) * 0.7,
+    sangria: (h >> 9) % 9
+  };
+}
+
 /* avatar de emergencia si una foto no carga */
 function avatar(nombre) {
   const ini = esc((nombre || "?").trim().charAt(0).toUpperCase());
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><rect width="200" height="150" fill="#ddd5c5"/><text x="100" y="98" font-family="Arial" font-weight="800" font-size="80" text-anchor="middle" fill="#161320">${ini}</text></svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><rect width="200" height="150" fill="#ddd5c5"/><text x="100" y="98" font-family="Arial" font-weight="800" font-size="80" text-anchor="middle" fill="#1b1630">${ini}</text></svg>`;
   return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
 }
 function conFallback(img, nombre) {
@@ -735,7 +643,6 @@ function diaCurso(f) {
   const y = f.m >= 8 ? ANIO0 : ANIO0 + 1;
   return (Date.UTC(y, f.m, f.d) - INICIO) / 864e5;
 }
-function anioDe(f) { return f.m >= 8 ? ANIO0 : ANIO0 + 1; }
 function fechaBonita(p) {
   const f = parseFecha(p.fecha);
   return f ? `${f.d} de ${MESES[f.m]}` : String(p.fecha || "");
@@ -751,6 +658,8 @@ function fechaMini(p) {
 let fotos = [];
 let ordenIdx = [];
 let actual = -1;
+let luzOn = false;
+let broma = false;                 // mientras dura la broma de "apagar las luces"
 const cache = new Map();
 
 function construirOrden() {
@@ -764,157 +673,302 @@ function construirOrden() {
 }
 
 /* ============================================================
-   LAS FOTOS QUE PASAN (dos telones en sentidos contrarios)
+   SONIDO DEL INTERRUPTOR (un clic corto, sin archivos)
 ============================================================ */
-function pintarTiras() {
-  const cont = $("tiras");
-  cont.innerHTML = "";
-  if (!ordenIdx.length) { cont.hidden = true; return; }
-  cont.hidden = false;
+let audio;
+function clic(alto = true) {
+  try {
+    audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+    if (audio.state === "suspended") audio.resume();
+    const t = audio.currentTime;
 
-  let base = ordenIdx.slice();
-  while (base.length < 10) base = base.concat(ordenIdx);      // si hay pocas, se repiten
+    const buf = audio.createBuffer(1, Math.floor(audio.sampleRate * 0.05), audio.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 3);
+    const src = audio.createBufferSource(); src.buffer = buf;
+    const f = audio.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = alto ? 2600 : 1800; f.Q.value = 0.9;
+    const g = audio.createGain(); g.gain.value = 0.45;
+    src.connect(f); f.connect(g); g.connect(audio.destination); src.start(t);
 
-  const filas = [
-    { lista: base, inversa: false },
-    { lista: base.slice().reverse().slice(Math.floor(base.length / 3)).concat(base.slice().reverse().slice(0, Math.floor(base.length / 3))), inversa: true }
-  ];
-
-  filas.forEach(fila => {
-    const tira = document.createElement("div");
-    tira.className = "tira" + (fila.inversa ? " inversa" : "");
-    const pista = document.createElement("div");
-    pista.className = "tira-pista";
-    pista.style.setProperty("--dur", Math.max(36, fila.lista.length * 4.2) + "s");
-
-    [0, 1].forEach(copia => {
-      fila.lista.forEach((i, k) => {
-        const p = fotos[i];
-        const b = document.createElement("button");
-        b.type = "button";
-        b.className = "tira-foto";
-        b.style.setProperty("--r", (((k * 7) % 5) - 2) * 0.8 + "deg");
-        b.setAttribute("aria-label", `Abrir el concierto de ${p.nombre}`);
-        if (copia === 1) { b.setAttribute("aria-hidden", "true"); b.tabIndex = -1; }
-        const img = document.createElement("img");
-        img.src = p.foto;
-        img.alt = "";
-        img.loading = "lazy";
-        img.draggable = false;
-        conFallback(img, p.nombre);
-        fijarProporcion(img);
-        b.appendChild(img);
-        b.addEventListener("click", () => abrirModal(i));
-        pista.appendChild(b);
-      });
-    });
-
-    tira.appendChild(pista);
-    cont.appendChild(tira);
-  });
+    const o = audio.createOscillator(), g2 = audio.createGain();
+    o.type = "sine";
+    o.frequency.setValueAtTime(alto ? 190 : 130, t);
+    o.frequency.exponentialRampToValueAtTime(60, t + 0.08);
+    g2.gain.setValueAtTime(0.3, t);
+    g2.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
+    o.connect(g2); g2.connect(audio.destination); o.start(t); o.stop(t + 0.1);
+  } catch (e) { /* sin sonido, no pasa nada */ }
 }
 
 /* ============================================================
-   EL CARTEL: los artistas, agrupados por mes
+   LAS LUCES
 ============================================================ */
-const observador = "IntersectionObserver" in window
-  ? new IntersectionObserver(entradas => {
-      entradas.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add("in");
-          observador.unobserve(e.target);
-        }
-      });
-    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 })
-  : null;
-
-/* agrupa los índices por mes, respetando el orden del curso */
-function agruparPorMes(indices) {
-  const grupos = new Map();
-  indices.forEach(i => {
-    const f = parseFecha(fotos[i].fecha);
-    const m = f ? f.m : -1;
-    if (!grupos.has(m)) grupos.set(m, []);
-    grupos.get(m).push(i);
-  });
-  return grupos;
+function avisar(texto, ms = 2600) {
+  const t = $("toast");
+  t.textContent = texto;
+  t.classList.add("on");
+  clearTimeout(avisar.t);
+  avisar.t = setTimeout(() => t.classList.remove("on"), ms);
 }
 
-function pintarCartel() {
-  const cont = $("dias");
+/* enciende las cuerdas que están a la vista, una detrás de otra */
+function encenderVisibles() {
+  document.querySelectorAll(".cuerda").forEach((c, i) => {
+    const r = c.getBoundingClientRect();
+    if (r.top < innerHeight * 1.1 && r.bottom > -40 && !c.classList.contains("enc")) {
+      c.style.setProperty("--d0", (reducir ? 0 : Math.min(i * 0.16, 1.4)) + "s");
+      c.classList.add("enc");
+    }
+  });
+}
+
+function ponerLuz(encendida, conSonido = true) {
+  if (luzOn === encendida) return;
+  luzOn = encendida;
+  document.body.classList.toggle("luz", encendida);
+  $("interruptor").classList.toggle("on", encendida);
+  $("interruptor").setAttribute("aria-pressed", String(encendida));
+  $("heroOscuro").setAttribute("aria-hidden", String(encendida));
+  $("heroLuz").setAttribute("aria-hidden", String(!encendida));
+  if (conSonido) clic(encendida);
+
+  if (encendida) {
+    setTimeout(encenderVisibles, reducir ? 0 : 350);
+  } else {
+    document.querySelectorAll(".cuerda.enc").forEach(c => c.classList.remove("enc"));
+  }
+  actualizarPill();
+}
+
+/* si alguien baja sin encender, un botón flotante le recuerda el interruptor */
+function actualizarPill() {
+  const heroBaja = $("top").getBoundingClientRect().bottom < innerHeight * 0.35;
+  $("pillLuz").hidden = luzOn || broma || !heroBaja;
+}
+
+function activarLuces() {
+  $("interruptor").addEventListener("click", () => ponerLuz(true));
+  $("pillLuz").addEventListener("click", () => ponerLuz(true));
+
+  $("apagar").addEventListener("click", () => {
+    if (!luzOn || broma) return;
+    broma = true;
+    ponerLuz(false);
+    avisar("Era broma: aquí no se apaga nada.", 2400);
+    setTimeout(() => { broma = false; ponerLuz(true); }, 2600);
+  });
+
+  addEventListener("scroll", () => {
+    actualizarPill();
+    if (luzOn) encenderVisibles();
+  }, { passive: true });
+
+  /* una pequeña brisa hace que alguna foto se balancee de vez en cuando */
+  if (!reducir) {
+    setInterval(() => {
+      if (!luzOn || document.hidden) return;
+      const vis = [...document.querySelectorAll(".colgado")].filter(el => {
+        const r = el.getBoundingClientRect();
+        return r.bottom > 0 && r.top < innerHeight;
+      });
+      if (!vis.length) return;
+      balancear(vis[Math.floor(Math.random() * vis.length)], 4 + Math.random() * 3);
+    }, 2600);
+  }
+}
+
+function balancear(el, amp = 12) {
+  el.style.setProperty("--amp", amp.toFixed(1));
+  el.classList.remove("golpe");
+  void el.offsetWidth;
+  el.classList.add("golpe");
+}
+
+/* ============================================================
+   LA PARED: cuerdas con fotos colgadas
+============================================================ */
+const yCuerda = (x, W) => { const t = x / W; return EXT + 4 * SAG * t * (1 - t); };
+
+function fotosPorCuerda(ancho) {
+  if (ancho < 520) return 2;
+  if (ancho < 860) return 3;
+  if (ancho < 1240) return 4;
+  return 5;
+}
+
+let anchoPared = 0;
+let obsCuerdas = null;
+
+function pintarPared() {
+  const cont = $("cuerdas");
   cont.innerHTML = "";
+  if (obsCuerdas) obsCuerdas.disconnect();
 
   if (!fotos.length) {
-    cont.innerHTML = `<div class="vacio"><strong>El cartel está en imprenta.</strong>Cada cumpleaños se irá sumando a la lista de artistas.</div>`;
+    cont.innerHTML = `<div class="vacio"><strong>La pared está vacía.</strong>Cada cumpleaños colgará aquí su foto.</div>`;
     return;
   }
 
   const q = norm($("buscador").value.trim());
   const lista = ordenIdx.filter(i => !q || norm(fotos[i].nombre).includes(q));
   if (!lista.length) {
-    cont.innerHTML = `<div class="vacio"><strong>Ese artista no está en el cartel.</strong>Prueba con otro nombre.</div>`;
+    cont.innerHTML = `<div class="vacio"><strong>Aquí no cuelga nadie con ese nombre.</strong>Prueba con otro.</div>`;
     return;
   }
 
-  agruparPorMes(lista).forEach((idxs, m) => {
-    const art = document.createElement("article");
-    art.className = "dia";
+  anchoPared = cont.clientWidth || innerWidth;
+  const n = fotosPorCuerda(anchoPared);
+  const w = Math.min(250, Math.floor((anchoPared * 0.94 / n) * 0.84));
 
-    const nombreMes = m >= 0 ? MESES[m] : "Fecha por confirmar";
-    const escenario = m >= 0 ? escenarioDe(m) : "Escenario sorpresa";
+  for (let k = 0; k < lista.length; k += n) {
+    const trozo = lista.slice(k, k + n);
+    const cuerda = document.createElement("div");
+    cuerda.className = "cuerda";
+    cuerda.style.setProperty("--w", w + "px");
+    cuerda.style.setProperty("--sag", SAG + "px");
+    cuerda.innerHTML = `<svg class="hilo" aria-hidden="true"><path/></svg><div class="bombillas" aria-hidden="true"></div><div class="colgados"></div>`;
+    const colgados = cuerda.querySelector(".colgados");
 
-    let html = `<div class="dia-interior">
-      <div class="dia-cab"><h3>${esc(nombreMes)}</h3><span class="escenario">${esc(escenario)}</span></div>
-      <p class="lineup">`;
-    idxs.forEach((i, k) => {
-      const f = parseFecha(fotos[i].fecha);
-      html += `<button type="button" class="artista" data-i="${i}" aria-label="Abrir el concierto de ${esc(fotos[i].nombre)}">${esc(fotos[i].nombre)}${f ? `<sup>${f.d}</sup>` : ""}</button>`;
-      if (k < idxs.length - 1) html += `<span class="sep" aria-hidden="true">✦</span> `;
-    });
-    html += `</p><div class="fotos-mes">`;
-    idxs.forEach((i, k) => {
+    trozo.forEach((i, j) => {
       const p = fotos[i];
-      html += `<button type="button" class="polaroid" data-i="${i}" style="--r:${(((k * 7) % 5) - 2) * 1.1}deg" aria-label="Abrir el concierto de ${esc(p.nombre)}">
-        <img src="${esc(p.foto)}" alt="${esc(p.nombre)}" loading="lazy" draggable="false">
-        <span class="pie"><b>${esc(p.nombre)}</b><small>${esc(fechaMini(p))}</small></span>
-      </button>`;
-    });
-    html += `</div></div>`;
-    art.innerHTML = html;
-
-    art.querySelectorAll(".polaroid").forEach(b => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "colgado";
+      b.dataset.i = i;
+      const idx = k + j;
+      b.style.setProperty("--r", ((((idx * 7) % 5) - 2) * 1.1).toFixed(1) + "deg");
+      b.style.setProperty("--dx", (j * 0.18).toFixed(2) + "s");
+      b.style.setProperty("--s", (4.6 + ((idx * 3) % 5) * 0.55).toFixed(2) + "s");
+      b.style.setProperty("--s0", (-((idx * 1.7) % 5)).toFixed(2) + "s");
+      b.setAttribute("aria-label", `Descolgar la foto de ${p.nombre}`);
+      b.innerHTML = `
+        <span class="cuelga">
+          <span class="pinza" aria-hidden="true"></span>
+          <span class="polaroid-c">
+            <img src="${esc(p.foto)}" alt="" loading="lazy" draggable="false">
+            <span class="pie"><b>${esc(p.nombre)}</b><small>${esc(fechaMini(p))}</small></span>
+          </span>
+        </span>`;
       const img = b.querySelector("img");
-      conFallback(img, fotos[+b.dataset.i].nombre);
+      conFallback(img, p.nombre);
       fijarProporcion(img);
+      b.addEventListener("click", () => abrirModal(i));
+      if (matchMedia("(hover: hover)").matches) b.addEventListener("pointerenter", () => balancear(b, 13));
+      b.addEventListener("animationend", e => { if (e.animationName === "golpe") b.classList.remove("golpe"); });
+      colgados.appendChild(b);
     });
 
-    cont.appendChild(art);
-    if (observador) observador.observe(art); else art.classList.add("in");
+    cont.appendChild(cuerda);
+  }
+
+  colocarCuerdas();
+
+  /* las cuerdas se encienden cuando entran en pantalla */
+  if ("IntersectionObserver" in window) {
+    obsCuerdas = new IntersectionObserver(es => {
+      es.forEach(e => {
+        if (e.isIntersecting && luzOn && !e.target.classList.contains("enc")) {
+          e.target.style.setProperty("--d0", "0s");
+          e.target.classList.add("enc");
+        }
+      });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    cont.querySelectorAll(".cuerda").forEach(c => obsCuerdas.observe(c));
+  }
+  if (luzOn) setTimeout(encenderVisibles, 60);
+}
+
+/* dibuja el hilo, coloca las bombillas y cuelga cada foto a la altura que le toca */
+function colocarCuerdas() {
+  document.querySelectorAll(".cuerda").forEach(cuerda => {
+    const W = cuerda.clientWidth;
+    if (!W) return;
+    const H = EXT + SAG + 26;
+
+    const svg = cuerda.querySelector(".hilo");
+    svg.setAttribute("width", W);
+    svg.setAttribute("height", H);
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.querySelector("path").setAttribute("d", `M0,${EXT} Q${W / 2},${EXT + 2 * SAG} ${W},${EXT}`);
+
+    const bomb = cuerda.querySelector(".bombillas");
+    bomb.innerHTML = "";
+    const nb = Math.max(6, Math.round(W / 46));
+    for (let j = 0; j < nb; j++) {
+      const t = (j + 0.5) / nb;
+      const x = t * W;
+      const b = document.createElement("i");
+      b.className = "bombilla";
+      b.style.left = x.toFixed(1) + "px";
+      b.style.top = yCuerda(x, W).toFixed(1) + "px";
+      b.style.setProperty("--tl", (-(j * 0.37) % 2.6).toFixed(2) + "s");
+      b.style.transitionDelay = `calc(var(--d0, 0s) + ${(t * 1.3).toFixed(2)}s)`;
+      bomb.appendChild(b);
+    }
+
+    const colgados = cuerda.querySelector(".colgados");
+    colgados.querySelectorAll(".colgado").forEach(el => {
+      const cx = el.offsetLeft + el.offsetWidth / 2;
+      el.style.setProperty("--y", yCuerda(cx, W).toFixed(1) + "px");
+    });
   });
 }
 
-/* pulsar un nombre abre su ficha */
-$("dias").addEventListener("click", e => {
-  const b = e.target.closest(".artista, .polaroid");
-  if (b) abrirModal(+b.dataset.i);
-});
+/* al girar el móvil o cambiar el ancho, se recoloca todo; si solo cambia la altura (la barra del navegador), no */
+function activarResize() {
+  let espera;
+  addEventListener("resize", () => {
+    clearTimeout(espera);
+    espera = setTimeout(() => {
+      const nuevo = $("cuerdas").clientWidth || innerWidth;
+      if (Math.abs(nuevo - anchoPared) > 40) pintarPared();
+    }, 220);
+  });
+}
 
 /* ============================================================
    BUSCADOR
 ============================================================ */
 $("buscador").addEventListener("input", () => {
-  pintarCartel();
   const q = $("buscador").value.trim();
+  if (q && !luzOn) ponerLuz(true, false);
+  pintarPared();
   if (q && !reducir) {
-    const destino = $("cartel").getBoundingClientRect().top + scrollY - 60;
+    const destino = $("pared").getBoundingClientRect().top + scrollY - 70;
     if (scrollY < destino - 10) scrollTo({ top: destino, behavior: "smooth" });
   }
 });
 
 /* ============================================================
-   FICHA DEL ARTISTA
+   LA FOTO DESCOLGADA
 ============================================================ */
 let ultimoFoco = null;
+let enDorso = false;
+let girando = false;
+
+function ponerCara(dorso) {
+  enDorso = dorso;
+  $("frente").hidden = dorso;
+  $("dorso").hidden = !dorso;
+}
+
+/* el giro: la carta se pone de canto, se cambia la cara y termina de girar */
+async function girar() {
+  if (girando) return;
+  const carta = $("carta");
+  if (reducir || !carta.animate) { ponerCara(!enDorso); return; }
+  girando = true;
+  const P = a => `perspective(1500px) rotateY(${a}deg)`;
+  try {
+    const a1 = carta.animate([{ transform: P(0) }, { transform: P(88) }], { duration: 230, easing: "ease-in", fill: "forwards" });
+    await a1.finished;
+    ponerCara(!enDorso);
+    const a2 = carta.animate([{ transform: P(-88) }, { transform: P(0) }], { duration: 320, easing: "ease-out" });
+    a1.cancel();
+    await a2.finished;
+  } catch (e) { ponerCara(enDorso); }
+  girando = false;
+}
 
 function navegar(delta) {
   const arr = ordenIdx.length ? ordenIdx : fotos.map((_, i) => i);
@@ -928,7 +982,6 @@ function abrirModal(i) {
   if (i >= fotos.length) i = 0;
   actual = i;
   const p = fotos[i];
-  const f = parseFecha(p.fecha);
 
   const img = $("mImg");
   img.style.aspectRatio = "";
@@ -936,16 +989,15 @@ function abrirModal(i) {
   conFallback(img, p.nombre);
 
   $("mNombre").textContent = p.nombre;
-  $("mEscenario").textContent = f ? escenarioDe(f.m) : "Escenario sorpresa";
   $("mFecha").textContent = fechaBonita(p);
   $("mEdad").textContent = `${p.edad} años`;
 
-  $("formulario").hidden = true;
-  $("botonMensaje").hidden = false;
+  ponerCara(false);
   $("aviso").hidden = true;
   $("textoMensaje").value = "";
   $("contadorTexto").textContent = "0 / 300";
   try { $("autorMensaje").value = localStorage.getItem("autorCumple") || ""; } catch (e) {}
+  aplicarPluma();
 
   const modal = $("modal");
   if (!modal.classList.contains("activo")) {
@@ -955,7 +1007,7 @@ function abrirModal(i) {
     document.body.style.overflow = "hidden";
     $("cerrar").focus({ preventScroll: true });
   }
-  $("modalCaja").scrollTop = 0;
+  modal.scrollTop = 0;
 
   cargarMensajes(p.id);
 }
@@ -972,7 +1024,11 @@ function cerrarModal() {
 $("cerrar").addEventListener("click", cerrarModal);
 $("anterior").addEventListener("click", () => navegar(-1));
 $("siguiente").addEventListener("click", () => navegar(1));
-$("modal").addEventListener("click", e => { if (e.target.id === "modal") cerrarModal(); });
+$("girar").addEventListener("click", girar);
+$("girarAtras").addEventListener("click", girar);
+$("modal").addEventListener("click", e => {
+  if (e.target.id === "modal" || e.target.id === "escenario") cerrarModal();
+});
 
 document.addEventListener("keydown", e => {
   if (actual < 0) return;
@@ -984,7 +1040,7 @@ document.addEventListener("keydown", e => {
 });
 
 /* ============================================================
-   MENSAJES (post-its)
+   MENSAJES: escritos a mano al dorso
 ============================================================ */
 function pintarMensajes(lista, indiceNuevo = -1) {
   const cont = $("mMensajes");
@@ -992,23 +1048,32 @@ function pintarMensajes(lista, indiceNuevo = -1) {
   cont.innerHTML = "";
 
   if (!lista.length) {
-    cont.innerHTML = `<p class="estado">Todavía no se ha gritado nada. Sé el primero.</p>`;
+    cont.innerHTML = `<p class="estado">Todavía no hay nada escrito. Estrena el bolígrafo.</p>`;
     return;
   }
   lista.forEach((m, i) => {
+    const pl = pluma(m.autor);
     const n = document.createElement("article");
-    n.className = "postit" + (i === indiceNuevo ? " nueva" : "");
+    n.className = "nota" + (i === indiceNuevo ? " nueva" : "");
+    n.style.setProperty("--pluma", pl.color);
+    n.style.fontFamily = pl.fuente;
+    n.style.fontSize = pl.tam + "px";
+    n.style.rotate = pl.rot + "deg";
+    n.style.marginLeft = pl.sangria + "%";
+
     const t = document.createElement("p");
     t.textContent = m.mensaje || "";
     const a = document.createElement("p");
-    a.className = "autor";
+    a.className = "firma";
     a.textContent = "— " + (m.autor || "alguien de la clase");
     n.append(t, a);
     cont.appendChild(n);
   });
 
   if (indiceNuevo >= 0) {
-    cont.children[indiceNuevo].scrollIntoView({ behavior: reducir ? "auto" : "smooth", block: "center" });
+    cont.scrollTo({ top: cont.scrollHeight, behavior: reducir ? "auto" : "smooth" });
+  } else {
+    cont.scrollTop = 0;
   }
 }
 
@@ -1018,7 +1083,7 @@ async function cargarMensajes(id) {
 
   if (cache.has(String(id))) { pintarMensajes(cache.get(String(id))); return; }
 
-  cont.innerHTML = `<p class="estado">Cargando gritos del público…</p>`;
+  cont.innerHTML = `<p class="estado">Leyendo el dorso…</p>`;
   try {
     const r = await fetch(`${URL_MENSAJES}?id=${encodeURIComponent(id)}`);
     const datos = await r.json();
@@ -1029,14 +1094,24 @@ async function cargarMensajes(id) {
     console.error("Error cargando mensajes:", err);
     if (actual >= 0 && String(fotos[actual].id) === String(id)) {
       $("mCuenta").textContent = "0";
-      cont.innerHTML = `<p class="estado">No se han podido cargar los mensajes. Vuelve a abrir esta ficha en unos segundos.</p>`;
+      cont.innerHTML = `<p class="estado">No se ha podido leer el dorso. Vuelve a abrir esta foto en unos segundos.</p>`;
     }
   }
 }
 
 /* ============================================================
-   FORMULARIO
+   FORMULARIO: mientras escribes tu nombre, ves con qué letra saldrá tu mensaje
 ============================================================ */
+function aplicarPluma() {
+  const pl = pluma($("autorMensaje").value || "alguien");
+  [$("autorMensaje"), $("textoMensaje")].forEach(el => {
+    el.style.fontFamily = pl.fuente;
+    el.style.color = pl.color;
+    el.style.fontSize = pl.tam + 2 + "px";
+  });
+}
+$("autorMensaje").addEventListener("input", aplicarPluma);
+
 function aviso(texto, error = false) {
   const a = $("aviso");
   a.textContent = texto;
@@ -1044,16 +1119,6 @@ function aviso(texto, error = false) {
   a.hidden = false;
 }
 
-$("botonMensaje").addEventListener("click", () => {
-  $("aviso").hidden = true;
-  $("botonMensaje").hidden = true;
-  $("formulario").hidden = false;
-  ($("autorMensaje").value ? $("textoMensaje") : $("autorMensaje")).focus();
-});
-$("cancelarMensaje").addEventListener("click", () => {
-  $("formulario").hidden = true;
-  $("botonMensaje").hidden = false;
-});
 $("textoMensaje").addEventListener("input", e => {
   $("contadorTexto").textContent = `${e.target.value.length} / 300`;
 });
@@ -1064,17 +1129,17 @@ $("formulario").addEventListener("submit", async e => {
 
   const autor = $("autorMensaje").value.trim();
   const mensaje = $("textoMensaje").value.trim();
-  if (!autor || !mensaje) { aviso("Escribe tu nombre y tu mensaje antes de enviar.", true); return; }
+  if (!autor || !mensaje) { aviso("Escribe tu firma y tu mensaje antes de enviar.", true); return; }
 
   try {
     const ultimo = Number(localStorage.getItem("ultimoMensajeCumple") || 0);
-    if (Date.now() - ultimo < 15000) { aviso("Espera unos segundos antes de gritar otra vez.", true); return; }
+    if (Date.now() - ultimo < 15000) { aviso("Espera unos segundos antes de escribir otra vez.", true); return; }
   } catch (err) {}
 
   const p = fotos[actual];
   const boton = $("enviarMensaje");
   boton.disabled = true;
-  boton.textContent = "Enviando…";
+  boton.textContent = "Escribiendo…";
 
   try {
     await fetch(URL_MENSAJES, {
@@ -1096,23 +1161,21 @@ $("formulario").addEventListener("submit", async e => {
       localStorage.setItem("ultimoMensajeCumple", String(Date.now()));
     } catch (err) {}
 
-    // se publica al momento: lo añadimos a la lista sin recargar
+    // se publica al momento: lo añadimos al dorso sin recargar
     const clave = String(p.id);
     const lista = (cache.get(clave) || []).concat({ autor, mensaje });
     cache.set(clave, lista);
 
     $("textoMensaje").value = "";
     $("contadorTexto").textContent = "0 / 300";
-    $("formulario").hidden = true;
-    $("botonMensaje").hidden = false;
     pintarMensajes(lista, lista.length - 1);
-    aviso("¡Se te ha oído hasta el fondo! Gracias por escribir.");
+    aviso("Escrito. Ya está en el dorso.");
   } catch (err) {
     console.error("Error enviando mensaje:", err);
     aviso("No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.", true);
   } finally {
     boton.disabled = false;
-    boton.textContent = "Enviar mensaje";
+    boton.textContent = "Escribir";
   }
 });
 
@@ -1139,162 +1202,22 @@ document.addEventListener("keydown", e => {
 });
 
 /* ============================================================
-   LA PULSERA: tu entrada, dibujada en un lienzo y descargable
-============================================================ */
-function hash(str) {
-  let h = 2166136261;
-  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
-  return h >>> 0;
-}
-/* reduce el tamaño de letra hasta que el texto quepa */
-function ajustar(g, texto, fuente, maxAncho, tam) {
-  let t = tam;
-  g.font = `${t}px ${fuente}`;
-  while (g.measureText(texto).width > maxAncho && t > 20) { t -= 4; g.font = `${t}px ${fuente}`; }
-  return t;
-}
-
-async function dibujarEntrada(nombre) {
-  const lienzo = $("lienzo"), g = lienzo.getContext("2d");
-  const W = lienzo.width, H = lienzo.height;
-  const AN = "Anton, Impact, 'Arial Narrow', sans-serif";
-  const MO = "'DM Mono', ui-monospace, monospace";
-  try { await Promise.all([document.fonts.load("100px Anton"), document.fonts.load("20px 'DM Mono'")]); } catch (e) {}
-
-  const nom = (nombre || "TU NOMBRE").trim().toUpperCase();
-
-  /* papel */
-  g.fillStyle = "#f4eddf"; g.fillRect(0, 0, W, H);
-
-  /* sol con puntitos */
-  const cx = 800, cy = 330, R = 300;
-  g.fillStyle = "#ffd93b"; g.beginPath(); g.arc(cx, cy, R, 0, Math.PI * 2); g.fill();
-  g.save(); g.beginPath(); g.arc(cx, cy, R, 0, Math.PI * 2); g.clip();
-  g.fillStyle = "#ff4d8d";
-  for (let y = cy - R; y < cy + R; y += 26) {
-    for (let x = cx - R; x < cx + R; x += 26) {
-      const k = (y - (cy - R)) / (2 * R);              // más grandes abajo
-      const r = 2 + k * 9;
-      g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill();
-    }
-  }
-  g.restore();
-
-  /* título con desajuste de tintas */
-  g.textBaseline = "alphabetic";
-  const L1 = GIRA.l1.toUpperCase(), L2 = GIRA.l2.toUpperCase();
-  const t1 = ajustar(g, L1, AN, W - 120, 260);
-  const dib = (txt, x, y, tam) => {
-    g.font = `${tam}px ${AN}`;
-    g.fillStyle = "#2b4bff"; g.fillText(txt, x + 16, y + 16);
-    g.fillStyle = "#ff4d8d"; g.fillText(txt, x + 8, y + 8);
-    g.fillStyle = "#161320"; g.fillText(txt, x, y);
-  };
-  dib(L1, 60, 300, t1);
-  dib(L2, 60, 300 + t1 * 0.92, t1);
-
-  /* banda */
-  const yb = 300 + t1 * 0.92 + 70;
-  g.save();
-  g.translate(0, yb); g.rotate(-0.025);
-  g.fillStyle = "#161320"; g.fillRect(-40, 0, W + 80, 96);
-  g.fillStyle = "#ffd93b"; g.font = `52px ${AN}`;
-  g.fillText("ACCESO TOTAL  ✦  2º BACH  ✦  2026–27  ✦  ACCESO TOTAL", 40, 68);
-  g.restore();
-
-  /* nombre */
-  const yn = yb + 200;
-  g.fillStyle = "#161320"; g.font = `26px ${MO}`;
-  g.fillText("CABEZA DE CARTEL", 64, yn - 60);
-  const tn = ajustar(g, nom, AN, W - 128, 240);
-  g.font = `${tn}px ${AN}`;
-  g.fillStyle = "#2b4bff"; g.fillText(nom, 64 + 8, yn + tn * 0.55 + 8);
-  g.fillStyle = "#161320"; g.fillText(nom, 64, yn + tn * 0.55);
-
-  /* perforación */
-  const yp = H - 250;
-  g.strokeStyle = "#161320"; g.lineWidth = 4; g.setLineDash([18, 14]);
-  g.beginPath(); g.moveTo(0, yp); g.lineTo(W, yp); g.stroke(); g.setLineDash([]);
-  g.fillStyle = "#f4eddf";
-  g.beginPath(); g.arc(0, yp, 34, 0, Math.PI * 2); g.fill();
-  g.beginPath(); g.arc(W, yp, 34, 0, Math.PI * 2); g.fill();
-  g.strokeStyle = "#161320";
-  g.beginPath(); g.arc(0, yp, 34, -Math.PI / 2, Math.PI / 2); g.stroke();
-  g.beginPath(); g.arc(W, yp, 34, Math.PI / 2, Math.PI * 1.5); g.stroke();
-
-  /* código de barras (distinto para cada nombre) */
-  let sem = hash(nom);
-  const aleat = () => { sem = (Math.imul(sem, 1664525) + 1013904223) >>> 0; return sem / 4294967296; };
-  g.fillStyle = "#161320";
-  let x = 64;
-  while (x < W - 380) { const a = 4 + Math.floor(aleat() * 4) * 3; g.fillRect(x, yp + 50, a, 130); x += a + 4 + Math.floor(aleat() * 3) * 3; }
-
-  g.font = `24px ${MO}`;
-  g.fillText("2º BACH · CURSO 2026–27", W - 360, yp + 88);
-  g.fillText("VÁLIDA PARA TODOS", W - 360, yp + 124);
-  g.fillText("LOS CUMPLEAÑOS. NO VÁLIDA", W - 360, yp + 152);
-  g.fillText("PARA REPETIR TARTA.", W - 360, yp + 180);
-
-  /* marco */
-  g.strokeStyle = "#161320"; g.lineWidth = 10; g.strokeRect(5, 5, W - 10, H - 10);
-}
-
-function activarPulsera() {
-  const inp = $("nombrePulsera");
-  try { inp.value = localStorage.getItem("autorCumple") || ""; } catch (e) {}
-  dibujarEntrada(inp.value);
-
-  $("formPulsera").addEventListener("submit", async e => {
-    e.preventDefault();
-    await dibujarEntrada(inp.value);
-    $("acciones").hidden = false;
-    if (navigator.canShare) $("compartirEntrada").hidden = false;
-  });
-
-  const archivo = () => new Promise(res => $("lienzo").toBlob(b => res(b), "image/png"));
-
-  $("guardarEntrada").addEventListener("click", async () => {
-    const blob = await archivo();
-    if (!blob) return;
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "entrada-la-ultima-gira.png";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-  });
-
-  $("compartirEntrada").addEventListener("click", async () => {
-    const blob = await archivo();
-    if (!blob) return;
-    const file = new File([blob], "entrada-la-ultima-gira.png", { type: "image/png" });
-    try {
-      if (navigator.canShare && navigator.canShare({ files: [file] }))
-        await navigator.share({ files: [file], title: GIRA.l1 + " " + GIRA.l2 });
-    } catch (err) { /* el usuario ha cancelado */ }
-  });
-}
-
-/* ============================================================
    ARRANQUE
 ============================================================ */
-$("tit1").textContent = GIRA.l1;
-$("tit2").textContent = GIRA.l2;
-activarPulsera();
+activarLuces();
+activarResize();
+if (reducir) ponerLuz(true, false);       // sin movimiento: la habitación ya está iluminada
 
 fetch("datos.json")
   .then(r => r.json())
   .then(datos => {
     fotos = datos.fotos || [];
     construirOrden();
-    pintarTiras();
-    pintarCartel();
+    pintarPared();
   })
   .catch(err => {
     console.error("Error cargando datos.json:", err);
-    $("tiras").hidden = true;
-    $("dias").innerHTML = `<div class="vacio"><strong>No se ha podido cargar el cartel.</strong>Recarga la página en unos segundos.</div>`;
+    $("cuerdas").innerHTML = `<div class="vacio"><strong>No se han podido cargar las fotos.</strong>Recarga la página en unos segundos.</div>`;
   });
 </script>
 </body>
