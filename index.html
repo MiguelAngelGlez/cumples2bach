@@ -47,6 +47,8 @@ button{-webkit-tap-highlight-color:transparent}
 @keyframes velo{from{opacity:0}to{opacity:1}}
 @keyframes rebota{0%,100%{translate:0 0}50%{translate:0 -1.6cqw}}
 @keyframes pop{from{opacity:0;scale:.94}to{opacity:1;scale:1}}
+@keyframes deslizaD{from{opacity:0;translate:7cqw 0}to{opacity:1;translate:0 0}}
+@keyframes deslizaI{from{opacity:0;translate:-7cqw 0}to{opacity:1;translate:0 0}}
 
 /* dentro del móvil nada se selecciona: solo los campos de escribir */
 .mundo,.mundo *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
@@ -126,6 +128,18 @@ button{-webkit-tap-highlight-color:transparent}
 .telefono.claro .estado{color:#111}
 .estado .iconos{display:flex;align-items:center;gap:1.4cqw}
 .estado svg{height:3.2cqw;width:auto;fill:currentColor}
+/* candado: para volver a bloquear el móvil */
+.candado{
+  position:absolute;z-index:20;left:21cqw;top:2.6cqw;width:8cqw;height:8cqw;padding:0;border:0;border-radius:50%;
+  display:none;place-items:center;color:#fff;background:rgba(255,255,255,.22);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);cursor:pointer;
+}
+.candado svg{width:4.2cqw;height:4.2cqw}
+.telefono.desbloqueado .candado{display:grid}
+.telefono.claro .candado{color:#111;background:rgba(0,0,0,.08)}
+/* la cortina: arrastrar desde arriba baja la pantalla de bloqueo */
+.cortina-zona{position:absolute;left:0;right:0;top:0;height:14cqw;z-index:15;touch-action:none;display:none}
+.telefono.desbloqueado:not(.capa-abierta) .cortina-zona{display:block}
 .isla{
   position:absolute;z-index:21;top:2.6cqw;left:50%;translate:-50% 0;
   height:8.4cqw;width:27cqw;border-radius:6cqw;background:#000;
@@ -296,6 +310,7 @@ button{-webkit-tap-highlight-color:transparent}
 .dock svg{width:8cqw;height:8cqw}
 
 .indicador{
+  touch-action:none;
   position:absolute;left:50%;bottom:0;translate:-50% 0;z-index:30;
   width:44cqw;height:7cqw;padding:0;border:0;background:none;cursor:pointer;
 }
@@ -330,6 +345,26 @@ button{-webkit-tap-highlight-color:transparent}
   background:rgba(255,255,255,.25);color:inherit;font-size:4cqw;font-weight:700;cursor:pointer;
 }
 .capa-cab.sencilla .btn-atras,.capa-cab.notas .btn-atras{background:rgba(0,0,0,.07)}
+.capa-cab.sencilla .cab-nav button{background:rgba(0,0,0,.07)}
+.cab-nav .pildora{width:auto;height:auto;padding:1.8cqw 3.6cqw;border-radius:999px;font-size:3.5cqw;font-weight:700}
+.desliza-d{animation:deslizaD .3s ease}
+.desliza-i{animation:deslizaI .3s ease}
+
+/* la app de Fotos: todo a la vista, con scroll libre */
+.fotos-grid{columns:2;column-gap:3.4cqw;padding:4cqw}
+.foto-item{
+  display:block;width:100%;margin:0 0 4.4cqw;padding:0;border:0;background:none;
+  text-align:left;break-inside:avoid;cursor:pointer;color:#111;
+}
+.foto-item img{
+  width:100%;height:auto;aspect-ratio:4/3;border-radius:4cqw;background:#ddd;
+  box-shadow:0 1.6cqw 4cqw -1.6cqw rgba(0,0,0,.35);
+}
+.foto-item:active img{scale:.97}
+.foto-item b{display:block;margin:1.8cqw 1cqw 0;font-size:4cqw;font-weight:700;line-height:1.15}
+.foto-item small{display:block;margin:0 1cqw;font-size:3.2cqw;color:var(--muted)}
+.ico.fotos{background:#fff}
+.ico.fotos svg{width:10cqw;height:10cqw}
 .cab-tit{flex:1;min-width:0;text-align:center;line-height:1.15}
 .cab-tit b{display:block;font-size:4.7cqw;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cab-tit small{font-size:3.3cqw;opacity:.85}
@@ -483,7 +518,7 @@ button{-webkit-tap-highlight-color:transparent}
   <aside class="lado-desktop">
     <p class="etq">IES El Molinillo · 2º Bach · Curso 2026–27</p>
     <h1>El móvil <span>de la clase.</span></h1>
-    <p class="txt">Desbloquéalo deslizando hacia arriba. Dentro hay una aplicación por cada cumpleaños, y todas funcionan.</p>
+    <p class="txt">Desbloquéalo deslizando hacia arriba. Dentro hay una aplicación por cada cumpleaños, y todas funcionan. Para volver a bloquearlo, usa el candado de arriba.</p>
   </aside>
 
   <div class="telefono" id="telefono">
@@ -499,6 +534,10 @@ button{-webkit-tap-highlight-color:transparent}
         <svg viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3.2" fill="none" stroke="currentColor" opacity=".55"/><rect x="2" y="2" width="19" height="8" rx="2"/><rect x="23.5" y="4" width="2" height="4" rx="1" opacity=".6"/></svg>
       </span>
     </div>
+    <button class="candado" id="candado" type="button" aria-label="Bloquear el móvil">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17 9V7a5 5 0 0 0-10 0v2H5v12h14V9h-2zM9 7a3 3 0 0 1 6 0v2H9V7z"/></svg>
+    </button>
+    <div class="cortina-zona" id="cortinaZona"></div>
     <button class="isla" id="isla" type="button" aria-label="Isla dinámica"><span id="islaTexto">♪ Cumpleaños feliz, sin ensayar</span></button>
 
     <!-- pantalla de inicio -->
@@ -510,8 +549,8 @@ button{-webkit-tap-highlight-color:transparent}
         <button class="app-ico" id="dBuscar" type="button" aria-label="Buscar">
           <span class="ico buscar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></svg></span>
         </button>
-        <button class="app-ico" id="dSorpresa" type="button" aria-label="Sorpresa">
-          <span class="ico sorpresa"><svg viewBox="0 0 24 24" fill="#fff"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="9" r="1.7" fill="#ff375f"/><circle cx="15" cy="15" r="1.7" fill="#ff375f"/><circle cx="15" cy="9" r="1.7" fill="#ff375f"/><circle cx="9" cy="15" r="1.7" fill="#ff375f"/></svg></span>
+        <button class="app-ico" id="dFotos" type="button" aria-label="Fotos">
+          <span class="ico fotos"><svg viewBox="0 0 24 24"><g style="mix-blend-mode:multiply"><circle cx="12" cy="7.2" r="4.2" fill="#ffb020"/><circle cx="16.8" cy="12" r="4.2" fill="#ff375f"/><circle cx="12" cy="16.8" r="4.2" fill="#0a84ff"/><circle cx="7.2" cy="12" r="4.2" fill="#30d158"/></g></svg></span>
         </button>
         <button class="app-ico" id="dNotas" type="button" aria-label="Notas">
           <span class="ico notas"><svg viewBox="0 0 24 24" fill="none" stroke="#7a5b00" stroke-width="2.2" stroke-linecap="round"><path d="M6 8h12M6 12h12M6 16h7"/></svg></span>
@@ -590,6 +629,16 @@ button{-webkit-tap-highlight-color:transparent}
         </div>
         <p class="ajustes-pie">Se recomienda no actualizar antes de la foto de grupo.</p>
       </div>
+    </section>
+
+    <!-- fotos: todo a la vista -->
+    <section class="capa" id="capaFotos" aria-label="Fotos">
+      <header class="capa-cab sencilla">
+        <button class="btn-atras" id="fAtras" type="button">‹ Inicio</button>
+        <div class="cab-tit"><b>Fotos</b><small>todas, sin recortar</small></div>
+        <div class="cab-nav"><button class="pildora" id="fSorpresa" type="button">Sorpresa</button></div>
+      </header>
+      <div class="capa-cuerpo"><div class="fotos-grid" id="fotosGrid"></div></div>
     </section>
 
     <!-- buscador -->
@@ -702,6 +751,16 @@ function conFallback(img, nombre) {
   }, { once: true });
 }
 
+/* cada foto se ve entera: usamos su proporción real */
+function fijarProporcion(img) {
+  const poner = () => {
+    if (img.naturalWidth && img.naturalHeight)
+      img.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
+  };
+  if (img.complete) poner();
+  img.addEventListener("load", poner);
+}
+
 /* ============================================================
    FECHAS
 ============================================================ */
@@ -802,25 +861,30 @@ function pintarNotis() {
   });
 }
 
+const ISLA_DEF = "♪ Cumpleaños feliz, sin ensayar";
+let islaTemp;
+function mostrarIsla(texto = ISLA_DEF, ms = 3600) {
+  const isla = $("isla");
+  $("islaTexto").textContent = texto;
+  isla.classList.add("abierta");
+  clearTimeout(islaTemp);
+  islaTemp = setTimeout(() => isla.classList.remove("abierta"), ms);
+}
 function activarIsla() {
   const isla = $("isla");
-  let temp;
-  const abrir = () => {
-    isla.classList.add("abierta");
-    clearTimeout(temp);
-    temp = setTimeout(() => isla.classList.remove("abierta"), 3600);
-  };
   isla.addEventListener("click", () => {
-    if (isla.classList.contains("abierta")) { isla.classList.remove("abierta"); clearTimeout(temp); }
-    else abrir();
+    if (isla.classList.contains("abierta")) { isla.classList.remove("abierta"); clearTimeout(islaTemp); }
+    else mostrarIsla(ISLA_DEF);
   });
-  if (!reducir) setTimeout(abrir, 1800);
+  if (!reducir) setTimeout(() => mostrarIsla(ISLA_DEF), 1800);
 }
 
 /* ============================================================
    DESBLOQUEO: deslizar hacia arriba (o tocar)
 ============================================================ */
 let bloqueado = true;
+let tOcultar;
+let avisoDado = false;
 
 function desbloquear() {
   if (!bloqueado) return;
@@ -830,7 +894,73 @@ function desbloquear() {
   lock.classList.remove("arrastrando");
   lock.classList.add("fuera");
   telefono.classList.add("desbloqueado");
-  setTimeout(() => { lock.style.display = "none"; }, 650);
+  clearTimeout(tOcultar);
+  tOcultar = setTimeout(() => { lock.style.display = "none"; }, 650);
+
+  /* la primera vez, la isla cuenta cómo volver a bloquear */
+  if (!avisoDado && !reducir) {
+    avisoDado = true;
+    setTimeout(() => { if (!bloqueado) mostrarIsla("Baja desde arriba para bloquear", 4200); }, 1100);
+  }
+}
+
+/* volver a bloquear con el candado */
+function bloquear() {
+  if (bloqueado) return;
+  if (capaAbierta) { const c = capaAbierta; cerrarCapa(c, true); if (c.id === "capaApp") actual = -1; }
+  bloqueado = true;
+  const lock = $("lock");
+  clearTimeout(tOcultar);
+  pintarNotis();
+  ponerHora();
+  lock.style.display = "";
+  lock.style.transform = "";
+  lock.classList.add("fuera");
+  void lock.offsetWidth;
+  lock.classList.remove("fuera");
+  telefono.classList.remove("desbloqueado");
+}
+
+/* o arrastrando desde arriba: la pantalla de bloqueo baja siguiendo el dedo */
+function activarCortina() {
+  const zona = $("cortinaZona");
+  const lock = $("lock");
+  let arr = false, y0 = 0, dy = 0, H = 1;
+
+  zona.addEventListener("pointerdown", e => {
+    if (bloqueado || capaAbierta) return;
+    arr = true; y0 = e.clientY; dy = 0;
+    H = telefono.getBoundingClientRect().height;
+    clearTimeout(tOcultar);
+    pintarNotis();
+    ponerHora();
+    lock.style.display = "";
+    lock.classList.add("fuera", "arrastrando");
+    lock.style.opacity = "1";
+    lock.style.transform = "translateY(-104%)";
+    try { zona.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+  zona.addEventListener("pointermove", e => {
+    if (!arr) return;
+    dy = Math.max(0, Math.min(H, e.clientY - y0));
+    lock.style.transform = `translateY(${-104 + (dy / H) * 104}%)`;
+  });
+  const soltar = () => {
+    if (!arr) return;
+    arr = false;
+    lock.classList.remove("arrastrando");
+    lock.style.opacity = "";
+    lock.style.transform = "";
+    if (dy > H * 0.2) {
+      lock.classList.remove("fuera");
+      bloqueado = true;
+      telefono.classList.remove("desbloqueado");
+    } else {
+      tOcultar = setTimeout(() => { lock.style.display = "none"; }, 650);
+    }
+  };
+  zona.addEventListener("pointerup", soltar);
+  zona.addEventListener("pointercancel", soltar);
 }
 
 function activarBloqueo() {
@@ -1080,6 +1210,11 @@ function vecina(delta) {
   const n = arr[(pos + delta + arr.length) % arr.length];
   actual = n;
   pintarApp();
+
+  const cuerpo = $("aCuerpo");
+  cuerpo.classList.remove("desliza-d", "desliza-i");
+  void cuerpo.offsetWidth;
+  cuerpo.classList.add(delta > 0 ? "desliza-d" : "desliza-i");
 }
 
 /* ============================================================
@@ -1202,6 +1337,33 @@ $("formulario").addEventListener("submit", async e => {
 });
 
 /* ============================================================
+   FOTOS: todos los cumpleaños de un vistazo, con scroll libre
+============================================================ */
+function pintarFotos() {
+  const cont = $("fotosGrid");
+  cont.innerHTML = "";
+  if (!fotos.length) {
+    cont.innerHTML = `<p class="msg-estado">Todavía no hay fotos. Cada cumpleaños se irá sumando aquí.</p>`;
+    return;
+  }
+  ordenIdx.forEach(i => {
+    const p = fotos[i];
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "foto-item";
+    b.setAttribute("aria-label", `Abrir el cumpleaños de ${p.nombre}`);
+    b.innerHTML = `
+      <img src="${esc(p.foto)}" alt="${esc(p.nombre)}" loading="lazy" draggable="false">
+      <b>${esc(p.nombre)}</b><small>${esc(fechaBonita(p))}</small>`;
+    const img = b.querySelector("img");
+    conFallback(img, p.nombre);
+    fijarProporcion(img);
+    b.addEventListener("click", () => abrirApp(i, img));
+    cont.appendChild(b);
+  });
+}
+
+/* ============================================================
    BUSCADOR
 ============================================================ */
 function pintarBusqueda() {
@@ -1288,20 +1450,53 @@ function iniciar() {
   $("bAtras").addEventListener("click", () => cerrarCapa($("capaBusca")));
   $("buscador").addEventListener("input", pintarBusqueda);
 
-  $("dSorpresa").addEventListener("click", () => {
+  $("dFotos").addEventListener("click", () => abrirCapa($("capaFotos"), $("dFotos").querySelector(".ico")));
+  $("fAtras").addEventListener("click", () => cerrarCapa($("capaFotos")));
+  $("fSorpresa").addEventListener("click", () => {
     if (!fotos.length) return;
     const i = ordenIdx[Math.floor(Math.random() * ordenIdx.length)];
-    abrirApp(i, $("dSorpresa").querySelector(".ico"));
+    abrirApp(i, $("fSorpresa"));
   });
   $("dNotas").addEventListener("click", () => abrirCapa($("capaNotas"), $("dNotas").querySelector(".ico")));
   $("nAtras").addEventListener("click", () => cerrarCapa($("capaNotas")));
   $("dAjustes").addEventListener("click", () => abrirCapa($("capaAjustes"), $("dAjustes").querySelector(".ico")));
   $("jAtras").addEventListener("click", () => cerrarCapa($("capaAjustes")));
 
-  /* la barra de abajo vuelve al inicio, como en el móvil */
-  $("indicador").addEventListener("click", () => {
+  /* la barra de abajo vuelve al inicio: se toca o se desliza hacia arriba, como en el móvil */
+  const irInicio = () => {
     if (capaAbierta) { const c = capaAbierta; cerrarCapa(c); if (c.id === "capaApp") actual = -1; }
+  };
+  const ind = $("indicador");
+  let iy = 0, iArr = false, suprime = false;
+  ind.addEventListener("pointerdown", e => {
+    iy = e.clientY; iArr = true; suprime = false;
+    try { ind.setPointerCapture(e.pointerId); } catch (err) {}
   });
+  ind.addEventListener("pointerup", e => {
+    if (!iArr) return;
+    iArr = false;
+    if (iy - e.clientY > 25) { suprime = true; irInicio(); }
+  });
+  ind.addEventListener("click", () => { if (suprime) { suprime = false; return; } irInicio(); });
+
+  /* candado y cortina para volver a bloquear */
+  $("candado").addEventListener("click", bloquear);
+  activarCortina();
+
+  /* en la app de un cumpleaños, deslizar a los lados cambia de persona */
+  const capaApp = $("capaApp");
+  let sx = 0, sy = 0, st = 0, ignora = false;
+  capaApp.addEventListener("touchstart", e => {
+    const t = e.touches[0];
+    sx = t.clientX; sy = t.clientY; st = Date.now();
+    ignora = !!e.target.closest("input, textarea, .a-form");
+  }, { passive: true });
+  capaApp.addEventListener("touchend", e => {
+    if (ignora) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - sx, dy = t.clientY - sy;
+    if (Date.now() - st < 700 && Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.5) vecina(dx < 0 ? 1 : -1);
+  }, { passive: true });
 
   document.addEventListener("keydown", e => {
     if ($("visorFoto").classList.contains("activo")) { if (e.key === "Escape") cerrarVisorFoto(); return; }
@@ -1324,10 +1519,12 @@ fetch("datos.json")
     fotos = datos.fotos || [];
     construirOrden();
     pintarHome();
+    pintarFotos();
   })
   .catch(err => {
     console.error("Error cargando datos.json:", err);
     pintarHome();
+    pintarFotos();
   });
 </script>
 </body>
