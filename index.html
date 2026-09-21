@@ -338,14 +338,26 @@ body.luz .neon2{opacity:1}
 .dorso-cab h3{margin:0;font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.03em}
 .dorso-cab .sello{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(43,36,64,.5);text-align:right;line-height:1.3}
 .cuenta{display:inline-block;margin-left:8px;padding:1px 10px;border-radius:999px;background:#2b2440;color:#fff;font-family:var(--mono);font-size:13px;font-weight:500;vertical-align:2px;letter-spacing:0}
-.dorso-lista{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:6px 20px 14px;display:flex;flex-direction:column;gap:14px}
+.dorso-lista{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:8px 20px 14px;display:flex;flex-direction:column}
+
+/* cada dedicatoria es un bloque aparte: etiqueta con el nombre y, debajo, el mensaje a mano */
 .nota{
-  --pluma:#1d4ed8;
-  color:var(--pluma);line-height:1.12;
+  --pluma:#1d4ed8;--cinta:#ffb3cd;
+  position:relative;padding:14px 0 20px;
+  border-bottom:2px dashed rgba(43,36,64,.25);
 }
-.nota p{margin:0;overflow-wrap:anywhere}
-.nota .firma{margin-top:2px;text-align:right;font-size:1.18em}
+.nota:first-child{padding-top:6px}
+.nota:last-child{border-bottom:0}
 .nota.nueva{animation:sube .5s cubic-bezier(.2,.8,.3,1)}
+.etiqueta{
+  display:inline-block;max-width:100%;margin:0 0 8px -6px;padding:5px 15px 4px;
+  background:var(--cinta);color:#2b2440;rotate:-1.6deg;
+  font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;line-height:1.2;
+  overflow-wrap:anywhere;
+  box-shadow:0 2px 3px rgba(43,36,64,.18);
+  clip-path:polygon(0 0,100% 0,97% 25%,100% 50%,97% 75%,100% 100%,0 100%,3% 75%,0 50%,3% 25%);
+}
+.nota .texto{margin:0;color:var(--pluma);line-height:1.12;overflow-wrap:anywhere}
 .estado{margin:auto;padding:0 10px;text-align:center;font-family:var(--caveat);font-size:28px;line-height:1.1;color:rgba(43,36,64,.6)}
 
 .dorso-form{flex:none;padding:10px 16px 0;border-top:1.5px dashed rgba(43,36,64,.28)}
@@ -513,7 +525,7 @@ body.luz .neon2{opacity:1}
         <div class="dorso-lista" id="mMensajes"></div>
 
         <form class="dorso-form" id="formulario" autocomplete="off">
-          <input type="text" id="autorMensaje" maxlength="40" placeholder="Tu firma" autocomplete="name" required>
+          <input type="text" id="autorMensaje" maxlength="40" placeholder="Tu nombre" autocomplete="name" required>
           <textarea id="textoMensaje" maxlength="300" placeholder="Escribe en el dorso…" required></textarea>
           <input class="trampa" type="text" id="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">
           <div class="form-pie">
@@ -550,6 +562,8 @@ const LETRAS = [
   { f: "'Covered By Your Grace', cursive",  s: 0.92 }
 ];
 const BOLIS = ["#1d4ed8", "#1f2937", "#b91c1c", "#6d28d9", "#047857", "#be185d"];
+/* la cinta de cada nombre también cambia de color según quién sea */
+const CINTAS = ["#ffb3cd", "#a8f0d8", "#ffe36b", "#c9bdff", "#a9d1ff", "#ffc59a"];
 
 /* geometría de las cuerdas */
 const EXT = 28;     // altura de la cuerda en los extremos
@@ -581,10 +595,11 @@ function pluma(nombre) {
   const l = LETRAS[h % LETRAS.length];
   return {
     fuente: l.f,
-    tam: Math.round(27 * l.s),
-    color: BOLIS[(h >> 3) % BOLIS.length],
-    rot: (((h >> 6) % 5) - 2) * 0.7,
-    sangria: (h >> 9) % 9
+    tam: Math.round(29 * l.s),
+    color: BOLIS[(h >>> 3) % BOLIS.length],
+    rot: (((h >>> 6) % 5) - 2) * 0.7,
+    sangria: (h >>> 9) % 5,
+    cinta: CINTAS[(h >>> 12) % CINTAS.length]
   };
 }
 
@@ -1056,17 +1071,23 @@ function pintarMensajes(lista, indiceNuevo = -1) {
     const n = document.createElement("article");
     n.className = "nota" + (i === indiceNuevo ? " nueva" : "");
     n.style.setProperty("--pluma", pl.color);
-    n.style.fontFamily = pl.fuente;
-    n.style.fontSize = pl.tam + "px";
-    n.style.rotate = pl.rot + "deg";
-    n.style.marginLeft = pl.sangria + "%";
+    n.style.setProperty("--cinta", pl.cinta);
 
+    /* el nombre, en una etiqueta de cinta con letra de imprenta */
+    const et = document.createElement("span");
+    et.className = "etiqueta";
+    et.textContent = m.autor || "alguien de la clase";
+
+    /* el mensaje, escrito a mano con el bolígrafo de esa persona */
     const t = document.createElement("p");
+    t.className = "texto";
     t.textContent = m.mensaje || "";
-    const a = document.createElement("p");
-    a.className = "firma";
-    a.textContent = "— " + (m.autor || "alguien de la clase");
-    n.append(t, a);
+    t.style.fontFamily = pl.fuente;
+    t.style.fontSize = pl.tam + "px";
+    t.style.rotate = pl.rot + "deg";
+    t.style.marginLeft = pl.sangria + "%";
+
+    n.append(et, t);
     cont.appendChild(n);
   });
 
@@ -1129,7 +1150,7 @@ $("formulario").addEventListener("submit", async e => {
 
   const autor = $("autorMensaje").value.trim();
   const mensaje = $("textoMensaje").value.trim();
-  if (!autor || !mensaje) { aviso("Escribe tu firma y tu mensaje antes de enviar.", true); return; }
+  if (!autor || !mensaje) { aviso("Escribe tu nombre y tu mensaje antes de enviar.", true); return; }
 
   try {
     const ultimo = Number(localStorage.getItem("ultimoMensajeCumple") || 0);
