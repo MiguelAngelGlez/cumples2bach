@@ -158,6 +158,7 @@ button,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
   position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;
   background:#2b2620;
   perspective:900px;perspective-origin:50% 46%;
+  touch-action:pan-y;
 }
 .mundo{
   position:absolute;left:50%;top:50%;width:0;height:0;
@@ -256,7 +257,7 @@ button,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
   display:block;background:#fffdf8;padding:10px;border-radius:3px;
   box-shadow:0 26px 40px -18px rgba(0,0,0,.6);
 }
-.foto3d img{display:block;height:var(--h);width:auto;aspect-ratio:4/3;max-width:none;background:#ddd5c5}
+.foto3d img{display:block;height:var(--h);width:auto;max-width:var(--wmax,520px);aspect-ratio:4/3;object-fit:contain;background:#ddd5c5}
 .placa3d{
   display:block;margin:16px auto 0;width:max-content;max-width:100%;
   padding:9px 20px 8px;background:#fff;border:3px solid var(--tinta);border-radius:3px;text-align:center;
@@ -277,6 +278,28 @@ button,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
   font-weight:700;font-size:16px;white-space:nowrap;
   transition:opacity .4s ease;pointer-events:none;
 }
+
+/* mandos táctiles: anterior, abrir y siguiente */
+.mando{
+  position:absolute;left:50%;bottom:22px;translate:-50% 0;z-index:5;
+  display:none;align-items:center;gap:10px;width:min(94vw,460px);
+}
+.mando .flechita{
+  width:58px;height:58px;flex:none;border-radius:50%;
+  border:1.5px solid var(--linea);background:rgba(252,250,244,.95);
+  font-size:24px;font-weight:700;cursor:pointer;
+  box-shadow:0 14px 26px -14px rgba(0,0,0,.6);
+  transition:scale .15s ease;
+}
+.mando .flechita:active{scale:.92}
+.mando .ver{
+  flex:1;min-width:0;height:58px;padding:0 20px;border:0;border-radius:999px;
+  background:var(--tinta);color:#fff;text-align:left;cursor:pointer;
+  display:flex;flex-direction:column;justify-content:center;line-height:1.2;
+  box-shadow:0 14px 26px -14px rgba(0,0,0,.7);
+}
+.mando .ver b{font-size:18px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mando .ver small{font-family:var(--mono);font-size:11.5px;opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* ============================================================
    VISTA EN LISTA
@@ -551,6 +574,16 @@ body.modo-lista .lista{display:block}
   .visor-cerrar{top:14px;right:14px;width:44px;height:44px}
 }
 
+/* en pantallas táctiles: mandos visibles y efectos más ligeros */
+@media (pointer:coarse),(max-width:900px){
+  .mando{display:flex}
+  .pista{bottom:100px}
+}
+@media (max-width:700px){
+  body::after{display:none}
+  .luz3d{box-shadow:0 0 50px 20px rgba(255,244,190,.6)}
+}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
 }
@@ -606,6 +639,15 @@ body.modo-lista .lista{display:block}
     <div class="mundo" id="mundo"></div>
     <div class="niebla" aria-hidden="true"></div>
     <p class="pista" id="pista">Sigue bajando: el pasillo continúa ↓</p>
+
+    <div class="mando" id="mando">
+      <button class="flechita" id="btnPrev" type="button" aria-label="Foto anterior">←</button>
+      <button class="ver" id="btnVer" type="button" aria-label="Abrir la foto que tienes delante">
+        <b id="mandoNombre">Entrada del pasillo</b>
+        <small id="mandoDatos">Desliza para empezar</small>
+      </button>
+      <button class="flechita" id="btnNext" type="button" aria-label="Foto siguiente">→</button>
+    </div>
   </div>
 </section>
 
@@ -826,6 +868,7 @@ let marcos = [];              // los cumpleaños colgados y su distancia
 let D = 0;                    // recorrido total de la cámara
 let rango = 1;                // scroll disponible
 let camAct = 0, camObj = 0;
+let kFoco = -2;               // cuadro que tienes delante (-1: ninguno)
 
 function medir() {
   const vw = innerWidth;
@@ -835,13 +878,22 @@ function medir() {
   P.W = movil ? 540 : 1100;        // ancho del pasillo
   P.H = movil ? 700 : 720;         // alto
   P.SP = movil ? 520 : 620;        // separación entre cuadros
-  P.FIRST = movil ? 800 : 900;     // dónde cuelga el primero
+  P.FIRST = movil ? 700 : 900;     // dónde cuelga el primero
   P.ZS = 900;                      // el pasillo empieza detrás de la cámara
-  P.xOff = P.W * (movil ? 0.21 : 0.235);
-  P.h = movil ? 230 : 300;         // alto de cada foto
+  P.xOff = movil ? 56 : P.W * 0.235;
+  P.h = movil ? 320 : 300;         // alto de cada foto
+  P.wmax = movil ? 400 : 520;      // ancho máximo (la foto nunca se recorta)
+  P.focus = movil ? 300 : 560;     // a qué distancia te paras delante de un cuadro
+  P.pasa = movil ? 60 : 240;       // cuándo desaparece un cuadro al pasar
+  P.vel = movil ? 2.4 : 1.2;       // cuánto avanza la cámara por cada píxel de scroll
   const n = Math.max(ordenIdx.length, 3);
   P.L = P.FIRST + n * P.SP + 900;  // largo hasta la puerta del fondo
   D = P.L - 380;
+}
+
+function actualizarRango() {
+  const alto = visor.offsetHeight || innerHeight;
+  rango = Math.max(1, seccion.offsetHeight - alto);
 }
 
 function plano(clase, w, h, transform) {
@@ -916,6 +968,7 @@ function construirMundo() {
     el.tabIndex = 0;
     el.setAttribute("aria-label", `Abrir el cumpleaños de ${p.nombre}`);
     el.style.setProperty("--h", P.h + "px");
+    el.style.setProperty("--wmax", P.wmax + "px");
     el.style.setProperty("--cy", (ytop + P.H / 2) + "px");
     el.style.transform = `translate3d(${lado * P.xOff}px,${ytop}px,${-d}px)`;
 
@@ -939,8 +992,10 @@ function construirMundo() {
   });
 
   /* la altura del scroll decide cuánto se puede caminar */
-  seccion.style.height = Math.round(D / 1.2 + innerHeight) + "px";
-  rango = Math.max(1, seccion.offsetHeight - innerHeight);
+  seccion.style.height = Math.round(D / P.vel + (visor.offsetHeight || innerHeight)) + "px";
+  actualizarRango();
+  kFoco = -2;
+  actualizarMando();
 }
 
 /* el bucle que mueve la cámara con el scroll */
@@ -953,22 +1008,43 @@ function paso() {
 
   const p = Math.min(1, Math.max(0, -r.top / rango));
   camObj = p * D;
-  camAct += (camObj - camAct) * (reducir ? 1 : 0.13);
+  camAct += (camObj - camAct) * (reducir ? 1 : 0.16);
 
-  const vaiven = reducir ? 0 : Math.sin(camAct * 0.012) * 5;
+  const vaiven = reducir ? 0 : Math.sin(camAct * 0.012) * (P.movil ? 3 : 5);
   mundo.style.transform = `translate3d(0,${vaiven}px,${camAct}px)`;
 
-  /* los cuadros lejanos se apagan en la niebla y los que ya pasaron desaparecen */
-  for (const m of marcos) {
+  /* los cuadros lejanos se apagan en la niebla y los que ya pasaron desaparecen;
+     de paso miramos cuál tienes delante */
+  let mejor = -1, mejorDif = 1e9;
+  for (let k = 0; k < marcos.length; k++) {
+    const m = marcos[k];
     const dist = m.d - camAct;
     let o = 1;
     if (dist > 1500) o = Math.max(0, 1 - (dist - 1500) / 900);
-    else if (dist < 240) o = Math.max(0, (dist + 90) / 330);
+    else if (dist < P.pasa) o = Math.max(0, (dist + 90) / (P.pasa + 90));
     m.el.style.opacity = o.toFixed(2);
     m.el.style.pointerEvents = o < 0.25 ? "none" : "auto";
+
+    if (dist > -120) {
+      const dif = Math.abs(dist - P.focus);
+      if (dif < mejorDif) { mejorDif = dif; mejor = k; }
+    }
   }
+  if (mejorDif > 900) mejor = -1;
+  if (mejor !== kFoco) { kFoco = mejor; actualizarMando(); }
 
   pista.style.opacity = p < 0.025 ? 1 : 0;
+}
+
+/* qué pone en el mando de abajo */
+function actualizarMando() {
+  const nom = $("mandoNombre"), dat = $("mandoDatos");
+  if (!nom) return;
+  if (!ordenIdx.length) { nom.textContent = "El pasillo está vacío"; dat.textContent = "Cada cumpleaños colgará aquí su foto"; return; }
+  if (kFoco < 0) { nom.textContent = "Entrada del pasillo"; dat.textContent = "Desliza para empezar"; return; }
+  const p = fotos[ordenIdx[kFoco]];
+  nom.textContent = p.nombre;
+  dat.textContent = `${fechaMini(p)} · ${p.edad} años · toca para abrir`;
 }
 
 /* un poco de mirada con el ratón */
@@ -981,13 +1057,52 @@ function activarMirada() {
   });
 }
 
+/* ir caminando hasta una posición del pasillo */
+function irACamara(cam) {
+  cam = Math.max(0, Math.min(D, cam));
+  const top = seccion.offsetTop + (cam / D) * rango;
+  scrollTo({ top, behavior: reducir ? "auto" : "smooth" });
+}
+
 /* ir caminando hasta un cumpleaños concreto */
 function irAlCuadro(k) {
   const m = marcos[k];
-  if (!m) return;
-  const cam = Math.max(0, Math.min(D, m.d - 560));
-  const top = seccion.offsetTop + (cam / D) * rango;
-  scrollTo({ top, behavior: reducir ? "auto" : "smooth" });
+  if (m) irACamara(m.d - P.focus);
+}
+
+function siguienteCuadro() {
+  const k = marcos.findIndex(m => m.d - P.focus > camAct + 60);
+  if (k >= 0) irAlCuadro(k);
+  else irACamara(D);
+}
+
+function anteriorCuadro() {
+  let k = -1;
+  marcos.forEach((m, i) => { if (m.d - P.focus < camAct - 60) k = i; });
+  if (k >= 0) irAlCuadro(k);
+  else irACamara(0);
+}
+
+/* mandos táctiles y gesto de deslizar a los lados */
+function activarMando() {
+  $("btnNext").addEventListener("click", siguienteCuadro);
+  $("btnPrev").addEventListener("click", anteriorCuadro);
+  $("btnVer").addEventListener("click", () => {
+    if (kFoco >= 0 && ordenIdx[kFoco] !== undefined) abrirModal(ordenIdx[kFoco]);
+  });
+
+  let x0 = 0, y0 = 0, t0 = 0;
+  visor.addEventListener("touchstart", e => {
+    const t = e.touches[0];
+    x0 = t.clientX; y0 = t.clientY; t0 = Date.now();
+  }, { passive: true });
+  visor.addEventListener("touchend", e => {
+    const t = e.changedTouches[0];
+    const dx = t.clientX - x0, dy = t.clientY - y0;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && Date.now() - t0 < 700) {
+      if (dx < 0) siguienteCuadro(); else anteriorCuadro();
+    }
+  }, { passive: true });
 }
 
 /* ============================================================
@@ -1034,7 +1149,7 @@ function ponerVista(lista) {
   $("btnVista").textContent = lista ? "Volver al pasillo" : "Ver en lista";
   $("btnEntrar").setAttribute("href", lista ? "#lista" : "#pasillo");
   if (lista) pintarLista();
-  else { rango = Math.max(1, seccion.offsetHeight - innerHeight); }
+  else { actualizarRango(); }
 }
 
 $("btnVista").addEventListener("click", () => {
@@ -1062,16 +1177,24 @@ function iniciar() {
 
   construirMundo();
   activarMirada();
+  activarMando();
   requestAnimationFrame(paso);
 
   if (reducir) ponerVista(true);
 
-  let espera;
+  /* en el móvil la barra del navegador aparece y desaparece al hacer scroll y cambia
+     la altura: solo reconstruimos el pasillo si cambia el ancho de verdad */
+  let espera, anchoPrev = innerWidth;
   addEventListener("resize", () => {
     clearTimeout(espera);
     espera = setTimeout(() => {
-      construirMundo();
-      if (enModoLista()) pintarLista();
+      if (Math.abs(innerWidth - anchoPrev) > 40) {
+        anchoPrev = innerWidth;
+        construirMundo();
+        if (enModoLista()) pintarLista();
+      } else if (!enModoLista()) {
+        actualizarRango();
+      }
     }, 200);
   });
 }
