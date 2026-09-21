@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Molinillo Fest · Cumpleaños de 2º Bach · IES El Molinillo</title>
+<title>La última gira · Cumpleaños de 2º Bach · IES El Molinillo</title>
 <meta name="theme-color" content="#f4eddf">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -230,14 +230,32 @@ body::after{
 }
 .vacio strong{display:block;margin-bottom:6px;font-family:var(--anton);font-weight:400;text-transform:uppercase;font-size:32px;color:var(--tinta)}
 
-/* miniatura que sigue al ratón (solo en ordenador) */
-.vista{
-  position:fixed;z-index:400;display:none;pointer-events:none;
-  padding:8px 8px 10px;background:#fff;border-radius:4px;rotate:-3deg;
-  box-shadow:4px 6px 0 var(--tinta);
+/* las fotos de cada mes, como polaroids pegadas al cartel */
+.fotos-mes{
+  display:grid;align-items:start;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));
+  gap:30px 18px;margin-top:clamp(26px,3.6vw,48px);padding-top:8px;
 }
-.vista img{max-width:250px;max-height:250px;width:auto;height:auto}
-.vista b{display:block;margin-top:6px;font-family:var(--anton);font-weight:400;text-transform:uppercase;font-size:20px;text-align:center}
+.polaroid{
+  --r:0deg;
+  position:relative;display:block;width:100%;padding:9px 9px 12px;border:0;background:#fff;
+  text-align:left;color:inherit;cursor:pointer;rotate:var(--r);
+  box-shadow:4px 5px 0 var(--tinta);
+  transition:rotate .25s ease,translate .25s ease,box-shadow .25s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.polaroid::before{
+  content:"";position:absolute;left:50%;top:-11px;translate:-50% 0;rotate:-3deg;
+  width:62px;height:20px;background:rgba(255,255,255,.62);border:1px solid rgba(22,19,32,.12);
+}
+.polaroid:hover,.polaroid:focus-visible{rotate:0deg;translate:0 -6px;box-shadow:6px 10px 0 var(--tinta)}
+.polaroid img{width:100%;height:auto;aspect-ratio:4/3;background:#ddd5c5}
+.polaroid .pie{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:8px}
+.polaroid .pie b{font-family:var(--mano);font-weight:400;font-size:clamp(28px,2.4vw,34px);line-height:.95;overflow-wrap:anywhere}
+.polaroid .pie small{flex:none;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);white-space:nowrap}
+@media (min-width:640px){
+  .fotos-mes{grid-template-columns:repeat(auto-fill,minmax(min(100%,228px),1fr));gap:38px 30px}
+}
 
 /* ============================================================
    LA PULSERA
@@ -288,6 +306,7 @@ body::after{
   text-shadow:.03em .03em 0 var(--rosa);
 }
 .final-texto{margin:32px auto 0;max-width:27em;font-size:clamp(19px,2vw,26px);line-height:1.42;color:#e9e3f2}
+.final-mano{margin:26px 0 0;font-family:var(--mano);font-size:clamp(36px,4.6vw,64px);line-height:1;color:var(--rosa)}
 .final-firma{margin:22px 0 0;font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:#a59cb6}
 .final .btn{margin-top:32px}
 
@@ -481,19 +500,19 @@ body::after{
       <div class="rueda" aria-hidden="true">
         <svg class="giro" viewBox="0 0 100 100">
           <defs><path id="caminoRueda" d="M50,50 m0,-36 a36,36 0 1,1 0,72 a36,36 0 1,1 0,-72"/></defs>
-          <text><textPath href="#caminoRueda" textLength="222" lengthAdjust="spacing">TODOS SON CABEZA DE CARTEL · IES EL MOLINILLO · </textPath></text>
+          <text><textPath href="#caminoRueda" textLength="222" lengthAdjust="spacing">TODOS SON CABEZA DE CARTEL · 2º BACH · 2026–27 · </textPath></text>
         </svg>
         <span class="estrella"><svg viewBox="0 0 24 24" fill="#161320"><path d="M12 1.5l2.9 6.9 7.6.6-5.8 4.9 1.8 7.3L12 17.3l-6.5 3.9 1.8-7.3-5.8-4.9 7.6-.6z"/></svg></span>
       </div>
     </div>
 
     <h1 class="titulo">
-      <span class="l1">Molinillo</span>
-      <span class="l2">Fest <span class="pegata">2º Bach<br>26/27</span></span>
+      <span class="l1" id="tit1">La última</span>
+      <span class="l2"><span id="tit2">gira</span> <span class="pegata">2º Bach<br>26/27</span></span>
     </h1>
 
     <p class="lema">Sin teloneros: aquí todos son cabeza de cartel.</p>
-    <p class="sub">Doce meses de conciertos en directo. Entrada: una porción de tarta. Sonido: el cumpleaños feliz, desafinado.</p>
+    <p class="sub">Cada cumpleaños es un concierto de una sola canción. Todos os sabéis la letra, nadie la canta bien y siempre se pide otra.</p>
 
     <div class="btns">
       <a class="btn btn-rosa" href="#cartel">Ver el cartel ↓</a>
@@ -506,7 +525,7 @@ body::after{
       <span class="peg">ojos cerrados: mínimo 1</span>
     </div>
 
-    <div class="tiras" id="tiras" aria-label="Fotos del festival"></div>
+    <div class="tiras" id="tiras" aria-label="Fotos de la gira"></div>
   </div>
 
   <div class="banda" aria-hidden="true">
@@ -521,7 +540,7 @@ body::after{
 <section class="cartel" id="cartel">
   <div class="cartel-cab">
     <h2>Cartel completo</h2>
-    <p>Todos los artistas, por orden de actuación. El número pequeño es el día del concierto.</p>
+    <p>Por orden de actuación, con su foto: un cartel sin caras no es un cartel. El número pequeño es el día del concierto.</p>
   </div>
   <div class="dias" id="dias"></div>
 </section>
@@ -542,25 +561,24 @@ body::after{
       </div>
     </div>
     <div class="vista-entrada">
-      <canvas id="lienzo" width="1080" height="1350" aria-label="Tu entrada del Molinillo Fest"></canvas>
+      <canvas id="lienzo" width="1080" height="1350" aria-label="Tu entrada de La última gira"></canvas>
     </div>
   </div>
 </section>
 
 <!-- ================= FINAL ================= -->
 <section class="final">
-  <span class="agotado">Sold out</span>
-  <h2>Entradas agotadas.</h2>
+  <span class="agotado">Fin de gira</span>
+  <h2>Gracias por la gira.</h2>
   <p class="final-texto">
-    Esta clase no repite gira. Así que cuídala: sin perder la pulsera, sin irte antes
-    del último bis y sin dejar a nadie fuera del cartel.
+    Dentro de un año cada uno tocará en un escenario distinto, pero el cartel seguirá
+    siendo este. Y de todos los conciertos, los mejores son los cumpleaños: sin focos,
+    sin entradas y con una tarta cortada fatal.
   </p>
+  <p class="final-mano">Que os dure la gira, aunque cambie el escenario.</p>
   <p class="final-firma">IES El Molinillo · 2º Bach · curso 2026–27</p>
   <a class="btn btn-sol" href="#top">Volver al principio ↑</a>
 </section>
-
-<!-- miniatura que sigue al ratón -->
-<div class="vista" id="vista" aria-hidden="true"><img id="vistaImg" src="" alt=""><b id="vistaNombre"></b></div>
 
 <!-- ================= VISOR DE FOTO ================= -->
 <div class="visor-foto" id="visorFoto" aria-hidden="true">
@@ -635,6 +653,9 @@ const URL_MENSAJES =
 
 const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto",
                "septiembre","octubre","noviembre","diciembre"];
+
+/* el nombre del festival: se cambia aquí y se actualiza la portada y la entrada */
+const GIRA = { l1: "La última", l2: "gira" };
 
 /* cada estación tiene su escenario */
 function escenarioDe(m) {
@@ -718,6 +739,10 @@ function anioDe(f) { return f.m >= 8 ? ANIO0 : ANIO0 + 1; }
 function fechaBonita(p) {
   const f = parseFecha(p.fecha);
   return f ? `${f.d} de ${MESES[f.m]}` : String(p.fecha || "");
+}
+function fechaMini(p) {
+  const f = parseFecha(p.fecha);
+  return f ? `${f.d} ${MESES[f.m].slice(0, 3)}` : String(p.fecha || "");
 }
 
 /* ============================================================
@@ -846,8 +871,22 @@ function pintarCartel() {
       html += `<button type="button" class="artista" data-i="${i}" aria-label="Abrir el concierto de ${esc(fotos[i].nombre)}">${esc(fotos[i].nombre)}${f ? `<sup>${f.d}</sup>` : ""}</button>`;
       if (k < idxs.length - 1) html += `<span class="sep" aria-hidden="true">✦</span> `;
     });
-    html += `</p></div>`;
+    html += `</p><div class="fotos-mes">`;
+    idxs.forEach((i, k) => {
+      const p = fotos[i];
+      html += `<button type="button" class="polaroid" data-i="${i}" style="--r:${(((k * 7) % 5) - 2) * 1.1}deg" aria-label="Abrir el concierto de ${esc(p.nombre)}">
+        <img src="${esc(p.foto)}" alt="${esc(p.nombre)}" loading="lazy" draggable="false">
+        <span class="pie"><b>${esc(p.nombre)}</b><small>${esc(fechaMini(p))}</small></span>
+      </button>`;
+    });
+    html += `</div></div>`;
     art.innerHTML = html;
+
+    art.querySelectorAll(".polaroid").forEach(b => {
+      const img = b.querySelector("img");
+      conFallback(img, fotos[+b.dataset.i].nombre);
+      fijarProporcion(img);
+    });
 
     cont.appendChild(art);
     if (observador) observador.observe(art); else art.classList.add("in");
@@ -856,37 +895,9 @@ function pintarCartel() {
 
 /* pulsar un nombre abre su ficha */
 $("dias").addEventListener("click", e => {
-  const b = e.target.closest(".artista");
+  const b = e.target.closest(".artista, .polaroid");
   if (b) abrirModal(+b.dataset.i);
 });
-
-/* con ratón: la foto aparece junto al cursor al pasar por un nombre */
-function activarVista() {
-  if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-  const v = $("vista"), img = $("vistaImg"), dias = $("dias");
-
-  dias.addEventListener("mouseover", e => {
-    const b = e.target.closest(".artista");
-    if (!b) return;
-    const p = fotos[+b.dataset.i];
-    img.src = p.foto;
-    $("vistaNombre").textContent = p.nombre;
-    v.style.display = "block";
-  });
-  dias.addEventListener("mousemove", e => {
-    if (v.style.display !== "block") return;
-    const w = v.offsetWidth, h = v.offsetHeight;
-    let x = e.clientX + 26;
-    if (x + w > innerWidth - 10) x = e.clientX - w - 26;
-    const y = Math.max(10, Math.min(innerHeight - h - 10, e.clientY - h / 2));
-    v.style.left = x + "px";
-    v.style.top = y + "px";
-  });
-  dias.addEventListener("mouseout", e => {
-    const a = e.relatedTarget;
-    if (!a || !a.closest || !a.closest(".artista")) v.style.display = "none";
-  });
-}
 
 /* ============================================================
    BUSCADOR
@@ -1171,15 +1182,16 @@ async function dibujarEntrada(nombre) {
 
   /* título con desajuste de tintas */
   g.textBaseline = "alphabetic";
-  const t1 = ajustar(g, "MOLINILLO", AN, W - 120, 260);
+  const L1 = GIRA.l1.toUpperCase(), L2 = GIRA.l2.toUpperCase();
+  const t1 = ajustar(g, L1, AN, W - 120, 260);
   const dib = (txt, x, y, tam) => {
     g.font = `${tam}px ${AN}`;
     g.fillStyle = "#2b4bff"; g.fillText(txt, x + 16, y + 16);
     g.fillStyle = "#ff4d8d"; g.fillText(txt, x + 8, y + 8);
     g.fillStyle = "#161320"; g.fillText(txt, x, y);
   };
-  dib("MOLINILLO", 60, 300, t1);
-  dib("FEST", 60, 300 + t1 * 0.92, t1);
+  dib(L1, 60, 300, t1);
+  dib(L2, 60, 300 + t1 * 0.92, t1);
 
   /* banda */
   const yb = 300 + t1 * 0.92 + 70;
@@ -1218,7 +1230,7 @@ async function dibujarEntrada(nombre) {
   while (x < W - 380) { const a = 4 + Math.floor(aleat() * 4) * 3; g.fillRect(x, yp + 50, a, 130); x += a + 4 + Math.floor(aleat() * 3) * 3; }
 
   g.font = `24px ${MO}`;
-  g.fillText("IES EL MOLINILLO · 2º BACH", W - 360, yp + 88);
+  g.fillText("2º BACH · CURSO 2026–27", W - 360, yp + 88);
   g.fillText("VÁLIDA PARA TODOS", W - 360, yp + 124);
   g.fillText("LOS CUMPLEAÑOS. NO VÁLIDA", W - 360, yp + 152);
   g.fillText("PARA REPETIR TARTA.", W - 360, yp + 180);
@@ -1246,7 +1258,7 @@ function activarPulsera() {
     if (!blob) return;
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "entrada-molinillo-fest.png";
+    a.download = "entrada-la-ultima-gira.png";
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -1256,10 +1268,10 @@ function activarPulsera() {
   $("compartirEntrada").addEventListener("click", async () => {
     const blob = await archivo();
     if (!blob) return;
-    const file = new File([blob], "entrada-molinillo-fest.png", { type: "image/png" });
+    const file = new File([blob], "entrada-la-ultima-gira.png", { type: "image/png" });
     try {
       if (navigator.canShare && navigator.canShare({ files: [file] }))
-        await navigator.share({ files: [file], title: "Molinillo Fest" });
+        await navigator.share({ files: [file], title: GIRA.l1 + " " + GIRA.l2 });
     } catch (err) { /* el usuario ha cancelado */ }
   });
 }
@@ -1267,7 +1279,8 @@ function activarPulsera() {
 /* ============================================================
    ARRANQUE
 ============================================================ */
-activarVista();
+$("tit1").textContent = GIRA.l1;
+$("tit2").textContent = GIRA.l2;
 activarPulsera();
 
 fetch("datos.json")
