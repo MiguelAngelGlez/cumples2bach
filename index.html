@@ -1,1295 +1,1211 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.3">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La última temporada · 2º Bach · IES El Molinillo</title>
+<meta name="theme-color" content="#0e0c16">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300..800&family=Bebas+Neue&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --fondo:#0e0c16;
+  --panel:#171424;
+  --panel2:#1f1b2e;
+  --linea:rgba(255,255,255,.11);
+  --texto:#f4f1ff;
+  --muted:#a8a3bf;
+  --acento:#ff5a6a;
+  --acento2:#ffb04a;
+  --grad:linear-gradient(135deg,#ff5a6a,#ffb04a);
+
+  --font:'Outfit',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+  --marca:'Bebas Neue','Arial Narrow',Impact,sans-serif;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--fondo);
+  color:var(--texto);
+  font-family:var(--font);
+  font-size:17px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:clip;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(50vmax 50vmax at 0% 0%,rgba(255,90,106,.14),transparent 65%),
+    radial-gradient(56vmax 56vmax at 100% 100%,rgba(255,176,74,.1),transparent 65%);
+}
+img{max-width:100%;display:block}
+button,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--acento2);outline-offset:3px}
+
+@keyframes entra{from{opacity:0;translate:0 26px}to{opacity:1;translate:0 0}}
+@keyframes aparece{from{opacity:0;translate:0 30px;filter:blur(6px)}to{opacity:1;translate:0 0;filter:blur(0)}}
+@keyframes pulso{0%,100%{box-shadow:0 0 0 0 rgba(255,90,106,.6)}50%{box-shadow:0 0 0 8px rgba(255,90,106,0)}}
+@keyframes fundido{from{opacity:0}to{opacity:1}}
+
+/* ============================================================
+   BARRA SUPERIOR
+============================================================ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:18px 4vw;
+  background:linear-gradient(rgba(14,12,22,.85),rgba(14,12,22,0));
+  transition:background .3s ease,border-color .3s ease;
+  border-bottom:1px solid transparent;
+}
+.nav.solido{
+  background:rgba(14,12,22,.86);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom-color:var(--linea);
+}
+.marca{
+  font-family:var(--marca);font-size:36px;line-height:1;letter-spacing:.04em;text-decoration:none;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.busca{
+  display:flex;align-items:center;gap:10px;
+  height:44px;width:min(58vw,310px);padding:0 16px;
+  background:rgba(255,255,255,.09);border:1px solid var(--linea);border-radius:999px;
+  transition:border-color .2s ease,background .2s ease;
+}
+.busca:focus-within{border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.14)}
+.busca svg{flex:none;width:18px;height:18px;stroke:var(--muted)}
+.busca input{
+  flex:1;min-width:0;border:0;background:none;outline:none;font-weight:500;
+}
+.busca input::placeholder{color:var(--muted)}
+
+/* ============================================================
+   PORTADA
+============================================================ */
+.hero{position:relative;isolation:isolate;overflow:hidden}
+.hero-fondo{
+  position:absolute;z-index:-2;inset:-6%;width:112%;height:112%;
+  object-fit:cover;filter:blur(38px) saturate(1.3) brightness(.5);
+  animation:fundido 1.6s ease both;
+}
+.hero-fondo[hidden]{display:none}
+.hero-vel{
+  position:absolute;z-index:-1;inset:0;
+  background:
+    linear-gradient(to right,rgba(14,12,22,.85),rgba(14,12,22,.15) 70%),
+    linear-gradient(to bottom,rgba(14,12,22,.2),rgba(14,12,22,.5) 60%,var(--fondo));
+}
+.hero-cuerpo{
+  max-width:1500px;margin:0 auto;
+  min-height:max(100svh,700px);
+  display:grid;grid-template-columns:1.05fr .95fr;gap:4vw;align-items:center;
+  padding:120px 4vw 96px;
+}
+.hero-serie{
+  display:flex;align-items:center;gap:12px;margin:0 0 18px;
+  font-weight:600;font-size:15px;letter-spacing:.06em;color:var(--muted);
+  animation:aparece 1s cubic-bezier(.2,.8,.2,1) .1s both;
+}
+.hero-serie i{
+  font-family:var(--marca);font-style:normal;font-size:30px;letter-spacing:.04em;line-height:1;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero h1{
+  margin:0;
+  font-weight:800;font-size:clamp(50px,8.4vw,134px);
+  line-height:.92;letter-spacing:-.035em;
+  animation:aparece 1.2s cubic-bezier(.2,.8,.2,1) .25s both;
+}
+.hero-meta{
+  display:flex;flex-wrap:wrap;align-items:center;gap:12px;
+  margin:24px 0 0;font-weight:500;font-size:16px;color:#d8d4ea;
+  animation:aparece 1.1s cubic-bezier(.2,.8,.2,1) .5s both;
+}
+.nuevo{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:5px 13px;border-radius:999px;
+  background:var(--grad);color:#22101a;font-weight:700;font-size:13px;
+}
+.nuevo::before{
+  content:"";width:8px;height:8px;border-radius:50%;background:#22101a;animation:pulso 2s ease-out infinite;
+}
+.clasif{
+  display:inline-block;padding:1px 8px;
+  border:1px solid rgba(255,255,255,.45);border-radius:4px;
+  font-size:13px;font-weight:700;color:#fff;line-height:1.55;
+}
+.hero-desc{
+  margin:22px 0 0;max-width:30em;
+  font-size:clamp(18px,1.7vw,23px);line-height:1.45;color:#e6e2f5;
+  animation:aparece 1.1s cubic-bezier(.2,.8,.2,1) .7s both;
+}
+.hero-botones{
+  display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;
+  animation:aparece 1.1s cubic-bezier(.2,.8,.2,1) .9s both;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 26px;border:0;border-radius:12px;
+  font-weight:700;font-size:17px;text-decoration:none;cursor:pointer;
+  transition:background .2s ease,scale .2s ease,color .2s ease;
+}
+.btn:active{scale:.97}
+.btn-claro{background:#fff;color:#14111f}
+.btn-claro:hover{background:#ffe9d2}
+.btn-vidrio{
+  background:rgba(255,255,255,.16);color:#fff;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.btn-vidrio:hover{background:rgba(255,255,255,.26)}
+
+/* el "póster": la foto, siempre entera */
+.hero-poster{
+  justify-self:center;position:relative;display:inline-block;
+  padding:0;border:0;background:#000;
+  border-radius:20px;overflow:hidden;cursor:pointer;
+  box-shadow:0 46px 80px -34px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.14);
+  animation:aparece 1.3s cubic-bezier(.2,.8,.2,1) .5s both;
+  transition:scale .4s cubic-bezier(.2,.8,.2,1);
+}
+.hero-poster[hidden]{display:none}
+.hero-poster:hover{scale:1.02}
+.hero-poster img{display:block;width:auto;height:auto;max-width:100%;max-height:min(66svh,620px)}
+.poster-play{
+  position:absolute;left:50%;top:50%;translate:-50% -50%;
+  width:74px;height:74px;border-radius:50%;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.92);color:#14111f;font-size:26px;
+  opacity:0;scale:.8;transition:opacity .3s ease,scale .3s ease;
+}
+.hero-poster:hover .poster-play{opacity:1;scale:1}
+
+/* saltar intro, como toca */
+.saltar{
+  position:absolute;right:4vw;bottom:34px;z-index:3;
+  padding:12px 22px;border:1px solid rgba(255,255,255,.5);border-radius:10px;
+  background:rgba(14,12,22,.55);color:#fff;font-weight:600;cursor:pointer;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  opacity:0;animation:fundido .6s ease 3s forwards;
+  transition:background .2s ease;
+}
+.saltar:hover{background:rgba(255,255,255,.18)}
+
+/* ============================================================
+   FILAS DE EPISODIOS
+============================================================ */
+.contenido{max-width:1500px;margin:0 auto;padding:0 4vw}
+.seccion{padding:clamp(24px,4vw,44px) 0 clamp(20px,3vw,36px)}
+.seccion[hidden]{display:none}
+.sec-cab{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.sec-cab h2{margin:0;font-weight:700;font-size:clamp(24px,2.6vw,34px);letter-spacing:-.02em}
+.flechas{display:flex;gap:8px}
+.flecha{
+  width:42px;height:42px;display:grid;place-items:center;
+  border:1px solid var(--linea);border-radius:50%;background:rgba(255,255,255,.07);
+  font-size:18px;cursor:pointer;transition:background .2s ease;
+}
+.flecha:hover{background:rgba(255,255,255,.2)}
+
+.carril{
+  display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x proximity;
+  padding:10px 4vw 30px;margin:0 -4vw;scrollbar-width:none;
+}
+.carril::-webkit-scrollbar{display:none}
+.carril .card{flex:none;width:clamp(250px,26vw,350px);scroll-snap-align:start}
+
+.rejilla{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));
+  gap:36px 22px;padding-top:10px;
+}
+
+.card{
+  --d:0s;
+  display:block;width:100%;padding:0;border:0;background:none;
+  text-align:left;color:inherit;cursor:pointer;opacity:0;
+}
+.card.in{opacity:1;animation:entra .8s cubic-bezier(.2,.8,.2,1) var(--d) backwards}
+.card-thumb{
+  position:relative;display:block;aspect-ratio:4/3;
+  background:#000;border-radius:14px;overflow:hidden;
+  box-shadow:0 0 0 1px rgba(255,255,255,.09);
+  transition:scale .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease;
+}
+.card-thumb img{width:100%;height:100%;object-fit:contain}
+.card:hover .card-thumb,.card:focus-visible .card-thumb{
+  scale:1.045;
+  box-shadow:0 0 0 2px rgba(255,255,255,.75),0 28px 40px -20px rgba(0,0,0,.9);
+}
+.card-play{
+  position:absolute;left:50%;top:50%;translate:-50% -50%;
+  width:56px;height:56px;border-radius:50%;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.92);color:#14111f;font-size:19px;
+  opacity:0;scale:.8;transition:opacity .25s ease,scale .25s ease;
+}
+.card:hover .card-play,.card:focus-visible .card-play{opacity:1;scale:1}
+.card-nuevo{
+  position:absolute;left:10px;top:10px;
+  padding:4px 11px;border-radius:999px;
+  background:var(--grad);color:#22101a;font-weight:700;font-size:12px;
+}
+.card-info{display:block;padding:14px 4px 0}
+.card-titulo{display:block;font-weight:600;font-size:18px;line-height:1.25}
+.card-meta{display:flex;align-items:center;gap:10px;margin-top:7px;font-size:14px;color:var(--muted)}
+
+.vacio{
+  max-width:560px;padding:30px;
+  background:var(--panel);border:1px solid var(--linea);border-radius:18px;
+  font-size:19px;color:var(--muted);
+}
+.vacio strong{display:block;margin-bottom:6px;font-weight:700;font-size:26px;color:var(--texto)}
+
+/* ¿sigues ahí? */
+.sigues{
+  margin:clamp(40px,6vw,80px) auto 0;max-width:640px;text-align:center;
+  padding:clamp(28px,4vw,44px);
+  background:var(--panel);border:1px solid var(--linea);border-radius:22px;
+}
+.sigues h3{margin:0;font-weight:800;font-size:clamp(30px,3.6vw,46px);letter-spacing:-.025em}
+.sigues p{margin:12px 0 24px;color:var(--muted);font-size:18px}
+
+/* ============================================================
+   CRÉDITOS
+============================================================ */
+.creditos{
+  text-align:center;
+  padding:clamp(90px,12vw,170px) 6vw clamp(90px,11vw,150px);
+}
+.cred-fin{
+  margin:0;
+  font-weight:800;font-size:clamp(46px,8vw,124px);line-height:.94;letter-spacing:-.035em;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.cred-spin{margin:26px auto 0;max-width:24em;font-size:clamp(19px,2vw,25px);line-height:1.4;color:#e6e2f5}
+.cred-lista{
+  max-width:640px;margin:clamp(50px,7vw,86px) auto 0;
+  display:grid;gap:22px;
+}
+.cred-lista div{display:grid;gap:2px}
+.cred-lista dt{
+  font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+}
+.cred-lista dd{margin:0;font-weight:600;font-size:clamp(20px,2vw,26px)}
+.cred-legal{margin:clamp(46px,6vw,70px) 0 34px;font-size:15px;color:var(--muted)}
+
+/* ============================================================
+   FICHA DEL EPISODIO (modal)
+============================================================ */
+.modal{
+  position:fixed;inset:0;z-index:200;
+  display:none;justify-content:center;align-items:flex-start;
+  padding:32px 16px;overflow-y:auto;
+  background:rgba(6,5,10,.72);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+.modal.activo{display:flex;animation:fundido .25s ease}
+.modal-caja{
+  position:relative;flex-shrink:0;margin:auto 0;
+  width:min(1080px,100%);
+  background:var(--panel);border:1px solid var(--linea);border-radius:24px;
+  box-shadow:0 50px 100px -30px rgba(0,0,0,.9);
+  overflow:hidden;
+}
+.modal.activo .modal-caja{animation:sube .45s cubic-bezier(.2,.8,.3,1)}
+@keyframes sube{from{translate:0 36px;opacity:0;scale:.98}to{translate:0 0;opacity:1;scale:1}}
+
+.modal-barra{position:absolute;top:16px;right:16px;z-index:5;display:flex;gap:8px}
+.icono{
+  width:44px;height:44px;display:grid;place-items:center;
+  background:rgba(20,17,31,.85);border:1px solid var(--linea);border-radius:50%;
+  font-size:19px;font-weight:600;cursor:pointer;
+  transition:background .2s ease,color .2s ease;
+}
+.icono:hover{background:#fff;color:#14111f}
+
+.modal-grid{display:grid;grid-template-columns:1fr}
+.lado{
+  position:relative;
+  background:linear-gradient(#0a0910,var(--panel));
+  padding:72px 26px 30px;
+}
+.lado-medio{
+  display:block;text-align:center;
+  background:#000;border-radius:16px;overflow:hidden;
+  box-shadow:0 0 0 1px rgba(255,255,255,.1),0 30px 50px -28px rgba(0,0,0,.9);
+}
+/* la foto se ve entera, sin recortar */
+.lado-medio img{
+  display:inline-block;width:auto;height:auto;
+  max-width:100%;max-height:min(52vh,470px);
+  cursor:zoom-in;
+}
+.lado-titulo{
+  margin:26px 0 0;
+  font-weight:800;font-size:clamp(30px,3.6vw,46px);line-height:1.02;letter-spacing:-.025em;
+}
+.lado-meta{
+  display:flex;flex-wrap:wrap;align-items:center;gap:12px;
+  margin:14px 0 0;font-size:16px;font-weight:500;color:#d8d4ea;
+}
+.lado-sinopsis{margin:18px 0 0;font-size:18px;line-height:1.5;color:#e6e2f5}
+.lado-contiene{margin:14px 0 0;font-size:15.5px;line-height:1.5;color:var(--muted)}
+.lado-contiene b{color:#d8d4ea;font-weight:600}
+
+.principal{padding:30px 26px 36px}
+.principal-cab{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.principal-cab h3{margin:0;font-weight:800;font-size:28px;letter-spacing:-.02em}
+.principal-cab span{
+  min-width:34px;text-align:center;
+  background:rgba(255,255,255,.12);border-radius:999px;padding:3px 12px;font-weight:700;font-size:15px;
+}
+
+.notas{display:grid;gap:14px}
+.resena{
+  display:grid;grid-template-columns:auto 1fr;gap:4px 14px;
+  padding:16px 18px;
+  background:var(--panel2);border:1px solid var(--linea);border-radius:16px;
+}
+.resena.nueva{animation:entra .6s cubic-bezier(.2,.8,.3,1)}
+.av{
+  grid-row:1 / span 2;
+  width:40px;height:40px;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--grad);color:#22101a;font-weight:800;font-size:17px;
+}
+.res-cab{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0}
+.res-cab b{font-weight:700;font-size:16px;overflow-wrap:anywhere}
+.estrellas{flex:none;font-size:14px;letter-spacing:1.5px;color:var(--acento2)}
+.res-texto{margin:0;font-size:17px;line-height:1.45;color:#ebe8f7;overflow-wrap:anywhere}
+.notas-estado{padding:14px 0;color:var(--muted);font-weight:500;font-size:17px;margin:0}
+
+.boton-mensaje{
+  margin-top:22px;padding:14px 26px;border:0;border-radius:12px;
+  background:#fff;color:#14111f;font-weight:700;cursor:pointer;
+  transition:background .2s ease,scale .2s ease;
+}
+.boton-mensaje:hover{background:#ffe9d2}
+.boton-mensaje:active{scale:.97}
+.boton-mensaje[hidden]{display:none}
+
+.formulario{
+  margin-top:22px;padding:22px;
+  background:var(--panel2);border:1px solid var(--linea);border-radius:18px;
+}
+.formulario[hidden]{display:none}
+.formulario h4{margin:0 0 4px;font-weight:700;font-size:22px;letter-spacing:-.01em}
+.formulario .nota-form{margin:0 0 16px;font-size:14.5px;color:var(--muted)}
+.formulario label{display:block;margin-bottom:14px}
+.formulario label span{display:block;margin-bottom:6px;font-weight:600;font-size:15px}
+.formulario input[type=text],.formulario textarea{
+  width:100%;background:rgba(255,255,255,.06);
+  border:1px solid var(--linea);border-radius:12px;
+  padding:13px 16px;font-weight:500;
+  transition:border-color .2s ease,box-shadow .2s ease;
+}
+.formulario textarea{min-height:112px;resize:vertical}
+.formulario input:focus,.formulario textarea:focus{
+  outline:none;border-color:var(--acento2);box-shadow:0 0 0 4px rgba(255,176,74,.18);
+}
+.trampa{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.formulario-pie{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.contador{font-size:14px;font-weight:500;color:var(--muted)}
+.botones{display:flex;gap:10px}
+.botones button{
+  border-radius:12px;padding:12px 22px;font-weight:700;cursor:pointer;
+  border:1px solid var(--linea);background:rgba(255,255,255,.07);
+  transition:background .2s ease,color .2s ease;
+}
+.botones button:hover{background:rgba(255,255,255,.18)}
+.botones .enviar{background:var(--grad);border-color:transparent;color:#22101a}
+.botones .enviar:hover{filter:brightness(1.08)}
+.botones button:disabled{opacity:.6;cursor:wait}
+
+.aviso{margin-top:20px;padding:14px 18px;border-radius:14px;background:rgba(80,200,120,.16);color:#c9f2d6;font-weight:600}
+.aviso[hidden]{display:none}
+.aviso.error{background:rgba(255,90,106,.18);color:#ffd0d5}
+
+@media (min-width:880px){
+  .modal-grid{grid-template-columns:1fr 1fr}
+  .lado{padding:76px 30px 40px}
+  .principal{padding:76px 34px 40px}
+}
+
+/* ============================================================
+   VISOR DE FOTO
+============================================================ */
+.visor-foto{
+  position:fixed;inset:0;z-index:500;
+  display:none;align-items:center;justify-content:center;
+  padding:30px;
+  background:rgba(4,3,8,.95);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  cursor:zoom-out;
+}
+.visor-foto.activo{display:flex;animation:fundido .25s ease}
+.visor-foto img{
+  max-width:min(94vw,1200px);max-height:90vh;
+  width:auto;height:auto;object-fit:contain;
+  border-radius:12px;
+  box-shadow:0 30px 80px -25px rgba(0,0,0,.8);
+  animation:fotoGrande .35s cubic-bezier(.2,.8,.3,1);
+  cursor:default;
+}
+@keyframes fotoGrande{from{opacity:0;scale:.94}to{opacity:1;scale:1}}
+.visor-cerrar{
+  position:absolute;top:22px;right:22px;z-index:2;
+  width:48px;height:48px;display:grid;place-items:center;
+  border:1px solid rgba(255,255,255,.25);border-radius:50%;
+  background:rgba(255,255,255,.12);color:#fff;
+  font-size:20px;cursor:pointer;
+  transition:background .2s ease,scale .2s ease;
+}
+.visor-cerrar:hover{background:rgba(255,255,255,.25);scale:1.06}
+
+/* ============================================================
+   TABLET Y MÓVIL
+============================================================ */
+@media (max-width:900px){
+  .hero-cuerpo{grid-template-columns:1fr;min-height:0;gap:36px;padding:108px 5vw 90px}
+  .hero-poster{order:-1;max-width:100%}
+  .hero-poster img{max-height:44svh}
+  .hero h1{font-size:clamp(46px,13vw,110px)}
+  .saltar{display:none}
+}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  .nav{padding:14px 18px}
+  .marca{font-size:30px}
+  .busca{height:40px}
+  .contenido{padding:0 18px}
+  .carril{padding:10px 18px 26px;margin:0 -18px;gap:14px}
+  .carril .card{width:74vw}
+  .rejilla{gap:30px 14px;grid-template-columns:repeat(2,1fr)}
+  .card-titulo{font-size:15.5px}
+  .card-meta{font-size:12.5px;gap:7px}
+  .card-play{display:none}
+  .modal{padding:12px 10px}
+  .modal-caja{border-radius:20px}
+  .lado{padding:70px 16px 26px}
+  .principal{padding:24px 16px 28px}
+  .visor-foto{padding:15px}
+  .visor-cerrar{top:14px;right:14px;width:44px;height:44px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+  .saltar{opacity:1}
+  .carril{scroll-snap-type:none}
+}
+</style>
 </head>
+
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="es"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1">&lt;title&gt;Cumplea√±os de 2¬∫ Bach ¬∑ IES El Molinillo&lt;/title&gt;</p>
-<p class="p1">&lt;meta name="theme-color" content="#f3ede2"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</p>
-<p class="p1">&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;</p>
-<p class="p1">&lt;link href="https://fonts.googleapis.com/css2?family=Gloock&amp;family=DM+Sans:opsz,wght@9..40,400..700&amp;family=DM+Mono:wght@400;500&amp;family=Reenie+Beanie&amp;family=Courier+Prime:wght@400;700&amp;display=swap" rel="stylesheet"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;style&gt;</p>
-<p class="p1">:root{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--papel:#f3ede2;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--album:#f3ede2;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--hoja:#fcfaf4;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--tinta:#1a1612;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--muted:#6d6457;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--linea:#e2d9c7;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--naranja:#ff6a1a;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--rojo:#d92f27;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--marino:#232a55;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--tablon:#f8e58a;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--serif:'Gloock',Georgia,'Times New Roman',serif;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--sans:'DM Sans',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--mono:'DM Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--mano:'Reenie Beanie','Segoe Script',cursive;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--maquina:'Courier Prime','Courier New',monospace;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">*{box-sizing:border-box}</p>
-<p class="p1">html{scroll-behavior:smooth}</p>
-<p class="p1">body{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin:0;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:var(--papel);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>color:var(--tinta);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--sans);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-size:17px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>line-height:1.55;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>-webkit-font-smoothing:antialiased;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>overflow-x:clip;</p>
-<p class="p1">}</p>
-<p class="p1">/* grano de papel sobre toda la p√°gina */</p>
-<p class="p1">body::after{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>content:"";position:fixed;inset:0;z-index:90;pointer-events:none;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>opacity:.16;mix-blend-mode:multiply;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background-image:url("data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'&gt;&lt;filter id='n'&gt;&lt;feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/&gt;&lt;feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .6 0'/&gt;&lt;/filter&gt;&lt;rect width='100%' height='100%' filter='url(%23n)'/&gt;&lt;/svg&gt;");</p>
-<p class="p1">}</p>
-<p class="p1">img{max-width:100%;display:block}</p>
-<p class="p1">button,input,textarea{font-family:inherit;font-size:inherit;color:inherit}</p>
-<p class="p1">:focus-visible{outline:3px solid var(--naranja);outline-offset:3px}</p>
-<p class="p2"><br></p>
-<p class="p1">@keyframes gira{to{rotate:360deg}}</p>
-<p class="p1">@keyframes corre{to{translate:-50% 0}}</p>
-<p class="p1">@keyframes aparece{from{opacity:0;translate:0 28px;filter:blur(6px)}to{opacity:1;translate:0 0;filter:blur(0)}}</p>
-<p class="p1">@keyframes deriva{to{translate:5vmax 3vmax}}</p>
-<p class="p1">@keyframes emite{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>0%{opacity:0;translate:0 -26px;scale:1.06}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>55%{opacity:1}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>100%{opacity:1;translate:0 0;scale:1}</p>
-<p class="p1">}</p>
-<p class="p1">@keyframes tinta{from{opacity:0;scale:1.6}to{opacity:.9;scale:1}}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>PORTADA</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">.hero{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>position:relative;isolation:isolate;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>padding:clamp(40px,7vh,90px) 5vw clamp(56px,8vw,100px);</p>
-<p class="p1">}</p>
-<p class="p1">.fuga{position:absolute;z-index:-1;border-radius:50%;pointer-events:none;animation:deriva 28s ease-in-out infinite alternate}</p>
-<p class="p1">.fuga.f1{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>width:60vmax;height:60vmax;left:-22vmax;top:-26vmax;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:radial-gradient(circle,rgba(255,170,110,.5),rgba(255,170,110,0) 66%);</p>
-<p class="p1">}</p>
-<p class="p1">.fuga.f2{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>width:52vmax;height:52vmax;right:-20vmax;bottom:-14vmax;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:radial-gradient(circle,rgba(150,190,240,.42),rgba(150,190,240,0) 66%);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>animation-duration:36s;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">.hero-fila{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>max-width:1240px;margin:0 auto;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>display:grid;grid-template-columns:1fr auto;gap:5vw;align-items:start;</p>
-<p class="p1">}</p>
-<p class="p1">.hero-vuelo{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin:0 0 clamp(20px,3vh,32px);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--mono);font-size:clamp(11px,1.05vw,14px);letter-spacing:.08em;color:var(--muted);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>animation:aparece 1.1s cubic-bezier(.2,.8,.2,1) .1s both;</p>
-<p class="p1">}</p>
-<p class="p1">.hero h1{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin:0;max-width:11.5em;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--serif);font-weight:400;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-size:clamp(46px,7.6vw,128px);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>line-height:.94;letter-spacing:-.025em;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>text-wrap:balance;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>animation:aparece 1.3s cubic-bezier(.2,.8,.2,1) .25s both;</p>
-<p class="p1">}</p>
-<p class="p1">.hero-sub{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin:clamp(22px,3.4vw,38px) 0 0;max-width:24em;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-size:clamp(19px,2vw,27px);line-height:1.35;color:#3b342b;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>animation:aparece 1.2s cubic-bezier(.2,.8,.2,1) .6s both;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* la ruedecita: un sello s√≥lido que gira, siempre visible */</p>
-<p class="p1">.hero-sello{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>position:relative;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>width:clamp(120px,15vw,210px);aspect-ratio:1;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>border-radius:50%;background:var(--hoja);color:var(--marino);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>box-shadow:0 0 0 3px var(--marino),0 0 0 6px var(--hoja),0 0 0 7px var(--marino),0 26px 34px -18px rgba(26,22,18,.55);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>animation:aparece 1.2s ease .4s both;</p>
-<p class="p1">}</p>
-<p class="p1">.hero-sello svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}</p>
-<p class="p1">.hero-sello svg.giro{animation:gira 60s linear infinite}</p>
-<p class="p1">.sello-texto{font-family:var(--mono);font-weight:500;font-size:6.2px;fill:currentColor}</p>
-<p class="p1">.avion{position:absolute;inset:0;display:grid;place-items:center}</p>
-<p class="p1">.avion svg{position:static;width:32%;height:auto;rotate:45deg}</p>
-<p class="p2"><br></p>
-<p class="p1">/* el tabl√≥n de salidas */</p>
-<p class="p1">.tablon{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>max-width:1040px;margin:clamp(40px,6vw,76px) auto 0 max(0px,calc((100% - 1240px) / 2));</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--w:clamp(12px,1.75vw,23px);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:var(--tablon);border-radius:20px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>padding:clamp(16px,2.2vw,28px);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>box-shadow:0 34px 46px -32px rgba(26,22,18,.6);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>animation:aparece 1.2s cubic-bezier(.2,.8,.2,1) .8s both;</p>
-<p class="p1">}</p>
-<p class="p1">.tablon[hidden]{display:none}</p>
-<p class="p1">.tablon-cab{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>display:flex;justify-content:space-between;align-items:center;gap:12px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin-bottom:8px;padding:0 6px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:#4d4210;</p>
-<p class="p1">}</p>
-<p class="p1">.fila{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>display:flex;gap:clamp(10px,1.6vw,26px);align-items:center;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>width:100%;padding:9px 6px;border:0;border-top:1px solid rgba(77,66,16,.2);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:none;text-align:left;cursor:pointer;color:inherit;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>transition:background .2s ease;</p>
-<p class="p1">}</p>
-<p class="p1">button.fila:hover,button.fila:focus-visible{background:rgba(255,255,255,.4)}</p>
-<p class="p1">.fila.cab{cursor:default;padding:4px 6px 6px;border-top:0}</p>
-<p class="p1">.grupo{display:flex;gap:2px;flex:none;width:calc(var(--n) * (var(--w) + 2px) - 2px)}</p>
-<p class="p1">.fila.cab .grupo{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:#6b5f1e;</p>
-<p class="p1">}</p>
-<p class="p1">.ficha{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>position:relative;display:grid;place-items:center;flex:none;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>width:var(--w);height:calc(var(--w) * 1.42);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:#fffdf5;border-radius:3px;color:var(--marino);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--mono);font-weight:500;font-size:calc(var(--w) * .86);line-height:1;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>box-shadow:0 1px 0 rgba(0,0,0,.18);</p>
-<p class="p1">}</p>
-<p class="p1">.ficha::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.16)}</p>
-<p class="p2"><br></p>
-<p class="p1">/* franja de correo a√©reo y cinta con texto */</p>
-<p class="p1">.correo{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>height:16px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:repeating-linear-gradient(-45deg,#d9392b 0 18px,var(--papel) 18px 30px,#2b5fb0 30px 48px,var(--papel) 48px 60px);</p>
-<p class="p1">}</p>
-<p class="p1">.banda{overflow:hidden;background:var(--marino);color:#fff;padding:14px 0}</p>
-<p class="p1">.banda-pista{display:flex;width:max-content;animation:corre 70s linear infinite}</p>
-<p class="p1">.banda-pista span{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>padding-right:2.4em;white-space:nowrap;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--mono);font-weight:500;font-size:13px;letter-spacing:.16em;text-transform:uppercase;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>LOS BILLETES</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">.album-caja{max-width:1280px;margin:0 auto;padding:clamp(70px,9vw,130px) 4vw clamp(50px,6vw,90px)}</p>
-<p class="p1">.album-cab{max-width:900px;margin-bottom:clamp(46px,6vw,84px)}</p>
-<p class="p1">.album-cab h2{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin:0;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--serif);font-weight:400;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-size:clamp(42px,6.8vw,100px);line-height:.96;letter-spacing:-.02em;</p>
-<p class="p1">}</p>
-<p class="p1">.album-desc{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin:24px 0 0;max-width:28em;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-size:clamp(19px,1.8vw,24px);line-height:1.4;color:#3b342b;</p>
-<p class="p1">}</p>
-<p class="p1">.buscador{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>display:block;margin-top:30px;width:min(100%,290px);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:#fff url("data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%236d6457' stroke-width='2.4' stroke-linecap='round'&gt;&lt;circle cx='11' cy='11' r='7'/&gt;&lt;path d='m20 20-3.5-3.5'/&gt;&lt;/svg&gt;") no-repeat 16px center;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>border:1.5px solid var(--linea);border-radius:999px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>padding:13px 20px 13px 44px;font-weight:500;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>transition:border-color .2s ease,box-shadow .2s ease;</p>
-<p class="p1">}</p>
-<p class="p1">.buscador::placeholder{color:#978d7d}</p>
-<p class="p1">.buscador:focus{outline:none;border-color:var(--tinta);box-shadow:0 0 0 4px rgba(255,106,26,.18)}</p>
-<p class="p2"><br></p>
-<p class="p1">.album{columns:3 320px;column-gap:clamp(30px,3.8vw,58px)}</p>
-<p class="p2"><br></p>
-<p class="p1">.billete{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>--tono:#ffdcc2;--giro:0deg;--d:0s;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>position:relative;display:block;width:100%;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin:0 0 clamp(36px,4vw,56px);padding:0 0 4px;border:0;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:var(--tono);border-radius:20px;color:var(--tinta);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>text-align:left;cursor:pointer;break-inside:avoid;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>box-shadow:0 22px 32px -22px rgba(26,22,18,.6);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>rotate:var(--giro);opacity:0;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>transition:rotate .5s cubic-bezier(.2,.8,.2,1),translate .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s ease;</p>
-<p class="p1">}</p>
-<p class="p1">.billete.in{opacity:1;animation:emite .85s cubic-bezier(.2,.9,.3,1) var(--d) backwards}</p>
-<p class="p1">.billete:hover,.billete:focus-visible{rotate:0deg;translate:0 -8px;box-shadow:0 34px 42px -24px rgba(26,22,18,.65)}</p>
-<p class="p2"><br></p>
-<p class="p1">.bi-cab{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>display:flex;justify-content:space-between;gap:10px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>padding:15px 20px 11px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(26,22,18,.7);</p>
-<p class="p1">}</p>
-<p class="p1">.bi-foto{display:block;margin:0 14px;border-radius:12px;overflow:hidden;background:rgba(26,22,18,.1)}</p>
-<p class="p1">.bi-foto img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}</p>
-<p class="p2"><br></p>
-<p class="p1">/* el corte del billete, con sus muescas */</p>
-<p class="p1">.bi-corte{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>position:relative;display:block;height:0;margin:20px 12px 0;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>border-top:2px dashed rgba(26,22,18,.3);</p>
-<p class="p1">}</p>
-<p class="p1">.bi-corte::before,.bi-corte::after{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>content:"";position:absolute;top:-13px;width:24px;height:24px;border-radius:50%;background:var(--album);</p>
-<p class="p1">}</p>
-<p class="p1">.bi-corte::before{left:-24px}</p>
-<p class="p1">.bi-corte::after{right:-24px}</p>
-<p class="p2"><br></p>
-<p class="p1">.bi-cuerpo{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>display:grid;grid-template-columns:1fr auto;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>grid-template-areas:"nombre fecha" "vuelo sello" "obs obs" "codigo codigo";</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>gap:16px 16px;padding:22px 20px 16px;</p>
-<p class="p1">}</p>
-<p class="p1">.bi-cuerpo small{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>display:block;margin-bottom:3px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(26,22,18,.6);</p>
-<p class="p1">}</p>
-<p class="p1">.bi-nombre{grid-area:nombre;min-width:0}</p>
-<p class="p1">.bi-nombre b{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>display:block;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--serif);font-weight:400;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-size:clamp(28px,2.5vw,36px);line-height:1;letter-spacing:-.01em;overflow-wrap:anywhere;</p>
-<p class="p1">}</p>
-<p class="p1">.bi-fecha{grid-area:fecha;text-align:right}</p>
-<p class="p1">.bi-fecha b{display:block;font-family:var(--mono);font-weight:500;font-size:19px;letter-spacing:.04em}</p>
-<p class="p1">.bi-vuelo{grid-area:vuelo;align-self:center}</p>
-<p class="p1">.bi-edades{display:flex;align-items:baseline;gap:10px}</p>
-<p class="p1">.bi-edades i{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--serif);font-style:normal;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-size:clamp(38px,3.6vw,54px);line-height:.85;</p>
-<p class="p1">}</p>
-<p class="p1">.bi-edades em{font-family:var(--mono);font-style:normal;font-size:20px;color:rgba(26,22,18,.5)}</p>
-<p class="p2"><br></p>
-<p class="p1">.bi-sello{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>grid-area:sello;justify-self:end;align-self:center;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>width:88px;height:88px;overflow:visible;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>color:var(--marino);mix-blend-mode:multiply;pointer-events:none;opacity:0;</p>
-<p class="p1">}</p>
-<p class="p1">.billete.in .bi-sello{opacity:.9;animation:tinta .5s ease calc(var(--d) + .6s) backwards}</p>
-<p class="p1">.sl-arco{font-family:var(--mono);font-weight:500;font-size:6.6px;letter-spacing:1px;fill:currentColor}</p>
-<p class="p1">.sl-fecha{font-family:var(--mono);font-weight:500;font-size:10.4px;letter-spacing:.3px;fill:currentColor}</p>
-<p class="p1">.sl-anio{font-family:var(--mono);font-weight:500;font-size:7px;letter-spacing:.8px;fill:currentColor}</p>
-<p class="p2"><br></p>
-<p class="p1">.bi-obs{grid-area:obs;font-size:14.5px;line-height:1.38;color:#3b342b}</p>
-<p class="p1">.bi-codigo{grid-area:codigo}</p>
-<p class="p1">.bi-barras{display:block;width:100%;height:28px}</p>
-<p class="p1">.bi-barras rect{fill:var(--tinta)}</p>
-<p class="p1">.bi-codigo small{margin:7px 0 0;letter-spacing:.24em}</p>
-<p class="p2"><br></p>
-<p class="p1">.vacio-album{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>max-width:560px;padding:30px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>border:1.5px dashed var(--linea);border-radius:8px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-size:19px;color:var(--muted);</p>
-<p class="p1">}</p>
-<p class="p1">.vacio-album strong{display:block;margin-bottom:6px;font-family:var(--serif);font-weight:400;font-size:30px;color:var(--tinta)}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>FINAL</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">.final{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>position:relative;text-align:center;overflow:hidden;isolation:isolate;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>padding:clamp(80px,11vw,150px) 6vw clamp(90px,11vw,140px);</p>
-<p class="p1">}</p>
-<p class="p1">.final::before{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>content:"";position:absolute;z-index:-1;left:50%;top:0;translate:-50% 0;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>width:70vmax;height:46vmax;border-radius:50%;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:radial-gradient(circle,rgba(255,170,110,.3),rgba(255,170,110,0) 66%);</p>
-<p class="p1">}</p>
-<p class="p1">.final h2{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin:0 auto;max-width:11em;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--serif);font-weight:400;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-size:clamp(44px,7.4vw,118px);line-height:.96;letter-spacing:-.025em;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>text-wrap:balance;</p>
-<p class="p1">}</p>
-<p class="p1">.final-texto{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin:32px auto 0;max-width:27em;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-size:clamp(19px,2vw,26px);line-height:1.4;color:#3b342b;</p>
-<p class="p1">}</p>
-<p class="p1">.final-firma{margin:22px 0 0;font-family:var(--mano);font-size:clamp(30px,3vw,42px);line-height:1;color:var(--rojo)}</p>
-<p class="p1">.subir{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>display:inline-flex;align-items:center;gap:10px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin-top:34px;padding:14px 26px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:var(--tinta);color:#fff;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>border-radius:999px;font-weight:700;text-decoration:none;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>transition:background .2s ease;</p>
-<p class="p1">}</p>
-<p class="p1">.subir:hover{background:var(--naranja)}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>MODAL ¬∑ la tarjeta con la foto y las dedicatorias</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">.modal{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>position:fixed;inset:0;z-index:200;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>display:none;justify-content:center;align-items:flex-start;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>padding:32px 16px;overflow-y:auto;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:rgba(26,22,18,.55);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);</p>
-<p class="p1">}</p>
-<p class="p1">.modal.activo{display:flex;animation:velo .25s ease}</p>
-<p class="p1">@keyframes velo{from{opacity:0}to{opacity:1}}</p>
-<p class="p1">.modal-caja{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>position:relative;flex-shrink:0;margin:auto 0;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>width:min(1040px,100%);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:var(--hoja);border-radius:14px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>box-shadow:0 40px 90px -30px rgba(10,8,5,.7);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>overflow:hidden;</p>
-<p class="p1">}</p>
-<p class="p1">.modal.activo .modal-caja{animation:sube .45s cubic-bezier(.2,.8,.3,1)}</p>
-<p class="p1">@keyframes sube{from{translate:0 36px;opacity:0;scale:.98}to{translate:0 0;opacity:1;scale:1}}</p>
-<p class="p2"><br></p>
-<p class="p1">.modal-barra{position:absolute;top:16px;right:16px;z-index:5;display:flex;gap:8px}</p>
-<p class="p1">.icono{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>width:44px;height:44px;display:grid;place-items:center;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:rgba(255,255,255,.95);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>border:1.5px solid var(--linea);border-radius:50%;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-size:19px;font-weight:600;cursor:pointer;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>transition:background .2s ease,color .2s ease;</p>
-<p class="p1">}</p>
-<p class="p1">.icono:hover{background:var(--tinta);color:#fff;border-color:var(--tinta)}</p>
-<p class="p2"><br></p>
-<p class="p1">.modal-grid{display:grid;grid-template-columns:1fr}</p>
-<p class="p1">.lado{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>position:relative;overflow:hidden;isolation:isolate;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:#e9e1d1;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>padding:70px 28px 34px;text-align:center;</p>
-<p class="p1">}</p>
-<p class="p1">.lado::before{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>content:"";position:absolute;z-index:-1;right:-30%;top:-20%;width:90%;aspect-ratio:1;border-radius:50%;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:radial-gradient(circle,rgba(255,150,84,.35),rgba(255,150,84,0) 66%);</p>
-<p class="p1">}</p>
-<p class="p1">.lado-num{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>position:absolute;z-index:-1;right:-6px;bottom:-40px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--serif);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-size:250px;line-height:1;letter-spacing:-.05em;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>color:transparent;-webkit-text-stroke:1.5px rgba(26,22,18,.14);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>pointer-events:none;user-select:none;</p>
-<p class="p1">}</p>
-<p class="p1">/* la foto se ve entera, sin recortar */</p>
-<p class="p1">.lado-foto{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>display:inline-block;max-width:100%;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:#fff;padding:12px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>box-shadow:0 26px 44px -22px rgba(26,22,18,.6);</p>
-<p class="p1">}</p>
-<p class="p1">.lado-foto img{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>display:block;width:auto;height:auto;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>max-width:100%;max-height:min(56vh,500px);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>cursor:zoom-in;background:#ddd5c5;</p>
-<p class="p1">}</p>
-<p class="p1">.lado-nombre{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin:30px 0 12px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--serif);font-weight:400;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-size:clamp(46px,6vw,68px);line-height:.94;letter-spacing:-.02em;</p>
-<p class="p1">}</p>
-<p class="p1">.lado-datos{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--mono);font-size:13px;letter-spacing:.05em;</p>
-<p class="p1">}</p>
-<p class="p1">.lado-datos .estampa{color:var(--naranja);font-weight:500;text-shadow:0 0 5px rgba(255,110,20,.5)}</p>
-<p class="p1">.edad{padding:3px 12px;border-radius:999px;background:rgba(255,255,255,.75);font-weight:500;white-space:nowrap}</p>
-<p class="p2"><br></p>
-<p class="p1">.principal{padding:32px 26px 38px}</p>
-<p class="p1">.principal-cab{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}</p>
-<p class="p1">.principal-cab h3{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin:0;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--serif);font-weight:400;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-size:38px;line-height:1;letter-spacing:-.02em;</p>
-<p class="p1">}</p>
-<p class="p1">.principal-cab span{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>min-width:34px;text-align:center;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:var(--tinta);color:#fff;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>border-radius:999px;padding:3px 12px;font-family:var(--mono);font-weight:500;font-size:14px;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">.notas{display:grid;gap:18px}</p>
-<p class="p1">/* cada mensaje, una ficha mecanografiada y firmada a mano */</p>
-<p class="p1">.nota-msg{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>position:relative;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background-color:#fffdf8;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background-image:repeating-linear-gradient(to bottom,transparent 0 31px,rgba(70,110,180,.17) 31px 32px);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>border:1px solid #e6dcc9;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>padding:20px 24px 14px 60px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>box-shadow:0 12px 22px -18px rgba(26,22,18,.5);</p>
-<p class="p1">}</p>
-<p class="p1">.nota-msg::before{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>content:"";position:absolute;left:42px;top:0;bottom:0;width:1.5px;background:rgba(217,47,39,.35);</p>
-<p class="p1">}</p>
-<p class="p1">.nota-msg.nueva{animation:nueva .6s cubic-bezier(.2,.8,.3,1)}</p>
-<p class="p1">@keyframes nueva{from{translate:0 20px;opacity:0}to{translate:0 0;opacity:1}}</p>
-<p class="p1">.nota-texto{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin:0;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--maquina);font-size:18px;line-height:32px;overflow-wrap:anywhere;</p>
-<p class="p1">}</p>
-<p class="p1">.nota-autor{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin:2px 0 0;text-align:right;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-family:var(--mano);font-size:32px;line-height:1;color:var(--rojo);</p>
-<p class="p1">}</p>
-<p class="p1">.notas-estado{padding:16px 0;color:var(--muted);font-weight:500;font-size:18px;margin:0}</p>
-<p class="p2"><br></p>
-<p class="p1">.boton-mensaje{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin-top:26px;background:var(--tinta);color:#fff;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>border:0;border-radius:999px;padding:15px 28px;font-weight:700;cursor:pointer;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>transition:background .2s ease,translate .2s ease;</p>
-<p class="p1">}</p>
-<p class="p1">.boton-mensaje:hover{background:var(--naranja)}</p>
-<p class="p1">.boton-mensaje:active{translate:0 2px}</p>
-<p class="p1">.boton-mensaje[hidden]{display:none}</p>
-<p class="p2"><br></p>
-<p class="p1">.formulario{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>margin-top:26px;padding:24px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:var(--papel);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>border:1.5px solid var(--linea);border-radius:14px;</p>
-<p class="p1">}</p>
-<p class="p1">.formulario[hidden]{display:none}</p>
-<p class="p1">.formulario h4{margin:0 0 16px;font-family:var(--serif);font-weight:400;font-size:28px;letter-spacing:-.01em}</p>
-<p class="p1">.formulario label{display:block;margin-bottom:14px}</p>
-<p class="p1">.formulario label span{display:block;margin-bottom:6px;font-weight:600;font-size:15px}</p>
-<p class="p1">.formulario input[type=text],.formulario textarea{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>width:100%;background:#fff;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>border:1.5px solid var(--linea);border-radius:10px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>padding:13px 16px;font-weight:500;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>transition:border-color .2s ease,box-shadow .2s ease;</p>
-<p class="p1">}</p>
-<p class="p1">.formulario textarea{min-height:112px;resize:vertical;font-family:var(--maquina);font-size:17px}</p>
-<p class="p1">.formulario input:focus,.formulario textarea:focus{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>outline:none;border-color:var(--tinta);box-shadow:0 0 0 4px rgba(255,106,26,.18);</p>
-<p class="p1">}</p>
-<p class="p1">.trampa{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}</p>
-<p class="p1">.formulario-pie{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}</p>
-<p class="p1">.contador{font-family:var(--mono);font-size:13px;color:var(--muted)}</p>
-<p class="p1">.botones{display:flex;gap:10px}</p>
-<p class="p1">.botones button{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>border-radius:999px;padding:12px 22px;font-weight:700;cursor:pointer;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>border:1.5px solid var(--linea);background:#fff;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>transition:background .2s ease,color .2s ease,border-color .2s ease;</p>
-<p class="p1">}</p>
-<p class="p1">.botones button:hover{border-color:var(--tinta)}</p>
-<p class="p1">.botones .enviar{background:var(--naranja);border-color:var(--naranja);color:#fff}</p>
-<p class="p1">.botones .enviar:hover{background:var(--tinta);border-color:var(--tinta)}</p>
-<p class="p1">.botones button:disabled{opacity:.6;cursor:wait}</p>
-<p class="p2"><br></p>
-<p class="p1">.aviso{margin-top:22px;padding:14px 18px;border-radius:12px;background:#dff0d8;font-weight:600}</p>
-<p class="p1">.aviso[hidden]{display:none}</p>
-<p class="p1">.aviso.error{background:#ffdcd6}</p>
-<p class="p2"><br></p>
-<p class="p1">@media (min-width:860px){</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.modal-grid{grid-template-columns:.9fr 1.1fr}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.lado{padding:76px 30px 40px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.principal{padding:74px 40px 44px}</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>VISOR DE FOTO</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">.visor-foto{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>position:fixed;inset:0;z-index:500;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>display:none;align-items:center;justify-content:center;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>padding:30px;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:rgba(14,11,8,.95);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>cursor:zoom-out;</p>
-<p class="p1">}</p>
-<p class="p1">.visor-foto.activo{display:flex;animation:visorEntrada .25s ease}</p>
-<p class="p1">@keyframes visorEntrada{from{opacity:0}to{opacity:1}}</p>
-<p class="p1">.visor-foto img{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>max-width:min(94vw,1200px);max-height:90vh;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>width:auto;height:auto;object-fit:contain;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>box-shadow:0 30px 80px -25px rgba(0,0,0,.7);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>animation:fotoGrande .35s cubic-bezier(.2,.8,.3,1);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>cursor:default;</p>
-<p class="p1">}</p>
-<p class="p1">@keyframes fotoGrande{from{opacity:0;scale:.94}to{opacity:1;scale:1}}</p>
-<p class="p1">.visor-cerrar{</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>position:absolute;top:22px;right:22px;z-index:2;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>width:48px;height:48px;display:grid;place-items:center;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>border:1px solid rgba(255,255,255,.25);border-radius:50%;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>background:rgba(255,255,255,.12);color:#fff;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>font-size:20px;cursor:pointer;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>transition:background .2s ease,scale .2s ease;</p>
-<p class="p1">}</p>
-<p class="p1">.visor-cerrar:hover{background:rgba(255,255,255,.25);scale:1.06}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>TABLET Y M√ìVIL</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">@media (max-width:900px){</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.hero-fila{grid-template-columns:1fr;gap:26px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.hero-sello{order:-1;width:118px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.hero h1{font-size:clamp(46px,12.4vw,110px)}</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">@media (max-width:700px){</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.g-estado{display:none}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.tablon{--w:clamp(11px,3.4vw,18px);margin-left:0}</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">@media (max-width:640px){</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.album{columns:1;column-gap:0}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.billete{max-width:440px;margin-left:auto;margin-right:auto}</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">@media (max-width:560px){</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>body{font-size:16px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.hero{padding-left:18px;padding-right:18px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.album-caja{padding:64px 18px 50px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.final{padding:70px 20px 90px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.modal{padding:12px 10px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.modal-caja{border-radius:12px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.lado{padding:70px 16px 30px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.lado-num{font-size:190px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.principal{padding:26px 16px 30px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.nota-msg{padding:18px 16px 12px 46px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.nota-msg::before{left:32px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.nota-texto{font-size:16px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.visor-foto{padding:15px}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.visor-cerrar{top:14px;right:14px;width:44px;height:44px}</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">@media (prefers-reduced-motion:reduce){</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>*,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.billete.in .bi-sello{opacity:.9}</p>
-<p class="p1">}</p>
-<p class="p1">&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ================= PORTADA ================= --&gt;</p>
-<p class="p1">&lt;header class="hero" id="top"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;div class="fuga f1" aria-hidden="true"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;div class="fuga f2" aria-hidden="true"&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;div class="hero-fila"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;p class="hero-vuelo"&gt;VUELO 2¬∫ BACH ¬∑ OPERADO POR IES EL MOLINILLO ¬∑ CURSO 2026‚Äì27&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;h1&gt;Se√±ores pasajeros: hoy cumple alguien.&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;p class="hero-sub"&gt;Rogamos apaguen las velas y sonr√≠an para la foto.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;div class="hero-sello" aria-hidden="true"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;svg class="giro" viewBox="0 0 100 100"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;defs&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>&lt;path id="caminoSello" d="M50,50 m0,-36 a36,36 0 1,1 0,72 a36,36 0 1,1 0,-72"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;/defs&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;text class="sello-texto"&gt;&lt;textPath href="#caminoSello" textLength="222" lengthAdjust="spacing"&gt;VUELO 2¬∫ BACH ¬∑ IES EL MOLINILLO ¬∑ CURSO 2026‚Äì27 ¬∑ &lt;/textPath&gt;&lt;/text&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;svg viewBox="0 0 100 100"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;g fill="none" stroke="currentColor"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>&lt;circle cx="50" cy="50" r="46" stroke-width="1.2"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>&lt;circle cx="50" cy="50" r="27" stroke-width=".8"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;/g&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;span class="avion"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;svg viewBox="0 0 24 24" fill="currentColor"&gt;&lt;path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/&gt;&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;section class="tablon" id="tablon" hidden aria-label="√öltimos cumplea√±os"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;div class="tablon-cab"&gt;&lt;b&gt;SALIDAS&lt;/b&gt;&lt;span&gt;PUERTA 2¬∫ BACH&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;div class="fila cab" aria-hidden="true"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;span class="grupo" style="--n:6"&gt;FECHA&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;span class="grupo" style="--n:12"&gt;PASAJERO&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;span class="grupo" style="--n:2"&gt;EDAD&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;span class="grupo g-estado" style="--n:10"&gt;ESTADO&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;div id="tablonFilas"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;/section&gt;</p>
-<p class="p1">&lt;/header&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="correo" aria-hidden="true"&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;div class="banda" aria-hidden="true"&gt;&lt;div class="banda-pista" id="bandaPista"&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ================= LOS BILLETES ================= --&gt;</p>
-<p class="p1">&lt;section class="album-caja" id="galeria"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;div class="album-cab"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;h2&gt;Vuelos completados.&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;p class="album-desc"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>Un billete por cumplea√±os, del a√±o que se deja al a√±o que llega.</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>Ida y vuelta no incluida.</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;input class="buscador" id="buscador" type="search" placeholder="Buscar pasajero" aria-label="Buscar por nombre" autocomplete="off"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;div class="album" id="grid"&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="correo" aria-hidden="true"&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ================= FINAL ================= --&gt;</p>
-<p class="p1">&lt;section class="final"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;h2&gt;Gracias por volar con nosotros.&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;p class="final-texto"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>Dentro de un a√±o cada uno aterrizar√° en un sitio distinto, pero los cumplea√±os</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>seguir√°n en el calendario. Un mensaje de felicitaci√≥n es el √∫nico vuelo que</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>nunca se retrasa.</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;p class="final-firma"&gt;La tripulaci√≥n de 2¬∫ Bach, curso 2026‚Äì27&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;a class="subir" href="#top"&gt;Volver a la puerta de embarque &lt;span aria-hidden="true"&gt;‚Üë&lt;/span&gt;&lt;/a&gt;</p>
-<p class="p1">&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ================= VISOR DE FOTO ================= --&gt;</p>
-<p class="p1">&lt;div class="visor-foto" id="visorFoto" aria-hidden="true"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;button class="visor-cerrar" id="visorCerrar" aria-label="Cerrar foto"&gt;‚úï&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;img id="visorImagen" src="" alt=""&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ================= MODAL ================= --&gt;</p>
-<p class="p1">&lt;div class="modal" id="modal" aria-hidden="true"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;div class="modal-caja" id="modalCaja" role="dialog" aria-modal="true" aria-labelledby="mNombre"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;div class="modal-barra"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;button class="icono" id="anterior" aria-label="Cumplea√±os anterior"&gt;‚Üê&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;button class="icono" id="siguiente" aria-label="Cumplea√±os siguiente"&gt;‚Üí&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;button class="icono" id="cerrar" aria-label="Cerrar"&gt;‚úï&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;div class="modal-grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;aside class="lado"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;div class="lado-num" id="mNum" aria-hidden="true"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;div class="lado-foto"&gt;&lt;img id="mImg" src="" alt=""&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;h2 class="lado-nombre" id="mNombre"&gt;&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;div class="lado-datos"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>&lt;span class="estampa" id="mEstampa"&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>&lt;span class="edad" id="mEdad"&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;/aside&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;section class="principal"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;div class="principal-cab"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>&lt;h3&gt;Palabras para ti&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>&lt;span id="mCuenta"&gt;0&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;div class="notas" id="mMensajes"&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;button class="boton-mensaje" id="botonMensaje" type="button"&gt;Dejar un mensaje&lt;/button&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;form class="formulario" id="formulario" hidden&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>&lt;h4&gt;Escribe algo bonito&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>&lt;label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† ¬† </span>&lt;span&gt;Tu nombre&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† ¬† </span>&lt;input type="text" id="autorMensaje" maxlength="40" autocomplete="name" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>&lt;label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† ¬† </span>&lt;span&gt;Tu mensaje&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† ¬† </span>&lt;textarea id="textoMensaje" maxlength="300" required&gt;&lt;/textarea&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>&lt;input class="trampa" type="text" id="trampa" tabindex="-1" autocomplete="off" aria-hidden="true"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>&lt;div class="formulario-pie"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† ¬† </span>&lt;span class="contador" id="contadorTexto"&gt;0 / 300&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† ¬† </span>&lt;div class="botones"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† ¬† ¬† </span>&lt;button type="button" id="cancelarMensaje"&gt;Cancelar&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† ¬† ¬† </span>&lt;button type="submit" class="enviar" id="enviarMensaje"&gt;Enviar mensaje&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† ¬† </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;/form&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;div class="aviso" id="aviso" role="status" hidden&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;/section&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p2"><br></p>
-<p class="p1">&lt;script&gt;</p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>CONFIGURACI√ìN</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">const URL_MENSAJES =</p>
-<p class="p1">"https://script.google.com/macros/s/AKfycbx2ttHOz5Ni5pITnqZKdVAkkPC39WF8H7UWjmJQgSvGGv3gWiVxdsjhKGdMqKmUf0N2pg/exec";</p>
-<p class="p2"><br></p>
-<p class="p1">const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto",</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† ¬† ¬† ¬† ¬† ¬† ¬† </span>"septiembre","octubre","noviembre","diciembre"];</p>
-<p class="p1">const MESES_CORTO = ["ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC"];</p>
-<p class="p2"><br></p>
-<p class="p1">/* color de cada billete */</p>
-<p class="p1">const TONOS = ["#ffdcc2","#cfe3f6","#d3ecdc","#fbecb0","#f6d4dc","#e2dcf3"];</p>
-<p class="p2"><br></p>
-<p class="p1">/* observaciones del billete: todas inofensivas, ninguna se√±ala a nadie */</p>
-<p class="p1">const OBSERVACIONES = [</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>"Alguien sale con los ojos cerrados. Es tradici√≥n.",</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>"La tarta no lleg√≥ al recreo.",</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>"Se cant√≥ sin ensayar. Se nota.",</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>"Hubo segunda foto porque en la primera sal√≠a uno movi√©ndose.",</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>"Velas apagadas a la primera. Casi.",</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>"Nadie sab√≠a d√≥nde poner las manos.",</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>"Quien cumple, en el centro. El resto, como buenamente cupo.",</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>"Se pidi√≥ un deseo. Se guarda el secreto.",</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>"Equipaje: una tarta. Facturada y devorada.",</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>"Cumplea√±os aprobado por unanimidad."</p>
-<p class="p1">];</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>UTILIDADES</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">const $ = id =&gt; document.getElementById(id);</p>
-<p class="p1">const esc = s =&gt; String(s ?? "").replace(/[&amp;&lt;&gt;"']/g, c =&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>({"&amp;":"&amp;amp;","&lt;":"&amp;lt;","&gt;":"&amp;gt;",'"':"&amp;quot;","'":"&amp;#39;"}[c]));</p>
-<p class="p1">const norm = s =&gt; String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();</p>
-<p class="p1">const reducir = matchMedia("(prefers-reduced-motion: reduce)").matches;</p>
-<p class="p1">const dos = n =&gt; String(n).padStart(2, "0");</p>
-<p class="p2"><br></p>
-<p class="p1">function hoy() {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const d = new Date();</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>return dos(d.getDate()) + "/" + dos(d.getMonth() + 1) + "/" + d.getFullYear();</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* avatar de emergencia si una foto no carga */</p>
-<p class="p1">function avatar(nombre) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const ini = esc((nombre || "?").trim().charAt(0).toUpperCase());</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const svg = `&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"&gt;&lt;rect width="200" height="200" fill="#ddd5c5"/&gt;&lt;text x="100" y="128" font-family="Georgia,serif" font-weight="700" font-size="96" text-anchor="middle" fill="#1a1612"&gt;${ini}&lt;/text&gt;&lt;/svg&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>return "data:image/svg+xml;utf8," + encodeURIComponent(svg);</p>
-<p class="p1">}</p>
-<p class="p1">function conFallback(img, nombre) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>img.addEventListener("error", () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>img.onerror = null;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>img.src = avatar(nombre);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>}, { once: true });</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* cada foto se ve entera: usamos su proporci√≥n real */</p>
-<p class="p1">function fijarProporcion(img) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const poner = () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>if (img.naturalWidth &amp;&amp; img.naturalHeight)</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>img.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>};</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (img.complete) poner();</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>img.addEventListener("load", poner);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>FECHAS</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">function parseFecha(texto) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const s = String(texto || "").trim();</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (!s) return null;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>let m;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if ((m = s.match(/(\d{4})-(\d{1,2})-(\d{1,2})/)))</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>return { d: +m[3], m: +m[2] - 1 };</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if ((m = s.match(/(\d{1,2})[\/\-.](\d{1,2})(?:[\/\-.]\d{2,4})?/))) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const d = +m[1], mes = +m[2];</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>if (d &gt;= 1 &amp;&amp; d &lt;= 31 &amp;&amp; mes &gt;= 1 &amp;&amp; mes &lt;= 12) return { d, m: mes - 1 };</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const n = norm(s);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if ((m = n.match(/(\d{1,2})\s*(?:de\s+)?([a-z]{3,})/))) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const idx = MESES.findIndex(x =&gt; x.startsWith(m[2].slice(0, 3)));</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>if (idx &gt;= 0) return { d: +m[1], m: idx };</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>return null;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">const AHORA = new Date();</p>
-<p class="p1">const ANIO0 = AHORA.getMonth() &gt;= 8 ? AHORA.getFullYear() : AHORA.getFullYear() - 1;</p>
-<p class="p1">const INICIO = Date.UTC(ANIO0, 8, 1);</p>
-<p class="p1">const HOY_DIA = (Date.UTC(AHORA.getFullYear(), AHORA.getMonth(), AHORA.getDate()) - INICIO) / 864e5;</p>
-<p class="p2"><br></p>
-<p class="p1">function diaCurso(f) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const y = f.m &gt;= 8 ? ANIO0 : ANIO0 + 1;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>return (Date.UTC(y, f.m, f.d) - INICIO) / 864e5;</p>
-<p class="p1">}</p>
-<p class="p1">function anioDe(f) { return f.m &gt;= 8 ? ANIO0 : ANIO0 + 1; }</p>
-<p class="p2"><br></p>
-<p class="p1">/* "20 OCT" */</p>
-<p class="p1">function fechaCorta(p, f) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>return f ? `${dos(f.d)} ${MESES_CORTO[f.m]}` : String(p.fecha || "").toUpperCase().slice(0, 6);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* la fecha "en la esquina" de la foto: 20 10 ‚Äô26 */</p>
-<p class="p1">function estampa(p, f) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (!f) return String(p.fecha || "");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>return `${dos(f.d)} ${dos(f.m + 1)} ‚Äô${String(anioDe(f)).slice(-2)}`;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>ESTADO</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">let fotos = [];</p>
-<p class="p1">let ordenIdx = [];</p>
-<p class="p1">let actual = -1;</p>
-<p class="p1">const cache = new Map();</p>
-<p class="p2"><br></p>
-<p class="p1">function construirOrden() {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>ordenIdx = fotos</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>.map((p, i) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>const f = parseFecha(p.fecha);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>return { i, dia: f ? diaCurso(f) : 9999 };</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>})</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>.sort((a, b) =&gt; a.dia - b.dia || a.i - b.i)</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>.map(x =&gt; x.i);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* cada billete se "emite" al entrar en pantalla */</p>
-<p class="p1">const observador = "IntersectionObserver" in window</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>? new IntersectionObserver(entradas =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>entradas.forEach(e =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>if (e.isIntersecting) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>e.target.classList.add("in");</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† </span>observador.unobserve(e.target);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>}</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>});</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>}, { rootMargin: "0px 0px -8% 0px", threshold: 0.1 })</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>: null;</p>
-<p class="p2"><br></p>
-<p class="p1">function vigilar(el) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (observador) observador.observe(el);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>else el.classList.add("in");</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>EL BILLETE</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">let contSello = 0;</p>
-<p class="p2"><br></p>
-<p class="p1">/* c√≥digo de barras inventado, distinto en cada billete */</p>
-<p class="p1">function barras(semilla) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>let s = (semilla + 3) * 9301 + 49297;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const azar = () =&gt; { s = (s * 9301 + 49297) % 233280; return s / 233280; };</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>let x = 0, rects = "";</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>while (x &lt; 196) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const w = 1 + Math.floor(azar() * 3);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>if (azar() &gt; 0.28) rects += `&lt;rect x="${x}" y="0" width="${w}" height="26"/&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>x += w + 1 + Math.floor(azar() * 2);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>return `&lt;svg class="bi-barras" viewBox="0 0 200 26" preserveAspectRatio="none" aria-hidden="true"&gt;${rects}&lt;/svg&gt;`;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* el sello de "embarcado" con la fecha del cumplea√±os */</p>
-<p class="p1">function selloEmbarcado(f, i) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const n = ++contSello;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const rot = ((i * 53) % 25) - 12;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const centro = f</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>? `&lt;text class="sl-fecha" x="50" y="50" text-anchor="middle"&gt;${dos(f.d)} ${MESES_CORTO[f.m]}&lt;/text&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† ¬† ¬† </span>&lt;text class="sl-anio" x="50" y="60" text-anchor="middle"&gt;${anioDe(f)}&lt;/text&gt;`</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>: "";</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>return `</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;svg class="bi-sello" viewBox="0 0 100 100" style="rotate:${rot}deg" aria-hidden="true"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;defs&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;path id="slt${n}" d="M17,50 A33,33 0 0 1 83,50"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;path id="slb${n}" d="M13,50 A37,37 0 0 0 87,50"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;/defs&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;g fill="none" stroke="currentColor"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;circle cx="50" cy="50" r="47" stroke-width="1.6"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>&lt;circle cx="50" cy="50" r="44.4" stroke-width=".8"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;/g&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;text class="sl-arco" text-anchor="middle"&gt;&lt;textPath href="#slt${n}" startOffset="50%"&gt;EMBARCADO&lt;/textPath&gt;&lt;/text&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;text class="sl-arco" text-anchor="middle"&gt;&lt;textPath href="#slb${n}" startOffset="50%"&gt;2¬∫ BACH&lt;/textPath&gt;&lt;/text&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>${centro}</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;/svg&gt;`;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function crearBillete(p, i, pos) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const f = parseFecha(p.fecha);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const edad = parseInt(p.edad, 10);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const obs = OBSERVACIONES[(i * 7 + 3) % OBSERVACIONES.length];</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const codigo = "IES-2627-" + String(p.id).padStart(3, "0");</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const b = document.createElement("button");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>b.type = "button";</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>b.className = "billete";</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>b.style.setProperty("--tono", TONOS[i % TONOS.length]);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>b.style.setProperty("--giro", (((i * 37) % 7) - 3) * 0.5 + "deg");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>b.style.setProperty("--d", (pos % 3) * 0.14 + "s");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>b.setAttribute("aria-label", `Abrir el cumplea√±os de ${p.nombre}`);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const vuelo = Number.isFinite(edad)</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>? `&lt;i&gt;${edad - 1}&lt;/i&gt;&lt;em&gt;‚Üí&lt;/em&gt;&lt;i&gt;${edad}&lt;/i&gt;`</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>: `&lt;i&gt;${esc(p.edad)}&lt;/i&gt;`;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>b.innerHTML = `</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;span class="bi-cab"&gt;&lt;span&gt;Billete de cumplea√±os&lt;/span&gt;&lt;span&gt;2¬∫ Bach&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;span class="bi-foto"&gt;&lt;img src="${esc(p.foto)}" alt="${esc(p.nombre)}" loading="lazy"&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;span class="bi-corte" aria-hidden="true"&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;span class="bi-cuerpo"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;span class="bi-nombre"&gt;&lt;small&gt;Pasajero&lt;/small&gt;&lt;b&gt;${esc(p.nombre)}&lt;/b&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;span class="bi-fecha"&gt;&lt;small&gt;Fecha&lt;/small&gt;&lt;b&gt;${esc(fechaCorta(p, f))}&lt;/b&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;span class="bi-vuelo"&gt;&lt;small&gt;Vuelo&lt;/small&gt;&lt;span class="bi-edades"&gt;${vuelo}&lt;/span&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>${selloEmbarcado(f, i)}</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;span class="bi-obs"&gt;&lt;small&gt;Observaciones&lt;/small&gt;${esc(obs)}&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>&lt;span class="bi-codigo"&gt;${barras(i)}&lt;small&gt;${esc(codigo)}&lt;/small&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>&lt;/span&gt;`;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const img = b.querySelector("img");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>conFallback(img, p.nombre);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>fijarProporcion(img);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>b.addEventListener("click", () =&gt; abrirModal(i));</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>return b;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>PORTADA: cinta y tabl√≥n de salidas</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">(function cinta() {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const frase = "Vuelo 2¬∫ Bach ¬∑ Operado por IES El Molinillo ¬∑ Puerta de embarque: la de la tarta ¬∑ Curso 2026‚Äì27 ¬∑ Se ruega apagar las velas ¬∑";</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const mitad = Array.from({ length: 4 }, () =&gt; `&lt;span&gt;${frase}&lt;/span&gt;`).join("");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("bandaPista").innerHTML = mitad + mitad; <span class="Apple-converted-space">¬† </span>// dos mitades iguales para el bucle</p>
-<p class="p1">})();</p>
-<p class="p2"><br></p>
-<p class="p1">const ALFABETO = "ABCDEFGHIJKLMN√ëOPQRSTUVWXYZ0123456789";</p>
-<p class="p2"><br></p>
-<p class="p1">/* cada casilla "baraja" letras antes de quedarse con la buena, como un tabl√≥n de estaci√≥n */</p>
-<p class="p1">function animarFicha(el, fin, retardo) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const letra = fin || "";</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (reducir || !letra.trim()) { el.textContent = letra.trim(); return; }</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>let vueltas = 0;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const total = 5 + Math.floor(Math.random() * 7);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>setTimeout(function paso() {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>vueltas++;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>if (vueltas &gt;= total) { el.textContent = letra; return; }</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>el.textContent = ALFABETO[Math.floor(Math.random() * ALFABETO.length)];</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>setTimeout(paso, 55);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>}, retardo);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function crearGrupo(texto, n, base) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const g = document.createElement("span");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>g.className = "grupo";</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>g.style.setProperty("--n", n);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>g.setAttribute("aria-hidden", "true");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const t = String(texto).toUpperCase().slice(0, n).padEnd(n, " ");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>for (let k = 0; k &lt; n; k++) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const c = document.createElement("span");</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>c.className = "ficha";</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>g.appendChild(c);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>animarFicha(c, t[k], base + k * 35);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>return g;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function pintarTablon() {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const caja = $("tablon"), filas = $("tablonFilas");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>filas.innerHTML = "";</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (!fotos.length) { caja.hidden = true; return; }</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>caja.hidden = false;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>ordenIdx.slice(-5).forEach((i, k) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const p = fotos[i];</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const f = parseFecha(p.fecha);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>let estado = "EN RUTA";</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>if (f) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>const d = diaCurso(f);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>estado = d &lt; HOY_DIA ? "ATERRIZ√ì" : (d === HOY_DIA ? "EMBARCANDO" : "EN RUTA");</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>}</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const fila = document.createElement("button");</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>fila.type = "button";</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>fila.className = "fila";</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>fila.setAttribute("aria-label", `Abrir el cumplea√±os de ${p.nombre}`);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const base = 900 + k * 260;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>fila.append(</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>crearGrupo(fechaCorta(p, f), 6, base),</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>crearGrupo(p.nombre, 12, base + 220),</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>crearGrupo(String(p.edad), 2, base + 620),</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>crearGrupo(estado, 10, base + 760)</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>fila.lastChild.classList.add("g-estado");</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>fila.addEventListener("click", () =&gt; abrirModal(i));</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>filas.appendChild(fila);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>});</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>LOS BILLETES EN LA GALER√çA</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">function pintarGaleria() {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const cont = $("grid");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const q = norm($("buscador").value.trim());</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>cont.innerHTML = "";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (fotos.length === 0) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>cont.innerHTML = `&lt;div class="vacio-album"&gt;&lt;strong&gt;A√∫n no ha despegado ninguno.&lt;/strong&gt;Cada cumplea√±os tendr√° aqu√≠ su billete.&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const lista = ordenIdx.filter(i =&gt; !q || norm(fotos[i].nombre).includes(q));</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (lista.length === 0) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>cont.innerHTML = `&lt;div class="vacio-album"&gt;&lt;strong&gt;Ese pasajero no consta en el vuelo.&lt;/strong&gt;Prueba con otro nombre.&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>lista.forEach((i, pos) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const b = crearBillete(fotos[i], i, pos);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>cont.appendChild(b);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>vigilar(b);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>});</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>CARGA DE DATOS</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">fetch("datos.json")</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.then(r =&gt; r.json())</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.then(datos =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>fotos = datos.fotos || [];</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>construirOrden();</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>pintarTablon();</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>pintarGaleria();</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>})</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>.catch(err =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>console.error("Error cargando datos.json:", err);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>$("grid").innerHTML = `&lt;div class="vacio-album"&gt;&lt;strong&gt;No se han podido cargar los cumplea√±os.&lt;/strong&gt;Recarga la p√°gina en unos segundos.&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>});</p>
-<p class="p2"><br></p>
-<p class="p1">$("buscador").addEventListener("input", pintarGaleria);</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>MODAL</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">let ultimoFoco = null;</p>
-<p class="p2"><br></p>
-<p class="p1">function navegar(delta) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const arr = ordenIdx.length ? ordenIdx : fotos.map((_, i) =&gt; i);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (!arr.length) return;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const pos = arr.indexOf(actual);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>abrirModal(arr[(pos + delta + arr.length) % arr.length]);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function abrirModal(i) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (i &lt; 0) i = fotos.length - 1;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (i &gt;= fotos.length) i = 0;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>actual = i;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const p = fotos[i];</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const f = parseFecha(p.fecha);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const img = $("mImg");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>img.style.aspectRatio = "";</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>img.src = p.foto; img.alt = p.nombre;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>conFallback(img, p.nombre);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("mNombre").textContent = p.nombre;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("mEstampa").textContent = estampa(p, f);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("mEdad").textContent = `${p.edad} a√±os`;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("mNum").textContent = p.edad;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>// reiniciar formulario y avisos</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("formulario").hidden = true;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("botonMensaje").hidden = false;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("aviso").hidden = true;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("textoMensaje").value = "";</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("contadorTexto").textContent = "0 / 300";</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>try { $("autorMensaje").value = localStorage.getItem("autorCumple") || ""; } catch (e) {}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const modal = $("modal");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (!modal.classList.contains("activo")) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>ultimoFoco = document.activeElement;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>modal.classList.add("activo");</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>modal.setAttribute("aria-hidden", "false");</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>document.body.style.overflow = "hidden";</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>$("cerrar").focus();</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>modal.scrollTop = 0;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>cargarMensajes(p.id);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function cerrarModal() {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const modal = $("modal");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>modal.classList.remove("activo");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>modal.setAttribute("aria-hidden", "true");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>document.body.style.overflow = "";</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>actual = -1;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (ultimoFoco &amp;&amp; ultimoFoco.focus) ultimoFoco.focus();</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">$("cerrar").addEventListener("click", cerrarModal);</p>
-<p class="p1">$("anterior").addEventListener("click", () =&gt; navegar(-1));</p>
-<p class="p1">$("siguiente").addEventListener("click", () =&gt; navegar(1));</p>
-<p class="p1">$("modal").addEventListener("click", e =&gt; { if (e.target.id === "modal") cerrarModal(); });</p>
-<p class="p2"><br></p>
-<p class="p1">document.addEventListener("keydown", e =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (actual &lt; 0) return;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if ($("visorFoto").classList.contains("activo")) return; <span class="Apple-converted-space">¬† </span>// el visor gestiona sus propias teclas</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (e.key === "Escape") cerrarModal();</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const escribiendo = /INPUT|TEXTAREA/.test(document.activeElement.tagName);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (!escribiendo &amp;&amp; e.key === "ArrowLeft")<span class="Apple-converted-space">¬† </span>navegar(-1);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (!escribiendo &amp;&amp; e.key === "ArrowRight") navegar(1);</p>
-<p class="p1">});</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>MENSAJES</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">function pintarMensajes(lista, indiceNuevo = -1) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const cont = $("mMensajes");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("mCuenta").textContent = lista.length;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>cont.innerHTML = "";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (!lista.length) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>cont.innerHTML = `&lt;p class="notas-estado"&gt;Todav√≠a no hay mensajes. Escribe el primero.&lt;/p&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>lista.forEach((m, i) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const nota = document.createElement("article");</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>nota.className = "nota-msg" + (i === indiceNuevo ? " nueva" : "");</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const t = document.createElement("p");</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>t.className = "nota-texto";</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>t.textContent = m.mensaje || "";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const a = document.createElement("p");</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>a.className = "nota-autor";</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>a.textContent = "‚Äî " + (m.autor || "alguien de la clase");</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>nota.append(t, a);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>cont.appendChild(nota);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (indiceNuevo &gt;= 0) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>cont.children[indiceNuevo].scrollIntoView({ behavior: reducir ? "auto" : "smooth", block: "center" });</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>}</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">async function cargarMensajes(id) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const cont = $("mMensajes");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("mCuenta").textContent = "‚Ä¶";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (cache.has(String(id))) { pintarMensajes(cache.get(String(id))); return; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>cont.innerHTML = `&lt;p class="notas-estado"&gt;Cargando mensajes‚Ä¶&lt;/p&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const r = await fetch(`${URL_MENSAJES}?id=${encodeURIComponent(id)}`);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const datos = await r.json();</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const lista = Array.isArray(datos) ? datos : [];</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>cache.set(String(id), lista);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>if (actual &gt;= 0 &amp;&amp; String(fotos[actual].id) === String(id)) pintarMensajes(lista);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>} catch (err) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>console.error("Error cargando mensajes:", err);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>if (actual &gt;= 0 &amp;&amp; String(fotos[actual].id) === String(id)) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>$("mCuenta").textContent = "0";</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>cont.innerHTML = `&lt;p class="notas-estado"&gt;No se han podido cargar los mensajes. Vuelve a abrir esta foto en unos segundos.&lt;/p&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>}</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>}</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>FORMULARIO</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">function aviso(texto, error = false) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const a = $("aviso");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>a.textContent = texto;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>a.classList.toggle("error", error);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>a.hidden = false;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">$("botonMensaje").addEventListener("click", () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("aviso").hidden = true;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("botonMensaje").hidden = true;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("formulario").hidden = false;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>($("autorMensaje").value ? $("textoMensaje") : $("autorMensaje")).focus();</p>
-<p class="p1">});</p>
-<p class="p2"><br></p>
-<p class="p1">$("cancelarMensaje").addEventListener("click", () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("formulario").hidden = true;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("botonMensaje").hidden = false;</p>
-<p class="p1">});</p>
-<p class="p2"><br></p>
-<p class="p1">$("textoMensaje").addEventListener("input", e =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>$("contadorTexto").textContent = `${e.target.value.length} / 300`;</p>
-<p class="p1">});</p>
-<p class="p2"><br></p>
-<p class="p1">$("formulario").addEventListener("submit", async e =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>e.preventDefault();</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if ($("trampa").value) return; <span class="Apple-converted-space">¬† ¬† ¬† ¬† ¬† ¬† ¬† ¬† ¬† ¬† ¬† </span>// anti-spam</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const autor = $("autorMensaje").value.trim();</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const mensaje = $("textoMensaje").value.trim();</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (!autor || !mensaje) { aviso("Escribe tu nombre y tu mensaje antes de enviar.", true); return; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const ultimo = Number(localStorage.getItem("ultimoMensajeCumple") || 0);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>if (Date.now() - ultimo &lt; 15000) { aviso("Espera unos segundos antes de enviar otro mensaje.", true); return; }</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>} catch (err) {}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const p = fotos[actual];</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const boton = $("enviarMensaje");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>boton.disabled = true;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>boton.textContent = "Enviando‚Ä¶";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>await fetch(URL_MENSAJES, {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>method: "POST",</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>mode: "no-cors",</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>headers: { "Content-Type": "text/plain;charset=utf-8" },</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>body: JSON.stringify({</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>idAlumno: p.id,</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>nombreAlumno: p.nombre,</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>autor,</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>mensaje,</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>fecha: hoy(),</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† ¬† </span>aprobado: "SI"</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>})</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>localStorage.setItem("autorCumple", autor);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† ¬† </span>localStorage.setItem("ultimoMensajeCumple", String(Date.now()));</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>} catch (err) {}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>// se publica al momento: lo a√±adimos a la lista sin recargar</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const clave = String(p.id);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>const lista = (cache.get(clave) || []).concat({ autor, mensaje });</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>cache.set(clave, lista);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>$("textoMensaje").value = "";</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>$("contadorTexto").textContent = "0 / 300";</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>$("formulario").hidden = true;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>$("botonMensaje").hidden = false;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>pintarMensajes(lista, lista.length - 1);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>aviso("¬°Mensaje enviado! Gracias por escribir.");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>} catch (err) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>console.error("Error enviando mensaje:", err);</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>aviso("No se ha podido enviar. Revisa tu conexi√≥n e int√©ntalo de nuevo.", true);</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>} finally {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>boton.disabled = false;</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>boton.textContent = "Enviar mensaje";</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>}</p>
-<p class="p1">});</p>
-<p class="p2"><br></p>
-<p class="p1">/* ============================================================</p>
-<p class="p1"><span class="Apple-converted-space">¬†¬† </span>VISOR DE FOTO</p>
-<p class="p1">============================================================ */</p>
-<p class="p1">function abrirVisorFoto() {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const visor = $("visorFoto");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const imagen = $("visorImagen");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const foto = $("mImg");</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>imagen.src = foto.src;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>imagen.alt = foto.alt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>visor.classList.add("activo");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>visor.setAttribute("aria-hidden", "false");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>document.body.style.overflow = "hidden";</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function cerrarVisorFoto() {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>const visor = $("visorFoto");</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>visor.classList.remove("activo");</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>visor.setAttribute("aria-hidden", "true");</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>// solo restauramos el scroll si el modal principal tambi√©n est√° cerrado</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (!$("modal").classList.contains("activo")) {</p>
-<p class="p1"><span class="Apple-converted-space">¬† ¬† </span>document.body.style.overflow = "";</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>}</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">$("mImg").addEventListener("click", abrirVisorFoto);</p>
-<p class="p1">$("visorCerrar").addEventListener("click", cerrarVisorFoto);</p>
-<p class="p1">$("visorFoto").addEventListener("click", e =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (e.target === $("visorFoto")) cerrarVisorFoto();</p>
-<p class="p1">});</p>
-<p class="p2"><br></p>
-<p class="p1">document.addEventListener("keydown", e =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (!$("visorFoto").classList.contains("activo")) return;</p>
-<p class="p1"><span class="Apple-converted-space">¬† </span>if (e.key === "Escape") cerrarVisorFoto();</p>
-<p class="p1">});</p>
-<p class="p1">&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+<!-- ================= BARRA SUPERIOR ================= -->
+<nav class="nav" id="nav">
+  <a class="marca" href="#top" aria-label="Ir al principio">2ºBACH</a>
+  <label class="busca">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="buscador" type="search" placeholder="Buscar un cumpleaños" aria-label="Buscar por nombre" autocomplete="off">
+  </label>
+</nav>
+
+<!-- ================= PORTADA ================= -->
+<header class="hero" id="top">
+  <img class="hero-fondo" id="heroFondo" alt="" hidden>
+  <div class="hero-vel"></div>
+
+  <div class="hero-cuerpo">
+    <div class="hero-texto">
+      <p class="hero-serie"><i>2ºBACH</i> Una serie original de IES El Molinillo</p>
+      <h1>La última temporada.</h1>
+      <p class="hero-meta" id="heroMeta">
+        <span class="nuevo" id="heroNuevo" hidden>Nuevo episodio</span>
+        <span>2026–27</span>
+        <span class="clasif" title="Todos los públicos (con tarta)">TP</span>
+        <span>Contiene tarta</span>
+      </p>
+      <p class="hero-desc">
+        Cada cumpleaños es un episodio: velas, canción desafinada y una foto de grupo
+        donde siempre sale alguien con los ojos cerrados. Sin anuncios, sin spoilers y con tarta.
+      </p>
+      <div class="hero-botones">
+        <button class="btn btn-claro" id="btnPlay" type="button" hidden>▶ Reproducir el último</button>
+        <a class="btn btn-vidrio" href="#episodios">Ver todos los episodios</a>
+      </div>
+    </div>
+
+    <button class="hero-poster" id="heroPoster" type="button" hidden aria-label="Abrir el último cumpleaños">
+      <img id="heroFoto" src="" alt="">
+      <span class="poster-play" aria-hidden="true">▶</span>
+    </button>
+  </div>
+
+  <button class="saltar" id="saltar" type="button">Saltar intro ⏭</button>
+</header>
+
+<!-- ================= EPISODIOS ================= -->
+<main class="contenido">
+
+  <section class="seccion" id="estrenos" hidden>
+    <div class="sec-cab">
+      <h2>Últimos estrenos</h2>
+      <div class="flechas">
+        <button class="flecha" id="flechaIzq" type="button" aria-label="Anteriores">←</button>
+        <button class="flecha" id="flechaDer" type="button" aria-label="Siguientes">→</button>
+      </div>
+    </div>
+    <div class="carril" id="carril"></div>
+  </section>
+
+  <section class="seccion" id="episodios">
+    <div class="sec-cab"><h2>Todos los episodios</h2></div>
+    <div class="rejilla" id="grid"></div>
+  </section>
+
+  <section class="sigues">
+    <h3>¿Sigues ahí?</h3>
+    <p>Llevas un buen rato viendo cumpleaños. Nadie te juzga.</p>
+    <a class="btn btn-claro" href="#creditos">Sí, sigo aquí</a>
+  </section>
+
+</main>
+
+<!-- ================= CRÉDITOS ================= -->
+<section class="creditos" id="creditos">
+  <p class="cred-fin">Fin de la temporada.</p>
+  <p class="cred-spin">
+    Ya se rumorea un spin-off: los mismos protagonistas, otros decorados
+    y los cumpleaños de siempre.
+  </p>
+
+  <dl class="cred-lista">
+    <div><dt>Protagonistas</dt><dd>Quien cumpla ese día</dd></div>
+    <div><dt>Reparto</dt><dd>La clase de 2º Bach</dd></div>
+    <div><dt>Dirección de fotografía</dt><dd>El móvil que estuviera más a mano</dd></div>
+    <div><dt>Banda sonora</dt><dd>Cumpleaños feliz, sin ensayar</dd></div>
+    <div><dt>Efectos especiales</dt><dd>Las velas</dd></div>
+    <div><dt>Catering</dt><dd>La tarta, brevemente</dd></div>
+    <div><dt>Producción</dt><dd>IES El Molinillo, curso 2026–27</dd></div>
+  </dl>
+
+  <p class="cred-legal">Basada en hechos reales. Ningún pastel resultó ileso.</p>
+  <a class="btn btn-claro" href="#top">Volver al principio ↑</a>
+</section>
+
+<!-- ================= VISOR DE FOTO ================= -->
+<div class="visor-foto" id="visorFoto" aria-hidden="true">
+  <button class="visor-cerrar" id="visorCerrar" aria-label="Cerrar foto">✕</button>
+  <img id="visorImagen" src="" alt="">
+</div>
+
+<!-- ================= FICHA DEL EPISODIO ================= -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-caja" id="modalCaja" role="dialog" aria-modal="true" aria-labelledby="mNombre">
+
+    <div class="modal-barra">
+      <button class="icono" id="anterior" aria-label="Episodio anterior">←</button>
+      <button class="icono" id="siguiente" aria-label="Episodio siguiente">→</button>
+      <button class="icono" id="cerrar" aria-label="Cerrar">✕</button>
+    </div>
+
+    <div class="modal-grid">
+      <aside class="lado">
+        <div class="lado-medio"><img id="mImg" src="" alt=""></div>
+        <h2 class="lado-titulo" id="mNombre"></h2>
+        <p class="lado-meta">
+          <span class="clasif" id="mEdad"></span>
+          <span id="mFecha"></span>
+          <span>Duración: hasta que se acabe la tarta</span>
+        </p>
+        <p class="lado-sinopsis" id="mSinopsis"></p>
+        <p class="lado-contiene"><b>Contiene:</b> <span id="mContiene"></span></p>
+      </aside>
+
+      <section class="principal">
+        <div class="principal-cab">
+          <h3>Reseñas de la crítica</h3>
+          <span id="mCuenta">0</span>
+        </div>
+
+        <div class="notas" id="mMensajes"></div>
+
+        <button class="boton-mensaje" id="botonMensaje" type="button">Escribir una reseña</button>
+
+        <form class="formulario" id="formulario" hidden>
+          <h4>Tu reseña</h4>
+          <p class="nota-form">Cinco estrellas, obviamente. Lo demás, con cariño.</p>
+          <label>
+            <span>Tu nombre</span>
+            <input type="text" id="autorMensaje" maxlength="40" autocomplete="name" required>
+          </label>
+          <label>
+            <span>Tu mensaje</span>
+            <textarea id="textoMensaje" maxlength="300" required></textarea>
+          </label>
+          <input class="trampa" type="text" id="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="formulario-pie">
+            <span class="contador" id="contadorTexto">0 / 300</span>
+            <div class="botones">
+              <button type="button" id="cancelarMensaje">Cancelar</button>
+              <button type="submit" class="enviar" id="enviarMensaje">Publicar reseña</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="aviso" id="aviso" role="status" hidden></div>
+      </section>
+    </div>
+  </div>
+</div>
+
+
+<script>
+/* ============================================================
+   CONFIGURACIÓN
+============================================================ */
+const URL_MENSAJES =
+"https://script.google.com/macros/s/AKfycbx2ttHOz5Ni5pITnqZKdVAkkPC39WF8H7UWjmJQgSvGGv3gWiVxdsjhKGdMqKmUf0N2pg/exec";
+
+const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto",
+               "septiembre","octubre","noviembre","diciembre"];
+
+/* sinopsis y avisos de cada episodio: todos inofensivos, ninguno señala a nadie */
+const SINOPSIS = [
+  "Se apagan las velas, se canta sin ensayar y alguien sale con los ojos cerrados. Como debe ser.",
+  "La tarta dura menos que un recreo. La foto, para siempre.",
+  "Un cumpleaños más en el que nadie sabía dónde poner las manos.",
+  "Quien cumple, en el centro. El resto, como buenamente cupo.",
+  "Hubo segunda foto porque en la primera salía uno moviéndose.",
+  "Deseo pedido, secreto guardado y tarta repartida con criterio dudoso.",
+  "Se cantó el cumpleaños feliz con más entusiasmo que afinación.",
+  "Empezó como una foto rápida y acabó siendo cuatro tomas."
+];
+const CONTIENE = [
+  "tarta, canciones desafinadas y abrazos innecesariamente largos",
+  "velas, aplausos a destiempo y alguien parpadeando",
+  "exceso de azúcar y un «una más, una más»",
+  "risas y mucha gente en muy poco espacio",
+  "cumpleaños feliz en versión coral, sin ensayo"
+];
+
+/* ============================================================
+   UTILIDADES
+============================================================ */
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm = s => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const reducir = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const dos = n => String(n).padStart(2, "0");
+
+function hoy() {
+  const d = new Date();
+  return dos(d.getDate()) + "/" + dos(d.getMonth() + 1) + "/" + d.getFullYear();
+}
+
+/* avatar de emergencia si una foto no carga */
+function avatar(nombre) {
+  const ini = esc((nombre || "?").trim().charAt(0).toUpperCase());
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#241f36"/><text x="100" y="128" font-family="Arial" font-weight="800" font-size="96" text-anchor="middle" fill="#f4f1ff">${ini}</text></svg>`;
+  return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+}
+function conFallback(img, nombre) {
+  img.addEventListener("error", () => {
+    img.onerror = null;
+    img.src = avatar(nombre);
+  }, { once: true });
+}
+
+/* ============================================================
+   FECHAS
+============================================================ */
+function parseFecha(texto) {
+  const s = String(texto || "").trim();
+  if (!s) return null;
+  let m;
+
+  if ((m = s.match(/(\d{4})-(\d{1,2})-(\d{1,2})/)))
+    return { d: +m[3], m: +m[2] - 1 };
+
+  if ((m = s.match(/(\d{1,2})[\/\-.](\d{1,2})(?:[\/\-.]\d{2,4})?/))) {
+    const d = +m[1], mes = +m[2];
+    if (d >= 1 && d <= 31 && mes >= 1 && mes <= 12) return { d, m: mes - 1 };
+  }
+
+  const n = norm(s);
+  if ((m = n.match(/(\d{1,2})\s*(?:de\s+)?([a-z]{3,})/))) {
+    const idx = MESES.findIndex(x => x.startsWith(m[2].slice(0, 3)));
+    if (idx >= 0) return { d: +m[1], m: idx };
+  }
+  return null;
+}
+
+const AHORA = new Date();
+const ANIO0 = AHORA.getMonth() >= 8 ? AHORA.getFullYear() : AHORA.getFullYear() - 1;
+const INICIO = Date.UTC(ANIO0, 8, 1);
+
+function diaCurso(f) {
+  const y = f.m >= 8 ? ANIO0 : ANIO0 + 1;
+  return (Date.UTC(y, f.m, f.d) - INICIO) / 864e5;
+}
+
+/* "20 de octubre" */
+function fechaBonita(p) {
+  const f = parseFecha(p.fecha);
+  return f ? `${f.d} de ${MESES[f.m]}` : String(p.fecha || "");
+}
+
+/* "+17" */
+function clasificacion(p) {
+  const n = parseInt(p.edad, 10);
+  return Number.isFinite(n) ? `+${n}` : String(p.edad ?? "");
+}
+
+/* ============================================================
+   ESTADO
+============================================================ */
+let fotos = [];
+let ordenIdx = [];
+let actual = -1;
+const cache = new Map();
+
+function construirOrden() {
+  ordenIdx = fotos
+    .map((p, i) => {
+      const f = parseFecha(p.fecha);
+      return { i, dia: f ? diaCurso(f) : 9999 };
+    })
+    .sort((a, b) => a.dia - b.dia || a.i - b.i)
+    .map(x => x.i);
+}
+
+/* cada episodio aparece suavemente al entrar en pantalla */
+const observador = "IntersectionObserver" in window
+  ? new IntersectionObserver(entradas => {
+      entradas.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add("in");
+          observador.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.08 })
+  : null;
+
+function vigilar(el) {
+  if (observador) observador.observe(el);
+  else el.classList.add("in");
+}
+
+/* ============================================================
+   TARJETAS DE EPISODIO
+============================================================ */
+function crearCard(p, i, opciones = {}) {
+  const { nuevo = false, retraso = 0 } = opciones;
+  const b = document.createElement("button");
+  b.type = "button";
+  b.className = "card";
+  b.style.setProperty("--d", retraso + "s");
+  b.setAttribute("aria-label", `Abrir el cumpleaños de ${p.nombre}`);
+
+  b.innerHTML = `
+    <span class="card-thumb">
+      <img src="${esc(p.foto)}" alt="${esc(p.nombre)}" loading="lazy">
+      <span class="card-play" aria-hidden="true">▶</span>
+      ${nuevo ? '<span class="card-nuevo">Nuevo</span>' : ""}
+    </span>
+    <span class="card-info">
+      <b class="card-titulo">El cumpleaños de ${esc(p.nombre)}</b>
+      <span class="card-meta"><i class="clasif">${esc(clasificacion(p))}</i><span>${esc(fechaBonita(p))}</span></span>
+    </span>`;
+
+  conFallback(b.querySelector("img"), p.nombre);
+  b.addEventListener("click", () => abrirModal(i));
+  return b;
+}
+
+function pintarEstrenos() {
+  const sec = $("estrenos"), carril = $("carril");
+  carril.innerHTML = "";
+  if (!fotos.length) { sec.hidden = true; return; }
+  sec.hidden = false;
+
+  ordenIdx.slice(-8).reverse().forEach((i, k) => {
+    const c = crearCard(fotos[i], i, { nuevo: k === 0, retraso: k * 0.08 });
+    carril.appendChild(c);
+    vigilar(c);
+  });
+}
+
+function pintarGaleria() {
+  const cont = $("grid");
+  const q = norm($("buscador").value.trim());
+  cont.innerHTML = "";
+
+  if (fotos.length === 0) {
+    cont.innerHTML = `<div class="vacio"><strong>Todavía no se ha estrenado ningún episodio.</strong>Cada cumpleaños tendrá aquí el suyo.</div>`;
+    return;
+  }
+
+  const lista = ordenIdx.filter(i => !q || norm(fotos[i].nombre).includes(q));
+  if (lista.length === 0) {
+    cont.innerHTML = `<div class="vacio"><strong>Ese episodio no existe.</strong>Prueba con otro nombre.</div>`;
+    return;
+  }
+
+  lista.forEach((i, pos) => {
+    const c = crearCard(fotos[i], i, { retraso: (pos % 4) * 0.08 });
+    cont.appendChild(c);
+    vigilar(c);
+  });
+}
+
+/* ============================================================
+   PORTADA
+============================================================ */
+function pintarHero() {
+  const poster = $("heroPoster");
+  if (!fotos.length) {
+    poster.hidden = true;
+    $("btnPlay").hidden = true;
+    $("heroNuevo").hidden = true;
+    $("heroFondo").hidden = true;
+    return;
+  }
+
+  const i = ordenIdx[ordenIdx.length - 1];      // el episodio más reciente
+  const p = fotos[i];
+
+  const foto = $("heroFoto");
+  foto.src = p.foto;
+  foto.alt = p.nombre;
+  conFallback(foto, p.nombre);
+
+  const fondo = $("heroFondo");
+  fondo.src = p.foto;
+  fondo.hidden = false;
+
+  poster.hidden = false;
+  poster.onclick = () => abrirModal(i);
+
+  $("btnPlay").hidden = false;
+  $("btnPlay").onclick = () => abrirModal(i);
+  $("heroNuevo").hidden = false;
+}
+
+/* barra superior: se vuelve sólida al hacer scroll */
+addEventListener("scroll", () => {
+  $("nav").classList.toggle("solido", scrollY > 30);
+}, { passive: true });
+
+$("saltar").addEventListener("click", () => {
+  const destino = $("estrenos").hidden ? $("episodios") : $("estrenos");
+  destino.scrollIntoView({ behavior: reducir ? "auto" : "smooth", block: "start" });
+});
+
+/* flechas de la fila de estrenos */
+$("flechaIzq").addEventListener("click", () =>
+  $("carril").scrollBy({ left: -$("carril").clientWidth * 0.8, behavior: reducir ? "auto" : "smooth" }));
+$("flechaDer").addEventListener("click", () =>
+  $("carril").scrollBy({ left: $("carril").clientWidth * 0.8, behavior: reducir ? "auto" : "smooth" }));
+
+/* ============================================================
+   CARGA DE DATOS
+============================================================ */
+fetch("datos.json")
+  .then(r => r.json())
+  .then(datos => {
+    fotos = datos.fotos || [];
+    construirOrden();
+    pintarHero();
+    pintarEstrenos();
+    pintarGaleria();
+  })
+  .catch(err => {
+    console.error("Error cargando datos.json:", err);
+    $("grid").innerHTML = `<div class="vacio"><strong>No se han podido cargar los cumpleaños.</strong>Recarga la página en unos segundos.</div>`;
+  });
+
+/* al buscar, bajamos a la lista de episodios */
+let buscabaAntes = false;
+$("buscador").addEventListener("input", () => {
+  const hay = $("buscador").value.trim().length > 0;
+  pintarGaleria();
+  if (hay && !buscabaAntes) {
+    $("episodios").scrollIntoView({ behavior: reducir ? "auto" : "smooth", block: "start" });
+  }
+  buscabaAntes = hay;
+});
+
+/* ============================================================
+   FICHA DEL EPISODIO
+============================================================ */
+let ultimoFoco = null;
+
+function navegar(delta) {
+  const arr = ordenIdx.length ? ordenIdx : fotos.map((_, i) => i);
+  if (!arr.length) return;
+  const pos = arr.indexOf(actual);
+  abrirModal(arr[(pos + delta + arr.length) % arr.length]);
+}
+
+function abrirModal(i) {
+  if (i < 0) i = fotos.length - 1;
+  if (i >= fotos.length) i = 0;
+  actual = i;
+  const p = fotos[i];
+
+  const img = $("mImg");
+  img.src = p.foto; img.alt = p.nombre;
+  conFallback(img, p.nombre);
+
+  $("mNombre").textContent = `El cumpleaños de ${p.nombre}`;
+  $("mEdad").textContent = clasificacion(p);
+  $("mFecha").textContent = fechaBonita(p);
+  $("mSinopsis").textContent = SINOPSIS[(i * 5 + 2) % SINOPSIS.length];
+  $("mContiene").textContent = CONTIENE[(i * 3 + 1) % CONTIENE.length];
+
+  // reiniciar formulario y avisos
+  $("formulario").hidden = true;
+  $("botonMensaje").hidden = false;
+  $("aviso").hidden = true;
+  $("textoMensaje").value = "";
+  $("contadorTexto").textContent = "0 / 300";
+  try { $("autorMensaje").value = localStorage.getItem("autorCumple") || ""; } catch (e) {}
+
+  const modal = $("modal");
+  if (!modal.classList.contains("activo")) {
+    ultimoFoco = document.activeElement;
+    modal.classList.add("activo");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    $("cerrar").focus();
+  }
+  modal.scrollTop = 0;
+
+  cargarMensajes(p.id);
+}
+
+function cerrarModal() {
+  const modal = $("modal");
+  modal.classList.remove("activo");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+  actual = -1;
+  if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
+}
+
+$("cerrar").addEventListener("click", cerrarModal);
+$("anterior").addEventListener("click", () => navegar(-1));
+$("siguiente").addEventListener("click", () => navegar(1));
+$("modal").addEventListener("click", e => { if (e.target.id === "modal") cerrarModal(); });
+
+document.addEventListener("keydown", e => {
+  if (actual < 0) return;
+  if ($("visorFoto").classList.contains("activo")) return;   // el visor gestiona sus propias teclas
+  if (e.key === "Escape") cerrarModal();
+  const escribiendo = /INPUT|TEXTAREA/.test(document.activeElement.tagName);
+  if (!escribiendo && e.key === "ArrowLeft")  navegar(-1);
+  if (!escribiendo && e.key === "ArrowRight") navegar(1);
+});
+
+/* ============================================================
+   RESEÑAS (los mensajes de cada cumpleaños)
+============================================================ */
+function pintarMensajes(lista, indiceNuevo = -1) {
+  const cont = $("mMensajes");
+  $("mCuenta").textContent = lista.length;
+  cont.innerHTML = "";
+
+  if (!lista.length) {
+    cont.innerHTML = `<p class="notas-estado">Todavía no hay reseñas. Sé el primero en escribir una (cinco estrellas, se entiende).</p>`;
+    return;
+  }
+  lista.forEach((m, i) => {
+    const nombre = m.autor || "Alguien de la clase";
+
+    const r = document.createElement("article");
+    r.className = "resena" + (i === indiceNuevo ? " nueva" : "");
+
+    const av = document.createElement("span");
+    av.className = "av";
+    av.textContent = nombre.trim().charAt(0).toUpperCase();
+
+    const cab = document.createElement("div");
+    cab.className = "res-cab";
+    const b = document.createElement("b");
+    b.textContent = nombre;
+    const est = document.createElement("span");
+    est.className = "estrellas";
+    est.setAttribute("aria-label", "5 estrellas");
+    est.textContent = "★★★★★";
+    cab.append(b, est);
+
+    const t = document.createElement("p");
+    t.className = "res-texto";
+    t.textContent = m.mensaje || "";
+
+    r.append(av, cab, t);
+    cont.appendChild(r);
+  });
+
+  if (indiceNuevo >= 0) {
+    cont.children[indiceNuevo].scrollIntoView({ behavior: reducir ? "auto" : "smooth", block: "center" });
+  }
+}
+
+async function cargarMensajes(id) {
+  const cont = $("mMensajes");
+  $("mCuenta").textContent = "…";
+
+  if (cache.has(String(id))) { pintarMensajes(cache.get(String(id))); return; }
+
+  cont.innerHTML = `<p class="notas-estado">Cargando reseñas…</p>`;
+  try {
+    const r = await fetch(`${URL_MENSAJES}?id=${encodeURIComponent(id)}`);
+    const datos = await r.json();
+    const lista = Array.isArray(datos) ? datos : [];
+    cache.set(String(id), lista);
+    if (actual >= 0 && String(fotos[actual].id) === String(id)) pintarMensajes(lista);
+  } catch (err) {
+    console.error("Error cargando mensajes:", err);
+    if (actual >= 0 && String(fotos[actual].id) === String(id)) {
+      $("mCuenta").textContent = "0";
+      cont.innerHTML = `<p class="notas-estado">No se han podido cargar las reseñas. Vuelve a abrir este episodio en unos segundos.</p>`;
+    }
+  }
+}
+
+/* ============================================================
+   FORMULARIO
+============================================================ */
+function aviso(texto, error = false) {
+  const a = $("aviso");
+  a.textContent = texto;
+  a.classList.toggle("error", error);
+  a.hidden = false;
+}
+
+$("botonMensaje").addEventListener("click", () => {
+  $("aviso").hidden = true;
+  $("botonMensaje").hidden = true;
+  $("formulario").hidden = false;
+  ($("autorMensaje").value ? $("textoMensaje") : $("autorMensaje")).focus();
+});
+
+$("cancelarMensaje").addEventListener("click", () => {
+  $("formulario").hidden = true;
+  $("botonMensaje").hidden = false;
+});
+
+$("textoMensaje").addEventListener("input", e => {
+  $("contadorTexto").textContent = `${e.target.value.length} / 300`;
+});
+
+$("formulario").addEventListener("submit", async e => {
+  e.preventDefault();
+  if ($("trampa").value) return;                       // anti-spam
+
+  const autor = $("autorMensaje").value.trim();
+  const mensaje = $("textoMensaje").value.trim();
+  if (!autor || !mensaje) { aviso("Escribe tu nombre y tu mensaje antes de publicar.", true); return; }
+
+  try {
+    const ultimo = Number(localStorage.getItem("ultimoMensajeCumple") || 0);
+    if (Date.now() - ultimo < 15000) { aviso("Espera unos segundos antes de publicar otra reseña.", true); return; }
+  } catch (err) {}
+
+  const p = fotos[actual];
+  const boton = $("enviarMensaje");
+  boton.disabled = true;
+  boton.textContent = "Publicando…";
+
+  try {
+    await fetch(URL_MENSAJES, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        idAlumno: p.id,
+        nombreAlumno: p.nombre,
+        autor,
+        mensaje,
+        fecha: hoy(),
+        aprobado: "SI"
+      })
+    });
+
+    try {
+      localStorage.setItem("autorCumple", autor);
+      localStorage.setItem("ultimoMensajeCumple", String(Date.now()));
+    } catch (err) {}
+
+    // se publica al momento: lo añadimos a la lista sin recargar
+    const clave = String(p.id);
+    const lista = (cache.get(clave) || []).concat({ autor, mensaje });
+    cache.set(clave, lista);
+
+    $("textoMensaje").value = "";
+    $("contadorTexto").textContent = "0 / 300";
+    $("formulario").hidden = true;
+    $("botonMensaje").hidden = false;
+    pintarMensajes(lista, lista.length - 1);
+    aviso("¡Reseña publicada! Cinco estrellas, como estaba previsto.");
+  } catch (err) {
+    console.error("Error enviando mensaje:", err);
+    aviso("No se ha podido publicar. Revisa tu conexión e inténtalo de nuevo.", true);
+  } finally {
+    boton.disabled = false;
+    boton.textContent = "Publicar reseña";
+  }
+});
+
+/* ============================================================
+   VISOR DE FOTO
+============================================================ */
+function abrirVisorFoto() {
+  const visor = $("visorFoto");
+  const imagen = $("visorImagen");
+  const foto = $("mImg");
+
+  imagen.src = foto.src;
+  imagen.alt = foto.alt;
+
+  visor.classList.add("activo");
+  visor.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function cerrarVisorFoto() {
+  const visor = $("visorFoto");
+
+  visor.classList.remove("activo");
+  visor.setAttribute("aria-hidden", "true");
+
+  // solo restauramos el scroll si el modal principal también está cerrado
+  if (!$("modal").classList.contains("activo")) {
+    document.body.style.overflow = "";
+  }
+}
+
+$("mImg").addEventListener("click", abrirVisorFoto);
+$("visorCerrar").addEventListener("click", cerrarVisorFoto);
+$("visorFoto").addEventListener("click", e => {
+  if (e.target === $("visorFoto")) cerrarVisorFoto();
+});
+
+document.addEventListener("keydown", e => {
+  if (!$("visorFoto").classList.contains("activo")) return;
+  if (e.key === "Escape") cerrarVisorFoto();
+});
+</script>
 </body>
 </html>
-Ytext/htmlP_file:///index.html            (   F   X   n   Ö   î   ö ¢ ¢ ¢             
-             ¢1
