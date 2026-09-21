@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pasillo de cumpleaños · 2º Bach · IES El Molinillo</title>
-<meta name="theme-color" content="#f6f0e3">
+<title>La bola de discoteca · 2º Bach · IES El Molinillo</title>
+<meta name="theme-color" content="#f8d6ec">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,14 +12,17 @@
 
 <style>
 :root{
-  --crema:#f6f0e3;
+  --tinta:#1c1730;
+  --muted:#6b6485;
   --hoja:#fcfaf4;
-  --tinta:#1b1712;
-  --muted:#6d6457;
-  --linea:#e2d9c7;
+  --crema:#f6f0e3;
+  --linea:rgba(28,23,48,.14);
+  --rosa:#ff3d9a;
+  --violeta:#6c4bff;
+  --cian:#26d0e0;
+  --sol:#ffc93c;
   --rojo:#d92f27;
   --naranja:#ff6a1a;
-  --azul:#2b5fb0;
 
   --serif:'Gloock',Georgia,'Times New Roman',serif;
   --sans:'DM Sans',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
@@ -32,7 +35,6 @@
 html{scroll-behavior:smooth}
 body{
   margin:0;
-  background:var(--crema);
   color:var(--tinta);
   font-family:var(--sans);
   font-size:17px;
@@ -40,320 +42,284 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow-x:clip;
 }
-body::after{
-  content:"";position:fixed;inset:0;z-index:90;pointer-events:none;
-  opacity:.14;mix-blend-mode:multiply;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+/* fondo pastel, siempre quieto detrás de todo */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-3;
+  background:
+    radial-gradient(60vmax 60vmax at 90% 0%,rgba(255,201,60,.35),transparent 60%),
+    radial-gradient(60vmax 60vmax at 0% 100%,rgba(38,208,224,.28),transparent 60%),
+    linear-gradient(165deg,#ffe4d4 0%,#f8d6ec 45%,#dcd4ff 100%);
 }
 img{max-width:100%;display:block}
 button,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
-:focus-visible{outline:3px solid var(--naranja);outline-offset:3px}
+:focus-visible{outline:3px solid var(--violeta);outline-offset:3px}
 
 @keyframes gira{to{rotate:360deg}}
 @keyframes aparece{from{opacity:0;translate:0 28px;filter:blur(6px)}to{opacity:1;translate:0 0;filter:blur(0)}}
-@keyframes rebota{0%,100%{translate:0 0}50%{translate:0 8px}}
-@keyframes parpadeo{0%,88%,100%{opacity:1}90%{opacity:.35}92%{opacity:1}94%{opacity:.5}96%{opacity:1}}
+@keyframes pulsa{0%,100%{opacity:.25;scale:.7}50%{opacity:1;scale:1.15}}
+@keyframes brilla{0%,100%{filter:brightness(1)}50%{filter:brightness(2.1) saturate(1.4)}}
+@keyframes sube{from{translate:0 36px;opacity:0;scale:.98}to{translate:0 0;opacity:1;scale:1}}
+@keyframes velo{from{opacity:0}to{opacity:1}}
 
 /* ============================================================
-   BARRA FIJA: buscador y cambio de vista
+   LAS LUCES QUE DAN VUELTAS POR LA SALA
 ============================================================ */
-.barra{
-  position:fixed;top:14px;right:14px;z-index:120;
-  display:flex;align-items:center;gap:8px;
+.motas{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+.motas-giro{
+  position:absolute;left:50%;top:50%;width:0;height:0;
+  animation:gira 170s linear infinite;
 }
+.motas-giro.rapido{opacity:0;animation-duration:38s;transition:opacity 1s ease}
+body.fiesta .motas-giro.rapido{opacity:1}
+.mota{
+  position:absolute;border-radius:2px;
+  background:rgba(255,255,255,.85);
+  box-shadow:0 0 14px 5px rgba(255,255,255,.6);
+  animation:pulsa 3.4s ease-in-out infinite;
+}
+.mota.rosa{background:rgba(255,61,154,.55);box-shadow:0 0 14px 5px rgba(255,61,154,.4)}
+.mota.cian{background:rgba(38,208,224,.6);box-shadow:0 0 14px 5px rgba(38,208,224,.4)}
+.mota.sol{background:rgba(255,201,60,.7);box-shadow:0 0 14px 5px rgba(255,201,60,.45)}
+
+/* ============================================================
+   BARRA FIJA
+============================================================ */
+.barra{position:fixed;top:14px;right:14px;z-index:120;display:flex;align-items:center;gap:8px}
 .busca{
   display:flex;align-items:center;gap:9px;
   height:44px;width:min(46vw,250px);padding:0 16px;
-  background:rgba(252,250,244,.9);border:1.5px solid var(--linea);border-radius:999px;
+  background:rgba(252,250,244,.88);border:1.5px solid var(--linea);border-radius:999px;
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  box-shadow:0 12px 24px -16px rgba(27,23,18,.5);
+  box-shadow:0 12px 24px -16px rgba(28,23,48,.5);
   transition:border-color .2s ease;
 }
 .busca:focus-within{border-color:var(--tinta)}
 .busca svg{flex:none;width:17px;height:17px;stroke:var(--muted)}
 .busca input{flex:1;min-width:0;border:0;background:none;outline:none;font-weight:500}
-.busca input::placeholder{color:#978d7d}
-.btn-vista{
-  height:44px;padding:0 18px;border:1.5px solid var(--linea);border-radius:999px;
-  background:rgba(252,250,244,.9);font-weight:700;font-size:15px;cursor:pointer;white-space:nowrap;
+.busca input::placeholder{color:#978fb0}
+.btn-lista{
+  height:44px;padding:0 18px;display:inline-flex;align-items:center;
+  border:1.5px solid var(--linea);border-radius:999px;
+  background:rgba(252,250,244,.88);font-weight:700;font-size:15px;text-decoration:none;white-space:nowrap;
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  box-shadow:0 12px 24px -16px rgba(27,23,18,.5);
+  box-shadow:0 12px 24px -16px rgba(28,23,48,.5);
   transition:background .2s ease,color .2s ease;
 }
-.btn-vista:hover{background:var(--tinta);color:#fff;border-color:var(--tinta)}
+.btn-lista:hover{background:var(--tinta);color:#fff;border-color:var(--tinta)}
 
 /* ============================================================
-   ENTRADA
+   PORTADA
 ============================================================ */
-.entrada{
-  position:relative;isolation:isolate;
-  min-height:max(100svh,700px);
-  max-width:1300px;margin:0 auto;
-  display:grid;grid-template-columns:1.15fr .85fr;gap:4vw;align-items:center;
-  padding:clamp(70px,10vh,120px) 5vw clamp(50px,8vh,90px);
+.hero{
+  position:relative;max-width:1400px;margin:0 auto;
+  padding:clamp(84px,11vh,120px) 5vw 50px;
+  display:grid;grid-template-columns:1fr 1.1fr;
+  grid-template-areas:"texto bola" "ahora bola";
+  gap:22px 4vw;align-items:start;
 }
-.entrada::before{
-  content:"";position:absolute;z-index:-1;inset:-20% -30% auto -30%;height:120%;
-  background:radial-gradient(ellipse at 20% 30%,rgba(255,207,92,.34),transparent 60%);
-}
+.hero-texto{grid-area:texto}
+.escenario{grid-area:bola}
+.ahora{grid-area:ahora}
+
 .etiqueta{
-  margin:0 0 22px;
+  margin:0 0 20px;
   font-family:var(--mono);font-size:clamp(11px,1.05vw,13px);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
   animation:aparece 1s cubic-bezier(.2,.8,.2,1) .1s both;
 }
-.entrada h1{
+.hero h1{
   margin:0;
   font-family:var(--serif);font-weight:400;
-  font-size:clamp(46px,8vw,132px);line-height:.94;letter-spacing:-.03em;
+  font-size:clamp(42px,6.4vw,104px);line-height:.96;letter-spacing:-.03em;
   text-wrap:balance;
   animation:aparece 1.3s cubic-bezier(.2,.8,.2,1) .25s both;
 }
-.entrada-sub{
-  margin:20px 0 0;
-  font-family:var(--serif);font-size:clamp(28px,4vw,60px);line-height:1;letter-spacing:-.02em;color:var(--rojo);
+.hero h1 span{
+  background:linear-gradient(100deg,var(--rosa),var(--violeta));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-sub{
+  margin:20px 0 0;max-width:22em;
+  font-size:clamp(19px,2vw,26px);line-height:1.3;color:#3c3556;
   animation:aparece 1.2s cubic-bezier(.2,.8,.2,1) .55s both;
 }
-.entrada-desc{
-  margin:26px 0 0;max-width:27em;
-  font-size:clamp(18px,1.7vw,22px);line-height:1.45;color:#3b342b;
+.hero-botones{
+  display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:26px;
   animation:aparece 1.1s cubic-bezier(.2,.8,.2,1) .8s both;
-}
-.entrada-botones{
-  display:flex;flex-wrap:wrap;gap:12px;margin-top:32px;
-  animation:aparece 1.1s cubic-bezier(.2,.8,.2,1) 1s both;
 }
 .btn{
   display:inline-flex;align-items:center;gap:10px;
-  padding:15px 28px;border:0;border-radius:999px;
+  padding:14px 26px;border:0;border-radius:999px;
   font-weight:700;font-size:17px;text-decoration:none;cursor:pointer;
-  transition:background .2s ease,scale .2s ease;
+  transition:background .2s ease,scale .2s ease,color .2s ease;
 }
 .btn:active{scale:.97}
 .btn-negro{background:var(--tinta);color:#fff}
-.btn-negro:hover{background:var(--naranja)}
-.btn-borde{background:transparent;color:var(--tinta);border:1.5px solid var(--tinta)}
+.btn-negro:hover{background:var(--rosa)}
+.btn-borde{background:rgba(255,255,255,.5);color:var(--tinta);border:1.5px solid var(--tinta)}
 .btn-borde:hover{background:var(--tinta);color:#fff}
-.btn-negro span{display:inline-block;animation:rebota 1.6s ease-in-out infinite}
+.coro{
+  margin:12px 0 0;font-family:var(--mano);font-size:32px;line-height:1;color:var(--rojo);
+}
+.coro[hidden]{display:none}
 
-/* señal de "prohibido correr" con la ruedecita alrededor */
-.senal{
-  position:relative;justify-self:center;
-  width:min(100%,420px);aspect-ratio:1;
-  animation:aparece 1.3s cubic-bezier(.2,.8,.2,1) .5s both;
+/* el escenario de la bola */
+.escenario{
+  --Dh:460px;
+  position:relative;height:calc(var(--Dh) + 90px);
+  display:grid;place-items:center;
+  touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none;
+  outline-offset:-6px;
 }
-.senal-disco{
-  position:absolute;inset:11%;border-radius:50%;background:#fff;
-  box-shadow:0 0 0 3px var(--tinta),0 0 0 8px #fff,0 0 0 9px var(--tinta),0 34px 44px -22px rgba(27,23,18,.6);
+.escenario:active{cursor:grabbing}
+.hilo{
+  position:absolute;left:50%;bottom:calc(50% + var(--Dh) / 2 - 2px);translate:-50% 0;
+  width:2px;height:60vh;
+  background:linear-gradient(transparent,rgba(60,50,100,.6));
+  pointer-events:none;
 }
-.senal svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.senal svg.giro{animation:gira 60s linear infinite}
-.senal-texto{font-family:var(--mono);font-weight:500;font-size:5.3px;fill:var(--tinta)}
-.senal-figura{position:absolute;inset:11%;width:78%;height:78%}
+.tapa{
+  position:absolute;left:50%;top:calc(50% - var(--Dh) / 2 - 12px);translate:-50% 0;
+  width:24px;height:18px;border-radius:5px 5px 3px 3px;
+  background:linear-gradient(90deg,#77748f,#eceaf6,#77748f);
+  box-shadow:0 4px 8px -3px rgba(28,23,48,.6);pointer-events:none;
+}
+.bola{position:relative;width:var(--D,440px);height:var(--D,440px)}
+.nucleo{
+  position:absolute;inset:3%;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#9ca2c4,#2b2a4c 72%);
+  box-shadow:0 60px 60px -40px rgba(28,23,48,.6);
+}
+.esfera{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.brillo-bola{
+  position:absolute;inset:0;border-radius:50%;pointer-events:none;
+  background:
+    radial-gradient(circle at 33% 27%,rgba(255,255,255,.7),transparent 32%),
+    radial-gradient(circle at 74% 80%,rgba(70,30,140,.4),transparent 58%);
+}
+
+/* cada cristal de la bola */
+.faceta{
+  position:absolute;left:50%;top:50%;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  background:linear-gradient(135deg,#ffffff,#c4cbe0 45%,#7f88a8 60%,#eaeef8);
+  box-shadow:inset 0 0 0 .6px rgba(255,255,255,.95);
+}
+.faceta.t1{background:linear-gradient(135deg,#ffffff,#f5c9e2 45%,#a9789f 60%,#fdeaf5)}
+.faceta.t2{background:linear-gradient(135deg,#ffffff,#c2eef2 45%,#6fa3b0 60%,#e8fbfd)}
+.faceta.t3{background:linear-gradient(135deg,#ffffff,#d8d0f8 45%,#8a7fc0 60%,#efeaff)}
+.faceta.t4{background:linear-gradient(135deg,#ffffff,#fbe5b8 45%,#b59a68 60%,#fff5df)}
+.faceta.brilla{animation:brilla 2.6s ease-in-out infinite}
+
+/* y cada cumpleaños, un cristal más grande */
+.foto-bola{
+  position:absolute;left:50%;top:50%;
+  padding:4px;background:#fff;border-radius:3px;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  box-shadow:0 0 0 1px rgba(28,23,48,.18),0 8px 16px -6px rgba(28,23,48,.6);
+  cursor:pointer;
+}
+.foto-bola img{width:100%;height:100%;object-fit:contain;background:#ddd5c5}
+.foto-bola:hover{filter:brightness(1.1)}
+
+/* lo que tienes delante ahora mismo */
+.ahora{
+  width:min(100%,430px);
+  background:rgba(252,250,244,.82);border:1.5px solid rgba(255,255,255,.9);border-radius:22px;
+  padding:16px 16px 14px;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:0 26px 40px -28px rgba(28,23,48,.6);
+  animation:aparece 1.2s cubic-bezier(.2,.8,.2,1) 1s both;
+}
+.ahora[hidden]{display:none}
+.ahora-etq{
+  margin:0 0 10px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+}
+.ahora-foto{
+  display:block;width:100%;padding:0;border:0;background:#fff;border-radius:12px;overflow:hidden;
+  cursor:pointer;text-align:center;box-shadow:0 0 0 1px var(--linea);
+}
+.ahora-foto img{
+  display:inline-block;width:auto;height:auto;max-width:100%;max-height:min(30vh,250px);
+  transition:opacity .25s ease;
+}
+.ahora-info{margin-top:12px;display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ahora-info b{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3vw,34px);line-height:1;letter-spacing:-.01em}
+.ahora-info small{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.ahora-botones{display:flex;gap:8px;margin-top:12px}
+.ahora-botones button{
+  height:52px;border:0;border-radius:999px;font-weight:700;cursor:pointer;
+  transition:background .2s ease,color .2s ease,scale .15s ease;
+}
+.ahora-botones button:active{scale:.95}
+.ahora-botones .flecha{width:56px;flex:none;background:#fff;border:1.5px solid var(--linea);font-size:22px}
+.ahora-botones .flecha:hover{background:var(--tinta);color:#fff;border-color:var(--tinta)}
+.ahora-botones .abrir{flex:1;background:var(--tinta);color:#fff;font-size:17px}
+.ahora-botones .abrir:hover{background:var(--rosa)}
 
 /* ============================================================
-   EL PASILLO (3D)
+   LISTA DE INVITADOS
 ============================================================ */
-.pasillo{position:relative}
-.visor3d{
-  position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;
-  background:#2b2620;
-  perspective:900px;perspective-origin:50% 46%;
-  touch-action:pan-y;
-}
-.mundo{
-  position:absolute;left:50%;top:50%;width:0;height:0;
-  transform-style:preserve-3d;will-change:transform;
-}
-.plano{position:absolute;left:0;top:0;pointer-events:none}
-
-.pared.izq{
-  background:
-    linear-gradient(to bottom,transparent 37.2%,rgba(27,23,18,.28) 38%,transparent 38.8%),
-    linear-gradient(to bottom,#f6efe0 0 38%,transparent 38%),
-    repeating-linear-gradient(90deg,#5c9c8a 0 3px,#a8d8c6 3px 76px,#5c9c8a 76px 79px);
-}
-.pared.der{
-  background:
-    linear-gradient(to bottom,transparent 37.2%,rgba(27,23,18,.28) 38%,transparent 38.8%),
-    linear-gradient(to bottom,#f6efe0 0 38%,transparent 38%),
-    repeating-linear-gradient(90deg,#d98e78 0 3px,#f5c5b4 3px 76px,#d98e78 76px 79px);
-}
-.suelo{
-  background:conic-gradient(#efe6d2 25%,#d6c9ad 0 50%,#efe6d2 0 75%,#d6c9ad 0) 0 0 / 158px 158px;
-  box-shadow:inset 0 0 160px rgba(27,23,18,.35);
-}
-.techo{
-  background:
-    repeating-linear-gradient(90deg,rgba(27,23,18,.09) 0 2px,transparent 2px 158px),
-    #efe9da;
-}
-.luz3d{
-  background:#fffdf0;border-radius:6px;
-  box-shadow:0 0 90px 40px rgba(255,244,190,.7);
-}
-.luz3d.parpadea{animation:parpadeo 5s steps(1) infinite}
-
-/* carteles y puertas pegados a las paredes */
-.cartel{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
-  text-align:center;color:var(--tinta);
-}
-.cartel b{font-family:var(--sans);font-weight:800;font-size:40px;letter-spacing:.06em;line-height:1}
-.cartel small{font-family:var(--mono);font-size:22px;letter-spacing:.06em}
-.cartel.placa{background:#fff;border:6px solid var(--tinta);border-radius:8px}
-.cartel.aviso{background:#ffd23f;border:6px solid var(--tinta);border-radius:8px}
-.cartel.peligro{background:var(--rojo);border:6px solid #fff;border-radius:8px;color:#fff}
-.cartel.puerta{
-  background:linear-gradient(#b98a5a,#9a6d42);border:10px solid #f6efe0;border-radius:6px;justify-content:flex-start;padding-top:36px;
-}
-.cartel.puerta b{color:#fff}
-.cartel.puerta small{color:#f6efe0}
-.cartel.puerta::before{
-  content:"";width:34%;aspect-ratio:1;background:linear-gradient(135deg,#dff0ff,#bcd8f0);border:6px solid #f6efe0;border-radius:4px;order:3;margin-top:24px;
-}
-.cartel.tablon{
-  background:
-    radial-gradient(circle at 20% 30%,rgba(0,0,0,.12) 0 2px,transparent 3px) 0 0 / 22px 22px,
-    #c99a62;
-  border:10px solid #8a5f33;border-radius:4px;
-}
-.cartel.tablon b{font-family:var(--mano);font-size:54px;font-weight:400;color:var(--rojo)}
-.cartel.tablon small{font-family:var(--mano);font-size:38px;color:var(--tinta)}
-
-/* el fondo: la salida */
-.fondo{
-  background:radial-gradient(circle at 50% 62%,#fffbe6,#f6efe0 62%);
-}
-.fondo .doble{
-  position:absolute;left:50%;bottom:0;translate:-50% 0;width:44%;height:76%;
-  background:linear-gradient(#e5f0fb,#c4dcf2);
-  border:10px solid #f6efe0;border-bottom:0;
-  box-shadow:0 0 140px 70px rgba(255,246,210,.95);
-}
-.fondo .salida{
-  position:absolute;left:50%;top:7%;translate:-50% 0;
-  padding:12px 30px;background:#1fa35b;color:#fff;border-radius:6px;
-  font-weight:800;font-size:44px;letter-spacing:.24em;
-  box-shadow:0 0 50px rgba(31,163,91,.8);
-}
-
-/* los cumpleaños, colgados del techo */
-.colgado{
-  position:absolute;left:0;top:0;width:0;height:0;
-  pointer-events:auto;cursor:pointer;
-}
-.cuerda{
-  position:absolute;left:-1px;top:calc(var(--cy) * -1);width:2px;height:var(--cy);
-  background:linear-gradient(#8a7f6c,#c9bfa9);
-}
-.marco3d{
-  position:absolute;left:0;top:0;translate:-50% 0;
-  transition:filter .3s ease,scale .3s ease;
-}
-.colgado:hover .marco3d,.colgado:focus-visible .marco3d{
-  scale:1.05;filter:drop-shadow(0 0 26px rgba(255,214,120,.95));
-}
-.foto3d{
-  display:block;background:#fffdf8;padding:10px;border-radius:3px;
-  box-shadow:0 26px 40px -18px rgba(0,0,0,.6);
-}
-.foto3d img{display:block;height:var(--h);width:auto;max-width:var(--wmax,520px);aspect-ratio:4/3;object-fit:contain;background:#ddd5c5}
-.placa3d{
-  display:block;margin:16px auto 0;width:max-content;max-width:100%;
-  padding:9px 20px 8px;background:#fff;border:3px solid var(--tinta);border-radius:3px;text-align:center;
-  box-shadow:0 12px 22px -14px rgba(0,0,0,.6);
-}
-.placa3d b{display:block;font-weight:800;font-size:21px;letter-spacing:.12em;text-transform:uppercase}
-.placa3d small{display:block;margin-top:2px;font-family:var(--mono);font-size:13px;color:var(--muted)}
-
-.niebla{
-  position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(circle at 50% 46%,rgba(255,244,205,.26),transparent 28%),
-    radial-gradient(ellipse at 50% 46%,transparent 42%,rgba(20,16,10,.55) 100%);
-}
-.pista{
-  position:absolute;left:50%;bottom:34px;translate:-50% 0;margin:0;
-  padding:12px 24px;border-radius:999px;background:rgba(252,250,244,.92);
-  font-weight:700;font-size:16px;white-space:nowrap;
-  transition:opacity .4s ease;pointer-events:none;
-}
-
-/* mandos táctiles: anterior, abrir y siguiente */
-.mando{
-  position:absolute;left:50%;bottom:22px;translate:-50% 0;z-index:5;
-  display:none;align-items:center;gap:10px;width:min(94vw,460px);
-}
-.mando .flechita{
-  width:58px;height:58px;flex:none;border-radius:50%;
-  border:1.5px solid var(--linea);background:rgba(252,250,244,.95);
-  font-size:24px;font-weight:700;cursor:pointer;
-  box-shadow:0 14px 26px -14px rgba(0,0,0,.6);
-  transition:scale .15s ease;
-}
-.mando .flechita:active{scale:.92}
-.mando .ver{
-  flex:1;min-width:0;height:58px;padding:0 20px;border:0;border-radius:999px;
-  background:var(--tinta);color:#fff;text-align:left;cursor:pointer;
-  display:flex;flex-direction:column;justify-content:center;line-height:1.2;
-  box-shadow:0 14px 26px -14px rgba(0,0,0,.7);
-}
-.mando .ver b{font-size:18px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mando .ver small{font-family:var(--mono);font-size:11.5px;opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-/* ============================================================
-   VISTA EN LISTA
-============================================================ */
-.lista{display:none;max-width:1300px;margin:0 auto;padding:clamp(70px,9vw,120px) 5vw 60px}
+.lista{max-width:1300px;margin:0 auto;padding:clamp(60px,8vw,110px) 5vw 40px}
 .lista-cab h2{
   margin:0;
   font-family:var(--serif);font-weight:400;
   font-size:clamp(38px,6vw,88px);line-height:.98;letter-spacing:-.025em;
 }
-.lista-cab p{margin:16px 0 0;font-size:clamp(18px,1.7vw,22px);color:#3b342b}
-.muro{columns:3 300px;column-gap:clamp(30px,4vw,60px);margin-top:clamp(36px,5vw,64px)}
+.lista-cab p{margin:16px 0 0;font-size:clamp(18px,1.8vw,23px);color:#3c3556}
+.muro{columns:3 290px;column-gap:clamp(28px,4vw,56px);margin-top:clamp(34px,5vw,60px)}
 .tarjeta{
-  display:block;width:100%;margin:0 0 clamp(36px,4vw,54px);padding:0;border:0;background:none;
-  text-align:left;color:inherit;cursor:pointer;break-inside:avoid;
+  display:block;width:100%;margin:0 0 clamp(34px,4vw,50px);padding:0;border:0;background:none;
+  text-align:left;color:inherit;cursor:pointer;break-inside:avoid;opacity:0;
 }
+.tarjeta.in{opacity:1;animation:aparece .8s cubic-bezier(.2,.8,.2,1) var(--d,0s) backwards}
 .tarjeta-foto{
-  display:block;background:#fffdf8;padding:10px;border-radius:3px;
-  box-shadow:0 24px 36px -20px rgba(27,23,18,.6);
+  display:block;background:#fff;padding:10px;border-radius:12px;
+  box-shadow:0 24px 36px -22px rgba(28,23,48,.6);
   transition:translate .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s ease;
 }
-.tarjeta-foto img{width:100%;height:auto;aspect-ratio:4/3;background:#ddd5c5}
-.tarjeta:hover .tarjeta-foto{translate:0 -6px;box-shadow:0 34px 44px -22px rgba(27,23,18,.65)}
-.tarjeta .placa3d{margin:16px 0 0;text-align:left;width:auto}
+.tarjeta-foto img{width:100%;height:auto;aspect-ratio:4/3;background:#ddd5c5;border-radius:4px}
+.tarjeta:hover .tarjeta-foto{translate:0 -6px;box-shadow:0 34px 44px -24px rgba(28,23,48,.65)}
+.placa{
+  display:block;margin:14px 0 0;width:max-content;max-width:100%;
+  padding:8px 18px 7px;background:#fff;border:2.5px solid var(--tinta);border-radius:6px;
+}
+.placa b{display:block;font-weight:800;font-size:19px;letter-spacing:.1em;text-transform:uppercase}
+.placa small{display:block;margin-top:2px;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
 .vacio{
   max-width:560px;padding:30px;
-  background:#fff;border:2px solid var(--tinta);border-radius:6px;
+  background:#fff;border:2px solid var(--tinta);border-radius:14px;
   font-size:19px;color:var(--muted);
 }
 .vacio strong{display:block;margin-bottom:6px;font-family:var(--serif);font-weight:400;font-size:30px;color:var(--tinta)}
 
-body.modo-lista .pasillo{display:none}
-body.modo-lista .lista{display:block}
-
 /* ============================================================
-   FINAL
+   RIDER TÉCNICO Y FINAL
 ============================================================ */
-.final{
-  position:relative;text-align:center;overflow:hidden;isolation:isolate;
-  padding:clamp(90px,12vw,160px) 6vw clamp(90px,11vw,140px);
+.rider{max-width:760px;margin:clamp(50px,7vw,90px) auto 0;padding:0 5vw}
+.rider-caja{
+  background:rgba(252,250,244,.85);border:1.5px solid rgba(255,255,255,.9);border-radius:24px;
+  padding:clamp(26px,4vw,44px);
+  box-shadow:0 30px 44px -30px rgba(28,23,48,.55);
 }
-.final::before{
-  content:"";position:absolute;z-index:-1;left:50%;top:0;translate:-50% 0;
-  width:70vmax;height:46vmax;border-radius:50%;
-  background:radial-gradient(circle,rgba(255,207,92,.38),transparent 66%);
+.rider h3{
+  margin:0 0 20px;
+  font-family:var(--serif);font-weight:400;font-size:clamp(28px,3.4vw,40px);letter-spacing:-.02em;
 }
+.rider dl{display:grid;gap:14px;margin:0}
+.rider dl div{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:baseline;padding-bottom:14px;border-bottom:1px dashed var(--linea)}
+.rider dt{min-width:9em;font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.rider dd{margin:0;font-weight:600;font-size:clamp(17px,1.8vw,20px)}
+
+.final{text-align:center;padding:clamp(80px,11vw,150px) 6vw clamp(90px,11vw,140px)}
 .final h2{
   margin:0 auto;max-width:9em;
   font-family:var(--serif);font-weight:400;
   font-size:clamp(46px,8vw,128px);line-height:.94;letter-spacing:-.03em;
 }
-.final-texto{margin:32px auto 0;max-width:27em;font-size:clamp(19px,2vw,26px);line-height:1.42;color:#3b342b}
-.final-firma{margin:22px 0 0;font-family:var(--mano);font-size:clamp(30px,3vw,42px);line-height:1;color:var(--rojo)}
-.final .btn{margin-top:34px}
+.final-texto{margin:30px auto 0;max-width:28em;font-size:clamp(19px,2vw,26px);line-height:1.42;color:#3c3556}
+.final-firma{margin:20px 0 0;font-family:var(--mano);font-size:clamp(30px,3vw,42px);line-height:1;color:var(--rojo)}
+.final .btn{margin-top:32px}
 
 /* ============================================================
    MODAL · la tarjeta con la foto y las dedicatorias
@@ -362,20 +328,18 @@ body.modo-lista .lista{display:block}
   position:fixed;inset:0;z-index:200;
   display:none;justify-content:center;align-items:flex-start;
   padding:32px 16px;overflow-y:auto;
-  background:rgba(27,23,18,.58);
+  background:rgba(28,23,48,.6);
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
 }
 .modal.activo{display:flex;animation:velo .25s ease}
-@keyframes velo{from{opacity:0}to{opacity:1}}
 .modal-caja{
   position:relative;flex-shrink:0;margin:auto 0;
   width:min(1040px,100%);
-  background:var(--hoja);border-radius:14px;
-  box-shadow:0 40px 90px -30px rgba(10,8,5,.7);
+  background:var(--hoja);border-radius:16px;
+  box-shadow:0 40px 90px -30px rgba(10,8,25,.75);
   overflow:hidden;
 }
 .modal.activo .modal-caja{animation:sube .45s cubic-bezier(.2,.8,.3,1)}
-@keyframes sube{from{translate:0 36px;opacity:0;scale:.98}to{translate:0 0;opacity:1;scale:1}}
 
 .modal-barra{position:absolute;top:16px;right:16px;z-index:5;display:flex;gap:8px}
 .icono{
@@ -390,25 +354,25 @@ body.modo-lista .lista{display:block}
 .modal-grid{display:grid;grid-template-columns:1fr}
 .lado{
   position:relative;overflow:hidden;isolation:isolate;
-  background:#e9e1d1;
+  background:#ece3f4;
   padding:70px 28px 34px;text-align:center;
 }
 .lado::before{
   content:"";position:absolute;z-index:-1;right:-30%;top:-20%;width:90%;aspect-ratio:1;border-radius:50%;
-  background:radial-gradient(circle,rgba(255,150,84,.35),rgba(255,150,84,0) 66%);
+  background:radial-gradient(circle,rgba(255,61,154,.3),rgba(255,61,154,0) 66%);
 }
 .lado-num{
   position:absolute;z-index:-1;right:-6px;bottom:-40px;
   font-family:var(--serif);
   font-size:250px;line-height:1;letter-spacing:-.05em;
-  color:transparent;-webkit-text-stroke:1.5px rgba(27,23,18,.14);
+  color:transparent;-webkit-text-stroke:1.5px rgba(28,23,48,.14);
   pointer-events:none;user-select:none;
 }
 /* la foto se ve entera, sin recortar */
 .lado-foto{
   display:inline-block;max-width:100%;
   background:#fff;padding:12px;
-  box-shadow:0 26px 44px -22px rgba(27,23,18,.6);
+  box-shadow:0 26px 44px -22px rgba(28,23,48,.6);
 }
 .lado-foto img{
   display:block;width:auto;height:auto;
@@ -447,13 +411,12 @@ body.modo-lista .lista{display:block}
   background-image:repeating-linear-gradient(to bottom,transparent 0 31px,rgba(70,110,180,.17) 31px 32px);
   border:1px solid #e6dcc9;
   padding:20px 24px 14px 60px;
-  box-shadow:0 12px 22px -18px rgba(27,23,18,.5);
+  box-shadow:0 12px 22px -18px rgba(28,23,48,.5);
 }
 .nota-msg::before{
   content:"";position:absolute;left:42px;top:0;bottom:0;width:1.5px;background:rgba(217,47,39,.35);
 }
-.nota-msg.nueva{animation:nueva .6s cubic-bezier(.2,.8,.3,1)}
-@keyframes nueva{from{translate:0 20px;opacity:0}to{translate:0 0;opacity:1}}
+.nota-msg.nueva{animation:sube .6s cubic-bezier(.2,.8,.3,1)}
 .nota-texto{margin:0;font-family:var(--maquina);font-size:18px;line-height:32px;overflow-wrap:anywhere}
 .nota-autor{margin:2px 0 0;text-align:right;font-family:var(--mano);font-size:32px;line-height:1;color:var(--rojo)}
 .notas-estado{padding:16px 0;color:var(--muted);font-weight:500;font-size:18px;margin:0}
@@ -463,13 +426,13 @@ body.modo-lista .lista{display:block}
   border:0;border-radius:999px;padding:15px 28px;font-weight:700;cursor:pointer;
   transition:background .2s ease,translate .2s ease;
 }
-.boton-mensaje:hover{background:var(--naranja)}
+.boton-mensaje:hover{background:var(--rosa)}
 .boton-mensaje:active{translate:0 2px}
 .boton-mensaje[hidden]{display:none}
 
 .formulario{
   margin-top:26px;padding:24px;
-  background:var(--crema);
+  background:#f5eef8;
   border:1.5px solid var(--linea);border-radius:14px;
 }
 .formulario[hidden]{display:none}
@@ -484,7 +447,7 @@ body.modo-lista .lista{display:block}
 }
 .formulario textarea{min-height:112px;resize:vertical;font-family:var(--maquina);font-size:17px}
 .formulario input:focus,.formulario textarea:focus{
-  outline:none;border-color:var(--tinta);box-shadow:0 0 0 4px rgba(255,106,26,.18);
+  outline:none;border-color:var(--tinta);box-shadow:0 0 0 4px rgba(108,75,255,.18);
 }
 .trampa{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .formulario-pie{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -496,7 +459,7 @@ body.modo-lista .lista{display:block}
   transition:background .2s ease,color .2s ease,border-color .2s ease;
 }
 .botones button:hover{border-color:var(--tinta)}
-.botones .enviar{background:var(--naranja);border-color:var(--naranja);color:#fff}
+.botones .enviar{background:var(--rosa);border-color:var(--rosa);color:#fff}
 .botones .enviar:hover{background:var(--tinta);border-color:var(--tinta)}
 .botones button:disabled{opacity:.6;cursor:wait}
 
@@ -517,7 +480,7 @@ body.modo-lista .lista{display:block}
   position:fixed;inset:0;z-index:500;
   display:none;align-items:center;justify-content:center;
   padding:30px;
-  background:rgba(14,11,8,.95);
+  background:rgba(14,10,28,.95);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   cursor:zoom-out;
 }
@@ -543,27 +506,31 @@ body.modo-lista .lista{display:block}
 /* ============================================================
    TABLET Y MÓVIL
 ============================================================ */
-@media (max-width:900px){
-  .entrada{grid-template-columns:1fr;min-height:0;gap:30px;padding-top:110px}
-  .senal{order:-1;width:min(64%,260px);justify-self:start}
-  .entrada h1{font-size:clamp(44px,12.4vw,110px)}
+@media (max-width:899px){
+  .hero{
+    grid-template-columns:1fr;
+    grid-template-areas:"texto" "bola" "ahora";
+    padding-top:96px;gap:8px;
+  }
+  .hero h1{font-size:clamp(40px,11.4vw,88px)}
+  .ahora{width:100%;max-width:520px;justify-self:center}
 }
 
 @media (max-width:640px){
   .muro{columns:1}
   .tarjeta{max-width:440px;margin-left:auto;margin-right:auto}
-  .busca{width:min(50vw,190px);padding:0 12px}
-  .btn-vista{padding:0 14px;font-size:14px}
-  .pista{font-size:14px;padding:10px 18px}
+  .busca{width:min(50vw,180px);padding:0 12px}
+  .btn-lista{padding:0 14px;font-size:14px}
+  .rider dt{min-width:100%}
 }
 
 @media (max-width:560px){
   body{font-size:16px}
-  .entrada{padding-left:18px;padding-right:18px}
+  .hero{padding-left:18px;padding-right:18px}
   .lista{padding-left:18px;padding-right:18px}
   .final{padding:70px 20px 90px}
   .modal{padding:12px 10px}
-  .modal-caja{border-radius:12px}
+  .modal-caja{border-radius:14px}
   .lado{padding:70px 16px 30px}
   .lado-num{font-size:190px}
   .principal{padding:26px 16px 30px}
@@ -574,23 +541,19 @@ body.modo-lista .lista{display:block}
   .visor-cerrar{top:14px;right:14px;width:44px;height:44px}
 }
 
-/* en pantallas táctiles: mandos visibles y efectos más ligeros */
-@media (pointer:coarse),(max-width:900px){
-  .mando{display:flex}
-  .pista{bottom:100px}
-}
-@media (max-width:700px){
-  body::after{display:none}
-  .luz3d{box-shadow:0 0 50px 20px rgba(255,244,190,.6)}
-}
-
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+  .tarjeta{opacity:1}
 }
 </style>
 </head>
 
 <body>
+
+<div class="motas" aria-hidden="true">
+  <div class="motas-giro" id="motasLento"></div>
+  <div class="motas-giro rapido" id="motasRapido"></div>
+</div>
 
 <!-- ================= BARRA FIJA ================= -->
 <div class="barra">
@@ -598,77 +561,84 @@ body.modo-lista .lista{display:block}
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
     <input id="buscador" type="search" placeholder="Buscar a alguien" aria-label="Buscar por nombre" autocomplete="off">
   </label>
-  <button class="btn-vista" id="btnVista" type="button">Ver en lista</button>
+  <a class="btn-lista" href="#lista">Lista ↓</a>
 </div>
 
-<!-- ================= ENTRADA ================= -->
-<header class="entrada" id="top">
-  <div>
+<!-- ================= PORTADA ================= -->
+<header class="hero" id="top">
+
+  <div class="hero-texto">
     <p class="etiqueta">IES El Molinillo · 2º Bach · Curso 2026–27</p>
-    <h1>Prohibido correr por el pasillo.</h1>
-    <p class="entrada-sub">Excepto si hay tarta.</p>
-    <p class="entrada-desc">
-      Los cumpleaños cuelgan a ambos lados, uno por uno. Se recomienda
-      caminar despacio, no pisar el suelo mojado y llegar con hambre.
-    </p>
-    <div class="entrada-botones">
-      <a class="btn btn-negro" id="btnEntrar" href="#pasillo">Entrar al pasillo <span aria-hidden="true">↓</span></a>
+    <h1>Hoy no hay clase. <span>Hay bola de discoteca.</span></h1>
+    <p class="hero-sub">Gírala. Cada cristal, un cumpleaños.</p>
+    <div class="hero-botones">
+      <button class="btn btn-negro" id="btnMusica" type="button">Que suene la música</button>
+      <a class="btn btn-borde" href="#lista">Ver la lista de invitados</a>
+    </div>
+    <p class="coro" id="coro" hidden>Versión coral, sin ensayar.</p>
+  </div>
+
+  <div class="escenario" id="escenario" tabindex="0" role="group" aria-label="Bola de discoteca con los cumpleaños. Desliza para girarla o usa las flechas del teclado.">
+    <div class="hilo" aria-hidden="true"></div>
+    <div class="tapa" aria-hidden="true"></div>
+    <div class="bola" id="bola">
+      <div class="nucleo"></div>
+      <div class="esfera" id="esfera"></div>
+      <div class="brillo-bola"></div>
     </div>
   </div>
 
-  <div class="senal" aria-hidden="true">
-    <div class="senal-disco"></div>
-    <svg class="senal-figura" viewBox="0 0 100 100">
-      <circle cx="58" cy="21" r="7.5" fill="#1b1712"/>
-      <path d="M55 31 L45 55 L60 70 L58 92 M45 55 L27 60 M52 39 L70 49 L83 41 M52 39 L33 45" fill="none" stroke="#1b1712" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="50" cy="50" r="45" fill="none" stroke="#d92f27" stroke-width="7"/>
-      <line x1="19" y1="19" x2="81" y2="81" stroke="#d92f27" stroke-width="7" stroke-linecap="round"/>
-    </svg>
-    <svg class="giro" viewBox="0 0 100 100">
-      <defs>
-        <path id="caminoSenal" d="M50,50 m0,-46.5 a46.5,46.5 0 1,1 0,93 a46.5,46.5 0 1,1 0,-93"/>
-      </defs>
-      <text class="senal-texto"><textPath href="#caminoSenal" textLength="288" lengthAdjust="spacing">IES EL MOLINILLO · 2º BACH · CURSO 2026–27 · IES EL MOLINILLO · 2º BACH · CURSO 2026–27 · </textPath></text>
-    </svg>
+  <div class="ahora" id="ahora" hidden>
+    <p class="ahora-etq">Ahora en la pista</p>
+    <button class="ahora-foto" id="ahoraFoto" type="button" aria-label="Abrir esta foto">
+      <img id="ahoraImg" src="" alt="">
+    </button>
+    <div class="ahora-info">
+      <b id="ahoraNombre"></b>
+      <small id="ahoraDatos"></small>
+    </div>
+    <div class="ahora-botones">
+      <button class="flecha" id="btnPrev" type="button" aria-label="Foto anterior">←</button>
+      <button class="abrir" id="btnAbrir" type="button">Abrir tarjeta</button>
+      <button class="flecha" id="btnNext" type="button" aria-label="Foto siguiente">→</button>
+    </div>
   </div>
+
 </header>
 
-<!-- ================= EL PASILLO ================= -->
-<section class="pasillo" id="pasillo" aria-label="Pasillo con los cumpleaños colgados">
-  <div class="visor3d" id="visor3d">
-    <div class="mundo" id="mundo"></div>
-    <div class="niebla" aria-hidden="true"></div>
-    <p class="pista" id="pista">Sigue bajando: el pasillo continúa ↓</p>
-
-    <div class="mando" id="mando">
-      <button class="flechita" id="btnPrev" type="button" aria-label="Foto anterior">←</button>
-      <button class="ver" id="btnVer" type="button" aria-label="Abrir la foto que tienes delante">
-        <b id="mandoNombre">Entrada del pasillo</b>
-        <small id="mandoDatos">Desliza para empezar</small>
-      </button>
-      <button class="flechita" id="btnNext" type="button" aria-label="Foto siguiente">→</button>
-    </div>
-  </div>
-</section>
-
-<!-- ================= VISTA EN LISTA ================= -->
+<!-- ================= LISTA DE INVITADOS ================= -->
 <section class="lista" id="lista">
   <div class="lista-cab">
-    <h2>Los cumpleaños, sin caminar.</h2>
-    <p>Para quien prefiere el ascensor.</p>
+    <h2>Lista de invitados.</h2>
+    <p>Por si prefieres no marearte.</p>
   </div>
   <div class="muro" id="grid"></div>
 </section>
 
+<!-- ================= RIDER TÉCNICO ================= -->
+<section class="rider">
+  <div class="rider-caja">
+    <h3>Rider técnico de la fiesta</h3>
+    <dl>
+      <div><dt>Música</dt><dd>Cumpleaños feliz, sin ensayar</dd></div>
+      <div><dt>Iluminación</dt><dd>La linterna del móvil de alguien</dd></div>
+      <div><dt>Catering</dt><dd>La tarta, brevemente</dd></div>
+      <div><dt>Fotografía</dt><dd>Quien tuviera el móvil más a mano</dd></div>
+      <div><dt>Seguridad</dt><dd>Ninguna: nadie iba a quitarnos la tarta</dd></div>
+    </dl>
+  </div>
+</section>
+
 <!-- ================= FINAL ================= -->
-<section class="final" id="final">
-  <h2>Fin del pasillo.</h2>
+<section class="final">
+  <h2>Se encienden las luces.</h2>
   <p class="final-texto">
-    Después de esta puerta hay otro curso, otras aulas y otro pasillo.
-    Pero este lo recorrimos juntos, con tarta y sin correr (casi nunca).
+    Fin de la fiesta, por hoy. El año que viene cambiará la sala, la música y
+    hasta el peinado, pero mientras haya cumpleaños la bola seguirá girando.
+    Y alguien seguirá diciendo «una más».
   </p>
   <p class="final-firma">IES El Molinillo · 2º Bach · curso 2026–27</p>
-  <a class="btn btn-negro" href="#top">Volver a la entrada ↑</a>
+  <a class="btn btn-negro" href="#top">Volver a la pista ↑</a>
 </section>
 
 <!-- ================= VISOR DE FOTO ================= -->
@@ -745,16 +715,6 @@ const URL_MENSAJES =
 const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto",
                "septiembre","octubre","noviembre","diciembre"];
 
-/* carteles que cuelgan de las paredes del pasillo */
-const CARTELES = [
-  { lado: -1, tipo: "puerta",  tit: "AULA",        sub: "2º BACH" },
-  { lado:  1, tipo: "aviso",   tit: "PROHIBIDO",   sub: "correr (salvo tarta)" },
-  { lado: -1, tipo: "tablon",  tit: "Se busca",    sub: "quien trajo las velas" },
-  { lado:  1, tipo: "peligro", tit: "CANTINA",     sub: "tarta: agotada" },
-  { lado: -1, tipo: "placa",   tit: "SECRETARÍA",  sub: "cerrado por cumpleaños" },
-  { lado:  1, tipo: "placa",   tit: "BIBLIOTECA",  sub: "silencio (hasta las velas)" }
-];
-
 /* ============================================================
    UTILIDADES
 ============================================================ */
@@ -764,6 +724,9 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
 const norm = s => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 const reducir = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const dos = n => String(n).padStart(2, "0");
+const RAD = Math.PI / 180;
+const acotar = (v, a, b) => Math.max(a, Math.min(b, v));
+const difAngulo = a => { a = ((a + 180) % 360 + 360) % 360 - 180; return a; };
 
 function hoy() {
   const d = new Date();
@@ -773,7 +736,7 @@ function hoy() {
 /* avatar de emergencia si una foto no carga */
 function avatar(nombre) {
   const ini = esc((nombre || "?").trim().charAt(0).toUpperCase());
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><rect width="200" height="150" fill="#ddd5c5"/><text x="100" y="98" font-family="Georgia,serif" font-weight="700" font-size="80" text-anchor="middle" fill="#1b1712">${ini}</text></svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150"><rect width="200" height="150" fill="#ddd5c5"/><text x="100" y="98" font-family="Georgia,serif" font-weight="700" font-size="80" text-anchor="middle" fill="#1c1730">${ini}</text></svg>`;
   return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
 }
 function conFallback(img, nombre) {
@@ -827,12 +790,16 @@ function diaCurso(f) {
 }
 function anioDe(f) { return f.m >= 8 ? ANIO0 : ANIO0 + 1; }
 
+/* "20 de octubre" */
+function fechaBonita(p) {
+  const f = parseFecha(p.fecha);
+  return f ? `${f.d} de ${MESES[f.m]}` : String(p.fecha || "");
+}
 /* "20 oct" */
 function fechaMini(p) {
   const f = parseFecha(p.fecha);
   return f ? `${f.d} ${MESES[f.m].slice(0, 3)}` : String(p.fecha || "");
 }
-
 /* la fecha "en la esquina" de la foto: 20 10 ’26 */
 function estampa(p, f) {
   if (!f) return String(p.fecha || "");
@@ -857,343 +824,390 @@ function construirOrden() {
     .map(x => x.i);
 }
 
-const enModoLista = () => document.body.classList.contains("modo-lista");
+/* ============================================================
+   LAS LUCES QUE DAN VUELTAS POR LA SALA
+============================================================ */
+(function motas() {
+  const colores = ["", "", "", "rosa", "cian", "sol"];
+  const llenar = (cont, n, semilla) => {
+    let s = semilla;
+    const azar = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+    for (let k = 0; k < n; k++) {
+      const m = document.createElement("i");
+      m.className = "mota " + colores[Math.floor(azar() * colores.length)];
+      const ang = azar() * Math.PI * 2;
+      const dist = 80 + Math.pow(azar(), 0.7) * 92;              // en vmax
+      const t = 8 + azar() * 20;
+      m.style.width = t + "px";
+      m.style.height = t + "px";
+      m.style.left = (Math.cos(ang) * dist) + "vmax";
+      m.style.top = (Math.sin(ang) * dist) + "vmax";
+      m.style.rotate = (azar() * 90) + "deg";
+      m.style.animationDelay = (azar() * -3.4) + "s";
+      m.style.animationDuration = (2.6 + azar() * 2.4) + "s";
+      cont.appendChild(m);
+    }
+  };
+  llenar($("motasLento"), 46, 11);
+  llenar($("motasRapido"), 46, 97);
+})();
 
 /* ============================================================
-   EL PASILLO EN 3D
+   LA BOLA DE DISCOTECA
 ============================================================ */
-const P = {};                 // medidas del mundo
-let seccion, visor, mundo, pista;
-let marcos = [];              // los cumpleaños colgados y su distancia
-let D = 0;                    // recorrido total de la cámara
-let rango = 1;                // scroll disponible
-let camAct = 0, camObj = 0;
-let kFoco = -2;               // cuadro que tienes delante (-1: ninguno)
+const G = { R: 0, ry: 20, rx: -8, vy: 0, arr: false, obj: null, pts: [], k: -1 };
+let esc_, bolaEl, esfEl;
+let bolaVisible = true;
 
-function medir() {
-  const vw = innerWidth;
-  const movil = vw < 700;
-  P.movil = movil;
-  P.persp = movil ? 620 : 900;
-  P.W = movil ? 540 : 1100;        // ancho del pasillo
-  P.H = movil ? 700 : 720;         // alto
-  P.SP = movil ? 520 : 620;        // separación entre cuadros
-  P.FIRST = movil ? 700 : 900;     // dónde cuelga el primero
-  P.ZS = 900;                      // el pasillo empieza detrás de la cámara
-  P.xOff = movil ? 56 : P.W * 0.235;
-  P.h = movil ? 320 : 300;         // alto de cada foto
-  P.wmax = movil ? 400 : 520;      // ancho máximo (la foto nunca se recorta)
-  P.focus = movil ? 300 : 560;     // a qué distancia te paras delante de un cuadro
-  P.pasa = movil ? 60 : 240;       // cuándo desaparece un cuadro al pasar
-  P.vel = movil ? 2.4 : 1.2;       // cuánto avanza la cámara por cada píxel de scroll
-  const n = Math.max(ordenIdx.length, 3);
-  P.L = P.FIRST + n * P.SP + 900;  // largo hasta la puerta del fondo
-  D = P.L - 380;
-}
+function construirBola() {
+  const vw = innerWidth, vh = innerHeight;
+  const movil = vw < 900;
+  const D = movil ? Math.min(vw * 0.88, vh * 0.52, 470) : Math.min(vh * 0.74, vw * 0.46, 600);
+  G.R = D / 2;
 
-function actualizarRango() {
-  const alto = visor.offsetHeight || innerHeight;
-  rango = Math.max(1, seccion.offsetHeight - alto);
-}
+  esc_.style.setProperty("--Dh", D + "px");
+  bolaEl.style.setProperty("--D", D + "px");
+  bolaEl.style.perspective = (D * 2.6) + "px";
+  esfEl.innerHTML = "";
+  G.pts = [];
+  G.k = -1;
 
-function plano(clase, w, h, transform) {
-  const d = document.createElement("div");
-  d.className = "plano " + clase;
-  d.style.width = w + "px";
-  d.style.height = h + "px";
-  d.style.marginLeft = (-w / 2) + "px";
-  d.style.marginTop = (-h / 2) + "px";
-  d.style.transform = transform;
-  return d;
-}
+  const R = G.R;
+  const n = ordenIdx.length;
 
-function construirMundo() {
-  if (!mundo) return;
-  medir();
-  visor.style.perspective = P.persp + "px";
-  mundo.innerHTML = "";
-  marcos = [];
-
-  /* paredes, suelo y techo, en tramos para no pasarnos de tamaño */
-  const SEG = 2370;                       // múltiplo de los dibujos repetidos
-  const total = P.ZS + P.L;
-  for (let s = 0; s * SEG < total; s++) {
-    const w = Math.min(SEG, total - s * SEG);
-    const zc = P.ZS - s * SEG - w / 2;
-    mundo.appendChild(plano("pared izq", w, P.H, `translate3d(${-P.W / 2}px,0,${zc}px) rotateY(90deg)`));
-    mundo.appendChild(plano("pared der", w, P.H, `translate3d(${P.W / 2}px,0,${zc}px) rotateY(-90deg)`));
-    mundo.appendChild(plano("suelo", P.W, w, `translate3d(0,${P.H / 2}px,${zc}px) rotateX(90deg)`));
-    mundo.appendChild(plano("techo", P.W, w, `translate3d(0,${-P.H / 2}px,${zc}px) rotateX(-90deg)`));
+  /* un punto de la bola para cada cumpleaños (espiral de Fibonacci, sin los polos) */
+  const YMAX = 0.72;
+  for (let k = 0; k < n; k++) {
+    const yArriba = n === 1 ? 0 : YMAX - (k + 0.5) * (2 * YMAX) / n;
+    const rr = Math.sqrt(1 - yArriba * yArriba);
+    const fi = k * 2.399963;
+    G.pts.push({ x: Math.cos(fi) * rr, y: -yArriba, z: Math.sin(fi) * rr });
   }
 
-  /* la puerta del fondo */
-  const fondo = plano("fondo", P.W, P.H, `translate3d(0,0,${-P.L}px)`);
-  fondo.innerHTML = `<span class="doble"></span><span class="salida">SALIDA</span>`;
-  mundo.appendChild(fondo);
+  /* los cristales de espejo, en anillos, salvo donde va una foto */
+  const cw = R * 0.52, ch = R * 0.4;
+  const radioFoto = Math.sqrt((cw / 2) ** 2 + (ch / 2) ** 2) / R + 0.05;
+  const cosUmbral = Math.cos(radioFoto);
+  const s = R * (movil ? 0.24 : 0.2);
+  let anillo = 0;
+  for (let lat = -78; lat <= 78; lat += 12, anillo++) {
+    const la = lat * RAD;
+    const m = Math.max(5, Math.round(2 * Math.PI * R * Math.cos(la) / (s * 1.06)));
+    const tw = 2 * Math.PI * R * Math.cos(la) / m * 0.94;
+    const th = R * 12 * RAD * 0.94;
+    for (let j = 0; j < m; j++) {
+      const lon = (j + (anillo % 2 ? 0.5 : 0)) * 360 / m;
+      const lo = lon * RAD;
+      const px = Math.sin(lo) * Math.cos(la), py = -Math.sin(la), pz = Math.cos(lo) * Math.cos(la);
+      let choca = false;
+      for (const q of G.pts) { if (px * q.x + py * q.y + pz * q.z > cosUmbral) { choca = true; break; } }
+      if (choca) continue;
 
-  /* fluorescentes en el techo, alguno con fallos */
-  let j = 0;
-  for (let d = 300; d < P.L; d += 560, j++) {
-    const luz = plano("luz3d" + (j % 4 === 2 ? " parpadea" : ""), 300, 120,
-      `translate3d(0,${-P.H / 2 + 2}px,${-d}px) rotateX(-90deg)`);
-    if (j % 4 === 2) luz.style.animationDelay = (j * 0.7) + "s";
-    mundo.appendChild(luz);
+      const t = document.createElement("div");
+      const r = (j * 7 + anillo * 13) % 10;
+      t.className = "faceta" + (r === 1 ? " t1" : r === 3 ? " t2" : r === 5 ? " t3" : r === 7 ? " t4" : "") + (r % 3 === 0 ? " brilla" : "");
+      t.style.width = tw + "px";
+      t.style.height = th + "px";
+      t.style.marginLeft = (-tw / 2) + "px";
+      t.style.marginTop = (-th / 2) + "px";
+      t.style.transform = `rotateY(${lon}deg) rotateX(${lat}deg) translateZ(${R}px)`;
+      if (r % 3 === 0) {
+        t.style.animationDelay = (-((j * 0.37 + anillo * 0.61) % 2.6)) + "s";
+        t.style.animationDuration = (2 + (r % 4) * 0.6) + "s";
+      }
+      esfEl.appendChild(t);
+    }
   }
 
-  /* carteles en las paredes */
-  let c = 0;
-  for (let d = 1500; d < P.L - 900; d += 1100, c++) {
-    const def = CARTELES[c % CARTELES.length];
-    const esPuerta = def.tipo === "puerta";
-    const w = esPuerta ? 240 : 380, h = esPuerta ? 420 : 170;
-    const y = esPuerta ? P.H / 2 - h / 2 : -60;
-    const x = def.lado < 0 ? -P.W / 2 + 3 : P.W / 2 - 3;
-    const giro = def.lado < 0 ? 90 : -90;
-    const cartel = plano("cartel " + def.tipo, w, h,
-      `translate3d(${x}px,${y}px,${-d}px) rotateY(${giro}deg)`);
-    cartel.innerHTML = `<b>${esc(def.tit)}</b><small>${esc(def.sub)}</small>`;
-    mundo.appendChild(cartel);
-  }
-
-  /* los cumpleaños, colgados del techo */
-  ordenIdx.forEach((i, k) => {
+  /* los cumpleaños */
+  G.pts.forEach((q, k) => {
+    const i = ordenIdx[k];
     const p = fotos[i];
-    const lado = k % 2 ? 1 : -1;
-    const d = P.FIRST + k * P.SP;
-    const ytop = -P.H * 0.17 + (((k * 37) % 5) - 2) * 16;
+    const lon = Math.atan2(q.x, q.z) / RAD;
+    const lat = Math.asin(-q.y) / RAD;
 
-    const el = document.createElement("div");
-    el.className = "colgado";
-    el.setAttribute("role", "button");
-    el.tabIndex = 0;
-    el.setAttribute("aria-label", `Abrir el cumpleaños de ${p.nombre}`);
-    el.style.setProperty("--h", P.h + "px");
-    el.style.setProperty("--wmax", P.wmax + "px");
-    el.style.setProperty("--cy", (ytop + P.H / 2) + "px");
-    el.style.transform = `translate3d(${lado * P.xOff}px,${ytop}px,${-d}px)`;
-
-    el.innerHTML = `
-      <span class="cuerda"></span>
-      <span class="marco3d">
-        <span class="foto3d"><img src="${esc(p.foto)}" alt="${esc(p.nombre)}"></span>
-        <span class="placa3d"><b>${esc(p.nombre)}</b><small>${esc(fechaMini(p))} · ${esc(p.edad)} años</small></span>
-      </span>`;
-
-    const img = el.querySelector("img");
-    conFallback(img, p.nombre);
-    fijarProporcion(img);
-    el.addEventListener("click", () => abrirModal(i));
-    el.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); abrirModal(i); }
-    });
-
-    mundo.appendChild(el);
-    marcos.push({ el, d });
+    const f = document.createElement("div");
+    f.className = "foto-bola";
+    f.dataset.k = k;
+    f.style.width = cw + "px";
+    f.style.height = ch + "px";
+    f.style.marginLeft = (-cw / 2) + "px";
+    f.style.marginTop = (-ch / 2) + "px";
+    f.style.transform = `rotateY(${lon}deg) rotateX(${lat}deg) translateZ(${R + 1}px)`;
+    f.innerHTML = `<img src="${esc(p.foto)}" alt="${esc(p.nombre)}" draggable="false">`;
+    conFallback(f.querySelector("img"), p.nombre);
+    esfEl.appendChild(f);
   });
 
-  /* la altura del scroll decide cuánto se puede caminar */
-  seccion.style.height = Math.round(D / P.vel + (visor.offsetHeight || innerHeight)) + "px";
-  actualizarRango();
-  kFoco = -2;
-  actualizarMando();
+  $("ahora").hidden = n === 0;
 }
 
-/* el bucle que mueve la cámara con el scroll */
-function paso() {
-  requestAnimationFrame(paso);
-  if (!mundo || enModoLista()) return;
-
-  const r = seccion.getBoundingClientRect();
-  if (r.bottom < -60 || r.top > innerHeight + 60) return;
-
-  const p = Math.min(1, Math.max(0, -r.top / rango));
-  camObj = p * D;
-  camAct += (camObj - camAct) * (reducir ? 1 : 0.16);
-
-  const vaiven = reducir ? 0 : Math.sin(camAct * 0.012) * (P.movil ? 3 : 5);
-  mundo.style.transform = `translate3d(0,${vaiven}px,${camAct}px)`;
-
-  /* los cuadros lejanos se apagan en la niebla y los que ya pasaron desaparecen;
-     de paso miramos cuál tienes delante */
-  let mejor = -1, mejorDif = 1e9;
-  for (let k = 0; k < marcos.length; k++) {
-    const m = marcos[k];
-    const dist = m.d - camAct;
-    let o = 1;
-    if (dist > 1500) o = Math.max(0, 1 - (dist - 1500) / 900);
-    else if (dist < P.pasa) o = Math.max(0, (dist + 90) / (P.pasa + 90));
-    m.el.style.opacity = o.toFixed(2);
-    m.el.style.pointerEvents = o < 0.25 ? "none" : "auto";
-
-    if (dist > -120) {
-      const dif = Math.abs(dist - P.focus);
-      if (dif < mejorDif) { mejorDif = dif; mejor = k; }
-    }
+/* qué foto mira ahora mismo a la cámara */
+function fotoDelante() {
+  const cy = Math.cos(G.ry * RAD), sy = Math.sin(G.ry * RAD);
+  const cx = Math.cos(G.rx * RAD), sx = Math.sin(G.rx * RAD);
+  let mejor = -1, zMax = -2;
+  for (let k = 0; k < G.pts.length; k++) {
+    const q = G.pts[k];
+    const z1 = -q.x * sy + q.z * cy;
+    const z2 = q.y * sx + z1 * cx;
+    if (z2 > zMax) { zMax = z2; mejor = k; }
   }
-  if (mejorDif > 900) mejor = -1;
-  if (mejor !== kFoco) { kFoco = mejor; actualizarMando(); }
-
-  pista.style.opacity = p < 0.025 ? 1 : 0;
+  return zMax > 0.3 ? mejor : -1;
 }
 
-/* qué pone en el mando de abajo */
-function actualizarMando() {
-  const nom = $("mandoNombre"), dat = $("mandoDatos");
-  if (!nom) return;
-  if (!ordenIdx.length) { nom.textContent = "El pasillo está vacío"; dat.textContent = "Cada cumpleaños colgará aquí su foto"; return; }
-  if (kFoco < 0) { nom.textContent = "Entrada del pasillo"; dat.textContent = "Desliza para empezar"; return; }
-  const p = fotos[ordenIdx[kFoco]];
-  nom.textContent = p.nombre;
-  dat.textContent = `${fechaMini(p)} · ${p.edad} años · toca para abrir`;
+function mostrarAhora(k) {
+  if (k < 0) return;
+  const p = fotos[ordenIdx[k]];
+  const img = $("ahoraImg");
+  img.style.opacity = 0;
+  setTimeout(() => {
+    img.src = p.foto;
+    img.alt = p.nombre;
+    img.onerror = null;
+    conFallback(img, p.nombre);
+    img.style.opacity = 1;
+  }, reducir ? 0 : 120);
+  $("ahoraNombre").textContent = p.nombre;
+  $("ahoraDatos").textContent = `${fechaBonita(p)} · ${p.edad} años`;
 }
 
-/* un poco de mirada con el ratón */
-function activarMirada() {
-  visor.addEventListener("pointermove", e => {
-    if (reducir || e.pointerType === "touch") return;
-    const nx = e.clientX / innerWidth - 0.5;
-    const ny = e.clientY / innerHeight - 0.5;
-    visor.style.perspectiveOrigin = `${50 + nx * 7}% ${46 + ny * 6}%`;
-  });
-}
+function bucle() {
+  requestAnimationFrame(bucle);
+  if (!esfEl || !bolaVisible) return;
 
-/* ir caminando hasta una posición del pasillo */
-function irACamara(cam) {
-  cam = Math.max(0, Math.min(D, cam));
-  const top = seccion.offsetTop + (cam / D) * rango;
-  scrollTo({ top, behavior: reducir ? "auto" : "smooth" });
-}
-
-/* ir caminando hasta un cumpleaños concreto */
-function irAlCuadro(k) {
-  const m = marcos[k];
-  if (m) irACamara(m.d - P.focus);
-}
-
-function siguienteCuadro() {
-  const k = marcos.findIndex(m => m.d - P.focus > camAct + 60);
-  if (k >= 0) irAlCuadro(k);
-  else irACamara(D);
-}
-
-function anteriorCuadro() {
-  let k = -1;
-  marcos.forEach((m, i) => { if (m.d - P.focus < camAct - 60) k = i; });
-  if (k >= 0) irAlCuadro(k);
-  else irACamara(0);
-}
-
-/* mandos táctiles y gesto de deslizar a los lados */
-function activarMando() {
-  $("btnNext").addEventListener("click", siguienteCuadro);
-  $("btnPrev").addEventListener("click", anteriorCuadro);
-  $("btnVer").addEventListener("click", () => {
-    if (kFoco >= 0 && ordenIdx[kFoco] !== undefined) abrirModal(ordenIdx[kFoco]);
-  });
-
-  let x0 = 0, y0 = 0, t0 = 0;
-  visor.addEventListener("touchstart", e => {
-    const t = e.touches[0];
-    x0 = t.clientX; y0 = t.clientY; t0 = Date.now();
-  }, { passive: true });
-  visor.addEventListener("touchend", e => {
-    const t = e.changedTouches[0];
-    const dx = t.clientX - x0, dy = t.clientY - y0;
-    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && Date.now() - t0 < 700) {
-      if (dx < 0) siguienteCuadro(); else anteriorCuadro();
+  if (G.obj) {
+    const d = difAngulo(G.obj.ry - G.ry);
+    G.ry += d * 0.1;
+    G.rx += (G.obj.rx - G.rx) * 0.1;
+    if (Math.abs(d) < 0.25 && Math.abs(G.obj.rx - G.rx) < 0.25) G.obj = null;
+  } else if (!G.arr) {
+    G.ry += G.vy;
+    G.vy *= 0.94;
+    if (Math.abs(G.vy) < 0.03) {
+      G.vy = 0;
+      if (!reducir) G.ry += document.body.classList.contains("fiesta") ? 0.75 : 0.14;
     }
-  }, { passive: true });
+    G.rx += (-8 - G.rx) * 0.02;       // vuelve a su inclinación tranquila
+  }
+  esfEl.style.transform = `rotateX(${G.rx}deg) rotateY(${G.ry}deg)`;
+
+  const k = fotoDelante();
+  if (k !== G.k && k >= 0) { G.k = k; mostrarAhora(k); }
+}
+
+/* llevar la bola hasta un cumpleaños concreto */
+function irAFoto(k) {
+  const q = G.pts[k];
+  if (!q) return;
+  const lon = Math.atan2(q.x, q.z) / RAD;
+  const lat = Math.asin(-q.y) / RAD;
+  G.obj = { ry: G.ry + difAngulo(-lon - G.ry), rx: acotar(-lat, -30, 30) };
+  G.vy = 0;
+}
+function siguienteFoto(delta) {
+  const n = G.pts.length;
+  if (!n) return;
+  const base = G.k >= 0 ? G.k : 0;
+  irAFoto((base + delta + n) % n);
+}
+
+/* arrastrar la bola con el dedo o el ratón */
+function activarArrastre() {
+  let x0 = 0, y0 = 0, movido = 0, cuadro = null;
+
+  esc_.addEventListener("pointerdown", e => {
+    G.arr = true; G.obj = null; G.vy = 0;
+    movido = 0; x0 = e.clientX; y0 = e.clientY;
+    cuadro = e.target.closest(".foto-bola");
+    try { esc_.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+  esc_.addEventListener("pointermove", e => {
+    if (!G.arr) return;
+    const dx = e.clientX - x0, dy = e.clientY - y0;
+    x0 = e.clientX; y0 = e.clientY;
+    movido += Math.abs(dx) + Math.abs(dy);
+    G.ry += dx * 0.4;
+    G.vy = dx * 0.4;
+    if (e.pointerType === "mouse") G.rx = acotar(G.rx - dy * 0.2, -30, 30);
+  });
+  const soltar = e => {
+    if (!G.arr) return;
+    G.arr = false;
+    if (e.type === "pointerup" && movido < 8 && cuadro) {
+      const k = +cuadro.dataset.k;
+      if (ordenIdx[k] !== undefined) abrirModal(ordenIdx[k]);
+    }
+    cuadro = null;
+  };
+  esc_.addEventListener("pointerup", soltar);
+  esc_.addEventListener("pointercancel", soltar);
+
+  esc_.addEventListener("keydown", e => {
+    if (e.key === "ArrowRight") { e.preventDefault(); siguienteFoto(1); }
+    if (e.key === "ArrowLeft")  { e.preventDefault(); siguienteFoto(-1); }
+  });
 }
 
 /* ============================================================
-   VISTA EN LISTA
+   LA MÚSICA: el cumpleaños feliz, sin ensayar
 ============================================================ */
+const MELODIA = [
+  [392, .75], [392, .25], [440, 1], [392, 1], [523.25, 1], [493.88, 2],
+  [392, .75], [392, .25], [440, 1], [392, 1], [587.33, 1], [523.25, 2],
+  [392, .75], [392, .25], [783.99, 1], [659.25, 1], [523.25, 1], [493.88, 1], [440, 2],
+  [698.46, .75], [698.46, .25], [659.25, 1], [523.25, 1], [587.33, 1], [523.25, 2]
+];
+let ac = null, master = null, sonando = false, finMusica = 0;
+
+function pararMusica() {
+  clearTimeout(finMusica);
+  if (ac && master) {
+    const g = master;
+    g.gain.cancelScheduledValues(ac.currentTime);
+    g.gain.setTargetAtTime(0, ac.currentTime, 0.05);
+    setTimeout(() => { try { g.disconnect(); } catch (e) {} }, 400);
+  }
+  master = null;
+  sonando = false;
+  document.body.classList.remove("fiesta");
+  $("btnMusica").textContent = "Que suene la música";
+  $("coro").hidden = true;
+}
+
+function tocarMusica() {
+  if (sonando) { pararMusica(); return; }
+  const Contexto = window.AudioContext || window.webkitAudioContext;
+  if (!Contexto) return;
+  ac = ac || new Contexto();
+  if (ac.state === "suspended") ac.resume();
+
+  master = ac.createGain();
+  master.gain.value = 0.9;
+  master.connect(ac.destination);
+
+  const tiempoNota = 0.52;
+  let t = ac.currentTime + 0.08;
+  MELODIA.forEach(([frec, dur]) => {
+    [0, 1].forEach(voz => {
+      const o = ac.createOscillator();
+      const g = ac.createGain();
+      o.type = voz ? "sawtooth" : "triangle";
+      o.frequency.value = frec;
+      o.detune.value = (Math.random() - 0.5) * (voz ? 70 : 44);     // el coro no ensayó
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(voz ? 0.016 : 0.07, t + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0008, t + dur * tiempoNota * 0.96);
+      o.connect(g).connect(master);
+      o.start(t);
+      o.stop(t + dur * tiempoNota);
+    });
+    t += dur * tiempoNota;
+  });
+
+  sonando = true;
+  document.body.classList.add("fiesta");
+  $("btnMusica").textContent = "Parar la música";
+  $("coro").hidden = false;
+  finMusica = setTimeout(pararMusica, (t - ac.currentTime) * 1000 + 400);
+}
+
+/* ============================================================
+   LISTA DE INVITADOS
+============================================================ */
+const observador = "IntersectionObserver" in window
+  ? new IntersectionObserver(entradas => {
+      entradas.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add("in");
+          observador.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.06 })
+  : null;
+
 function pintarLista() {
   const cont = $("grid");
   const q = norm($("buscador").value.trim());
   cont.innerHTML = "";
 
   if (fotos.length === 0) {
-    cont.innerHTML = `<div class="vacio"><strong>El pasillo está vacío por ahora.</strong>Cada cumpleaños colgará aquí su foto.</div>`;
+    cont.innerHTML = `<div class="vacio"><strong>La pista está vacía por ahora.</strong>Cada cumpleaños tendrá aquí su sitio.</div>`;
     return;
   }
 
   const lista = ordenIdx.filter(i => !q || norm(fotos[i].nombre).includes(q));
   if (lista.length === 0) {
-    cont.innerHTML = `<div class="vacio"><strong>Nadie con ese nombre por este pasillo.</strong>Prueba con otro.</div>`;
+    cont.innerHTML = `<div class="vacio"><strong>Ese invitado no consta en la lista.</strong>Prueba con otro nombre.</div>`;
     return;
   }
 
-  lista.forEach(i => {
+  lista.forEach((i, pos) => {
     const p = fotos[i];
     const b = document.createElement("button");
     b.type = "button";
     b.className = "tarjeta";
+    b.style.setProperty("--d", (pos % 3) * 0.1 + "s");
     b.setAttribute("aria-label", `Abrir el cumpleaños de ${p.nombre}`);
     b.innerHTML = `
       <span class="tarjeta-foto"><img src="${esc(p.foto)}" alt="${esc(p.nombre)}" loading="lazy"></span>
-      <span class="placa3d"><b>${esc(p.nombre)}</b><small>${esc(fechaMini(p))} · ${esc(p.edad)} años</small></span>`;
+      <span class="placa"><b>${esc(p.nombre)}</b><small>${esc(fechaMini(p))} · ${esc(p.edad)} años</small></span>`;
     const img = b.querySelector("img");
     conFallback(img, p.nombre);
     fijarProporcion(img);
     b.addEventListener("click", () => abrirModal(i));
     cont.appendChild(b);
+    if (observador) observador.observe(b); else b.classList.add("in");
   });
 }
 
 /* ============================================================
-   CAMBIO DE VISTA Y BUSCADOR
+   BUSCADOR
 ============================================================ */
-function ponerVista(lista) {
-  document.body.classList.toggle("modo-lista", lista);
-  $("btnVista").textContent = lista ? "Volver al pasillo" : "Ver en lista";
-  $("btnEntrar").setAttribute("href", lista ? "#lista" : "#pasillo");
-  if (lista) pintarLista();
-  else { actualizarRango(); }
-}
-
-$("btnVista").addEventListener("click", () => {
-  const lista = !enModoLista();
-  ponerVista(lista);
-  document.getElementById(lista ? "lista" : "pasillo").scrollIntoView({ block: "start" });
-});
-
 $("buscador").addEventListener("input", () => {
+  pintarLista();
   const q = norm($("buscador").value.trim());
-  if (enModoLista()) { pintarLista(); return; }
   if (!q) return;
   const k = ordenIdx.findIndex(i => norm(fotos[i].nombre).includes(q));
-  if (k >= 0) irAlCuadro(k);
+  if (k >= 0) irAFoto(k);              // la bola gira hasta esa persona
 });
 
 /* ============================================================
-   CARGA DE DATOS
+   ARRANQUE
 ============================================================ */
 function iniciar() {
-  seccion = $("pasillo");
-  visor = $("visor3d");
-  mundo = $("mundo");
-  pista = $("pista");
+  esc_ = $("escenario");
+  bolaEl = $("bola");
+  esfEl = $("esfera");
 
-  construirMundo();
-  activarMirada();
-  activarMando();
-  requestAnimationFrame(paso);
+  construirBola();
+  activarArrastre();
+  requestAnimationFrame(bucle);
 
-  if (reducir) ponerVista(true);
+  /* la bola solo trabaja cuando se ve */
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(es => { bolaVisible = es[0].isIntersecting; }, { threshold: 0 }).observe(esc_);
+  }
 
-  /* en el móvil la barra del navegador aparece y desaparece al hacer scroll y cambia
-     la altura: solo reconstruimos el pasillo si cambia el ancho de verdad */
+  $("btnPrev").addEventListener("click", () => siguienteFoto(-1));
+  $("btnNext").addEventListener("click", () => siguienteFoto(1));
+  const abrirDelante = () => {
+    if (G.k >= 0 && ordenIdx[G.k] !== undefined) abrirModal(ordenIdx[G.k]);
+  };
+  $("btnAbrir").addEventListener("click", abrirDelante);
+  $("ahoraFoto").addEventListener("click", abrirDelante);
+  $("btnMusica").addEventListener("click", tocarMusica);
+  if (!(window.AudioContext || window.webkitAudioContext)) $("btnMusica").hidden = true;
+
+  /* en el móvil la barra del navegador cambia la altura al hacer scroll:
+     solo rehacemos la bola si cambia el ancho de verdad */
   let espera, anchoPrev = innerWidth;
   addEventListener("resize", () => {
     clearTimeout(espera);
     espera = setTimeout(() => {
       if (Math.abs(innerWidth - anchoPrev) > 40) {
         anchoPrev = innerWidth;
-        construirMundo();
-        if (enModoLista()) pintarLista();
-      } else if (!enModoLista()) {
-        actualizarRango();
+        construirBola();
       }
     }, 200);
   });
@@ -1204,8 +1218,11 @@ fetch("datos.json")
   .then(datos => {
     fotos = datos.fotos || [];
     construirOrden();
-    if (mundo) construirMundo();
-    if (enModoLista()) pintarLista();
+    construirBola();
+    pintarLista();
+    G.k = -1;
+    const k = fotoDelante();
+    if (k >= 0) { G.k = k; mostrarAhora(k); }
   })
   .catch(err => {
     console.error("Error cargando datos.json:", err);
