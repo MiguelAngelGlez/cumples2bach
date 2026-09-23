@@ -236,8 +236,8 @@ button.fila:hover,button.fila:focus-visible{background:rgba(255,255,255,.4)}
 }
 .btn-compartir:hover{background:var(--rojo);border-color:var(--rojo)}
 .btn-compartir[hidden]{display:none}
-.embarque-lienzo{margin-top:clamp(26px,4vw,42px)}
-.embarque-lienzo canvas{width:100%;height:auto;border-radius:16px;box-shadow:0 28px 54px -24px rgba(26,22,18,.5)}
+.embarque-lienzo{margin-top:clamp(26px,4vw,42px);display:flex;justify-content:center}
+.embarque-lienzo canvas{width:100%;max-width:380px;height:auto;border-radius:26px;box-shadow:0 34px 60px -24px rgba(26,22,18,.55)}
 
 /* ============================================================
    LOS BILLETES
@@ -769,7 +769,7 @@ button.fila:hover,button.fila:focus-visible{background:rgba(255,255,255,.4)}
   </div>
 
   <div class="embarque-lienzo">
-    <canvas id="lienzoEmbarque" width="1600" height="600" aria-label="Tu tarjeta de embarque"></canvas>
+    <canvas id="lienzoEmbarque" width="1080" height="1920" aria-label="Tu tarjeta de embarque"></canvas>
   </div>
 </section>
 
@@ -894,6 +894,12 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>
   ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const norm = s => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 const reducir = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* solo movemos el foco de verdad (con su marco visible) cuando se navega con teclado;
+   al tocar con el dedo o hacer clic, no hace falta mostrar ningún círculo */
+let ultimaFueTeclado = false;
+addEventListener("keydown", e => { if (e.key === "Tab") ultimaFueTeclado = true; }, true);
+addEventListener("pointerdown", () => { ultimaFueTeclado = false; }, true);
 const dos = n => String(n).padStart(2, "0");
 
 function hoy() {
@@ -1243,29 +1249,25 @@ async function dibujarTarjeta(nombre) {
   const nom = (nombre || "TU NOMBRE").trim().toUpperCase();
   const h = hashTarjeta(nom);
   const acc = colorGenerico(nom);
-  const CORTE = Math.round(W * 0.775);
   const asiento = String.fromCharCode(65 + (h % 6)) + (1 + ((h >>> 4) % 30));
 
-  pintarPase(g, W, H, CORTE, {
+  pintarPase(g, W, H, {
     acc, nombre: nom, asiento,
-    campos: [["ORIGEN", "IES EL MOLINILLO"], ["DESTINO", "2º BACH"], ["PUERTA", "LA DE SIEMPRE"]],
-    campos2: [["FECHA", hoy()], ["ASIENTO", asiento], ["ESTADO", "CONFIRMADO"]],
+    campos: [["FECHA", hoy()], ["ASIENTO", asiento], ["PUERTA", "LA DE SIEMPRE"]],
     foto: null,
-    piePase: "2º BACH · IES EL MOLINILLO",
     GL, MO
   });
 }
 
 function activarTarjeta() {
+  // el campo empieza siempre en blanco: no se rellena con nombres de otras veces
   const inp = $("nombreEmbarque");
-  try { inp.value = localStorage.getItem("autorCumple") || ""; } catch (e) {}
 
   $("formEmbarque").addEventListener("submit", async e => {
     e.preventDefault();
     await dibujarTarjeta(inp.value);
     $("embarqueAcciones").hidden = false;
     $("compartirTarjeta").hidden = !SOPORTA_COMPARTIR_ARCHIVOS;
-    try { localStorage.setItem("autorCumple", inp.value.trim()); } catch (err) {}
   });
 
   const archivoTarjeta = () => new Promise(res => $("lienzoEmbarque").toBlob(b => res(b), "image/png"));
@@ -1396,179 +1398,209 @@ function dibujarFotoContain(g, img, x, y, w, h, fondo) {
 }
 
 /* el pase completo: cuerpo principal + resguardo, común a las dos tarjetas */
-function pintarPase(g, W, H, CORTE, o) {
-  const { acc, nombre, asiento, campos, campos2, mensajes, foto, piePase, contadorMensajes, GL, MO, esHoy } = o;
+function pintarPase(g, W, H, o) {
+  const { acc, nombre, asiento, campos, mensajes, foto, esHoy, GL, MO } = o;
+  const M = 60, padX = 56, cardR = 48;
+  const cardW = W - M * 2;
+  const contentW = cardW - padX * 2;
+
+  /* lo único que depende del contenido se mide una sola vez, aquí arriba,
+     y se reutiliza tal cual al dibujar: así la tarjeta sale siempre del
+     tamaño justo, sin huecos de sobra ni desbordamientos */
+  const tn = ajustarTextoCompleto(g, nombre, t => `${t}px ${GL}`, contentW, 74);
+  let bloquesMensaje = null;
+  if (mensajes) {
+    const destacados = mensajes.slice(-2);
+    bloquesMensaje = destacados.map(m => ({
+      autor: (m.autor || "alguien de la clase").toUpperCase(),
+      lineas: envolverTexto(g, m.mensaje || "", contentW, 2)
+    }));
+  }
+
+  let alto = 78;                          // margen superior dentro de la tarjeta
+  alto += 46;                             // kicker
+  alto += foto ? (340 + 44) : 18;         // la foto, o un pequeño hueco si no hay
+  alto += 12 + tn * 0.86 + 16;            // "PASAJERO" + el nombre
+  alto += 56;                             // la raya de color bajo el nombre
+  alto += 90;                             // el mapa de ruta
+  alto += 44;                             // la línea de corte
+  alto += 78 + 44;                        // las tres pastillas de datos
+  if (bloquesMensaje) {
+    alto += 34;                           // "MENSAJES DE LA CLASE"
+    if (!bloquesMensaje.length) alto += 30;
+    else bloquesMensaje.forEach(b => { alto += 26 + b.lineas.length * 29 + 14; });
+  }
+  const tamQR = 168;
+  alto += 30 + tamQR + 32 + 24;           // el código, el asiento y el pie
+  alto += 46;                             // margen inferior
+
+  const cardX = M, cardY = 200;
+  const cardH = Math.min(H - cardY - 110, Math.max(760, alto));
+  const cx = cardX + cardW / 2;
+  const contentX = cardX + padX;
 
   g.clearRect(0, 0, W, H);
+
+  /* ---- el fondo: un degradado vivo, propio de cada tarjeta ---- */
+  const fondo = g.createLinearGradient(0, 0, W, H);
+  fondo.addColorStop(0, acc.a);
+  fondo.addColorStop(0.55, acc.b);
+  fondo.addColorStop(1, acc.a);
+  g.fillStyle = fondo; g.fillRect(0, 0, W, H);
+
+  /* un avión enorme y muy tenue, como marca de agua */
   g.save();
-  trazarRedondeado(g, 1, 1, W - 2, H - 2, 22);
-  g.clip();
+  g.globalAlpha = 0.1;
+  g.translate(W - 40, 40); g.rotate(0.7); g.scale(3.4, 3.4); g.fillStyle = "#fff";
+  g.beginPath();
+  g.moveTo(0, -20); g.lineTo(6.4, 5.4); g.lineTo(26, 14); g.lineTo(26, 21); g.lineTo(6.4, 16);
+  g.lineTo(3.6, 36); g.lineTo(12.4, 41); g.lineTo(12.4, 46.5); g.lineTo(-3.6, 43); g.lineTo(-12.4, 46.5);
+  g.lineTo(-12.4, 41); g.lineTo(-3.6, 36); g.lineTo(-6.4, 16); g.lineTo(-26, 21); g.lineTo(-26, 14);
+  g.lineTo(-6.4, 5.4); g.closePath(); g.fill();
+  g.restore();
 
-  /* cuerpo principal, con un ligero tinte del color de acento */
-  const fondo = g.createLinearGradient(0, 0, CORTE, H);
-  fondo.addColorStop(0, "#fffdf7");
-  fondo.addColorStop(1, "#f7f0e2");
-  g.fillStyle = fondo; g.fillRect(0, 0, CORTE, H);
-
-  g.fillStyle = acc.a; g.font = `600 22px ${MO}`;
-  g.fillText("TARJETA DE EMBARQUE", 52, 60);
-  g.fillStyle = "#8a7f6a"; g.font = `19px ${MO}`;
-  g.fillText("VUELO 2ºBACH · CURSO 2026–27", 52, 88);
-  if (esHoy) {
-    g.fillStyle = acc.b; g.font = `700 15px ${MO}`;
-    g.textAlign = "right"; g.fillText("★ EDICIÓN DEL DÍA ★", CORTE - 52, 60); g.textAlign = "left";
-  }
-
-  /* el mini mapa de ruta */
-  const rutaY = 128, rutaX0 = 52, rutaAncho = CORTE - 104;
-  dibujarRutaMini(g, rutaX0, rutaY, rutaAncho, acc.a);
-  g.fillStyle = "#8a7f6a"; g.font = `11px ${MO}`;
-  g.fillText("IES EL MOLINILLO", rutaX0, rutaY + 24);
-  g.textAlign = "right";
-  g.fillText("2º BACH", rutaX0 + rutaAncho, rutaY + 24);
+  /* la marca, arriba del todo */
+  g.textAlign = "center";
+  g.fillStyle = "rgba(255,255,255,.92)"; g.font = `700 25px ${MO}`;
+  g.fillText("✈  2º BACH · AIRLINES", cx, 92);
+  g.fillStyle = "rgba(255,255,255,.7)"; g.font = `16px ${MO}`;
+  g.fillText("IES EL MOLINILLO · CURSO 2026–27", cx, 122);
   g.textAlign = "left";
 
-  g.strokeStyle = "#e6dcc8"; g.lineWidth = 2;
-  g.beginPath(); g.moveTo(52, rutaY + 42); g.lineTo(CORTE - 52, rutaY + 42); g.stroke();
+  /* ---- la tarjeta de cristal, ya del tamaño exacto que necesita ---- */
+  g.save();
+  g.shadowColor = "rgba(20,14,8,.4)"; g.shadowBlur = 70; g.shadowOffsetY = 34;
+  g.fillStyle = "rgba(255,255,255,.95)";
+  trazarRedondeado(g, cardX, cardY, cardW, cardH, cardR);
+  g.fill();
+  g.restore();
+  g.save();
+  g.strokeStyle = "rgba(255,255,255,.9)"; g.lineWidth = 2;
+  trazarRedondeado(g, cardX + 1, cardY + 1, cardW - 2, cardH - 2, cardR); g.stroke();
+  g.restore();
+
+  g.save();
+  trazarRedondeado(g, cardX, cardY, cardW, cardH, cardR);
+  g.clip();
+
+  let y = cardY + 78;
+
+  /* kicker */
+  g.textAlign = "center";
+  if (esHoy) {
+    g.fillStyle = acc.b; g.font = `700 22px ${MO}`;
+    g.fillText("★ EDICIÓN DEL DÍA ★", cx, y);
+  } else {
+    g.fillStyle = acc.a; g.font = `700 20px ${MO}`;
+    g.fillText("TARJETA DE EMBARQUE", cx, y);
+  }
+  y += 46;
 
   /* la foto, si la tarjeta es de una persona concreta */
-  const cajaFoto = foto ? 150 : 0;
   if (foto) {
-    const fx = CORTE - 52 - cajaFoto, fy = rutaY + 60;
-    g.save(); trazarRedondeado(g, fx, fy, cajaFoto, cajaFoto, 14); g.clip();
-    dibujarFotoContain(g, foto, fx, fy, cajaFoto, cajaFoto, "#eee6d6");
-    if (esHoy) {
-      g.save(); trazarRedondeado(g, fx, fy, cajaFoto, cajaFoto, 14); g.clip();
-      dibujarCintaHoy(g, fx + 8, fy + 30, "EMBARCANDO HOY", acc.b, MO);
-      g.restore();
-    }
+    const tamF = 340, fx = cx - tamF / 2, fy = y;
+    g.save(); trazarRedondeado(g, fx, fy, tamF, tamF, 28); g.clip();
+    dibujarFotoContain(g, foto, fx, fy, tamF, tamF, "#eee6d6");
+    if (esHoy) dibujarCintaHoy(g, fx + 6, fy + 34, "EMBARCANDO HOY", acc.b, MO);
     g.restore();
-    g.strokeStyle = acc.a; g.lineWidth = esHoy ? 4 : 2.5;
-    trazarRedondeado(g, fx, fy, cajaFoto, cajaFoto, 14); g.stroke();
+    g.strokeStyle = acc.a; g.lineWidth = esHoy ? 5 : 3;
+    trazarRedondeado(g, fx, fy, tamF, tamF, 28); g.stroke();
+    y += tamF + 44;
+  } else {
+    y += 18;
   }
 
-  g.fillStyle = "#8a7f6a"; g.font = `18px ${MO}`;
-  g.fillText("PASAJERO", 52, rutaY + 92);
-  const anchoNombre = CORTE - 104 - (foto ? cajaFoto + 20 : 0);
-  const tn = ajustarTextoCompleto(g, nombre, t => `${t}px ${GL}`, anchoNombre, 62);
-  const nombreY = rutaY + 92 + tn * 0.82;
+  /* el nombre, grande, con una raya de color debajo */
+  g.fillStyle = "#96897a"; g.font = `18px ${MO}`;
+  g.fillText("PASAJERO", cx, y);
+  y += 12;
   g.fillStyle = "#1a1612"; g.font = `${tn}px ${GL}`;
-  g.fillText(nombre, 52, nombreY);
-  g.fillStyle = acc.a; g.fillRect(52, nombreY + 14, Math.min(g.measureText(nombre).width, anchoNombre), 4);
+  g.fillText(nombre, cx, y + tn * 0.86);
+  const anchoNombre = Math.min(g.measureText(nombre).width, contentW);
+  y += tn * 0.86 + 16;
+  g.fillStyle = acc.a; g.fillRect(cx - anchoNombre / 2, y, anchoNombre, 5);
+  y += 56;
 
-  /* la primera fila de datos */
-  const filaY = nombreY + 62;
-  const colW = (CORTE - 104) / 3;
-  (campos || []).forEach(([et, val], k) => {
-    const x = 52 + k * colW;
-    g.fillStyle = acc.a; g.fillRect(x, filaY - 13, 6, 6);
-    g.fillStyle = "#8a7f6a"; g.font = `16px ${MO}`;
-    g.fillText(et, x + 14, filaY);
-    const tv = ajustarTextoCompleto(g, val, t => `600 ${t}px ${MO}`, colW - 18, 23);
-    g.fillStyle = "#1a1612"; g.font = `600 ${tv}px ${MO}`;
-    g.fillText(val, x + 14, filaY + 30);
+  /* el mapa de ruta: dos códigos y un avión volando entre ellos */
+  const rutaAncho = contentW * 0.62, rutaX0 = cx - rutaAncho / 2;
+  g.fillStyle = "#1a1612"; g.font = `700 30px ${MO}`;
+  g.textAlign = "left"; g.fillText("MOL", rutaX0 - 8, y + 10);
+  g.textAlign = "right"; g.fillText("2ºB", rutaX0 + rutaAncho + 8, y + 10);
+  g.textAlign = "center";
+  dibujarRutaMini(g, rutaX0, y + 26, rutaAncho, acc.a);
+  g.fillStyle = "#96897a"; g.font = `13px ${MO}`;
+  g.fillText("IES EL MOLINILLO", rutaX0 - 8, y + 58);
+  g.fillText("2º BACH", rutaX0 + rutaAncho + 8, y + 58);
+  y += 90;
+
+  /* la línea de corte, con dos muescas en los bordes de la tarjeta */
+  g.strokeStyle = "#e6dcc8"; g.lineWidth = 2; g.setLineDash([2, 8]);
+  g.beginPath(); g.moveTo(contentX, y); g.lineTo(contentX + contentW, y); g.stroke();
+  g.setLineDash([]);
+  g.save();
+  g.globalCompositeOperation = "destination-out";
+  g.beginPath(); g.arc(cardX, y, 16, 0, Math.PI * 2); g.fill();
+  g.beginPath(); g.arc(cardX + cardW, y, 16, 0, Math.PI * 2); g.fill();
+  g.restore();
+  y += 44;
+
+  /* tres datos, en pastillas */
+  const colW = contentW / 3;
+  campos.forEach(([et, val], k) => {
+    const px = contentX + k * colW, pw = colW - 12;
+    g.fillStyle = `${acc.a}17`;
+    trazarRedondeado(g, px, y, pw, 78, 16); g.fill();
+    g.textAlign = "center";
+    g.fillStyle = "#96897a"; g.font = `14px ${MO}`;
+    g.fillText(et, px + pw / 2, y + 28);
+    const tv = ajustarTextoCompleto(g, val, t => `700 ${t}px ${MO}`, pw - 14, 21);
+    g.fillStyle = "#1a1612"; g.font = `700 ${tv}px ${MO}`;
+    g.fillText(val, px + pw / 2, y + 58);
   });
+  y += 78 + 44;
 
-  const filaY2 = filaY + 78;
-  if (mensajes) {
-    /* las notas de la clase, en vez de una segunda fila de datos */
-    g.strokeStyle = "#e6dcc8"; g.lineWidth = 2;
-    g.beginPath(); g.moveTo(52, filaY2 - 30); g.lineTo(CORTE - 52, filaY2 - 30); g.stroke();
-    g.fillStyle = acc.a; g.font = `600 18px ${MO}`;
-    g.fillText("MENSAJES DE LA CLASE", 52, filaY2);
+  /* los mensajes de la clase, solo en la tarjeta de una persona */
+  if (bloquesMensaje) {
+    g.textAlign = "left";
+    g.fillStyle = acc.a; g.font = `700 19px ${MO}`;
+    g.fillText("MENSAJES DE LA CLASE", contentX, y);
+    y += 34;
 
-    const anchoMsg = CORTE - 104;
-    const destacados = mensajes.slice(-2);
-    let y = filaY2 + 36;
-    if (!destacados.length) {
-      g.fillStyle = "#948a76"; g.font = `italic 23px ${GL}`;
-      g.fillText("Todavía no hay mensajes en este billete.", 52, y);
+    if (!bloquesMensaje.length) {
+      g.fillStyle = "#a89b86"; g.font = `italic 23px ${GL}`;
+      g.fillText("Todavía no hay mensajes en este billete.", contentX, y + 6);
+      y += 30;
     } else {
-      destacados.forEach(m => {
-        if (y > H - 56) return;
-        g.fillStyle = acc.a; g.font = `600 16px ${MO}`;
-        g.fillText((m.autor || "alguien de la clase").toUpperCase(), 52, y);
+      bloquesMensaje.forEach(b => {
+        g.fillStyle = acc.a; g.font = `700 15px ${MO}`;
+        g.fillText(b.autor, contentX, y);
         y += 26;
-        g.fillStyle = "#1a1612"; g.font = `italic 22px ${GL}`;
-        envolverTexto(g, m.mensaje || "", anchoMsg, 2).forEach(linea => { g.fillText(linea, 52, y); y += 28; });
-        y += 16;
+        g.fillStyle = "#1a1612"; g.font = `italic 23px ${GL}`;
+        b.lineas.forEach(linea => { g.fillText(linea, contentX, y); y += 29; });
+        y += 14;
       });
     }
-  } else if (campos2) {
-    campos2.forEach(([et, val], k) => {
-      const x = 52 + k * colW;
-      g.fillStyle = acc.b; g.fillRect(x, filaY2 - 13, 6, 6);
-      g.fillStyle = "#8a7f6a"; g.font = `16px ${MO}`;
-      g.fillText(et, x + 14, filaY2);
-      const tv = ajustarTextoCompleto(g, val, t => `600 ${t}px ${MO}`, colW - 18, 23);
-      g.fillStyle = "#1a1612"; g.font = `600 ${tv}px ${MO}`;
-      g.fillText(val, x + 14, filaY2 + 30);
-    });
   }
 
-  /* avioncito decorativo, en la esquina del cuerpo principal */
-  g.save();
-  g.translate(CORTE - 88, H - 62); g.rotate(-0.5);
-  g.fillStyle = acc.a;
-  g.beginPath();
-  g.moveTo(0, -20); g.lineTo(6.4, 5.4); g.lineTo(26, 14); g.lineTo(26, 21); g.lineTo(6.4, 16);
-  g.lineTo(3.6, 36); g.lineTo(12.4, 41); g.lineTo(12.4, 46.5); g.lineTo(-3.6, 43); g.lineTo(-12.4, 46.5);
-  g.lineTo(-12.4, 41); g.lineTo(-3.6, 36); g.lineTo(-6.4, 16); g.lineTo(-26, 21); g.lineTo(-26, 14);
-  g.lineTo(-6.4, 5.4); g.closePath(); g.fill();
-  g.restore();
+  /* el código de embarque, el asiento y el pie, justo después del contenido */
+  y += 30;
+  g.textAlign = "left";
+  dibujarCodigoDecorativo(g, cx - tamQR / 2, y, tamQR, hashTarjeta(nombre + asiento));
+  y += tamQR + 32;
+  g.textAlign = "center";
+  g.fillStyle = "#1a1612"; g.font = `700 18px ${MO}`;
+  g.fillText(`ASIENTO ${asiento}`, cx, y);
+  y += 24;
+  g.fillStyle = "#a89b86"; g.font = `13px ${MO}`;
+  g.fillText("2º BACH · IES EL MOLINILLO", cx, y);
 
-  /* la perforación entre el pase y el resguardo */
-  g.strokeStyle = "#d8cbb0"; g.lineWidth = 3; g.setLineDash([10, 9]);
-  g.beginPath(); g.moveTo(CORTE, 0); g.lineTo(CORTE, H); g.stroke(); g.setLineDash([]);
-  g.fillStyle = "#fffdf7";
-  g.beginPath(); g.arc(CORTE, 0, 18, 0, Math.PI * 2); g.fill();
-  g.beginPath(); g.arc(CORTE, H, 18, 0, Math.PI * 2); g.fill();
+  g.restore();   // fin del recorte de la tarjeta
 
-  /* el resguardo, con el color de acento de esta tarjeta */
-  const gradResg = g.createLinearGradient(CORTE, 0, W, H);
-  gradResg.addColorStop(0, acc.a); gradResg.addColorStop(1, acc.b);
-  g.fillStyle = gradResg; g.fillRect(CORTE, 0, W - CORTE, H);
-
-  /* un avión enorme y tenue, de fondo, sangrando por la esquina */
-  g.save();
-  g.globalAlpha = 0.14;
-  g.translate(W - 26, 30); g.rotate(0.7); g.scale(3.1, 3.1); g.fillStyle = "#fff";
-  g.beginPath();
-  g.moveTo(0, -20); g.lineTo(6.4, 5.4); g.lineTo(26, 14); g.lineTo(26, 21); g.lineTo(6.4, 16);
-  g.lineTo(3.6, 36); g.lineTo(12.4, 41); g.lineTo(12.4, 46.5); g.lineTo(-3.6, 43); g.lineTo(-12.4, 46.5);
-  g.lineTo(-12.4, 41); g.lineTo(-3.6, 36); g.lineTo(-6.4, 16); g.lineTo(-26, 21); g.lineTo(-26, 14);
-  g.lineTo(-6.4, 5.4); g.closePath(); g.fill();
-  g.restore();
-
-  g.fillStyle = "rgba(255,255,255,.85)"; g.font = `600 18px ${MO}`;
-  g.fillText("PASE", CORTE + 34, 52);
-  const anchoStub = W - CORTE - 68;
-  const tn2 = ajustarTextoCompleto(g, nombre, t => `${t}px ${GL}`, anchoStub, 32);
-  g.fillStyle = "#fff"; g.font = `${tn2}px ${GL}`;
-  g.fillText(nombre, CORTE + 34, 52 + tn2 + 12);
-
+  /* la firma, fuera de la tarjeta, sobre el fondo de color */
+  g.textAlign = "center";
   g.fillStyle = "rgba(255,255,255,.75)"; g.font = `15px ${MO}`;
-  g.fillText("ASIENTO", CORTE + 34, 168);
-  g.fillStyle = "#fff"; g.font = `600 21px ${MO}`;
-  g.fillText(asiento, CORTE + 34, 193);
-
-  if (contadorMensajes !== undefined && contadorMensajes !== null) {
-    g.fillStyle = "rgba(255,255,255,.75)"; g.font = `15px ${MO}`;
-    g.fillText("MENSAJES", CORTE + 130, 168);
-    g.fillStyle = "#fff"; g.font = `600 21px ${MO}`;
-    g.fillText(String(contadorMensajes), CORTE + 130, 193);
-  }
-
-  g.fillStyle = "rgba(255,255,255,.65)"; g.font = `14px ${MO}`;
-  (piePase || "").split(" · ").forEach((linea, k) => g.fillText(linea, CORTE + 34, 236 + k * 20));
-
-  const tamCodigo = Math.min(anchoStub, 128);
-  dibujarCodigoDecorativo(g, CORTE + 34, H - tamCodigo - 40, tamCodigo, hashTarjeta(nombre + asiento));
-
-  g.restore();   // fin del recorte de esquinas redondeadas
-
-  g.strokeStyle = "rgba(26,22,18,.14)"; g.lineWidth = 2;
-  trazarRedondeado(g, 1, 1, W - 2, H - 2, 22); g.stroke();
+  g.fillText("CURSO 2026–27", cx, cardY + cardH + 56);
+  g.textAlign = "left";
 }
 
 /* ============================================================
@@ -1641,7 +1673,7 @@ async function obtenerMensajesPara(id) {
 
 async function generarTarjetaPersonal(p) {
   const lienzo = document.createElement("canvas");
-  lienzo.width = 1600; lienzo.height = 640;
+  lienzo.width = 1080; lienzo.height = 1920;
   const g = lienzo.getContext("2d");
   const W = lienzo.width, H = lienzo.height;
   const GL = "Gloock, Georgia, serif";
@@ -1653,7 +1685,6 @@ async function generarTarjetaPersonal(p) {
   const f = parseFecha(p.fecha);
   const esHoy = !!f && diaCurso(f) === HOY_DIA;
   const acc = esHoy ? { a: "#ff2f7a", b: "#7a2fd1" } : colorEstacion(f ? f.m : 0);
-  const CORTE = Math.round(W * 0.775);
   const asiento = String.fromCharCode(65 + (h % 6)) + (1 + ((h >>> 4) % 30));
 
   const [mensajes, foto] = await Promise.all([
@@ -1661,12 +1692,10 @@ async function generarTarjetaPersonal(p) {
     cargarImagenParaLienzo(p.foto, p.nombre)
   ]);
 
-  pintarPase(g, W, H, CORTE, {
+  pintarPase(g, W, H, {
     acc, nombre: nom, asiento, esHoy,
     campos: [["FECHA", fechaCorta(p, f)], ["EDAD", `${p.edad} AÑOS`], ["PUERTA", esHoy ? "EMBARCANDO" : "LA DE SIEMPRE"]],
     mensajes, foto,
-    piePase: "2º BACH · IES EL MOLINILLO",
-    contadorMensajes: mensajes.length,
     GL, MO
   });
 
@@ -1894,7 +1923,9 @@ function abrirModal(i) {
     modal.classList.add("activo");
     modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
-    $("cerrar").focus();
+    // solo se mueve el foco de forma visible cuando se navega con teclado;
+    // al abrir tocando con el dedo, no hace falta ningún círculo de foco
+    if (ultimaFueTeclado) $("cerrar").focus();
   }
   modal.scrollTop = 0;
 
