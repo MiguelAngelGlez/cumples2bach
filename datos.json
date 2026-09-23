@@ -5,45 +5,206 @@
   "fotos": [
     {
       "id": 1,
-      "nombre": "Ana",
-      "fecha": "23/09/2026",
-      "edad": 17,
-      "foto": "fotos/Ana.jpg"
+      "nombre": "Granada",
+      "fecha": "12/08/2009",
+      "edad": 18,
+      "foto": "fotos/Granada.jpg"
     },
     {
       "id": 2,
-      "nombre": "Carlos",
-      "fecha": "03/11/2026",
+      "nombre": "Blanca",
+      "fecha": "15/07/2009",
       "edad": 18,
-      "foto": "fotos/Carlos.jpg"
+      "foto": "fotos/Blanca.jpg"
     },
     {
       "id": 3,
-      "nombre": "Lucía",
-      "fecha": "20/11/2026",
+      "nombre": "Ana Bravo",
+      "fecha": "25/08/2009",
       "edad": 18,
-      "foto": "fotos/Lucia.jpg"
+      "foto": "fotos/AnaBravo.jpg"
     },
     {
       "id": 4,
-      "nombre": "Pablo",
-      "fecha": "20/11/2026",
+      "nombre": "Sara Campano",
+      "fecha": "29/08/2009",
       "edad": 18,
-      "foto": "fotos/Lucia.jpg"
+      "foto": "fotos/SaraCampano.jpg"
     },
     {
       "id": 5,
-      "nombre": "Álvaro",
-      "fecha": "20/11/2026",
+      "nombre": "Sara Chaves",
+      "fecha": "19/02/2009",
       "edad": 18,
-      "foto": "fotos/Pablo.jpg"
+      "foto": "fotos/SaraChaves.jpg"
     },
     {
       "id": 6,
-      "nombre": "Manuel",
-      "fecha": "20/08/2026",
+      "nombre": "Irene Coca",
+      "fecha": "24/09/2009",
+      "edad": 18,
+      "foto": "fotos/IreneCoca.jpg"
+    },
+    {
+      "id": 7,
+      "nombre": "Carlota",
+      "fecha": "14/05/2009",
+      "edad": 18,
+      "foto": "fotos/Carlota.jpg"
+    },
+    {
+      "id": 8,
+      "nombre": "Noelia Domínguez",
+      "fecha": "7/04/2009",
+      "edad": 18,
+      "foto": "fotos/NoeliaDominguez.jpg"
+    },
+    {
+      "id": 9,
+      "nombre": "Carla",
+      "fecha": "6/06/2009",
+      "edad": 18,
+      "foto": "fotos/Carla.jpg"
+    },
+    {
+      "id": 10,
+      "nombre": "Rubén",
+      "fecha": "3/08/2009",
+      "edad": 18,
+      "foto": "fotos/Ruben.jpg"
+    },
+    {
+      "id": 11,
+      "nombre": "Irene",
+      "fecha": "5/12/2009",
+      "edad": 18,
+      "foto": "fotos/Irene.jpg"
+    },
+    {
+      "id": 12,
+      "nombre": "Ana",
+      "fecha": "26/11/2009",
+      "edad": 18,
+      "foto": "fotos/Ana.jpg"
+    },
+    {
+      "id": 13,
+      "nombre": "Aitana",
+      "fecha": "16/04/2008",
+      "edad": 19,
+      "foto": "fotos/Aitana.jpg"
+    },
+    {
+      "id": 14,
+      "nombre": "Adrián",
+      "fecha": "9/07/2009",
+      "edad": 18,
+      "foto": "fotos/Adrian.jpg"
+    },
+    {
+      "id": 15,
+      "nombre": "Jesús",
+      "fecha": "30/06/2009",
+      "edad": 18,
+      "foto": "fotos/Jesus.jpg"
+    },
+    {
+      "id": 16,
+      "nombre": "José",
+      "fecha": "2/05/2009",
+      "edad": 18,
+      "foto": "fotos/Jose.jpg"
+    },
+    {
+      "id": 17,
+      "nombre": "Sara Masero",
+      "fecha": "06/10/2009",
+      "edad": 18,
+      "foto": "fotos/SaraMasero.jpg"
+    },
+    {
+      "id": 18,
+      "nombre": "Lucía Maspud",
+      "fecha": "24/05/2009",
+      "edad": 18,
+      "foto": "fotos/LuciaMaspud.jpg"
+    },
+    {
+      "id": 19,
+      "nombre": "Lucía Pérez",
+      "fecha": "2/01/2009",
+      "edad": 18,
+      "foto": "fotos/LuciaPerez.jpg"
+    },
+    {
+      "id": 20,
+      "nombre": "Noelia Prado",
+      "fecha": "2/01/2009",
+      "edad": 18,
+      "foto": "fotos/NoeliaPrado.jpg"
+    },
+    {
+      "id": 21,
+      "nombre": "Pablo Rayo",
+      "fecha": "13/02/2009",
+      "edad": 18,
+      "foto": "fotos/PabloRayo.jpg"
+    },
+    {
+      "id": 22,
+      "nombre": "Andrea",
+      "fecha": "24/07/2007",
+      "edad": 20,
+      "foto": "fotos/Andrea.jpg"
+    },
+    {
+      "id": 23,
+      "nombre": "Pablo Romero",
+      "fecha": "1/08/2008",
+      "edad": 19,
+      "foto": "fotos/PabloRomero.jpg"
+    },
+    {
+      "id": 24,
+      "nombre": "Aitor",
+      "fecha": "8/01/2008",
+      "edad": 19,
+      "foto": "fotos/Aitor.jpg"
+    },
+    {
+      "id": 25,
+      "nombre": "Lorena",
+      "fecha": "17/10/2009",
+      "edad": 18,
+      "foto": "fotos/Lorena.jpg"
+    },
+    {
+      "id": 26,
+      "nombre": "Mónica",
+      "fecha": "02/01/2009",
+      "edad": 18,
+      "foto": "fotos/Monica.jpg"
+    },
+    {
+      "id": 27,
+      "nombre": "Roberto",
+      "fecha": "15/10/2009",
+      "edad": 18,
+      "foto": "fotos/Roberto.jpg"
+    },
+    {
+      "id": 28,
+      "nombre": "María",
+      "fecha": "14/06/2009",
       "edad": 18,
       "foto": "fotos/Maria.jpg"
+    },
+    {
+      "id": 29,
+      "nombre": "Lola",
+      "fecha": "3/08/2009",
+      "edad": 18,
+      "foto": "fotos/Lola.jpg"
     }
   ]
 }
