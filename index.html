@@ -31,7 +31,7 @@
 }
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:hidden}
 body{
   margin:0;
   background:var(--papel);
@@ -104,34 +104,39 @@ button,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
   animation:aparece 1.2s cubic-bezier(.2,.8,.2,1) .6s both;
 }
 
-/* avisos de vuelo: embarcando ahora / próxima salida */
-.avisos-vuelo{max-width:1240px;margin:clamp(26px,4vw,42px) auto 0;display:flex;flex-direction:column;gap:12px}
-.embarcando{
-  display:flex;align-items:center;gap:12px;width:100%;padding:16px 22px;border:0;border-radius:16px;
-  background:var(--marino);color:#fff;cursor:pointer;text-align:left;
-  box-shadow:0 20px 34px -20px rgba(35,42,85,.55);
-  animation:aparece 1s cubic-bezier(.2,.8,.2,1) both;
+/* la ruta del curso: dónde estamos hoy, y quién ya ha marcado su parada */
+.ruta-curso{max-width:1240px;margin:clamp(30px,4.6vw,48px) auto 0;padding:0 2px}
+.ruta-etq{
+  display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:0 0 14px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
 }
-.embarcando:hover{background:#1b2144}
-.punto-vivo{flex:none;width:10px;height:10px;border-radius:50%;background:var(--tablon);animation:parpadeo 1.3s ease-in-out infinite}
-@keyframes parpadeo{0%,100%{opacity:1}50%{opacity:.25}}
-.embarcando-tag{flex:none;font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--tablon)}
-.embarcando-nombre{flex:1;min-width:0;font-family:var(--serif);font-size:clamp(19px,2.2vw,25px);overflow-wrap:anywhere}
-.embarcando > span:last-child{flex:none;font-size:18px}
-
-.proxima{
-  display:flex;align-items:center;gap:12px;width:100%;padding:14px 22px;border:1.5px solid var(--linea);border-radius:16px;
-  background:var(--hoja);color:var(--tinta);cursor:pointer;text-align:left;
-  transition:border-color .2s ease;
+.ruta-pista{position:relative;height:54px}
+.ruta-linea{position:absolute;left:0;right:0;top:26px;height:2px;background:var(--linea);border-radius:2px}
+.ruta-mes{
+  position:absolute;top:32px;translate:-50% 0;font-family:var(--mono);font-size:10px;color:var(--muted);
+  white-space:nowrap;pointer-events:none;
 }
-.proxima:hover{border-color:var(--naranja)}
-.proxima-tag{flex:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.proxima-nombre{flex:1;min-width:0;font-weight:700;overflow-wrap:anywhere}
-.proxima-dias{flex:none;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--naranja)}
-
-@media (max-width:560px){
-  .embarcando,.proxima{padding:13px 16px;border-radius:13px}
-  .embarcando-nombre{font-size:18px}
+.ruta-hoy{
+  position:absolute;top:2px;translate:-50% 0;z-index:3;display:flex;flex-direction:column;align-items:center;gap:2px;
+  pointer-events:none;
+}
+.ruta-hoy .avioncito{
+  width:20px;height:20px;color:var(--naranja);animation:sobrevuela 3.6s ease-in-out infinite;
+}
+.ruta-hoy .avioncito svg{width:100%;height:100%;rotate:90deg}
+.ruta-hoy small{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--naranja);font-weight:700;
+}
+@keyframes sobrevuela{0%,100%{translate:0 0}50%{translate:0 -5px}}
+.ruta-punto{
+  position:absolute;top:20px;translate:-50% -50%;z-index:2;width:13px;height:13px;border-radius:50%;
+  border:0;padding:0;cursor:pointer;background:var(--marino);box-shadow:0 0 0 3px var(--hoja);
+  transition:scale .2s cubic-bezier(.3,1.4,.5,1);
+}
+.ruta-punto.pasado{background:#b9b0a0}
+.ruta-punto:hover,.ruta-punto:focus-visible{scale:1.5}
+@media (max-width:640px){
+  .ruta-mes:nth-child(odd){display:none}
 }
 
 /* la ruedecita: un sello sólido que gira, siempre visible */
@@ -156,7 +161,9 @@ button,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
   padding:clamp(16px,2.2vw,28px);
   box-shadow:0 34px 46px -32px rgba(26,22,18,.6);
   animation:aparece 1.2s cubic-bezier(.2,.8,.2,1) .8s both;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
 }
+.fila.cab,#tablonFilas{min-width:max-content}
 .tablon[hidden]{display:none}
 .tablon-cab{
   display:flex;justify-content:space-between;align-items:center;gap:12px;
@@ -250,6 +257,36 @@ button.fila:hover,button.fila:focus-visible{background:rgba(255,255,255,.4)}
 .buscador::placeholder{color:#978d7d}
 .buscador:focus{outline:none;border-color:var(--tinta);box-shadow:0 0 0 4px rgba(255,106,26,.18)}
 
+.vista-toggle{
+  display:inline-flex;gap:4px;margin-top:14px;padding:4px;border-radius:999px;background:var(--hoja);
+  border:1.5px solid var(--linea);
+}
+.vista-btn{
+  padding:8px 16px;border:0;border-radius:999px;background:none;color:var(--muted);font-weight:700;font-size:14px;cursor:pointer;
+  transition:background .2s ease,color .2s ease;
+}
+.vista-btn[aria-pressed="true"]{background:var(--marino);color:#fff}
+.vista-btn:hover:not([aria-pressed="true"]){color:var(--tinta)}
+
+/* el panel rápido: para recorrer muchos cumpleaños de un vistazo, sin abrir cada billete */
+.panel[hidden]{display:none}
+.panel{
+  display:grid;gap:clamp(8px,1.4vw,14px);
+  grid-template-columns:repeat(auto-fill,minmax(84px,1fr));
+}
+.panel-item{
+  display:flex;flex-direction:column;align-items:center;gap:6px;padding:0;border:0;background:none;cursor:pointer;
+  opacity:0;translate:0 10px;transition:opacity .5s ease var(--d,0s),translate .5s cubic-bezier(.2,.8,.2,1) var(--d,0s);
+}
+.panel-item.in{opacity:1;translate:0 0}
+.panel-foto{
+  position:relative;width:100%;aspect-ratio:1;border-radius:14px;overflow:hidden;
+  background:var(--tono,#ffdcc2);box-shadow:0 10px 18px -12px rgba(26,22,18,.5);transition:scale .2s ease;
+}
+.panel-item:hover .panel-foto,.panel-item:focus-visible .panel-foto{scale:1.06}
+.panel-foto img{position:absolute;inset:0;margin:auto;max-width:88%;max-height:88%;width:auto;height:auto;object-fit:contain}
+.panel-nombre{max-width:100%;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
 .album{columns:3 320px;column-gap:clamp(30px,3.8vw,58px)}
 
 .billete{
@@ -326,7 +363,7 @@ button.fila:hover,button.fila:focus-visible{background:rgba(255,255,255,.4)}
 .bi-codigo small{margin:7px 0 0;letter-spacing:.24em}
 
 .vacio-album{
-  max-width:560px;padding:30px;
+  max-width:560px;padding:30px;grid-column:1 / -1;
   border:1.5px dashed var(--linea);border-radius:8px;
   font-size:19px;color:var(--muted);
 }
@@ -435,6 +472,19 @@ button.fila:hover,button.fila:focus-visible{background:rgba(255,255,255,.4)}
 }
 .lado-datos .estampa{color:var(--naranja);font-weight:500;text-shadow:0 0 5px rgba(255,110,20,.5)}
 .edad{padding:3px 12px;border-radius:999px;background:rgba(255,255,255,.75);font-weight:500;white-space:nowrap}
+
+.btn-tarjeta-personal{
+  position:relative;z-index:1;margin-top:22px;padding:12px 22px;border:1.5px solid var(--marino);border-radius:999px;
+  background:none;color:var(--marino);font-weight:700;font-size:14.5px;cursor:pointer;
+  transition:background .2s ease,color .2s ease;
+}
+.btn-tarjeta-personal:hover{background:var(--marino);color:#fff}
+.btn-tarjeta-personal:disabled{opacity:.6;cursor:wait}
+.aviso-tarjeta{
+  position:relative;z-index:1;margin:10px 0 0;font-size:13px;color:var(--muted);
+}
+.aviso-tarjeta[hidden]{display:none}
+.aviso-tarjeta.error{color:var(--rojo)}
 
 .principal{padding:32px 26px 38px}
 .principal-cab{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
@@ -633,18 +683,11 @@ button.fila:hover,button.fila:focus-visible{background:rgba(255,255,255,.4)}
     </div>
   </div>
 
-  <div class="avisos-vuelo">
-    <button type="button" class="embarcando" id="embarcando" hidden>
-      <span class="punto-vivo" aria-hidden="true"></span>
-      <span class="embarcando-tag">Embarcando ahora</span>
-      <span class="embarcando-nombre" id="embarcandoNombre"></span>
-      <span aria-hidden="true">→</span>
-    </button>
-    <button type="button" class="proxima" id="proxima" hidden>
-      <span class="proxima-tag">Próxima salida</span>
-      <span class="proxima-nombre" id="proximaNombre"></span>
-      <span class="proxima-dias" id="proximaDias"></span>
-    </button>
+  <div class="ruta-curso" id="rutaCurso" aria-label="El curso, de un vistazo">
+    <p class="ruta-etq"><span>Septiembre</span><span>Agosto</span></p>
+    <div class="ruta-pista" id="rutaPista">
+      <div class="ruta-linea" aria-hidden="true"></div>
+    </div>
   </div>
 
   <section class="tablon" id="tablon" hidden aria-label="Últimos cumpleaños">
@@ -671,8 +714,13 @@ button.fila:hover,button.fila:focus-visible{background:rgba(255,255,255,.4)}
       Ida y vuelta no incluida.
     </p>
     <input class="buscador" id="buscador" type="search" placeholder="Buscar pasajero" aria-label="Buscar por nombre" autocomplete="off">
+    <div class="vista-toggle" role="group" aria-label="Cómo ver los billetes">
+      <button type="button" class="vista-btn" id="vistaBilletes" aria-pressed="true">Billetes</button>
+      <button type="button" class="vista-btn" id="vistaPanel" aria-pressed="false">Panel rápido</button>
+    </div>
   </div>
   <div class="album" id="grid"></div>
+  <div class="panel" id="panel" hidden></div>
 </section>
 
 <div class="correo" aria-hidden="true"></div>
@@ -1089,38 +1137,45 @@ function pintarTablon() {
 }
 
 /* ============================================================
-   AVISOS DE VUELO: quién embarca hoy y cuál es la próxima salida
+   LA RUTA DEL CURSO: dónde estamos hoy, y quién ya tiene su parada
 ============================================================ */
-function actualizarAvisosVuelo() {
-  const embarcando = $("embarcando"), proxima = $("proxima");
-  if (!fotos.length) { embarcando.hidden = true; proxima.hidden = true; return; }
+const DURACION_CURSO = 365;   // de septiembre a agosto, de un vistazo
 
-  let idxHoy = -1, mejor = null;
+function pintarRutaCurso() {
+  const pista = $("rutaPista");
+  pista.querySelectorAll(".ruta-mes, .ruta-hoy, .ruta-punto").forEach(el => el.remove());
+
+  const MESES_RUTA = ["Sep", "Oct", "Nov", "Dic", "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago"];
+  MESES_RUTA.forEach((m, k) => {
+    const t = document.createElement("span");
+    t.className = "ruta-mes";
+    t.style.left = ((k / 12) * 100).toFixed(2) + "%";
+    t.textContent = m;
+    pista.appendChild(t);
+  });
+
   ordenIdx.forEach(i => {
     const f = parseFecha(fotos[i].fecha);
     if (!f) return;
-    const d = diaCurso(f);
-    if (d === HOY_DIA && idxHoy === -1) idxHoy = i;
-    else if (d > HOY_DIA && (!mejor || d < mejor.dias)) mejor = { i, dias: d };
+    const pct = Math.max(0, Math.min(100, (diaCurso(f) / DURACION_CURSO) * 100));
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "ruta-punto" + (diaCurso(f) < HOY_DIA ? " pasado" : "");
+    b.style.left = pct.toFixed(2) + "%";
+    b.setAttribute("aria-label", `Abrir el billete de ${fotos[i].nombre}`);
+    b.addEventListener("click", () => abrirModal(i));
+    pista.appendChild(b);
   });
 
-  if (idxHoy >= 0) {
-    embarcando.hidden = false;
-    $("embarcandoNombre").textContent = fotos[idxHoy].nombre;
-    embarcando.onclick = () => abrirModal(idxHoy);
-  } else {
-    embarcando.hidden = true;
-  }
-
-  if (mejor) {
-    const dias = Math.round(mejor.dias - HOY_DIA);
-    proxima.hidden = false;
-    $("proximaNombre").textContent = fotos[mejor.i].nombre;
-    $("proximaDias").textContent = dias === 1 ? "mañana" : `en ${dias} días`;
-    proxima.onclick = () => abrirModal(mejor.i);
-  } else {
-    proxima.hidden = true;
-  }
+  const hoyPct = Math.max(0, Math.min(100, (HOY_DIA / DURACION_CURSO) * 100));
+  const hoy = document.createElement("div");
+  hoy.className = "ruta-hoy";
+  hoy.style.left = hoyPct.toFixed(2) + "%";
+  hoy.setAttribute("aria-hidden", "true");
+  hoy.innerHTML = `
+    <small>Hoy</small>
+    <span class="avioncito"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></span>`;
+  pista.appendChild(hoy);
 }
 
 /* ============================================================
@@ -1271,6 +1326,261 @@ function activarTarjeta() {
 }
 
 /* ============================================================
+   LA TARJETA PERSONAL: el billete de cada cumpleaños, con sus mensajes
+============================================================ */
+
+/* intenta cargar una foto lista para el lienzo; si no se puede (por permisos
+   del sitio donde vive la foto), usa el avatar de iniciales, que nunca falla */
+function cargarImagenParaLienzo(url, nombre) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = () => {
+      const de = new Image();
+      de.onload = () => resolve(de);
+      de.onerror = () => resolve(null);
+      de.src = avatar(nombre);
+    };
+    img.src = url;
+  });
+}
+
+/* dibuja la foto entera dentro de una caja, sin recortarla */
+function dibujarFotoContain(g, img, x, y, w, h, fondo) {
+  g.fillStyle = fondo; g.fillRect(x, y, w, h);
+  if (!img) return;
+  const ratio = Math.min(w / img.width, h / img.height);
+  const dw = img.width * ratio, dh = img.height * ratio;
+  g.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+}
+
+/* como ajustarTexto, pero permite un font-string completo (con negrita incluida) */
+function ajustarTextoCompleto(g, texto, hacerFuente, maxAncho, tam) {
+  let t = tam;
+  g.font = hacerFuente(t);
+  while (g.measureText(texto).width > maxAncho && t > 14) { t -= 2; g.font = hacerFuente(t); }
+  return t;
+}
+
+/* reparte un texto en varias líneas dentro de un ancho máximo, y lo recorta si no cabe */
+function envolverTexto(g, texto, maxAncho, maxLineas) {
+  const palabras = String(texto || "").split(/\s+/).filter(Boolean);
+  const lineas = [];
+  let actual = "";
+  for (const palabra of palabras) {
+    const prueba = actual ? actual + " " + palabra : palabra;
+    if (g.measureText(prueba).width > maxAncho && actual) {
+      lineas.push(actual);
+      actual = palabra;
+      if (lineas.length === maxLineas) break;
+    } else {
+      actual = prueba;
+    }
+  }
+  if (lineas.length < maxLineas && actual) lineas.push(actual);
+  if (lineas.length === maxLineas) {
+    const juntas = lineas.join(" ");
+    if (juntas.length < texto.trim().length) {
+      let ultima = lineas[maxLineas - 1];
+      while (ultima.length > 1 && g.measureText(ultima + "…").width > maxAncho) ultima = ultima.slice(0, -1);
+      lineas[maxLineas - 1] = ultima.replace(/\s+$/, "") + "…";
+    }
+  }
+  return lineas;
+}
+
+/* consigue los mensajes de una ficha, usando la caché si ya se cargaron */
+async function obtenerMensajesPara(id) {
+  if (cache.has(String(id))) return cache.get(String(id));
+  try {
+    const r = await fetch(`${URL_MENSAJES}?id=${encodeURIComponent(id)}`);
+    const datos = await r.json();
+    const lista = Array.isArray(datos) ? datos : [];
+    cache.set(String(id), lista);
+    return lista;
+  } catch (e) { return []; }
+}
+
+async function generarTarjetaPersonal(p) {
+  const lienzo = document.createElement("canvas");
+  lienzo.width = 1600; lienzo.height = 800;
+  const g = lienzo.getContext("2d");
+  const W = lienzo.width, H = lienzo.height;
+  const GL = "Gloock, Georgia, serif";
+  const MO = "'DM Mono', ui-monospace, monospace";
+  try { await Promise.all([document.fonts.load("60px Gloock"), document.fonts.load("20px 'DM Mono'")]); } catch (e) {}
+
+  const nom = (p.nombre || "").trim().toUpperCase();
+  const h = hashTarjeta(nom + String(p.id ?? ""));
+  const CORTE = Math.round(W * 0.775);
+  const f = parseFecha(p.fecha);
+
+  const [mensajes, foto] = await Promise.all([
+    obtenerMensajesPara(p.id),
+    cargarImagenParaLienzo(p.foto, p.nombre)
+  ]);
+
+  g.clearRect(0, 0, W, H);
+
+  /* cuerpo principal */
+  g.fillStyle = "#fcfaf4"; g.fillRect(0, 0, CORTE, H);
+  g.strokeStyle = "#e2d9c7"; g.lineWidth = 2; g.strokeRect(1, 1, CORTE - 2, H - 2);
+
+  g.fillStyle = "#232a55"; g.font = `600 22px ${MO}`;
+  g.fillText("TARJETA DE EMBARQUE", 56, 72);
+  g.fillStyle = "#6d6457"; g.font = `20px ${MO}`;
+  g.fillText("VUELO 2ºBACH · CURSO 2026–27", 56, 102);
+
+  /* la foto, entera, junto al nombre */
+  const cajaFoto = 158;
+  dibujarFotoContain(g, foto, CORTE - 56 - cajaFoto, 40, cajaFoto, cajaFoto, "#eee6d6");
+  g.strokeStyle = "#e2d9c7"; g.lineWidth = 2; g.strokeRect(CORTE - 56 - cajaFoto, 40, cajaFoto, cajaFoto);
+
+  g.fillStyle = "#6d6457"; g.font = `20px ${MO}`;
+  g.fillText("PASAJERO", 56, 168);
+  const anchoNombre = CORTE - 112 - cajaFoto - 22;
+  const tn = ajustarTextoCompleto(g, nom, t => `${t}px ${GL}`, anchoNombre, 60);
+  g.fillStyle = "#1a1612"; g.font = `${tn}px ${GL}`;
+  g.fillText(nom, 56, 168 + tn * 0.8);
+
+  const filaY = 244;
+  g.strokeStyle = "#e2d9c7"; g.lineWidth = 2;
+  g.beginPath(); g.moveTo(56, filaY - 30); g.lineTo(CORTE - 56, filaY - 30); g.stroke();
+
+  const campos = [
+    ["FECHA", fechaCorta(p, f)],
+    ["EDAD", `${p.edad} AÑOS`],
+    ["PUERTA", "LA DE SIEMPRE"]
+  ];
+  const colW = (CORTE - 112) / 3;
+  campos.forEach(([et, val], k) => {
+    const x = 56 + k * colW;
+    g.fillStyle = "#6d6457"; g.font = `18px ${MO}`;
+    g.fillText(et, x, filaY);
+    const tv = ajustarTextoCompleto(g, val, t => `600 ${t}px ${MO}`, colW - 16, 24);
+    g.fillStyle = "#1a1612"; g.font = `600 ${tv}px ${MO}`;
+    g.fillText(val, x, filaY + 32);
+  });
+
+  /* los mensajes de la clase */
+  const yMsg0 = filaY + 78;
+  g.strokeStyle = "#e2d9c7"; g.lineWidth = 2;
+  g.beginPath(); g.moveTo(56, yMsg0); g.lineTo(CORTE - 56, yMsg0); g.stroke();
+
+  g.fillStyle = "#232a55"; g.font = `600 19px ${MO}`;
+  g.fillText("MENSAJES DE LA CLASE", 56, yMsg0 + 32);
+
+  const anchoMsg = CORTE - 112;
+  const destacados = mensajes.slice(-2);
+  let y = yMsg0 + 68;
+
+  if (!destacados.length) {
+    g.fillStyle = "#948a76"; g.font = `italic 24px ${GL}`;
+    g.fillText("Todavía no hay mensajes en este billete.", 56, y + 6);
+  } else {
+    destacados.forEach(m => {
+      if (y > H - 60) return;
+      g.fillStyle = "#232a55"; g.font = `600 17px ${MO}`;
+      g.fillText((m.autor || "alguien de la clase").toUpperCase(), 56, y);
+      y += 28;
+      g.fillStyle = "#1a1612"; g.font = `italic 23px ${GL}`;
+      const lineas = envolverTexto(g, m.mensaje || "", anchoMsg, 2);
+      lineas.forEach(linea => { g.fillText(linea, 56, y); y += 30; });
+      y += 18;
+    });
+  }
+
+  /* avioncito decorativo */
+  g.save();
+  g.translate(CORTE - 74, H - 56);
+  g.rotate(-0.55);
+  g.fillStyle = "#ff6a1a";
+  g.beginPath();
+  g.moveTo(0, -18); g.lineTo(6, 5); g.lineTo(24, 13); g.lineTo(24, 19); g.lineTo(6, 14);
+  g.lineTo(3, 32); g.lineTo(11, 37); g.lineTo(11, 42); g.lineTo(-3, 39); g.lineTo(-11, 42);
+  g.lineTo(-11, 37); g.lineTo(-3, 32); g.lineTo(-6, 14); g.lineTo(-24, 19); g.lineTo(-24, 13);
+  g.lineTo(-6, 5); g.closePath(); g.fill();
+  g.restore();
+
+  /* la perforación entre el pase y el resguardo */
+  g.strokeStyle = "#c9bfa8"; g.lineWidth = 3; g.setLineDash([10, 9]);
+  g.beginPath(); g.moveTo(CORTE, 0); g.lineTo(CORTE, H); g.stroke(); g.setLineDash([]);
+  g.fillStyle = "#f3ede2";
+  g.beginPath(); g.arc(CORTE, 0, 18, 0, Math.PI * 2); g.fill();
+  g.beginPath(); g.arc(CORTE, H, 18, 0, Math.PI * 2); g.fill();
+
+  /* el resguardo */
+  g.fillStyle = "#232a55"; g.fillRect(CORTE, 0, W - CORTE, H);
+  g.fillStyle = "#f8e58a"; g.font = `600 19px ${MO}`;
+  g.fillText("PASE", CORTE + 34, 56);
+  const tn2 = ajustarTextoCompleto(g, nom, t => `${t}px ${GL}`, W - CORTE - 68, 34);
+  g.fillStyle = "#fff"; g.font = `${tn2}px ${GL}`;
+  g.fillText(nom, CORTE + 34, 56 + tn2 + 14);
+
+  const asiento = String.fromCharCode(65 + (h % 6)) + (1 + ((h >>> 4) % 30));
+  g.fillStyle = "rgba(255,255,255,.65)"; g.font = `16px ${MO}`;
+  g.fillText("ASIENTO", CORTE + 34, 176);
+  g.fillStyle = "#fff"; g.font = `600 22px ${MO}`;
+  g.fillText(asiento, CORTE + 34, 202);
+
+  g.fillStyle = "rgba(255,255,255,.65)"; g.font = `16px ${MO}`;
+  g.fillText("MENSAJES", CORTE + 34, 250);
+  g.fillStyle = "#f8e58a"; g.font = `600 26px ${MO}`;
+  g.fillText(String(mensajes.length), CORTE + 34, 280);
+
+  g.fillStyle = "rgba(255,255,255,.55)"; g.font = `15px ${MO}`;
+  g.fillText("2º BACH", CORTE + 34, 330);
+  g.fillText("IES EL MOLINILLO", CORTE + 34, 350);
+
+  /* código de barras, distinto para cada persona */
+  let sem = h || 1;
+  const aleat = () => { sem = (Math.imul(sem, 1664525) + 1013904223) >>> 0; return sem / 4294967296; };
+  let x = CORTE + 34;
+  const yBar = H - 96, hBar = 64;
+  while (x < W - 34) { const a = 3 + Math.floor(aleat() * 4); g.fillStyle = "#fff"; g.fillRect(x, yBar, a, hBar); x += a + 3 + Math.floor(aleat() * 3); }
+
+  g.strokeStyle = "rgba(255,255,255,.4)"; g.lineWidth = 2; g.strokeRect(1, 1, W - 2, H - 2);
+
+  return lienzo;
+}
+
+function activarTarjetaPersonal() {
+  const boton = $("descargarPersonal");
+  boton.addEventListener("click", async () => {
+    if (actual < 0) return;
+    const p = fotos[actual];
+    const aviso = $("avisoTarjeta");
+    aviso.hidden = true;
+    boton.disabled = true;
+    const textoOriginal = boton.textContent;
+    boton.textContent = "Generando…";
+
+    try {
+      const lienzo = await generarTarjetaPersonal(p);
+      const blob = await new Promise(res => lienzo.toBlob(b => res(b), "image/png"));
+      if (!blob) throw new Error("sin blob");
+
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `billete-${norm(p.nombre).replace(/[^a-z0-9]+/g, "-")}.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    } catch (err) {
+      console.error("Error generando la tarjeta:", err);
+      aviso.textContent = "No se ha podido descargar la foto en la tarjeta. Prueba a hacer una captura de pantalla de su billete.";
+      aviso.classList.add("error");
+      aviso.hidden = false;
+    } finally {
+      boton.disabled = false;
+      boton.textContent = textoOriginal;
+    }
+  });
+}
+
+/* ============================================================
    LOS BILLETES EN LA GALERÍA
 ============================================================ */
 function pintarGaleria() {
@@ -1296,10 +1606,72 @@ function pintarGaleria() {
   });
 }
 
+/* el panel rápido: fotos pequeñas para recorrer muchos cumpleaños sin abrir cada billete */
+const TONOS_PANEL = ["#ffdcc2", "#c9e3d8", "#f6d9e6", "#d7e0f5", "#fbe6b8"];
+
+function pintarPanel() {
+  const cont = $("panel");
+  const q = norm($("buscador").value.trim());
+  cont.innerHTML = "";
+
+  if (fotos.length === 0) {
+    cont.innerHTML = `<div class="vacio-album"><strong>Aún no ha despegado ninguno.</strong>Cada cumpleaños tendrá aquí su foto.</div>`;
+    return;
+  }
+
+  const lista = ordenIdx.filter(i => !q || norm(fotos[i].nombre).includes(q));
+  if (lista.length === 0) {
+    cont.innerHTML = `<div class="vacio-album"><strong>Ese pasajero no consta en el vuelo.</strong>Prueba con otro nombre.</div>`;
+    return;
+  }
+
+  lista.forEach((i, pos) => {
+    const p = fotos[i];
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "panel-item";
+    b.style.setProperty("--d", (pos % 12) * 0.03 + "s");
+    b.style.setProperty("--tono", TONOS_PANEL[pos % TONOS_PANEL.length]);
+    b.setAttribute("aria-label", `Abrir el billete de ${p.nombre}`);
+    b.innerHTML = `
+      <span class="panel-foto"><img src="${esc(p.foto)}" alt="" loading="lazy" draggable="false"></span>
+      <span class="panel-nombre">${esc(p.nombre)}</span>`;
+    const img = b.querySelector("img");
+    conFallback(img, p.nombre);
+    b.addEventListener("click", () => abrirModal(i));
+    cont.appendChild(b);
+    vigilar(b);
+  });
+}
+
+/* el interruptor entre la vista de billetes y el panel rápido, recordado entre visitas */
+function activarVistaGaleria() {
+  const btnBilletes = $("vistaBilletes"), btnPanel = $("vistaPanel");
+  const grid = $("grid"), panel = $("panel");
+
+  function poner(modo) {
+    const esPanel = modo === "panel";
+    grid.hidden = esPanel;
+    panel.hidden = !esPanel;
+    btnBilletes.setAttribute("aria-pressed", String(!esPanel));
+    btnPanel.setAttribute("aria-pressed", String(esPanel));
+    try { localStorage.setItem("vistaGaleria", modo); } catch (e) {}
+  }
+
+  btnBilletes.addEventListener("click", () => poner("billetes"));
+  btnPanel.addEventListener("click", () => poner("panel"));
+
+  let inicial = "billetes";
+  try { inicial = localStorage.getItem("vistaGaleria") || "billetes"; } catch (e) {}
+  poner(inicial);
+}
+activarVistaGaleria();
+
 /* ============================================================
    CARGA DE DATOS
 ============================================================ */
 activarTarjeta();
+activarTarjetaPersonal();
 
 fetch("datos.json")
   .then(r => r.json())
@@ -1308,14 +1680,15 @@ fetch("datos.json")
     construirOrden();
     pintarTablon();
     pintarGaleria();
-    actualizarAvisosVuelo();
+    pintarPanel();
+    pintarRutaCurso();
   })
   .catch(err => {
     console.error("Error cargando datos.json:", err);
     $("grid").innerHTML = `<div class="vacio-album"><strong>No se han podido cargar los cumpleaños.</strong>Recarga la página en unos segundos.</div>`;
   });
 
-$("buscador").addEventListener("input", pintarGaleria);
+$("buscador").addEventListener("input", () => { pintarGaleria(); pintarPanel(); });
 
 /* ============================================================
    MODAL
@@ -1352,6 +1725,8 @@ function abrirModal(i) {
   $("aviso").hidden = true;
   $("textoMensaje").value = "";
   $("contadorTexto").textContent = "0 / 300";
+  $("avisoTarjeta").hidden = true;
+  $("avisoTarjeta").classList.remove("error");
   try { $("autorMensaje").value = localStorage.getItem("autorCumple") || ""; } catch (e) {}
 
   const modal = $("modal");
