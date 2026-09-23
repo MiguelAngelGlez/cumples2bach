@@ -1371,6 +1371,21 @@ function dibujarCodigoDecorativo(g, x, y, tam, semilla) {
   });
 }
 
+/* la cinta diagonal que solo aparece el día exacto del cumpleaños */
+function dibujarCintaHoy(g, cx, cy, texto, color, MO) {
+  g.save();
+  g.translate(cx, cy);
+  g.rotate(-Math.PI / 4);
+  const ancho = 230;
+  g.fillStyle = "rgba(0,0,0,.18)"; g.fillRect(-ancho / 2, -15, ancho, 30);
+  g.fillStyle = color; g.fillRect(-ancho / 2, -17, ancho, 30);
+  g.fillStyle = "#fff"; g.font = `700 15px ${MO}`;
+  g.textAlign = "center"; g.textBaseline = "middle";
+  g.fillText(texto, 0, -1);
+  g.restore();
+  g.textAlign = "left"; g.textBaseline = "alphabetic";
+}
+
 /* dibuja la foto entera dentro de una caja, sin recortarla */
 function dibujarFotoContain(g, img, x, y, w, h, fondo) {
   g.fillStyle = fondo; g.fillRect(x, y, w, h);
@@ -1382,7 +1397,7 @@ function dibujarFotoContain(g, img, x, y, w, h, fondo) {
 
 /* el pase completo: cuerpo principal + resguardo, común a las dos tarjetas */
 function pintarPase(g, W, H, CORTE, o) {
-  const { acc, nombre, asiento, campos, campos2, mensajes, foto, piePase, contadorMensajes, GL, MO } = o;
+  const { acc, nombre, asiento, campos, campos2, mensajes, foto, piePase, contadorMensajes, GL, MO, esHoy } = o;
 
   g.clearRect(0, 0, W, H);
   g.save();
@@ -1399,6 +1414,10 @@ function pintarPase(g, W, H, CORTE, o) {
   g.fillText("TARJETA DE EMBARQUE", 52, 60);
   g.fillStyle = "#8a7f6a"; g.font = `19px ${MO}`;
   g.fillText("VUELO 2ºBACH · CURSO 2026–27", 52, 88);
+  if (esHoy) {
+    g.fillStyle = acc.b; g.font = `700 15px ${MO}`;
+    g.textAlign = "right"; g.fillText("★ EDICIÓN DEL DÍA ★", CORTE - 52, 60); g.textAlign = "left";
+  }
 
   /* el mini mapa de ruta */
   const rutaY = 128, rutaX0 = 52, rutaAncho = CORTE - 104;
@@ -1418,8 +1437,13 @@ function pintarPase(g, W, H, CORTE, o) {
     const fx = CORTE - 52 - cajaFoto, fy = rutaY + 60;
     g.save(); trazarRedondeado(g, fx, fy, cajaFoto, cajaFoto, 14); g.clip();
     dibujarFotoContain(g, foto, fx, fy, cajaFoto, cajaFoto, "#eee6d6");
+    if (esHoy) {
+      g.save(); trazarRedondeado(g, fx, fy, cajaFoto, cajaFoto, 14); g.clip();
+      dibujarCintaHoy(g, fx + 8, fy + 30, "EMBARCANDO HOY", acc.b, MO);
+      g.restore();
+    }
     g.restore();
-    g.strokeStyle = acc.a; g.lineWidth = 2.5;
+    g.strokeStyle = acc.a; g.lineWidth = esHoy ? 4 : 2.5;
     trazarRedondeado(g, fx, fy, cajaFoto, cajaFoto, 14); g.stroke();
   }
 
@@ -1627,7 +1651,8 @@ async function generarTarjetaPersonal(p) {
   const nom = (p.nombre || "").trim().toUpperCase();
   const h = hashTarjeta(nom + String(p.id ?? ""));
   const f = parseFecha(p.fecha);
-  const acc = colorEstacion(f ? f.m : 0);
+  const esHoy = !!f && diaCurso(f) === HOY_DIA;
+  const acc = esHoy ? { a: "#ff2f7a", b: "#7a2fd1" } : colorEstacion(f ? f.m : 0);
   const CORTE = Math.round(W * 0.775);
   const asiento = String.fromCharCode(65 + (h % 6)) + (1 + ((h >>> 4) % 30));
 
@@ -1637,8 +1662,8 @@ async function generarTarjetaPersonal(p) {
   ]);
 
   pintarPase(g, W, H, CORTE, {
-    acc, nombre: nom, asiento,
-    campos: [["FECHA", fechaCorta(p, f)], ["EDAD", `${p.edad} AÑOS`], ["PUERTA", "LA DE SIEMPRE"]],
+    acc, nombre: nom, asiento, esHoy,
+    campos: [["FECHA", fechaCorta(p, f)], ["EDAD", `${p.edad} AÑOS`], ["PUERTA", esHoy ? "EMBARCANDO" : "LA DE SIEMPRE"]],
     mensajes, foto,
     piePase: "2º BACH · IES EL MOLINILLO",
     contadorMensajes: mensajes.length,
