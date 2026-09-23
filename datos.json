@@ -42,7 +42,7 @@
       "id": 6,
       "nombre": "Irene Coca",
       "fecha": "24/09/2009",
-      "edad": 18,
+      "edad": 17,
       "foto": "fotos/IreneCoca.jpg"
     },
     {
@@ -77,14 +77,14 @@
       "id": 11,
       "nombre": "Irene",
       "fecha": "5/12/2009",
-      "edad": 18,
+      "edad": 17,
       "foto": "fotos/Irene.jpg"
     },
     {
       "id": 12,
       "nombre": "Ana",
       "fecha": "26/11/2009",
-      "edad": 18,
+      "edad": 17,
       "foto": "fotos/Ana.jpg"
     },
     {
@@ -119,7 +119,7 @@
       "id": 17,
       "nombre": "Sara Masero",
       "fecha": "06/10/2009",
-      "edad": 18,
+      "edad": 17,
       "foto": "fotos/SaraMasero.jpg"
     },
     {
@@ -175,7 +175,7 @@
       "id": 25,
       "nombre": "Lorena",
       "fecha": "17/10/2009",
-      "edad": 18,
+      "edad": 17,
       "foto": "fotos/Lorena.jpg"
     },
     {
@@ -189,7 +189,7 @@
       "id": 27,
       "nombre": "Roberto",
       "fecha": "15/10/2009",
-      "edad": 18,
+      "edad": 17,
       "foto": "fotos/Roberto.jpg"
     },
     {
