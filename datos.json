@@ -8,21 +8,42 @@
       "nombre": "Ana",
       "fecha": "12/10/2026",
       "edad": 17,
-      "foto": "fotos/Ana.jpg"
+      "foto": "fotos/ana.jpg"
     },
     {
       "id": 2,
       "nombre": "Carlos",
       "fecha": "03/11/2026",
       "edad": 18,
-      "foto": "fotos/Carlos.jpg"
+      "foto": "fotos/carlos.jpg"
     },
     {
       "id": 3,
       "nombre": "Lucía",
       "fecha": "20/11/2026",
       "edad": 18,
-      "foto": "fotos/Lucia.jpg"
+      "foto": "fotos/lucia.jpg"
+    },
+    {
+      "id": 4,
+      "nombre": "Pablo",
+      "fecha": "20/11/2026",
+      "edad": 18,
+      "foto": "fotos/lucia.jpg"
+    },
+    {
+      "id": 5,
+      "nombre": "Álvaro",
+      "fecha": "20/11/2026",
+      "edad": 18,
+      "foto": "fotos/lucia.jpg"
+    },
+    {
+      "id": 6,
+      "nombre": "Manuel",
+      "fecha": "20/09/2026",
+      "edad": 18,
+      "foto": "fotos/lucia.jpg"
     }
   ]
 }
