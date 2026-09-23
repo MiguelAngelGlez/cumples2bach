@@ -36,14 +36,14 @@
       "nombre": "Álvaro",
       "fecha": "20/11/2026",
       "edad": 18,
-      "foto": "fotos/Lucia.jpg"
+      "foto": "fotos/Pablo.jpg"
     },
     {
       "id": 6,
       "nombre": "Manuel",
       "fecha": "20/09/2026",
       "edad": 18,
-      "foto": "fotos/Lucia.jpg"
+      "foto": "fotos/María.jpg"
     }
   ]
 }
