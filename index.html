@@ -253,7 +253,7 @@ h1{
 .tendedero-cab .cab-botones .btn-secundario{margin-top:0}
 .aula-scroll{overflow-x:auto;margin-top:clamp(30px,4vw,44px);-webkit-overflow-scrolling:touch}
 .aula{
-  width:max-content;min-width:100%;padding:26px clamp(16px,3vw,44px) 30px;border-radius:6px;
+  width:max-content;margin:0 auto;padding:26px clamp(16px,3vw,44px) 30px;border-radius:6px;
   background-color:#231012;
   background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
   background-size:46px 46px;box-shadow:inset 0 0 0 1px rgba(242,228,223,.08);
@@ -504,6 +504,17 @@ dialog.visor::backdrop{background:rgba(22,5,6,.9);backdrop-filter:blur(5px)}
 dialog .toast{bottom:96px}
 
 @media (max-width:700px){
+  /* plano compacto: solo la cara, sin nombre (al tocar se ve quién es) */
+  .plano-dentro{padding-left:12px;padding-right:12px}
+  .aula-scroll{overflow:visible}
+  .aula{padding:18px 10px 20px;background-size:30px 30px}
+  .pizarra{margin-bottom:24px;min-width:140px;height:16px;line-height:16px;font-size:10px}
+  #aulaFilas{column-gap:14px;row-gap:16px}
+  .aula-bloque{gap:4px}
+  .pupitre{width:38px;padding:4px 2px;gap:0;border-radius:5px}
+  .pupitre::after{bottom:-6px;height:4px}
+  .pp-foto{width:30px;font-size:10px}
+  .pp-nom{display:none}
   .portada{grid-template-columns:1fr;gap:28px}
   .contador{order:-1;width:112px}
   .contador .num{font-size:82px}
@@ -635,7 +646,7 @@ dialog .toast{bottom:96px}
   <div class="plano-dentro">
     <h2 id="planoTitulo">Cada uno<br>en su sitio</h2>
     <p>Cada pupitre se enciende el día que cumple quien se sienta en él. Toca uno para ver su foto.</p>
-    <div class="aula-scroll">
+    <div class="aula-scroll" id="aulaScroll">
       <div class="aula"><div class="pizarra">Pizarra</div><div id="aulaFilas"></div></div>
     </div>
   </div>
@@ -1154,7 +1165,8 @@ async function entregar(blob, nombre, dialogo) {
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob); a.download = nombre;
   document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  // el navegador tarda en leer el archivo: si se libera antes, se descarga vacío
+  setTimeout(() => URL.revokeObjectURL(a.href), 120000);
   toast(tipo.startsWith("video") ? "Vídeo guardado en descargas." : "Imagen guardada en descargas.");
 }
 
@@ -1442,7 +1454,16 @@ function pintarAula() {
     return `<div class="aula-fila">${f.map(b => `<div class="aula-bloque">${b.map(pupitre).join("")}</div>`).join("")}</div>`;
   }).join("");
 }
-$("abrirPlano").addEventListener("click", () => $("plano").showModal());
+/* si el plano no cabe a lo ancho, se encoge entero para que se vea de un vistazo */
+function encajarPlano() {
+  const aula = document.querySelector(".aula"), caja = $("aulaScroll");
+  if (!aula || !caja) return;
+  aula.style.zoom = "";
+  const ancho = aula.offsetWidth, sitio = caja.clientWidth;
+  if (ancho > sitio && sitio > 0) aula.style.zoom = (sitio / ancho).toFixed(3);
+}
+$("abrirPlano").addEventListener("click", () => { $("plano").showModal(); requestAnimationFrame(encajarPlano); });
+addEventListener("resize", () => { if ($("plano").open) encajarPlano(); });
 $("plCerrar").addEventListener("click", () => $("plano").close());
 
 /* ============ MODO PROYECTOR ============ */
@@ -1650,11 +1671,12 @@ function pintarFrame(g, escenas, t, total, W, H) {
 
 function estadoVideo(html) { $("viEstado").innerHTML = html; }
 
-async function grabarVideo() {
+async function grabarVideo(conAudio = true) {
+  if (typeof conAudio !== "boolean") conAudio = true;   // cuando llega un evento de clic
   if (!colgadas.length) { toast("Todavía no hay fotos para el vídeo."); return; }
   cerrarProyector();
   const d = $("video");
-  d.showModal();
+  if (!d.open) d.showModal();
   $("viGuardar").hidden = true; $("viZona").innerHTML = "";
   if (!window.MediaRecorder || !HTMLCanvasElement.prototype.captureStream) {
     estadoVideo("Este navegador no puede grabar el vídeo.<small>Prueba desde Chrome o Safari actualizados, mejor en el ordenador.</small>");
@@ -1681,9 +1703,9 @@ async function grabarVideo() {
 
   const stream = c.captureStream(30);
   let ac = null, dest = null;
-  try {
+  if (conAudio) try {
     ac = new (window.AudioContext || window.webkitAudioContext)();
-    await ac.resume();
+    await Promise.race([ac.resume(), new Promise(ok => setTimeout(ok, 600))]);
     dest = ac.createMediaStreamDestination();
     dest.stream.getAudioTracks().forEach(tr => stream.addTrack(tr));
   } catch (e) { ac = null; }
@@ -1698,7 +1720,7 @@ async function grabarVideo() {
   rec.ondataavailable = ev => { if (ev.data && ev.data.size) trozos.push(ev.data); };
   const parado = new Promise(ok => { rec.onstop = ok; });
   yo.rec = rec;
-  rec.start(1000);
+  rec.start();   // sin trocear: en algunos navegadores los trozos salen vacíos
 
   const t0 = performance.now();
   let escenaAnterior = 0, ultimoTexto = -1;
@@ -1718,8 +1740,9 @@ async function grabarVideo() {
     };
     requestAnimationFrame(paso);
   });
-  if (rec.state !== "inactive") rec.stop();
+  if (rec.state !== "inactive") { try { rec.requestData(); } catch (e) {} rec.stop(); }
   await parado;
+  await new Promise(ok => setTimeout(ok, 300));   // por si el último trozo llega tarde
   stream.getTracks().forEach(tr => tr.stop());
   if (ac) ac.close().catch(() => {});
   if (yo.cancelado || grabando !== yo) return;
@@ -1727,6 +1750,16 @@ async function grabarVideo() {
 
   const tipo = (rec.mimeType || mime || "video/webm").split(";")[0];
   videoBlob = new Blob(trozos, { type: tipo });
+  if (!videoBlob.size) {
+    videoBlob = null;
+    $("viZona").innerHTML = "";
+    if (conAudio && ac) {   // segundo intento sin sonido: hay navegadores que fallan al mezclarlo
+      estadoVideo("Reintentando la grabación…");
+      return grabarVideo(false);
+    }
+    estadoVideo("Este navegador no ha podido grabar el vídeo.<small>Prueba desde Chrome en el ordenador: ahí funciona siempre.</small>");
+    return;
+  }
   $("viZona").innerHTML = `<video controls playsinline src="${URL.createObjectURL(videoBlob)}"></video>`;
   estadoVideo(tipo === "video/mp4"
     ? "Vídeo listo."
