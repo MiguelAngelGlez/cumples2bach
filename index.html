@@ -249,8 +249,13 @@ h1{
   font-size:clamp(40px,6vw,84px);line-height:.86;color:var(--papel);
 }
 .plano-dentro > p{margin:14px 0 0;max-width:32em;color:var(--suave);font-size:clamp(15px,1.4vw,18px)}
-.cab-botones{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
-.tendedero-cab .cab-botones .btn-secundario{margin-top:0}
+.bajo-tira{
+  max-width:1320px;margin:0 auto;padding:22px 5vw 0;
+  display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px 24px;
+}
+.bajo-tira .proximo{margin:0;padding:0;max-width:none}
+.cab-botones{display:flex;flex-wrap:wrap;gap:10px}
+.cab-botones .btn-secundario{font-size:15px;padding:11px 18px}
 .aula-scroll{overflow-x:auto;margin-top:clamp(30px,4vw,44px);-webkit-overflow-scrolling:touch}
 .aula{
   width:max-content;margin:0 auto;padding:26px clamp(16px,3vw,44px) 30px;border-radius:6px;
@@ -382,16 +387,6 @@ h1{
 .hoja-scroll img{width:min(94vw,1100px);max-width:none;height:auto;box-shadow:0 40px 60px -30px rgba(0,0,0,.9)}
 .hoja-estado{font-family:var(--mano);font-size:26px;color:var(--papel)}
 
-/* vídeo */
-.video-zona{min-height:0;display:grid;place-items:center;overflow:hidden}
-.video-zona canvas,.video-zona video{
-  height:calc(100dvh - 170px);max-height:100%;max-width:100%;width:auto;aspect-ratio:9/16;
-  background:#000;box-shadow:0 40px 60px -30px rgba(0,0,0,.9);
-}
-.video-pie{display:grid;justify-items:center;gap:10px}
-#viEstado{margin:0;max-width:34em;text-align:center;font-weight:600;color:var(--texto)}
-#viEstado small{display:block;margin-top:4px;font-weight:500;color:var(--suave)}
-
 /* guardar en el móvil: mantener pulsada la imagen */
 .mantener{
   position:fixed;inset:0;z-index:20;display:grid;grid-template-rows:1fr auto auto;justify-items:center;align-items:center;gap:14px;
@@ -515,9 +510,16 @@ dialog .toast{bottom:96px}
   .pupitre::after{bottom:-6px;height:4px}
   .pp-foto{width:30px;font-size:10px}
   .pp-nom{display:none}
-  .portada{grid-template-columns:1fr;gap:28px}
-  .contador{order:-1;width:112px}
-  .contador .num{font-size:82px}
+  .portada{grid-template-columns:minmax(0,1fr) auto;column-gap:10px;row-gap:0;align-items:start}
+  .portada > div:first-child{display:contents}
+  .portada h1{grid-column:1;grid-row:1;font-size:clamp(46px,14.5vw,72px);overflow-wrap:normal}
+  .contador{grid-column:2;grid-row:1;width:clamp(76px,21vw,100px);margin-top:4px}
+  .contador .num{font-size:84px}
+  .contador .num-txt{font-size:15px}
+  .entradilla{grid-column:1 / -1;grid-row:2}
+  .bajo-tira{padding-top:18px}
+  .cab-botones{width:100%}
+  .cab-botones .btn-secundario{flex:1 1 auto;padding:11px 12px;font-size:14px}
   .fotograma{width:128px;height:86px}
   .barra button{padding:10px 14px;font-size:14px}
   .barra .solo-escritorio{display:none}
@@ -547,16 +549,18 @@ dialog .toast{bottom:96px}
     <div class="pelicula" id="pelicula"></div>
   </div>
 </section>
-<p class="proximo" id="proximo" hidden></p>
+<div class="bajo-tira">
+  <p class="proximo" id="proximo" hidden></p>
+  <div class="cab-botones">
+    <button class="btn-secundario" type="button" data-proyector>Ver en modo proyector</button>
+    <button class="btn-secundario" type="button" id="abrirPlano">Ver el plano de la clase</button>
+  </div>
+</div>
 
 <main class="tendedero" id="tendedero">
   <div class="tendedero-cab">
     <h2>Colgadas<br>a secar</h2>
     <p>Toca una foto para verla en grande. Dale la vuelta: detrás se escriben las dedicatorias.</p>
-    <div class="cab-botones">
-      <button class="btn-secundario" type="button" data-proyector>Ver en modo proyector</button>
-      <button class="btn-secundario" type="button" id="abrirPlano">Ver el plano de la clase</button>
-    </div>
   </div>
   <div id="cordeles"></div>
 </main>
@@ -636,7 +640,6 @@ dialog .toast{bottom:96px}
     <button id="prPausa">Pausa</button>
     <button id="prSig" aria-label="Diapositiva siguiente">›</button>
     <span class="pr-cuenta" id="prCuenta"></span>
-    <button data-video>Descargar vídeo</button>
     <button id="prSalir">Salir</button>
   </div>
 </div>
@@ -651,18 +654,6 @@ dialog .toast{bottom:96px}
     </div>
   </div>
   <div class="toast" id="toastPlano" role="status" aria-live="polite"></div>
-</dialog>
-
-<dialog class="visor" id="video" aria-label="Vídeo del carrete">
-  <button class="cerrar" id="viCerrar" aria-label="Cerrar">×</button>
-  <div class="hoja-dentro">
-    <div class="video-zona" id="viZona"></div>
-    <div class="video-pie">
-      <p id="viEstado" role="status"></p>
-      <div class="barra"><button class="principal" id="viGuardar" hidden>Guardar vídeo</button></div>
-    </div>
-  </div>
-  <div class="toast" id="toastVideo" role="status" aria-live="polite"></div>
 </dialog>
 
 <dialog class="visor" id="hoja" aria-label="Hoja de contactos del curso">
@@ -799,7 +790,7 @@ function clic() {
 
 let temporizadorToast;
 function toast(texto) {
-  const t = $("visor").open ? $("toastVisor") : $("plano").open ? $("toastPlano") : $("video").open ? $("toastVideo") : $("hoja").open ? $("toastHoja") : $("visor").open ? $("toastVisor") : $("toast");
+  const t = $("visor").open ? $("toastVisor") : $("plano").open ? $("toastPlano") : $("hoja").open ? $("toastHoja") : $("visor").open ? $("toastVisor") : $("toast");
   t.textContent = texto; t.classList.add("ver");
   clearTimeout(temporizadorToast);
   temporizadorToast = setTimeout(() => t.classList.remove("ver"), 2800);
@@ -1580,204 +1571,6 @@ $("proyector").addEventListener("touchend", e => {
   if (prToqueX === null) return;
   const dx = e.changedTouches[0].clientX - prToqueX; prToqueX = null;
   if (Math.abs(dx) > 50) verDiapo(diapo + (dx < 0 ? 1 : -1));
-});
-
-/* ============ VÍDEO DEL CARRETE ============
-   Se graba en el propio navegador: vertical (para el móvil), con el clac del proyector. */
-let grabando = null, videoBlob = null;
-const SEG_FOTO = 3.4;
-
-function ajustar(im, maxW, maxH) {
-  const s = Math.min(maxW / im.naturalWidth, maxH / im.naturalHeight);
-  const c = document.createElement("canvas");
-  c.width = Math.round(im.naturalWidth * s); c.height = Math.round(im.naturalHeight * s);
-  c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
-  return c;
-}
-const mmss = t => `${Math.floor(t / 60)}:${dos(Math.floor(t % 60))}`;
-
-function clacEn(ac, dest) {
-  try {
-    const t = ac.currentTime;
-    [[0, 900, .5], [.16, 420, .7]].forEach(([d, fr, vol]) => {
-      const n = ac.createBuffer(1, ac.sampleRate * .07, ac.sampleRate);
-      const c = n.getChannelData(0);
-      for (let i = 0; i < c.length; i++) c[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / c.length, 4);
-      const src = ac.createBufferSource(); src.buffer = n;
-      const f = ac.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = fr; f.Q.value = 1.4;
-      const v = ac.createGain(); v.gain.value = vol;
-      src.connect(f).connect(v);
-      v.connect(dest); v.connect(ac.destination);
-      src.start(t + d);
-    });
-  } catch (e) {}
-}
-
-function pintarFrame(g, escenas, t, total, W, H) {
-  const k = Math.max(0, escenas.findIndex(e => t >= e.ini && t < e.ini + e.dur));
-  const e = escenas[k], lt = t - e.ini;
-  g.globalAlpha = 1; g.textAlign = "center";
-  g.fillStyle = "#000"; g.fillRect(0, 0, W, H);
-
-  if (e.tipo === "titulo") {
-    g.fillStyle = "#f4ecdf";
-    g.font = "900 150px 'Big Shoulders Display', 'Arial Narrow', sans-serif";
-    g.fillText("EL CARRETE", W / 2, 560, W - 60);
-    g.fillText(`DE ${(datos.titulo || "2º Bach").toUpperCase()}`, W / 2, 690, W - 60);
-    g.fillStyle = "#b8a996"; g.font = "500 30px Figtree, sans-serif";
-    g.fillText(`IES El Molinillo${datos.curso ? ", curso " + datos.curso : ""}`, W / 2, 780);
-  } else if (e.tipo === "fin") {
-    g.fillStyle = "#f4ecdf"; g.font = "64px 'Nothing You Could Do', cursive";
-    g.fillText("Salen como salen,", W / 2, 610, W - 60);
-    g.fillText("y por eso valen.", W / 2, 700, W - 60);
-  } else {
-    const im = e.img, p = e.p;
-    const x = (W - im.width) / 2, y = 150 + (820 - im.height) / 2;
-    const z = 1 + .04 * (lt / e.dur);
-    g.save();
-    g.beginPath(); g.rect(x, y, im.width, im.height); g.clip();
-    g.drawImage(im, x - im.width * (z - 1) / 2, y - im.height * (z - 1) / 2, im.width * z, im.height * z);
-    g.restore();
-    selloCanvas(g, estampa(p.f), x + im.width - 16, y + im.height - 16, 24);
-    g.textAlign = "center";
-    g.fillStyle = "#f4ecdf"; g.font = "86px 'Nothing You Could Do', cursive";
-    g.fillText(p.nombre, W / 2, 1090, W - 60);
-    g.fillStyle = "#b8a996"; g.font = "500 28px Figtree, sans-serif";
-    g.fillText(p.edad ? `${p.edad} años, ${fechaLarga(p.f)}` : fechaLarga(p.f), W / 2, 1150, W - 60);
-    const tt = textoTiempo(p);
-    if (tt) g.fillText(tt, W / 2, 1192, W - 60);
-  }
-
-  // viñeta de la lámpara y parpadeo
-  if (!g._vineta) {
-    g._vineta = g.createRadialGradient(W / 2, H / 2, H * .25, W / 2, H / 2, H * .75);
-    g._vineta.addColorStop(0, "rgba(0,0,0,0)"); g._vineta.addColorStop(1, "rgba(0,0,0,.7)");
-  }
-  g.fillStyle = g._vineta; g.fillRect(0, 0, W, H);
-  g.fillStyle = `rgba(255,236,200,${(Math.random() * .035).toFixed(3)})`; g.fillRect(0, 0, W, H);
-
-  // fogonazo entre diapositivas
-  if (k > 0 && lt < .45) {
-    g.globalAlpha = (1 - lt / .45) * .85;
-    const f = g.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, H * .6);
-    f.addColorStop(0, "#fff4de"); f.addColorStop(.6, "rgba(255,226,180,.6)"); f.addColorStop(1, "rgba(0,0,0,0)");
-    g.fillStyle = f; g.fillRect(0, 0, W, H);
-    g.globalAlpha = 1;
-  }
-  // entrada y salida a negro
-  const negro = t < .8 ? 1 - t / .8 : t > total - 1.2 ? (t - (total - 1.2)) / 1.2 : 0;
-  if (negro > 0) { g.globalAlpha = Math.min(1, negro); g.fillStyle = "#000"; g.fillRect(0, 0, W, H); g.globalAlpha = 1; }
-}
-
-function estadoVideo(html) { $("viEstado").innerHTML = html; }
-
-async function grabarVideo(conAudio = true) {
-  if (typeof conAudio !== "boolean") conAudio = true;   // cuando llega un evento de clic
-  if (!colgadas.length) { toast("Todavía no hay fotos para el vídeo."); return; }
-  cerrarProyector();
-  const d = $("video");
-  if (!d.open) d.showModal();
-  $("viGuardar").hidden = true; $("viZona").innerHTML = "";
-  if (!window.MediaRecorder || !HTMLCanvasElement.prototype.captureStream) {
-    estadoVideo("Este navegador no puede grabar el vídeo.<small>Prueba desde Chrome o Safari actualizados, mejor en el ordenador.</small>");
-    return;
-  }
-  const yo = grabando = { cancelado: false };
-  estadoVideo("Preparando las fotos…");
-
-  const W = 720, H = 1280;
-  const imgs = await Promise.all(colgadas.map(p => cargarImagen(p.foto)));
-  await cargarFuentes();
-  if (yo.cancelado) return;
-  const escenas = [{ tipo: "titulo", dur: 3.2 }];
-  colgadas.forEach((p, i) => { if (imgs[i]) escenas.push({ tipo: "foto", p, img: ajustar(imgs[i], 640, 820), dur: SEG_FOTO }); });
-  escenas.push({ tipo: "fin", dur: 4.2 });
-  let acc = 0; escenas.forEach(e => { e.ini = acc; acc += e.dur; });
-  const total = acc;
-
-  const c = document.createElement("canvas");
-  c.width = W; c.height = H;
-  const g = c.getContext("2d");
-  $("viZona").appendChild(c);
-  pintarFrame(g, escenas, 0, total, W, H);
-
-  const stream = c.captureStream(30);
-  let ac = null, dest = null;
-  if (conAudio) try {
-    ac = new (window.AudioContext || window.webkitAudioContext)();
-    await Promise.race([ac.resume(), new Promise(ok => setTimeout(ok, 600))]);
-    dest = ac.createMediaStreamDestination();
-    dest.stream.getAudioTracks().forEach(tr => stream.addTrack(tr));
-  } catch (e) { ac = null; }
-
-  const tipos = ["video/mp4;codecs=avc1.42E01E,mp4a.40.2", "video/mp4;codecs=avc1", "video/mp4",
-                 "video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm"];
-  const mime = tipos.find(t => MediaRecorder.isTypeSupported(t)) || "";
-  let rec;
-  try { rec = new MediaRecorder(stream, mime ? { mimeType: mime, videoBitsPerSecond: 5e6 } : { videoBitsPerSecond: 5e6 }); }
-  catch (e) { estadoVideo("No se ha podido empezar a grabar en este navegador."); return; }
-  const trozos = [];
-  rec.ondataavailable = ev => { if (ev.data && ev.data.size) trozos.push(ev.data); };
-  const parado = new Promise(ok => { rec.onstop = ok; });
-  yo.rec = rec;
-  rec.start();   // sin trocear: en algunos navegadores los trozos salen vacíos
-
-  const t0 = performance.now();
-  let escenaAnterior = 0, ultimoTexto = -1;
-  await new Promise(ok => {
-    const paso = () => {
-      if (yo.cancelado) return ok();
-      const t = (performance.now() - t0) / 1000;
-      if (t >= total) return ok();
-      const k = escenas.findIndex(e => t >= e.ini && t < e.ini + e.dur);
-      if (k > escenaAnterior) { escenaAnterior = k; if (ac) clacEn(ac, dest); }
-      pintarFrame(g, escenas, t, total, W, H);
-      if (Math.floor(t) !== ultimoTexto) {
-        ultimoTexto = Math.floor(t);
-        estadoVideo(`Grabando el vídeo: ${mmss(t)} de ${mmss(total)}<small>Deja esta pantalla abierta hasta que termine.</small>`);
-      }
-      requestAnimationFrame(paso);
-    };
-    requestAnimationFrame(paso);
-  });
-  if (rec.state !== "inactive") { try { rec.requestData(); } catch (e) {} rec.stop(); }
-  await parado;
-  await new Promise(ok => setTimeout(ok, 300));   // por si el último trozo llega tarde
-  stream.getTracks().forEach(tr => tr.stop());
-  if (ac) ac.close().catch(() => {});
-  if (yo.cancelado || grabando !== yo) return;
-  grabando = null;
-
-  const tipo = (rec.mimeType || mime || "video/webm").split(";")[0];
-  videoBlob = new Blob(trozos, { type: tipo });
-  if (!videoBlob.size) {
-    videoBlob = null;
-    $("viZona").innerHTML = "";
-    if (conAudio && ac) {   // segundo intento sin sonido: hay navegadores que fallan al mezclarlo
-      estadoVideo("Reintentando la grabación…");
-      return grabarVideo(false);
-    }
-    estadoVideo("Este navegador no ha podido grabar el vídeo.<small>Prueba desde Chrome en el ordenador: ahí funciona siempre.</small>");
-    return;
-  }
-  $("viZona").innerHTML = `<video controls playsinline src="${URL.createObjectURL(videoBlob)}"></video>`;
-  estadoVideo(tipo === "video/mp4"
-    ? "Vídeo listo."
-    : "Vídeo listo.<small>Está en formato WebM: en el ordenador se ve bien, pero algunos móviles no lo abren. Si lo grabas desde Chrome o Safari actualizados sale en MP4.</small>");
-  $("viGuardar").hidden = false;
-}
-
-document.querySelectorAll("[data-video]").forEach(b => b.addEventListener("click", grabarVideo));
-$("viGuardar").addEventListener("click", () => {
-  if (!videoBlob) return;
-  const ext = videoBlob.type === "video/mp4" ? "mp4" : "webm";
-  entregar(videoBlob, `el-carrete-${slug(datos.titulo || "2bach")}.${ext}`, $("video"));
-});
-$("viCerrar").addEventListener("click", () => $("video").close());
-$("video").addEventListener("close", () => {
-  if (grabando) { grabando.cancelado = true; grabando = null; }
-  const v = $("viZona").querySelector("video"); if (v) { v.pause(); URL.revokeObjectURL(v.src); }
-  $("viZona").innerHTML = "";
 });
 
 /* ============ ARRANQUE ============ */
