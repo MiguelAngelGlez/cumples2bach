@@ -5,14 +5,14 @@
   "fotos": [
     {
       "id": 1,
-      "nombre": "Granada",
+      "nombre": "Granada Suai",
       "fecha": "12/08/2009",
       "edad": 18,
       "foto": "fotos/Granada.jpg"
     },
     {
       "id": 2,
-      "nombre": "Blanca",
+      "nombre": "Blanca Arteaga",
       "fecha": "15/07/2009",
       "edad": 18,
       "foto": "fotos/Blanca.jpg"
@@ -41,13 +41,13 @@
     {
       "id": 6,
       "nombre": "Irene Coca",
-      "fecha": "23/09/2009",
+      "fecha": "24/09/2009",
       "edad": 17,
       "foto": "fotos/IreneCoca.jpg"
     },
     {
       "id": 7,
-      "nombre": "Carlota",
+      "nombre": "Carlota Delgado",
       "fecha": "14/05/2009",
       "edad": 18,
       "foto": "fotos/Carlota.jpg"
@@ -61,56 +61,56 @@
     },
     {
       "id": 9,
-      "nombre": "Carla",
+      "nombre": "Carla Domínguez",
       "fecha": "6/06/2009",
       "edad": 18,
       "foto": "fotos/Carla.jpg"
     },
     {
       "id": 10,
-      "nombre": "Rubén",
+      "nombre": "Rubén Fernández",
       "fecha": "3/08/2009",
       "edad": 18,
       "foto": "fotos/Ruben.jpg"
     },
     {
       "id": 11,
-      "nombre": "Irene",
+      "nombre": "Irene Fernández",
       "fecha": "5/12/2009",
       "edad": 17,
       "foto": "fotos/Irene.jpg"
     },
     {
       "id": 12,
-      "nombre": "Ana",
+      "nombre": "Ana Gandullo",
       "fecha": "26/11/2009",
       "edad": 17,
       "foto": "fotos/Ana.jpg"
     },
     {
       "id": 13,
-      "nombre": "Aitana",
+      "nombre": "Aitana Lafuente",
       "fecha": "16/04/2008",
       "edad": 19,
       "foto": "fotos/Aitana.jpg"
     },
     {
       "id": 14,
-      "nombre": "Adrián",
+      "nombre": "Adrián León",
       "fecha": "9/07/2009",
       "edad": 18,
       "foto": "fotos/Adrian.jpg"
     },
     {
       "id": 15,
-      "nombre": "Jesús",
+      "nombre": "Jesús León",
       "fecha": "30/06/2009",
       "edad": 18,
       "foto": "fotos/Jesus.jpg"
     },
     {
       "id": 16,
-      "nombre": "José",
+      "nombre": "José Lozano",
       "fecha": "2/05/2009",
       "edad": 18,
       "foto": "fotos/Jose.jpg"
@@ -152,7 +152,7 @@
     },
     {
       "id": 22,
-      "nombre": "Andrea",
+      "nombre": "Andrea Romero",
       "fecha": "24/07/2007",
       "edad": 20,
       "foto": "fotos/Andrea.jpg"
@@ -166,42 +166,42 @@
     },
     {
       "id": 24,
-      "nombre": "Aitor",
+      "nombre": "Aitor Ruiz",
       "fecha": "8/01/2008",
       "edad": 19,
       "foto": "fotos/Aitor.jpg"
     },
     {
       "id": 25,
-      "nombre": "Lorena",
+      "nombre": "Lorena Ruíz",
       "fecha": "17/10/2009",
       "edad": 17,
       "foto": "fotos/Lorena.jpg"
     },
     {
       "id": 26,
-      "nombre": "Mónica",
+      "nombre": "Mónica Sancho",
       "fecha": "02/01/2009",
       "edad": 18,
       "foto": "fotos/Monica.jpg"
     },
     {
       "id": 27,
-      "nombre": "Roberto",
+      "nombre": "Roberto Suárez",
       "fecha": "15/10/2009",
       "edad": 17,
       "foto": "fotos/Roberto.jpg"
     },
     {
       "id": 28,
-      "nombre": "María",
+      "nombre": "María Torres",
       "fecha": "14/06/2009",
       "edad": 18,
       "foto": "fotos/Maria.jpg"
     },
     {
       "id": 29,
-      "nombre": "Lola",
+      "nombre": "Lola Vergara",
       "fecha": "3/08/2009",
       "edad": 18,
       "foto": "fotos/Lola.jpg"
