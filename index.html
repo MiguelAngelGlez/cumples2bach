@@ -229,6 +229,120 @@ h1{
 
 .vacio-msg{padding:40px 5vw 0;color:var(--suave);font-size:18px;max-width:34em}
 
+/* ============ EL AULA ============ */
+.aula-caja{max-width:1320px;margin:0 auto;padding:clamp(70px,10vw,140px) 5vw 0}
+.aula-caja[hidden]{display:none}
+.aula-caja h2{
+  margin:0;font-family:var(--titulo);font-weight:900;text-transform:uppercase;
+  font-size:clamp(44px,7vw,96px);line-height:.86;color:var(--papel);
+}
+.aula-caja > p{margin:16px 0 0;max-width:32em;color:var(--suave);font-size:clamp(16px,1.5vw,19px)}
+.aula-scroll{overflow-x:auto;margin-top:clamp(30px,4vw,44px);-webkit-overflow-scrolling:touch}
+.aula{
+  width:max-content;min-width:100%;padding:26px clamp(16px,3vw,44px) 30px;border-radius:6px;
+  background-color:#231012;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:46px 46px;box-shadow:inset 0 0 0 1px rgba(242,228,223,.08);
+}
+.pizarra{
+  margin:0 auto 38px;width:min(62%,520px);min-width:180px;height:20px;border-radius:2px;
+  background:#2e4a3b;box-shadow:0 0 0 4px #6e4c33;
+  font-size:11px;line-height:20px;text-align:center;color:rgba(255,255,255,.55);letter-spacing:.04em;
+}
+.aula-fila{display:flex;justify-content:center;gap:clamp(6px,1vw,12px);margin-bottom:26px}
+.aula-fila:last-child{margin-bottom:6px}
+.aula-pasillo{flex:none;width:clamp(20px,4vw,52px)}
+.pupitre{
+  position:relative;flex:none;width:clamp(60px,7vw,86px);
+  display:flex;flex-direction:column;align-items:center;gap:6px;padding:9px 4px 8px;
+  border:0;border-radius:6px;background:#3a1b1c;color:var(--suave);
+  font-size:12px;font-weight:600;cursor:default;
+}
+.pupitre::after{
+  content:"";position:absolute;left:28%;right:28%;bottom:-10px;height:6px;border-radius:0 0 6px 6px;background:#301516;
+}
+.pp-foto{
+  width:clamp(34px,4.4vw,48px);aspect-ratio:1;border-radius:50%;overflow:hidden;
+  display:grid;place-items:center;background:#291213;
+  font-family:var(--titulo);font-weight:700;font-size:13px;line-height:1;color:#8a6560;text-align:center;
+}
+.pp-foto img{width:100%;height:100%;object-fit:cover}
+.pp-nom{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pupitre.encendido{
+  cursor:pointer;background:#4c2517;color:var(--papel);
+  box-shadow:0 0 0 1.5px var(--ambar),0 0 28px rgba(255,162,51,.32);
+}
+.pupitre.encendido .pp-foto{box-shadow:0 0 0 2px var(--ambar)}
+.pupitre.encendido:hover,.pupitre.encendido:focus-visible{background:#5c2d1b}
+.pupitre.hoy{animation:late 2.4s ease-in-out infinite}
+@keyframes late{50%{box-shadow:0 0 0 2px var(--ambar),0 0 44px rgba(255,162,51,.65)}}
+.pupitre.futuro{cursor:help}
+.pupitre.vacio{background:transparent;box-shadow:inset 0 0 0 1px rgba(242,228,223,.1)}
+.pupitre.vacio::after{background:rgba(242,228,223,.06)}
+.pupitre.vacio .pp-foto{visibility:hidden}
+
+/* ============ PROYECTOR ============ */
+.btn-secundario{
+  padding:13px 22px;border-radius:4px;cursor:pointer;font-weight:700;font-size:16px;
+  border:1.5px solid rgba(242,228,223,.35);background:transparent;color:var(--texto);
+}
+.btn-secundario:hover{background:rgba(242,228,223,.1)}
+.tendedero-cab .btn-secundario{margin-top:22px;font-size:15px;padding:11px 18px}
+
+.proyector{position:fixed;inset:0;z-index:80;background:#000;color:#f4ecdf;overflow:hidden}
+.proyector[hidden]{display:none}
+.proyector.quieto{cursor:none}
+.pr-pantalla{position:absolute;inset:0;display:grid;place-items:center;padding:4vh 4vw 12vh}
+.pr-diapo{display:grid;place-items:center;width:100%;height:100%;transition:opacity .35s ease,translate .5s cubic-bezier(.2,.8,.2,1)}
+.pr-diapo.cae{opacity:0;translate:0 -2.5%;transition:none}
+.pr-foto{margin:0;display:grid;justify-items:center;gap:2.2vh;max-height:100%}
+.pr-marco{position:relative;width:fit-content}
+.pr-marco img{
+  max-width:88vw;max-height:70vh;width:auto;height:auto;
+  filter:sepia(.14) saturate(1.06) contrast(1.04);
+  box-shadow:0 0 140px rgba(255,214,160,.12);
+}
+.pr-marco .sello{height:clamp(14px,1.8vw,24px);right:14px;bottom:12px}
+.pr-pie{display:grid;justify-items:center;gap:4px;text-align:center}
+.pr-pie .nombre{font-family:var(--mano);font-size:clamp(34px,4.4vw,64px);line-height:1.1}
+.pr-pie .datos{font-size:clamp(14px,1.3vw,18px);color:#b8a996}
+.pr-titulo{text-align:center}
+.pr-titulo h2{
+  margin:0;font-family:var(--titulo);font-weight:900;text-transform:uppercase;
+  font-size:clamp(60px,11vw,190px);line-height:.82;color:#f4ecdf;
+}
+.pr-titulo p{margin:3vh 0 0;font-size:clamp(16px,1.6vw,22px);color:#b8a996}
+.pr-fin{max-width:26em;text-align:center;font-family:var(--mano);font-size:clamp(28px,3.6vw,52px);line-height:1.3}
+/* la lámpara: viñeta, parpadeo y el fogonazo entre diapositivas */
+.proyector::before{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,0) 55%,rgba(0,0,0,.65) 100%);
+}
+.proyector::after{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:rgba(255,236,200,.035);
+  animation:parpadeo .18s steps(2,end) infinite;
+}
+@keyframes parpadeo{50%{background:rgba(255,236,200,0)}}
+.pr-luz{
+  position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;
+  background:radial-gradient(ellipse at center,rgba(255,244,222,.95),rgba(255,226,180,.55) 55%,rgba(0,0,0,0) 90%);
+  transition:opacity .45s ease;
+}
+.pr-luz.on{opacity:1;transition:none}
+.pr-controles{
+  position:absolute;left:0;right:0;bottom:0;z-index:4;
+  display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;
+  padding:14px 14px calc(18px + env(safe-area-inset-bottom,0px));
+  background:linear-gradient(0deg,rgba(0,0,0,.75),rgba(0,0,0,0));transition:opacity .4s ease;
+}
+.proyector.quieto .pr-controles{opacity:0}
+.pr-controles button{
+  padding:10px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:15px;
+  border:1px solid rgba(244,236,223,.25);background:rgba(244,236,223,.08);color:#f4ecdf;
+}
+.pr-controles button:hover{background:rgba(244,236,223,.18)}
+.pr-cuenta{min-width:64px;text-align:center;font-family:var(--titulo);font-weight:700;font-size:17px;color:#b8a996}
+
 /* ============ LO QUE SE QUEDA ============ */
 .recuerdo{max-width:1320px;margin:0 auto;padding:clamp(70px,10vw,140px) 5vw 30px}
 .recuerdo h2{
@@ -290,7 +404,9 @@ dialog.visor::backdrop{background:rgba(22,5,6,.9);backdrop-filter:blur(5px)}
 .foto-marco .sello{height:clamp(14px,2.6vw,20px);right:12px;bottom:10px}
 .frente-pie{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:8px 4px 12px}
 .frente-pie .nombre{font-family:var(--mano);font-size:clamp(28px,5vw,38px);line-height:1.15}
-.frente-pie .edad{font-size:14px;font-weight:600;color:#7e7168}
+.frente-pie .edad{display:grid;justify-items:end;gap:1px;font-size:14px;font-weight:600;color:#7e7168;text-align:right}
+.frente-pie .tiempo{font-weight:500;color:#968a80}
+.frente-pie .tiempo:empty{display:none}
 
 .dorso{
   transform:rotateY(180deg);overflow-y:auto;overscroll-behavior:contain;
@@ -399,18 +515,28 @@ dialog .toast{bottom:96px}
   <div class="tendedero-cab">
     <h2>Colgadas<br>a secar</h2>
     <p>Toca una foto para verla en grande. Dale la vuelta: detrás se escriben las dedicatorias.</p>
+    <button class="btn-secundario" type="button" data-proyector>Ver en modo proyector</button>
   </div>
   <div id="cordeles"></div>
 </main>
 
+<section class="aula-caja" id="aulaCaja" hidden aria-labelledby="aulaTitulo">
+  <h2 id="aulaTitulo">Cada uno<br>en su sitio</h2>
+  <p>Cada pupitre se enciende el día que cumple quien se sienta en él. Toca uno para ver su foto.</p>
+  <div class="aula-scroll">
+    <div class="aula"><div class="pizarra">Pizarra</div><div id="aulaFilas"></div></div>
+  </div>
+</section>
+
 <section class="recuerdo" aria-labelledby="recuerdoTitulo">
   <h2 id="recuerdoTitulo">Lo que<br>se queda</h2>
   <div class="recuerdo-texto">
-    <p>Algún día volveréis a abrir esta página y ahí seguiréis todos: con las caras de entonces, en el día exacto en que cumplisteis diecisiete o dieciocho.</p>
+    <p>Tenéis miles de fotos en el móvil y no vais a volver a mirar casi ninguna. Estas son distintas: una por persona, hecha el día de su cumpleaños, con la clase alrededor.</p>
     <p class="cierre">Ninguna foto se repite ni se retoca. Salen como salen, y por eso valen.</p>
   </div>
   <div class="hoja-cta">
     <button class="btn-hoja" id="abrirHoja" type="button">Ver la hoja de contactos</button>
+    <button class="btn-secundario" type="button" data-proyector>Modo proyector</button>
     <span id="hojaTxt">Todas las fotos del curso en una sola imagen, para guardarla.</span>
   </div>
 </section>
@@ -430,7 +556,7 @@ dialog .toast{bottom:96px}
       <div class="carta" id="carta">
         <div class="cara frente" id="frente">
           <div class="foto"><div class="foto-marco" id="vMarco"><img id="vImg" alt=""></div></div>
-          <div class="frente-pie"><span class="nombre" id="vNombre"></span><span class="edad" id="vEdad"></span></div>
+          <div class="frente-pie"><span class="nombre" id="vNombre"></span><span class="edad"><span id="vEdad"></span><span class="tiempo" id="vTiempo"></span></span></div>
         </div>
         <div class="cara dorso" id="dorso" aria-hidden="true">
           <h3 id="dPara"></h3>
@@ -470,6 +596,18 @@ dialog .toast{bottom:96px}
   <div class="toast" id="toastVisor" role="status" aria-live="polite"></div>
 </dialog>
 
+<div class="proyector" id="proyector" hidden role="dialog" aria-modal="true" aria-label="Modo proyector">
+  <div class="pr-pantalla"><div class="pr-diapo" id="prDiapo"></div></div>
+  <div class="pr-luz" id="prLuz" aria-hidden="true"></div>
+  <div class="pr-controles">
+    <button id="prAnt" aria-label="Diapositiva anterior">‹</button>
+    <button id="prPausa">Pausa</button>
+    <button id="prSig" aria-label="Diapositiva siguiente">›</button>
+    <span class="pr-cuenta" id="prCuenta"></span>
+    <button id="prSalir">Salir</button>
+  </div>
+</div>
+
 <dialog class="visor" id="hoja" aria-label="Hoja de contactos del curso">
   <button class="cerrar" id="hCerrar" aria-label="Cerrar">×</button>
   <div class="hoja-dentro">
@@ -487,7 +625,9 @@ dialog .toast{bottom:96px}
 ============================================================ */
 const URL_MENSAJES =
 "https://script.google.com/macros/s/AKfycbx2ttHOz5Ni5pITnqZKdVAkkPC39WF8H7UWjmJQgSvGGv3gWiVxdsjhKGdMqKmUf0N2pg/exec";
-const DIAS_SIN_REVELAR = 14;   // una foto nueva aparece "sin revelar" durante estos días
+const DIAS_SIN_REVELAR = 14;
+const LUGAR = { nombre: "Guillena", lat: 37.5406, lon: -6.0603 };  // para el tiempo de cada día
+const SEGUNDOS_DIAPO = 7;                                           // modo proyector   // una foto nueva aparece "sin revelar" durante estos días
 
 const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
 const MESES_CORTO = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
@@ -760,6 +900,7 @@ function pintarVisor() {
   $("vMarco").insertAdjacentHTML("beforeend", selloSVG(estampa(p.f)));
   $("vNombre").textContent = p.nombre;
   $("vEdad").textContent = p.edad ? `${p.edad} años, ${fechaLarga(p.f)}` : fechaLarga(p.f);
+  $("vTiempo").textContent = textoTiempo(p);
   $("dPara").textContent = `Para ${p.nombre}`;
   $("dSub").textContent = `Dedicatorias escritas por detrás de la foto del ${fechaLarga(p.f)}.`;
   $("dNota").textContent = p.nota || ""; $("dNota").hidden = !p.nota;
@@ -974,6 +1115,7 @@ async function generarCopia(p) {
   g.font = `600 ${Math.round(pie * .15)}px Figtree, sans-serif`;
   g.fillText(`${datos.titulo || "2º Bach"}${datos.curso ? ", curso " + datos.curso : ""}`, m + w, base - pie * .2);
   g.fillText(p.edad ? `${p.edad} años, ${fechaLarga(p.f)}` : fechaLarga(p.f), m + w, base);
+  if (p.tiempo) { g.font = `500 ${Math.round(pie * .13)}px Figtree, sans-serif`; g.fillText(textoTiempo(p), m + w, base + pie * .2); }
   return aBlob(lienzo);
 }
 
@@ -1118,13 +1260,206 @@ document.addEventListener("click", e => {
     if (copia.classList.contains("revelando")) return;
     abrir(copia.dataset.id); return;
   }
-  const f = e.target.closest(".fotograma");
+  const f = e.target.closest(".fotograma, .pupitre");
   if (f?.dataset.id) { abrir(f.dataset.id); return; }
   if (f?.dataset.futuro) {
     const p = alumnos.find(x => String(x.id) === f.dataset.futuro);
     const faltan = dias(HOY, p.f);
     toast(`${p.nombre} se revela el ${fechaLarga(p.f)}${faltan > 0 ? ` (faltan ${faltan} días)` : ""}.`);
   }
+});
+
+/* ============ EL TIEMPO DE CADA DÍA (Open-Meteo, gratis y sin clave) ============ */
+const iso = f => `${f.getFullYear()}-${dos(f.getMonth() + 1)}-${dos(f.getDate())}`;
+function cielo(c) {
+  if (c === 0) return "despejado";
+  if (c === 1) return "casi despejado";
+  if (c === 2) return "nubes y claros";
+  if (c === 3) return "nublado";
+  if (c === 45 || c === 48) return "niebla";
+  if (c >= 51 && c <= 57) return "llovizna";
+  if (c >= 61 && c <= 67) return c >= 65 ? "lluvia fuerte" : "lluvia";
+  if (c >= 71 && c <= 77) return "nieve";
+  if (c >= 80 && c <= 82) return "chubascos";
+  if (c >= 95) return "tormenta";
+  return "";
+}
+function textoTiempo(p) {
+  if (!p.tiempo) return "";
+  const c = cielo(p.tiempo.code);
+  return `${LUGAR.nombre}, ${p.tiempo.max} °C${c ? ", " + c : ""}`;
+}
+async function cargarTiempo() {
+  if (!colgadas.length) return;
+  const CLAVE = "carrete2bach-tiempo";
+  let guardado = {};
+  try { guardado = JSON.parse(localStorage.getItem(CLAVE) || "{}"); } catch (e) {}
+  const fechas = colgadas.map(p => iso(p.f));
+  const faltan = fechas.filter(d => !guardado[d]);
+  const deHoy = {};
+
+  if (faltan.length) {
+    const ini = faltan.reduce((a, b) => a < b ? a : b), fin = faltan.reduce((a, b) => a > b ? a : b);
+    const base = `latitude=${LUGAR.lat}&longitude=${LUGAR.lon}&daily=weather_code,temperature_2m_max&timezone=Europe%2FMadrid`;
+    const pedir = url => fetch(url).then(r => r.ok ? r.json() : null).catch(() => null);
+    const [reciente, historico] = await Promise.all([
+      pedir(`https://api.open-meteo.com/v1/forecast?${base}&past_days=92&forecast_days=1`),
+      pedir(`https://archive-api.open-meteo.com/v1/archive?${base}&start_date=${ini}&end_date=${fin}`)
+    ]);
+    const hoyIso = iso(new Date());
+    for (const fuente of [reciente, historico]) {
+      const d = fuente && fuente.daily;
+      if (!d) continue;
+      d.time.forEach((t, i) => {
+        const max = d.temperature_2m_max[i], code = d.weather_code[i];
+        if (max == null || code == null || !fechas.includes(t)) return;
+        const dato = { max: Math.round(max), code };
+        if (t < hoyIso) guardado[t] = dato; else deHoy[t] = dato;   // el de hoy aún puede cambiar
+      });
+    }
+    try { localStorage.setItem(CLAVE, JSON.stringify(guardado)); } catch (e) {}
+  }
+  colgadas.forEach(p => { p.tiempo = guardado[iso(p.f)] || deHoy[iso(p.f)] || null; });
+  if ($("visor").open && colgadas[actual]) $("vTiempo").textContent = textoTiempo(colgadas[actual]);
+}
+
+/* ============ EL AULA ============ */
+function pintarAula() {
+  if (!Array.isArray(datos.aula) || !datos.aula.length) return;
+  const porId = new Map(alumnos.map(p => [String(p.id), p]));
+  $("aulaFilas").innerHTML = datos.aula.map(linea => {
+    const piezas = String(linea).trim().split(/\s+/).filter(Boolean);
+    return `<div class="aula-fila">${piezas.map(t => {
+      if (t === "|") return `<span class="aula-pasillo" aria-hidden="true"></span>`;
+      if (t === "-") return `<div class="pupitre vacio" aria-hidden="true"><span class="pp-foto"></span><span class="pp-nom">&nbsp;</span></div>`;
+      const p = porId.get(t);
+      // alguien que aún no está en datos.json: pupitre apagado
+      if (!p) return `<div class="pupitre" aria-hidden="true"><span class="pp-foto">?</span><span class="pp-nom">&nbsp;</span></div>`;
+      if (p.revelado) {
+        return `<button class="pupitre encendido${p.esHoy ? " hoy" : ""}" data-id="${esc(p.id)}" aria-label="Ver la foto de ${esc(p.nombre)}">
+          <span class="pp-foto"><img src="${esc(p.foto)}" alt="" loading="lazy"></span><span class="pp-nom">${esc(p.nombre)}</span></button>`;
+      }
+      return `<button class="pupitre futuro" data-futuro="${esc(p.id)}" aria-label="${esc(p.nombre)}: se enciende el ${fechaLarga(p.f)}">
+        <span class="pp-foto">${p.f.getDate()}<br>${MESES_CORTO[p.f.getMonth()]}</span><span class="pp-nom">${esc(p.nombre)}</span></button>`;
+    }).join("")}</div>`;
+  }).join("");
+  $("aulaCaja").hidden = false;
+}
+
+/* ============ MODO PROYECTOR ============ */
+let diapos = [], diapo = 0, prTimer = null, prPausado = false, prQuieto = null;
+
+function clacProyector() {
+  if (reducir) return;
+  try {
+    audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+    const t = audio.currentTime;
+    [[0, 900, .5], [.16, 420, .7]].forEach(([d, fr, vol]) => {
+      const n = audio.createBuffer(1, audio.sampleRate * .07, audio.sampleRate);
+      const c = n.getChannelData(0);
+      for (let i = 0; i < c.length; i++) c[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / c.length, 4);
+      const src = audio.createBufferSource(); src.buffer = n;
+      const f = audio.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = fr; f.Q.value = 1.4;
+      const v = audio.createGain(); v.gain.value = vol;
+      src.connect(f).connect(v).connect(audio.destination); src.start(t + d);
+    });
+  } catch (e) {}
+}
+
+function htmlDiapo(d) {
+  if (d.tipo === "titulo") {
+    return `<div class="pr-titulo"><h2>El carrete<br>de ${esc(datos.titulo || "2º Bach")}</h2>
+      <p>IES El Molinillo${datos.curso ? ", curso " + esc(datos.curso) : ""}</p></div>`;
+  }
+  if (d.tipo === "fin") return `<p class="pr-fin">Salen como salen, y por eso valen.</p>`;
+  const p = d.p;
+  const lineas = [p.edad ? `${p.edad} años, ${fechaLarga(p.f)}` : fechaLarga(p.f), textoTiempo(p)].filter(Boolean);
+  return `<figure class="pr-foto">
+    <div class="pr-marco"><img src="${esc(p.foto)}" alt="${esc(p.nombre)}">${selloSVG(estampa(p.f))}</div>
+    <figcaption class="pr-pie"><span class="nombre">${esc(p.nombre)}</span>${lineas.map(l => `<span class="datos">${esc(l)}</span>`).join("")}</figcaption>
+  </figure>`;
+}
+
+function verDiapo(i, conEfecto = true) {
+  diapo = (i + diapos.length) % diapos.length;
+  const caja = $("prDiapo"), luz = $("prLuz");
+  const poner = () => {
+    caja.innerHTML = htmlDiapo(diapos[diapo]);
+    const fotos = diapos.length - 2;
+    $("prCuenta").textContent = diapos[diapo].tipo === "foto" ? `${diapo} / ${fotos}` : "";
+    caja.classList.add("cae");
+    requestAnimationFrame(() => requestAnimationFrame(() => caja.classList.remove("cae")));
+    // precarga la siguiente
+    const sig = diapos[(diapo + 1) % diapos.length];
+    if (sig.tipo === "foto") { const im = new Image(); im.src = sig.p.foto; }
+  };
+  if (conEfecto && !reducir) {
+    clacProyector();
+    luz.classList.add("on");
+    setTimeout(() => { poner(); requestAnimationFrame(() => luz.classList.remove("on")); }, 190);
+  } else poner();
+  programar();
+}
+
+function programar() {
+  clearTimeout(prTimer);
+  if (!prPausado && !$("proyector").hidden) prTimer = setTimeout(() => verDiapo(diapo + 1), SEGUNDOS_DIAPO * 1000);
+}
+
+function abrirProyector() {
+  if (!colgadas.length) { toast("Todavía no hay fotos que proyectar."); return; }
+  diapos = [{ tipo: "titulo" }, ...[...colgadas].reverse().map(p => ({ tipo: "foto", p })), { tipo: "fin" }];
+  const pr = $("proyector");
+  pr.hidden = false;
+  document.body.style.overflow = "hidden";
+  prPausado = false; $("prPausa").textContent = "Pausa";
+  if (pr.requestFullscreen) pr.requestFullscreen().catch(() => {});
+  verDiapo(0, false);
+  despertar();
+  $("prSig").focus();
+}
+function cerrarProyector() {
+  const pr = $("proyector");
+  if (pr.hidden) return;
+  pr.hidden = true;
+  clearTimeout(prTimer); clearTimeout(prQuieto);
+  document.body.style.overflow = "";
+  if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+}
+function despertar() {
+  const pr = $("proyector");
+  pr.classList.remove("quieto");
+  clearTimeout(prQuieto);
+  prQuieto = setTimeout(() => pr.classList.add("quieto"), 2600);
+}
+
+document.querySelectorAll("[data-proyector]").forEach(b => b.addEventListener("click", abrirProyector));
+$("prSig").addEventListener("click", () => verDiapo(diapo + 1));
+$("prAnt").addEventListener("click", () => verDiapo(diapo - 1));
+$("prSalir").addEventListener("click", cerrarProyector);
+$("prPausa").addEventListener("click", () => {
+  prPausado = !prPausado;
+  $("prPausa").textContent = prPausado ? "Seguir" : "Pausa";
+  programar();
+});
+$("proyector").addEventListener("mousemove", despertar);
+$("proyector").addEventListener("touchstart", despertar, { passive: true });
+document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement) cerrarProyector(); });
+document.addEventListener("keydown", e => {
+  if ($("proyector").hidden) return;
+  if (e.key === "ArrowRight") verDiapo(diapo + 1);
+  else if (e.key === "ArrowLeft") verDiapo(diapo - 1);
+  else if (e.key === " ") { e.preventDefault(); $("prPausa").click(); }
+  else if (e.key === "Escape") cerrarProyector();
+  else return;
+  despertar();
+});
+let prToqueX = null;
+$("proyector").addEventListener("touchstart", e => { prToqueX = e.touches[0].clientX; }, { passive: true });
+$("proyector").addEventListener("touchend", e => {
+  if (prToqueX === null) return;
+  const dx = e.changedTouches[0].clientX - prToqueX; prToqueX = null;
+  if (Math.abs(dx) > 50) verDiapo(diapo + (dx < 0 ? 1 : -1));
 });
 
 /* ============ ARRANQUE ============ */
@@ -1144,6 +1479,8 @@ fetch("datos.json", { cache: "no-store" })
     pintarPelicula(total);
     pintarTendedero();
     pintarTextos(total);
+    pintarAula();
+    cargarTiempo();
 
     const porEnlace = () => {
       const m = location.hash.match(/^#cumple-(.+)$/);
