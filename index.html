@@ -239,13 +239,18 @@ h1{
 .vacio-msg{padding:40px 5vw 0;color:var(--suave);font-size:18px;max-width:34em}
 
 /* ============ EL AULA ============ */
-.aula-caja{max-width:1320px;margin:0 auto;padding:clamp(70px,10vw,140px) 5vw 0}
-.aula-caja[hidden]{display:none}
-.aula-caja h2{
-  margin:0;font-family:var(--titulo);font-weight:900;text-transform:uppercase;
-  font-size:clamp(44px,7vw,96px);line-height:.86;color:var(--papel);
+.plano-dentro{
+  height:100%;overflow:auto;overscroll-behavior:contain;
+  padding:calc(64px + env(safe-area-inset-top,0px)) 5vw calc(40px + env(safe-area-inset-bottom,0px));
+  max-width:1320px;margin:0 auto;
 }
-.aula-caja > p{margin:16px 0 0;max-width:32em;color:var(--suave);font-size:clamp(16px,1.5vw,19px)}
+.plano-dentro h2{
+  margin:0;font-family:var(--titulo);font-weight:900;text-transform:uppercase;
+  font-size:clamp(40px,6vw,84px);line-height:.86;color:var(--papel);
+}
+.plano-dentro > p{margin:14px 0 0;max-width:32em;color:var(--suave);font-size:clamp(15px,1.4vw,18px)}
+.cab-botones{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.tendedero-cab .cab-botones .btn-secundario{margin-top:0}
 .aula-scroll{overflow-x:auto;margin-top:clamp(30px,4vw,44px);-webkit-overflow-scrolling:touch}
 .aula{
   width:max-content;min-width:100%;padding:26px clamp(16px,3vw,44px) 30px;border-radius:6px;
@@ -258,8 +263,10 @@ h1{
   background:#2e4a3b;box-shadow:0 0 0 4px #6e4c33;
   font-size:11px;line-height:20px;text-align:center;color:rgba(255,255,255,.55);letter-spacing:.04em;
 }
-.aula-fila{display:flex;justify-content:center;gap:clamp(6px,1vw,12px);margin-bottom:26px}
-.aula-fila:last-child{margin-bottom:6px}
+/* cada fila tiene los mismos bloques, para que los pasillos queden alineados */
+#aulaFilas{display:grid;grid-template-columns:repeat(var(--bloques),auto);justify-content:center;column-gap:clamp(24px,5vw,72px);row-gap:28px}
+.aula-fila{display:contents}
+.aula-bloque{display:flex;justify-content:center;gap:clamp(6px,1vw,12px)}
 .aula-pasillo{flex:none;width:clamp(20px,4vw,52px)}
 .pupitre{
   position:relative;flex:none;width:clamp(60px,7vw,86px);
@@ -535,18 +542,13 @@ dialog .toast{bottom:96px}
   <div class="tendedero-cab">
     <h2>Colgadas<br>a secar</h2>
     <p>Toca una foto para verla en grande. Dale la vuelta: detrás se escriben las dedicatorias.</p>
-    <button class="btn-secundario" type="button" data-proyector>Ver en modo proyector</button>
+    <div class="cab-botones">
+      <button class="btn-secundario" type="button" data-proyector>Ver en modo proyector</button>
+      <button class="btn-secundario" type="button" id="abrirPlano">Ver el plano de la clase</button>
+    </div>
   </div>
   <div id="cordeles"></div>
 </main>
-
-<section class="aula-caja" id="aulaCaja" hidden aria-labelledby="aulaTitulo">
-  <h2 id="aulaTitulo">Cada uno<br>en su sitio</h2>
-  <p>Cada pupitre se enciende el día que cumple quien se sienta en él. Toca uno para ver su foto.</p>
-  <div class="aula-scroll">
-    <div class="aula"><div class="pizarra">Pizarra</div><div id="aulaFilas"></div></div>
-  </div>
-</section>
 
 <section class="recuerdo" aria-labelledby="recuerdoTitulo">
   <h2 id="recuerdoTitulo">Lo que<br>se queda</h2>
@@ -556,7 +558,6 @@ dialog .toast{bottom:96px}
   </div>
   <div class="hoja-cta">
     <button class="btn-hoja" id="abrirHoja" type="button">Ver la hoja de contactos</button>
-    <button class="btn-secundario" type="button" data-video>Descargar el vídeo</button>
     <span id="hojaTxt">Todas las fotos del curso en una sola imagen, para guardarla.</span>
   </div>
 </section>
@@ -629,6 +630,18 @@ dialog .toast{bottom:96px}
   </div>
 </div>
 
+<dialog class="visor" id="plano" aria-labelledby="planoTitulo">
+  <button class="cerrar" id="plCerrar" aria-label="Cerrar">×</button>
+  <div class="plano-dentro">
+    <h2 id="planoTitulo">Cada uno<br>en su sitio</h2>
+    <p>Cada pupitre se enciende el día que cumple quien se sienta en él. Toca uno para ver su foto.</p>
+    <div class="aula-scroll">
+      <div class="aula"><div class="pizarra">Pizarra</div><div id="aulaFilas"></div></div>
+    </div>
+  </div>
+  <div class="toast" id="toastPlano" role="status" aria-live="polite"></div>
+</dialog>
+
 <dialog class="visor" id="video" aria-label="Vídeo del carrete">
   <button class="cerrar" id="viCerrar" aria-label="Cerrar">×</button>
   <div class="hoja-dentro">
@@ -660,7 +673,15 @@ const URL_MENSAJES =
 "https://script.google.com/macros/s/AKfycbx2ttHOz5Ni5pITnqZKdVAkkPC39WF8H7UWjmJQgSvGGv3gWiVxdsjhKGdMqKmUf0N2pg/exec";
 const DIAS_SIN_REVELAR = 14;
 const LUGAR = { nombre: "Guillena", lat: 37.5406, lon: -6.0603 };  // para el tiempo de cada día
-const SEGUNDOS_DIAPO = 7;                                           // modo proyector   // una foto nueva aparece "sin revelar" durante estos días
+const SEGUNDOS_DIAPO = 7;                                           // modo proyector
+/* dónde se sienta cada uno (por id). Primera línea: la fila pegada a la pizarra.
+   "|" es un pasillo y "-" un pupitre vacío. */
+const PLANO_CLASE = [
+  "29 26 3 | 11 17 20 | 9 27",
+  "18 28 | 8 19 | 25 7",
+  "5 6 | 16 15 | 23 24",
+  "2 12 22 | 14 21 10 | 13 1 4"
+];   // una foto nueva aparece "sin revelar" durante estos días
 
 const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
 const MESES_CORTO = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
@@ -767,7 +788,7 @@ function clic() {
 
 let temporizadorToast;
 function toast(texto) {
-  const t = $("video").open ? $("toastVideo") : $("hoja").open ? $("toastHoja") : $("visor").open ? $("toastVisor") : $("toast");
+  const t = $("visor").open ? $("toastVisor") : $("plano").open ? $("toastPlano") : $("video").open ? $("toastVideo") : $("hoja").open ? $("toastHoja") : $("visor").open ? $("toastVisor") : $("toast");
   t.textContent = texto; t.classList.add("ver");
   clearTimeout(temporizadorToast);
   temporizadorToast = setTimeout(() => t.classList.remove("ver"), 2800);
@@ -1386,7 +1407,7 @@ async function cargarTiempo() {
 /* ============ EL AULA ============ */
 function pintarAula() {
   const porId = new Map(alumnos.map(p => [String(p.id), p]));
-  let plano = Array.isArray(datos.aula) && datos.aula.length ? datos.aula : null;
+  let plano = Array.isArray(datos.aula) && datos.aula.length ? datos.aula : PLANO_CLASE;
   if (!plano) {
     // sin plano en datos.json: se reparten por id, de seis en seis, en parejas
     const ids = [...alumnos].sort((a, b) => (Number(a.id) || 0) - (Number(b.id) || 0)).map(p => String(p.id));
@@ -1397,28 +1418,32 @@ function pintarAula() {
       plano.push([f.slice(0, 2), f.slice(2, 4), f.slice(4, 6)].filter(x => x.length).map(x => x.join(" ")).join(" | "));
     }
   }
-  $("aulaFilas").innerHTML = plano.map(linea => {
-    const piezas = String(linea).trim().split(/\s+/).filter(Boolean);
-    return `<div class="aula-fila">${piezas.map(t => {
-      if (t === "|") return `<span class="aula-pasillo" aria-hidden="true"></span>`;
-      if (t === "-") return `<div class="pupitre vacio" aria-hidden="true"><span class="pp-foto"></span><span class="pp-nom">&nbsp;</span></div>`;
-      const p = porId.get(t);
-      // alguien que aún no está en datos.json: pupitre apagado
-      if (!p) return `<div class="pupitre" aria-hidden="true"><span class="pp-foto">?</span><span class="pp-nom">&nbsp;</span></div>`;
-      if (p.revelado && !p.foto) {
-        return `<button class="pupitre encendido" data-lab="${esc(p.id)}" aria-label="${esc(p.nombre)}: su foto aún se está revelando">
-          <span class="pp-foto">${esc(p.nombre.charAt(0))}</span><span class="pp-nom">${esc(p.nombre)}</span></button>`;
-      }
-      if (p.revelado) {
-        return `<button class="pupitre encendido${p.esHoy ? " hoy" : ""}" data-id="${esc(p.id)}" aria-label="Ver la foto de ${esc(p.nombre)}">
-          <span class="pp-foto"><img src="${esc(p.foto)}" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('${esc(p.nombre.charAt(0))}'))"></span><span class="pp-nom">${esc(p.nombre)}</span></button>`;
-      }
-      return `<button class="pupitre futuro" data-futuro="${esc(p.id)}" aria-label="${esc(p.nombre)}: se enciende el ${fechaLarga(p.f)}">
-        <span class="pp-foto">${p.f.getDate()}<br>${MESES_CORTO[p.f.getMonth()]}</span><span class="pp-nom">${esc(p.nombre)}</span></button>`;
-    }).join("")}</div>`;
+  const pupitre = t => {
+    if (t === "-") return `<div class="pupitre vacio" aria-hidden="true"><span class="pp-foto"></span><span class="pp-nom">&nbsp;</span></div>`;
+    const p = porId.get(t);
+    // alguien que aún no está en datos.json: pupitre apagado
+    if (!p) return `<div class="pupitre" aria-hidden="true"><span class="pp-foto">?</span><span class="pp-nom">&nbsp;</span></div>`;
+    if (p.revelado && !p.foto) {
+      return `<button class="pupitre encendido" data-lab="${esc(p.id)}" aria-label="${esc(p.nombre)}: su foto aún se está revelando">
+        <span class="pp-foto">${esc(p.nombre.charAt(0))}</span><span class="pp-nom">${esc(p.nombre)}</span></button>`;
+    }
+    if (p.revelado) {
+      return `<button class="pupitre encendido${p.esHoy ? " hoy" : ""}" data-id="${esc(p.id)}" aria-label="Ver la foto de ${esc(p.nombre)}">
+        <span class="pp-foto"><img src="${esc(p.foto)}" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('${esc(p.nombre.charAt(0))}'))"></span><span class="pp-nom">${esc(p.nombre)}</span></button>`;
+    }
+    return `<button class="pupitre futuro" data-futuro="${esc(p.id)}" aria-label="${esc(p.nombre)}: se enciende el ${fechaLarga(p.f)}">
+      <span class="pp-foto">${p.f.getDate()}<br>${MESES_CORTO[p.f.getMonth()]}</span><span class="pp-nom">${esc(p.nombre)}</span></button>`;
+  };
+  const filas = plano.map(linea => String(linea).split("|").map(b => b.trim().split(/\s+/).filter(Boolean)));
+  const bloques = Math.max(...filas.map(f => f.length));
+  $("aulaFilas").style.setProperty("--bloques", bloques);
+  $("aulaFilas").innerHTML = filas.map(f => {
+    while (f.length < bloques) f.push([]);
+    return `<div class="aula-fila">${f.map(b => `<div class="aula-bloque">${b.map(pupitre).join("")}</div>`).join("")}</div>`;
   }).join("");
-  $("aulaCaja").hidden = false;
 }
+$("abrirPlano").addEventListener("click", () => $("plano").showModal());
+$("plCerrar").addEventListener("click", () => $("plano").close());
 
 /* ============ MODO PROYECTOR ============ */
 let diapos = [], diapo = 0, prTimer = null, prPausado = false, prQuieto = null;
