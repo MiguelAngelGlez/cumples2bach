@@ -30,7 +30,7 @@
 }
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:clip}
 body{
   margin:0;min-height:100vh;
   background:var(--fondo);color:var(--texto);
@@ -293,7 +293,7 @@ h1{
   cursor:pointer;background:#4c2517;color:var(--papel);
   box-shadow:0 0 0 1.5px var(--ambar),0 0 28px rgba(255,162,51,.32);
 }
-.pupitre.encendido .pp-foto{box-shadow:0 0 0 2px var(--ambar)}
+.pupitre.encendido .pp-foto{box-shadow:0 0 0 2px var(--ambar);background:var(--ambar);color:var(--tinta);font-size:18px;font-weight:900}
 .pupitre.encendido:hover,.pupitre.encendido:focus-visible{background:#5c2d1b}
 .pupitre.hoy{animation:late 2.4s ease-in-out infinite}
 @keyframes late{50%{box-shadow:0 0 0 2px var(--ambar),0 0 44px rgba(255,162,51,.65)}}
@@ -364,6 +364,77 @@ h1{
 .pr-controles button:hover{background:rgba(244,236,223,.18)}
 .pr-cuenta{min-width:64px;text-align:center;font-family:var(--titulo);font-weight:700;font-size:17px;color:#b8a996}
 
+/* ============ ANIVERSARIO ============ */
+.aniversario{max-width:1320px;margin:0 auto;padding:0 5vw}
+.aniversario:empty{display:none}
+.aniv{
+  display:flex;flex-wrap:wrap;align-items:center;gap:22px 34px;margin-top:34px;padding:24px;
+  border-radius:6px;background:#2c1214;box-shadow:inset 0 0 0 1px rgba(255,162,51,.35),0 0 60px rgba(255,120,40,.12);
+}
+.aniv-foto{flex:none;padding:8px 8px 22px;border:0;background:var(--papel);rotate:-3deg;cursor:pointer;box-shadow:0 20px 30px -18px rgba(0,0,0,.9)}
+.aniv-foto img{width:clamp(140px,22vw,220px);height:auto}
+.aniv-texto{flex:1 1 280px}
+.aniv-titulo{margin:0;font-family:var(--titulo);font-weight:900;text-transform:uppercase;font-size:clamp(36px,5vw,64px);line-height:.9;color:var(--papel)}
+.aniv-texto p:not(.aniv-titulo){margin:12px 0 18px;max-width:30em;color:var(--suave);font-size:clamp(16px,1.5vw,19px)}
+
+/* ============ FICHA TÉCNICA ============ */
+.ficha-caja,.tapa-caja{max-width:1320px;margin:0 auto;padding:clamp(70px,10vw,140px) 5vw 0}
+.ficha-caja[hidden]{display:none}
+.ficha-caja h2,.tapa-caja h2{
+  margin:0;font-family:var(--titulo);font-weight:900;text-transform:uppercase;
+  font-size:clamp(44px,7vw,96px);line-height:.86;color:var(--papel);
+}
+.ficha-caja > p,.tapa-caja > p{margin:16px 0 0;max-width:32em;color:var(--suave);font-size:clamp(16px,1.5vw,19px)}
+.ficha{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));column-gap:clamp(28px,4vw,56px);margin:clamp(28px,4vw,44px) 0 0}
+.ficha > div{padding:18px 0 20px;border-top:1px solid rgba(242,228,223,.16)}
+.ficha dt{font-size:14px;font-weight:600;color:var(--suave)}
+.ficha dd{margin:6px 0 0;font-family:var(--titulo);font-weight:700;font-size:clamp(28px,2.8vw,38px);line-height:1.02;color:var(--papel)}
+.ficha dd small{display:block;margin-top:6px;font-family:var(--cuerpo);font-weight:500;font-size:14.5px;line-height:1.4;color:var(--suave)}
+
+/* ============ LA TAPA FIRMADA ============ */
+.tapa-fila{display:flex;flex-wrap:wrap;align-items:center;gap:36px clamp(30px,5vw,80px);margin-top:clamp(30px,4vw,50px)}
+.tapa{
+  position:relative;flex:none;width:min(88vw,560px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 34% 28%,#f5f4f0,#d4d3ce 38%,#a9a8a3 72%,#8a8984);
+  box-shadow:0 40px 60px -30px rgba(0,0,0,.95),inset 0 0 0 1px rgba(255,255,255,.4);
+}
+.tapa::before{  /* el borde estriado */
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:repeating-conic-gradient(#7f7e79 0 1.4deg,#bdbcb7 1.4deg 2.8deg);
+  -webkit-mask:radial-gradient(circle closest-side,transparent calc(100% - 16px),#000 calc(100% - 15px));
+          mask:radial-gradient(circle closest-side,transparent calc(100% - 16px),#000 calc(100% - 15px));
+}
+.tapa::after{  /* aro interior */
+  content:"";position:absolute;inset:9%;border-radius:50%;pointer-events:none;
+  box-shadow:inset 0 2px 3px rgba(0,0,0,.18),inset 0 -1px 0 rgba(255,255,255,.5);
+}
+.tapa-centro{
+  position:absolute;left:50%;top:50%;width:19%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;
+  display:grid;place-content:center;text-align:center;
+  background:radial-gradient(circle at 40% 35%,#e9e8e4,#b3b2ad);
+  box-shadow:inset 0 3px 6px rgba(0,0,0,.25),0 1px 0 rgba(255,255,255,.6);
+  font-family:var(--titulo);font-weight:700;font-size:clamp(10px,1.4vw,13px);line-height:1.1;color:#6c6b66;
+}
+.firma{position:absolute;width:27%;height:auto;translate:-50% -50%;cursor:pointer;overflow:visible}
+.firma path{fill:none;stroke-width:24;stroke-linecap:round;stroke-linejoin:round}
+.firma.nueva{animation:estampa .6s cubic-bezier(.2,.8,.2,1)}
+@keyframes estampa{from{opacity:0;scale:1.4}}
+.tapa-lado{flex:1 1 260px;max-width:30em}
+.tapa-cuenta{margin:0;font-family:var(--titulo);font-weight:900;font-size:clamp(40px,5vw,64px);line-height:.9;color:var(--papel)}
+.tapa-cuenta small{display:block;margin-top:6px;font-family:var(--cuerpo);font-weight:500;font-size:16px;color:var(--suave)}
+.tapa-lado .btn-hoja{margin-top:22px}
+.tapa-faltan{margin:18px 0 0;font-size:14.5px;line-height:1.5;color:var(--suave)}
+
+/* ventana de firmar */
+.firmar-dentro{height:100%;display:grid;place-items:center;padding:20px 14px;overflow:auto}
+.firmar-panel{width:min(94vw,600px);padding:clamp(20px,4vw,34px);border-radius:4px;background:var(--papel);color:var(--tinta);box-shadow:0 40px 60px -30px rgba(0,0,0,.9)}
+.firmar-panel h3{margin:0 0 16px;font-family:var(--mano);font-weight:400;font-size:clamp(32px,5vw,42px);line-height:1.1}
+.firmar-panel label{display:block;margin-bottom:6px;font-size:13px;font-weight:600;color:#6e625a}
+.firmar-panel select{width:100%;padding:11px 12px;border:1.5px solid #cfc6b4;border-radius:4px;background:#fbf9f4;color:var(--tinta);font-size:16px}
+.pad{position:relative;margin:18px 0 14px;border-radius:4px;background:linear-gradient(180deg,#fbfaf6,#efece4);box-shadow:inset 0 0 0 1.5px #cfc6b4}
+.pad canvas{display:block;width:100%;aspect-ratio:5/2;touch-action:none;cursor:crosshair}
+.pad-guia{position:absolute;left:6%;right:6%;bottom:24%;border-top:1.5px dashed #cfc6b4;pointer-events:none;font-size:12px;color:#a3978b;padding-top:4px}
+
 /* ============ LO QUE SE QUEDA ============ */
 .recuerdo{max-width:1320px;margin:0 auto;padding:clamp(70px,10vw,140px) 5vw 30px}
 .recuerdo h2{
@@ -379,6 +450,7 @@ h1{
   background:var(--ambar);color:var(--tinta);font-weight:700;font-size:16px;
 }
 .btn-hoja:hover{background:#ffb657}
+.btn-hoja:disabled{background:transparent;color:var(--suave);box-shadow:inset 0 0 0 1.5px rgba(242,228,223,.25);cursor:default}
 .hoja-cta span{color:var(--suave);font-size:15px;max-width:26em}
 
 /* hoja de contactos */
@@ -539,7 +611,7 @@ dialog .toast{bottom:96px}
 <header class="portada">
   <div>
     <h1>El carrete<br>de 2º Bach</h1>
-    <p class="entradilla" id="entradilla">Una foto por cada cumpleaños, hecha ese mismo día.</p>
+    <p class="entradilla" id="entradilla">Una foto de toda la clase en cada cumpleaños, hecha ese mismo día.</p>
   </div>
   <div class="contador" id="contador" role="img" aria-label="Contador del carrete"></div>
 </header>
@@ -557,6 +629,8 @@ dialog .toast{bottom:96px}
   </div>
 </div>
 
+<div class="aniversario" id="aniversario"></div>
+
 <main class="tendedero" id="tendedero">
   <div class="tendedero-cab">
     <h2>Colgadas<br>a secar</h2>
@@ -565,10 +639,32 @@ dialog .toast{bottom:96px}
   <div id="cordeles"></div>
 </main>
 
+<section class="ficha-caja" id="fichaCaja" hidden aria-labelledby="fichaTitulo">
+  <h2 id="fichaTitulo">Ficha técnica</h2>
+  <p>Lo que cuentan los datos de este carrete.</p>
+  <dl class="ficha" id="ficha"></dl>
+</section>
+
+<section class="tapa-caja" aria-labelledby="tapaTitulo">
+  <h2 id="tapaTitulo">La tapa<br>del carrete</h2>
+  <p>Aquí firma toda la clase, una vez cada uno, con el dedo o con el ratón.</p>
+  <div class="tapa-fila">
+    <div class="tapa" id="tapa" role="img" aria-label="Tapa del carrete con las firmas de la clase">
+      <div class="tapa-centro" id="tapaCentro">2º BACH</div>
+      <div id="tapaFirmas"></div>
+    </div>
+    <div class="tapa-lado">
+      <p class="tapa-cuenta" id="tapaCuenta">0 firmas</p>
+      <button class="btn-hoja" type="button" id="abrirFirma">Firmar la tapa</button>
+      <p class="tapa-faltan" id="tapaFaltan"></p>
+    </div>
+  </div>
+</section>
+
 <section class="recuerdo" aria-labelledby="recuerdoTitulo">
   <h2 id="recuerdoTitulo">Lo que<br>se queda</h2>
   <div class="recuerdo-texto">
-    <p>Tenéis miles de fotos en el móvil y no vais a volver a mirar casi ninguna. Estas son distintas: una por persona, hecha el día de su cumpleaños, con la clase alrededor.</p>
+    <p>Tenéis miles de fotos en el móvil y no vais a volver a mirar casi ninguna. Estas son distintas: una por cada cumpleaños, con toda la clase en la foto.</p>
     <p class="cierre">Ninguna foto se repite ni se retoca. Salen como salen, y por eso valen.</p>
   </div>
   <div class="hoja-cta">
@@ -643,6 +739,24 @@ dialog .toast{bottom:96px}
     <button id="prSalir">Salir</button>
   </div>
 </div>
+
+<dialog class="visor" id="firmar" aria-labelledby="fTitulo">
+  <button class="cerrar" id="fCerrar" aria-label="Cerrar">×</button>
+  <div class="firmar-dentro">
+    <div class="firmar-panel">
+      <h3 id="fTitulo">Firma la tapa</h3>
+      <label for="fNombre">¿Quién eres?</label>
+      <select id="fNombre"></select>
+      <div class="pad"><canvas id="fPad" aria-label="Espacio para firmar"></canvas><span class="pad-guia">Firma aquí</span></div>
+      <div class="form-fila">
+        <button class="btn-firmar" id="fEnviar" type="button">Firmar</button>
+        <button class="btn-texto" id="fBorrar" type="button">Borrar y repetir</button>
+      </div>
+      <p class="aviso" id="fAviso" hidden></p>
+    </div>
+  </div>
+  <div class="toast" id="toastFirmar" role="status" aria-live="polite"></div>
+</dialog>
 
 <dialog class="visor" id="plano" aria-labelledby="planoTitulo">
   <button class="cerrar" id="plCerrar" aria-label="Cerrar">×</button>
@@ -762,7 +876,9 @@ const cacheMensajes = new Map();
 const CLAVE_VISTOS = "carrete2bach-vistos";
 let vistos = new Set();
 // ?reiniciar en la dirección vuelve a dejar sin revelar las fotos recientes (para probar)
-if (new URLSearchParams(location.search).has("reiniciar")) { try { localStorage.removeItem(CLAVE_VISTOS); } catch (e) {} }
+if (new URLSearchParams(location.search).has("reiniciar")) {
+  try { localStorage.removeItem(CLAVE_VISTOS); localStorage.removeItem("carrete2bach-firmado"); } catch (e) {}
+}
 try { vistos = new Set(JSON.parse(localStorage.getItem(CLAVE_VISTOS) || "[]")); } catch (e) {}
 function marcarVisto(id) {
   vistos.add(String(id));
@@ -790,7 +906,7 @@ function clic() {
 
 let temporizadorToast;
 function toast(texto) {
-  const t = $("visor").open ? $("toastVisor") : $("plano").open ? $("toastPlano") : $("hoja").open ? $("toastHoja") : $("visor").open ? $("toastVisor") : $("toast");
+  const t = $("visor").open ? $("toastVisor") : $("firmar").open ? $("toastFirmar") : $("plano").open ? $("toastPlano") : $("hoja").open ? $("toastHoja") : $("visor").open ? $("toastVisor") : $("toast");
   t.textContent = texto; t.classList.add("ver");
   clearTimeout(temporizadorToast);
   temporizadorToast = setTimeout(() => t.classList.remove("ver"), 2800);
@@ -900,7 +1016,7 @@ function copiaHTML(p) {
   return `<li><button class="copia${sinRevelar ? " sin-revelar" : ""}" style="--giro:${giro}deg" data-id="${esc(p.id)}"
       aria-label="${sinRevelar ? `Revelar la foto de ${esc(p.nombre)}` : `Ver la foto de ${esc(p.nombre)}`}">
     <span class="pinza" aria-hidden="true"></span>
-    <span class="copia-img" style="display:block"><img src="${esc(p.foto)}" alt="${esc(p.nombre)} el día de su cumpleaños" loading="lazy">${selloSVG(estampa(p.f))}</span>
+    <span class="copia-img" style="display:block"><img src="${esc(p.foto)}" alt="La clase en el cumpleaños de ${esc(p.nombre)}" loading="lazy">${selloSVG(estampa(p.f))}</span>
     <span class="copia-pie"><span class="nombre">${esc(p.nombre)}</span>${p.edad ? `<span class="edad">${esc(p.edad)} años</span>` : ""}</span>
   </button></li>`;
 }
@@ -952,7 +1068,7 @@ function pintarTextos(total) {
     : "Carrete completo: estáis todos.";
   const curso = datos.curso ? `, curso ${datos.curso}` : "";
   $("pieCurso").textContent = `IES El Molinillo, ${datos.titulo || "2º Bach"}${curso}`;
-  $("entradilla").innerHTML = `Una foto por cada cumpleaños, hecha ese mismo día. <strong>${total} disparos</strong>, uno por cada cara de esta clase.`;
+  $("entradilla").innerHTML = `Una foto de toda la clase en cada cumpleaños, hecha ese mismo día. <strong>${total} disparos</strong>, uno por cada uno de vosotros.`;
 }
 
 /* ============ VISOR ============ */
@@ -972,7 +1088,7 @@ function pintarVisor() {
   const p = colgadas[actual];
   girar(false);
   const img = $("vImg");
-  img.src = p.foto; img.alt = `${p.nombre} el día de su cumpleaños`;
+  img.src = p.foto; img.alt = `La clase en el cumpleaños de ${p.nombre}`;
   $("vMarco").querySelector(".sello")?.remove();
   $("vMarco").insertAdjacentHTML("beforeend", selloSVG(estampa(p.f)));
   $("vNombre").textContent = p.nombre;
@@ -1094,14 +1210,10 @@ $("dForm").addEventListener("submit", async e => {
   boton.disabled = true; boton.textContent = "Enviando…";
   const hoy = new Date();
   try {
-    await fetch(URL_MENSAJES, {
-      method: "POST", mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({
-        idAlumno: p.id, nombreAlumno: p.nombre, autor, mensaje,
-        fecha: `${dos(hoy.getDate())}/${dos(hoy.getMonth() + 1)}/${hoy.getFullYear()}`,
-        aprobado: "SI"
-      })
+    await enviarAlScript({
+      idAlumno: p.id, nombreAlumno: p.nombre, autor, mensaje,
+      fecha: `${dos(hoy.getDate())}/${dos(hoy.getMonth() + 1)}/${hoy.getFullYear()}`,
+      aprobado: "SI"
     });
     try {
       localStorage.setItem("autorCumple", autor);
@@ -1115,11 +1227,31 @@ $("dForm").addEventListener("submit", async e => {
     aviso("Dedicatoria enviada. Ya está escrita en el dorso.");
   } catch (err) {
     console.error("Error enviando dedicatoria:", err);
-    aviso("No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.", true);
+    aviso(err.delScript ? `No se ha guardado: ${err.message}` : "No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.", true);
   } finally {
     boton.disabled = false; boton.textContent = "Firmar y enviar";
   }
 });
+
+/* envía al script de Google y comprueba que ha contestado "ok".
+   Si el navegador no deja leer la respuesta, se da por enviado (como antes). */
+async function enviarAlScript(cuerpo) {
+  let r;
+  try {
+    r = await fetch(URL_MENSAJES, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(cuerpo) });
+  } catch (e) {
+    console.warn("No se puede leer la respuesta del script; se da por enviado.", e);
+    return;
+  }
+  let j = null;
+  try { j = await r.json(); } catch (e) {}
+  if (j && j.ok === false) {
+    const err = new Error(j.error || "el script ha dado un error");
+    err.delScript = true;
+    console.error("El script ha contestado con un error:", j.error);
+    throw err;
+  }
+}
 
 /* ============ GUARDAR Y COMPARTIR ============ */
 const esTactil = matchMedia("(pointer: coarse)").matches;
@@ -1331,6 +1463,8 @@ $("visor").addEventListener("close", () => $("visor").querySelector(".mantener")
 
 /* ============ CLICS ============ */
 document.addEventListener("click", e => {
+  const ab = e.target.closest("[data-abrir]");
+  if (ab) { abrir(ab.dataset.abrir); return; }
   const lab = e.target.closest("[data-lab]");
   if (lab) {
     const p = alumnos.find(x => String(x.id) === lab.dataset.lab);
@@ -1432,7 +1566,7 @@ function pintarAula() {
     }
     if (p.revelado) {
       return `<button class="pupitre encendido${p.esHoy ? " hoy" : ""}" data-id="${esc(p.id)}" aria-label="Ver la foto de ${esc(p.nombre)}">
-        <span class="pp-foto"><img src="${esc(p.foto)}" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('${esc(p.nombre.charAt(0))}'))"></span><span class="pp-nom">${esc(p.nombre)}</span></button>`;
+        <span class="pp-foto">${esc(p.nombre.charAt(0))}</span><span class="pp-nom">${esc(p.nombre)}</span></button>`;
     }
     return `<button class="pupitre futuro" data-futuro="${esc(p.id)}" aria-label="${esc(p.nombre)}: se enciende el ${fechaLarga(p.f)}">
       <span class="pp-foto">${p.f.getDate()}<br>${MESES_CORTO[p.f.getMonth()]}</span><span class="pp-nom">${esc(p.nombre)}</span></button>`;
@@ -1573,6 +1707,236 @@ $("proyector").addEventListener("touchend", e => {
   if (Math.abs(dx) > 50) verDiapo(diapo + (dx < 0 ? 1 : -1));
 });
 
+/* ============ ANIVERSARIO: cuando el curso ya ha pasado ============ */
+function pintarAniversario() {
+  const finCurso = new Date(ANIO0 + 1, 7, 31);
+  if (HOY <= finCurso || !alumnos.length) return false;
+  const edadHoy = (p, fecha) => p.edad ? Number(p.edad) + (fecha.getFullYear() - p.f.getFullYear()) : null;
+  const hoy = alumnos.filter(p => p.f.getMonth() === HOY.getMonth() && p.f.getDate() === HOY.getDate());
+
+  $("aniversario").innerHTML = hoy.map(p => {
+    const anos = HOY.getFullYear() - p.f.getFullYear();
+    const edad = edadHoy(p, HOY);
+    const foto = p.foto
+      ? `<button class="aniv-foto" data-abrir="${esc(p.id)}" aria-label="Ver la foto del cumpleaños de ${esc(p.nombre)}"><img src="${esc(p.foto)}" alt=""></button>` : "";
+    return `<div class="aniv">${foto}<div class="aniv-texto">
+      <p class="aniv-titulo">Hoy ${esc(p.nombre)} cumple${edad ? " " + edad : " años"}.</p>
+      <p>${p.foto ? `Esta foto es de su cumpleaños${p.edad ? " de " + esc(p.edad) : ""}, con toda la clase. ` : ""}Han pasado ${anos} ${anos === 1 ? "año" : "años"}. Buen momento para escribirle.</p>
+      ${p.foto ? `<button class="btn-hoja" type="button" data-abrir="${esc(p.id)}">Ver la foto</button>` : ""}
+    </div></div>`;
+  }).join("");
+
+  // la línea de debajo del carrete: el próximo cumpleaños de la clase
+  const cuando = p => { const d = new Date(HOY.getFullYear(), p.f.getMonth(), p.f.getDate()); if (d < HOY) d.setFullYear(d.getFullYear() + 1); return d; };
+  const proximos = alumnos.filter(p => !hoy.includes(p)).sort((a, b) => cuando(a) - cuando(b));
+  if (proximos.length) {
+    const p = proximos[0], d = cuando(p), edad = edadHoy(p, d), faltan = dias(HOY, d);
+    $("proximo").innerHTML = `<span class="rec" aria-hidden="true"></span>El próximo cumpleaños de la clase: <strong>${esc(p.nombre)}</strong>, el ${fechaLarga(d)}${
+      edad ? `. Cumplirá ${edad}` : ""}. ${faltan === 1 ? "Es mañana." : `Faltan ${faltan} días.`}`;
+    $("proximo").hidden = false;
+  }
+  return true;
+}
+
+/* ============ FICHA TÉCNICA ============ */
+function pintarFicha() {
+  const filas = [];
+  const fila = (dt, dd, nota) => filas.push(`<div><dt>${dt}</dt><dd>${dd}${nota ? `<small>${nota}</small>` : ""}</dd></div>`);
+  const DIAS = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+  const lista = arr => arr.length > 1 ? arr.slice(0, -1).join(", ") + " y " + arr.at(-1) : arr[0];
+
+  // el mayor y el más pequeño (año de nacimiento = año del cumpleaños − edad)
+  const conEdad = alumnos.filter(p => Number(p.edad) > 0)
+    .map(p => ({ p, nace: new Date(p.f.getFullYear() - Number(p.edad), p.f.getMonth(), p.f.getDate()) }))
+    .sort((a, b) => a.nace - b.nace);
+  const nacio = x => `Nació el ${x.nace.getDate()} de ${MESES[x.nace.getMonth()]} de ${x.nace.getFullYear()}`;
+  if (conEdad.length >= 2) {
+    fila("Mayor de la clase", esc(conEdad[0].p.nombre), nacio(conEdad[0]));
+    fila("Menor de la clase", esc(conEdad.at(-1).p.nombre), nacio(conEdad.at(-1)));
+  }
+
+  // primero y último del curso
+  if (alumnos.length >= 2) {
+    fila("Abre el carrete", esc(alumnos[0].nombre), `El ${fechaLarga(alumnos[0].f)}`);
+    fila("Lo cierra", esc(alumnos.at(-1).nombre), `El ${fechaLarga(alumnos.at(-1).f)}`);
+  }
+
+  // el mes con más cumpleaños
+  const porMes = {};
+  alumnos.forEach(p => { const m = p.f.getMonth(); porMes[m] = (porMes[m] || 0) + 1; });
+  const [mesTop, nTop] = Object.entries(porMes).sort((a, b) => b[1] - a[1])[0] || [];
+  if (nTop > 1) fila("El mes con más cumpleaños", MESES[mesTop][0].toUpperCase() + MESES[mesTop].slice(1), `${nTop} cumpleaños en un solo mes`);
+
+  // los que cumplen el mismo día, o los más cercanos
+  const mismoDia = {};
+  alumnos.forEach(p => { const k = `${p.f.getMonth()}-${p.f.getDate()}`; (mismoDia[k] = mismoDia[k] || []).push(p); });
+  const gemelos = Object.values(mismoDia).filter(g => g.length > 1).sort((a, b) => b.length - a.length)[0];
+  if (gemelos) {
+    fila("Cumplen el mismo día", esc(lista(gemelos.map(p => p.nombre))), `El ${fechaLarga(gemelos[0].f)}`);
+  } else if (alumnos.length >= 2) {
+    let par = null, min = 1e9;
+    for (let i = 1; i < alumnos.length; i++) { const d = dias(alumnos[i - 1].f, alumnos[i].f); if (d < min) { min = d; par = [alumnos[i - 1], alumnos[i]]; } }
+    if (par && min <= 7) fila("Los cumpleaños más pegados", `${esc(par[0].nombre)} y ${esc(par[1].nombre)}`, `Solo ${min} ${min === 1 ? "día" : "días"} de diferencia`);
+  }
+
+  // días de la semana
+  if (alumnos.length >= 5) {
+    const finde = alumnos.filter(p => p.f.getDay() === 0 || p.f.getDay() === 6).length;
+    if (finde) fila("Caen en fin de semana", `${finde} ${finde === 1 ? "cumpleaños" : "cumpleaños"}`, "Caen en sábado o domingo");
+    const porDia = [0, 0, 0, 0, 0, 0, 0];
+    alumnos.forEach(p => porDia[p.f.getDay()]++);
+    const top = porDia.indexOf(Math.max(...porDia));
+    if (porDia[top] > 1) fila("El día que más se repite", DIAS[top][0].toUpperCase() + DIAS[top].slice(1), `${porDia[top]} cumpleaños caen en ${DIAS[top]}`);
+  }
+
+  // el tiempo que hizo
+  const conTiempo = colgadas.filter(p => p.tiempo);
+  if (conTiempo.length >= 2) {
+    const orden = [...conTiempo].sort((a, b) => b.tiempo.max - a.tiempo.max);
+    fila("El cumpleaños más caluroso", `${orden[0].tiempo.max} °C`, `El de ${esc(orden[0].nombre)}`);
+    fila("El más fresquito", `${orden.at(-1).tiempo.max} °C`, `El de ${esc(orden.at(-1).nombre)}`);
+    const lluvia = conTiempo.filter(p => p.tiempo.code >= 51 && p.tiempo.code < 95 || p.tiempo.code >= 95);
+    if (lluvia.length) fila("Con lluvia", `${lluvia.length} ${lluvia.length === 1 ? "cumpleaños" : "cumpleaños"}`, esc(lista(lluvia.map(p => p.nombre))));
+    else if (conTiempo.length >= 5) fila("Con lluvia", "Ninguno", "Ni una gota en todo el carrete");
+  }
+
+  $("ficha").innerHTML = filas.join("");
+  $("fichaCaja").hidden = filas.length < 3;
+}
+
+/* ============ LA TAPA FIRMADA ============ */
+let firmas = [];
+const TINTAS = ["#1b1b1b", "#1f3a9e", "#a3221c", "#1d5c42"];
+const CLAVE_FIRMADO = "carrete2bach-firmado";
+
+function pintarTapa(nueva = -1) {
+  const n = Math.max(TOTAL + 1, firmas.length);
+  $("tapaFirmas").innerHTML = firmas.map((f, i) => {
+    const r = 13 + 23 * Math.sqrt((i + .5) / n);          // distancia al centro, en %
+    const a = i * 137.508 * Math.PI / 180;                  // ángulo áureo: se reparten sin amontonarse
+    const x = 50 + r * Math.cos(a), y = 50 + r * Math.sin(a);
+    const giro = ((i * 47) % 34) - 17;
+    return `<svg class="firma${i === nueva ? " nueva" : ""}" viewBox="0 0 1000 400" style="left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;rotate:${giro}deg"
+      data-quien="${esc(f.nombre)}" role="img" aria-label="Firma de ${esc(f.nombre)}"><path d="${esc(f.trazo)}" stroke="${esc(f.color || "#1b1b1b")}"/></svg>`;
+  }).join("");
+
+  const nombres = new Set(firmas.map(f => String(f.nombre)));
+  const alumnosFirmados = alumnos.filter(p => nombres.has(p.nombre)).length;
+  $("tapaCuenta").innerHTML = `${firmas.length} ${firmas.length === 1 ? "firma" : "firmas"}<small>${
+    alumnos.length ? `${alumnosFirmados} de ${alumnos.length} alumnos` : ""}</small>`;
+  const faltan = alumnos.filter(p => !nombres.has(p.nombre)).map(p => p.nombre);
+  $("tapaFaltan").textContent = !alumnos.length ? "" :
+    faltan.length ? `Faltan por firmar: ${faltan.join(", ")}.` : "Estáis todos. La tapa está completa.";
+
+  let firmado = false;
+  try { firmado = !!localStorage.getItem(CLAVE_FIRMADO); } catch (e) {}
+  $("abrirFirma").textContent = firmado ? "Ya has firmado" : "Firmar la tapa";
+  $("abrirFirma").disabled = firmado;
+}
+
+async function cargarFirmas() {
+  try {
+    const r = await fetch(`${URL_MENSAJES}?tipo=firmas`);
+    const lista = await r.json();
+    firmas = (Array.isArray(lista) ? lista : []).filter(f => f && f.trazo && /^[ML0-9 ]+$/.test(f.trazo));
+  } catch (e) { console.warn("No se han podido cargar las firmas", e); }
+  pintarTapa();
+}
+
+$("tapaFirmas").addEventListener("click", e => {
+  const f = e.target.closest(".firma");
+  if (f) toast(`Firma de ${f.dataset.quien}`);
+});
+
+/* el panel de firmar */
+let trazos = [], trazoActual = null;
+const pad = $("fPad"), pctx = pad.getContext("2d");
+
+function prepararPad() {
+  const ratio = window.devicePixelRatio || 1;
+  const w = pad.clientWidth, h = pad.clientHeight;
+  pad.width = Math.round(w * ratio); pad.height = Math.round(h * ratio);
+  pctx.setTransform(pad.width / 1000, 0, 0, pad.height / 400, 0, 0);   // se dibuja siempre en 1000 × 400
+  redibujarPad();
+}
+function redibujarPad() {
+  pctx.clearRect(0, 0, 1000, 400);
+  pctx.lineWidth = 13; pctx.lineCap = "round"; pctx.lineJoin = "round"; pctx.strokeStyle = "#1b1b1b";
+  for (const t of trazos) {
+    pctx.beginPath();
+    t.forEach(([x, y], i) => i ? pctx.lineTo(x, y) : pctx.moveTo(x, y));
+    if (t.length === 1) pctx.lineTo(t[0][0] + .1, t[0][1]);
+    pctx.stroke();
+  }
+}
+function puntoPad(e) {
+  const r = pad.getBoundingClientRect();
+  return [Math.round((e.clientX - r.left) / r.width * 1000), Math.round((e.clientY - r.top) / r.height * 400)];
+}
+pad.addEventListener("pointerdown", e => {
+  e.preventDefault();
+  pad.setPointerCapture(e.pointerId);
+  trazoActual = [puntoPad(e)];
+  trazos.push(trazoActual);
+  redibujarPad();
+});
+pad.addEventListener("pointermove", e => {
+  if (!trazoActual) return;
+  const p = puntoPad(e), u = trazoActual.at(-1);
+  if (Math.hypot(p[0] - u[0], p[1] - u[1]) < 5) return;   // puntos demasiado juntos: fuera
+  trazoActual.push(p);
+  redibujarPad();
+});
+["pointerup", "pointercancel", "pointerleave"].forEach(ev => pad.addEventListener(ev, () => { trazoActual = null; }));
+
+function trazosATexto() {
+  const c = v => Math.max(0, Math.min(1000, v));
+  return trazos.map(t => "M" + t.map(([x, y]) => `${c(x)} ${Math.max(0, Math.min(400, y))}`).join(" L")).join(" ").replace(/L/g, "L").trim();
+}
+
+$("abrirFirma").addEventListener("click", () => {
+  const firmados = new Set(firmas.map(f => String(f.nombre)));
+  const nombres = [...alumnos].map(p => p.nombre).sort((a, b) => a.localeCompare(b, "es"));
+  $("fNombre").innerHTML = `<option value="">Elige tu nombre</option>` +
+    nombres.map(n => `<option value="${esc(n)}"${firmados.has(n) ? " disabled" : ""}>${esc(n)}${firmados.has(n) ? " (ya ha firmado)" : ""}</option>`).join("") +
+    `<option value="Profe">Profe</option>`;
+  trazos = []; $("fAviso").hidden = true;
+  $("firmar").showModal();
+  requestAnimationFrame(prepararPad);
+});
+$("fBorrar").addEventListener("click", () => { trazos = []; redibujarPad(); });
+$("fCerrar").addEventListener("click", () => $("firmar").close());
+addEventListener("resize", () => { if ($("firmar").open) prepararPad(); });
+
+$("fEnviar").addEventListener("click", async () => {
+  const nombre = $("fNombre").value;
+  const avisoF = (t, err) => { const a = $("fAviso"); a.textContent = t; a.classList.toggle("error", !!err); a.hidden = false; };
+  if (!nombre) { avisoF("Elige tu nombre antes de firmar.", true); return; }
+  const puntos = trazos.reduce((n, t) => n + t.length, 0);
+  if (puntos < 8) { avisoF("Haz tu firma en el recuadro.", true); return; }
+  const trazo = trazosATexto();
+  if (trazo.length > 38000) { avisoF("La firma es demasiado larga. Bórrala y hazla un poco más sencilla.", true); return; }
+
+  let h = 0; for (const ch of nombre) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  const color = TINTAS[h % TINTAS.length];
+  const hoy = new Date();
+  const boton = $("fEnviar");
+  boton.disabled = true; boton.textContent = "Firmando…";
+  try {
+    await enviarAlScript({ tipo: "firma", nombre, trazo, color, fecha: `${dos(hoy.getDate())}/${dos(hoy.getMonth() + 1)}/${hoy.getFullYear()}` });
+    try { localStorage.setItem(CLAVE_FIRMADO, nombre); } catch (e) {}
+    firmas.push({ nombre, trazo, color });
+    $("firmar").close();
+    pintarTapa(firmas.length - 1);
+    $("tapa").scrollIntoView({ behavior: reducir ? "auto" : "smooth", block: "center" });
+    toast("Firmado. Ya estás en la tapa.");
+  } catch (err) {
+    avisoF(err.delScript ? `No se ha guardado: ${err.message}` : "No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.", true);
+  } finally {
+    boton.disabled = false; boton.textContent = "Firmar";
+  }
+});
+
 /* ============ ARRANQUE ============ */
 fetch("datos.json", { cache: "no-store" })
   .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
@@ -1595,7 +1959,11 @@ fetch("datos.json", { cache: "no-store" })
     pintarTendedero();
     pintarTextos(total);
     pintarAula();
-    cargarTiempo();
+    pintarAniversario();
+    pintarFicha();
+    pintarTapa();
+    cargarFirmas();
+    cargarTiempo().then(pintarFicha);
 
     const porEnlace = () => {
       const m = location.hash.match(/^#cumple-(.+)$/);
