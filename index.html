@@ -387,6 +387,8 @@ h1{
   background:linear-gradient(0deg,rgba(0,0,0,.75),rgba(0,0,0,0));transition:opacity .4s ease;
 }
 .proyector.quieto .pr-controles{opacity:0}
+.proyector .toast{z-index:6;bottom:90px}
+.pr-controles button[hidden]{display:none}
 .pr-controles button{
   padding:10px 16px;border-radius:4px;cursor:pointer;font-weight:600;font-size:15px;
   border:1px solid rgba(244,236,223,.25);background:rgba(244,236,223,.08);color:#f4ecdf;
@@ -537,6 +539,7 @@ dialog.visor{
   width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;
   background:transparent;color:var(--texto);overflow:hidden;
 }
+dialog.visor{overscroll-behavior:contain}
 dialog.visor::backdrop{background:rgba(22,5,6,.9);backdrop-filter:blur(5px)}
 .visor-dentro{height:100%;display:grid;grid-template-rows:1fr auto;justify-items:center;align-items:center;gap:14px;padding:18px 14px calc(16px + env(safe-area-inset-bottom,0px))}
 .escena{perspective:1800px;width:min(94vw,580px);height:min(calc(100dvh - 118px),780px)}
@@ -576,13 +579,15 @@ dialog.visor::backdrop{background:rgba(22,5,6,.9);backdrop-filter:blur(5px)}
 }
 .dedicatoria{margin:0 0 24px;rotate:var(--g,0deg);color:var(--boli,#1f3a9e)}
 .dedicatoria p{margin:0;font-family:var(--mano);font-size:23px;line-height:1.3;white-space:pre-wrap;overflow-wrap:anywhere}
-.dedicatoria{padding-bottom:22px;border-bottom:1px dashed #d6ccba}
+.dedicatoria{padding-bottom:24px;border-bottom:1px dashed #d6ccba}
 .dedicatoria:last-child{border-bottom:0}
+/* la firma: a mano, más grande, a la derecha, con su rayita delante */
 .ded-firma{
-  display:block;margin-top:12px;text-align:right;
-  font-family:var(--cuerpo);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#7e7168;
+  display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:14px;
+  font-family:var(--mano);font-size:26px;line-height:1;color:var(--boli,#1f3a9e);
 }
-.ded-firma::before{content:"— "}
+.ded-firma::before{content:"";width:34px;height:2px;border-radius:2px;background:currentColor;opacity:.45;translate:0 2px}
+.ded-firma span{display:inline-block;rotate:-4deg;padding:0 2px}
 .nota{font-size:15px;color:#7e7168}
 
 .escribir{margin-top:14px;padding-top:22px;border-top:1.5px dashed #cfc6b4}
@@ -819,9 +824,11 @@ dialog .toast{bottom:96px}
 <div class="proyector" id="proyector" hidden role="dialog" aria-modal="true" aria-label="Modo proyector">
   <div class="pr-pantalla"><div class="pr-diapo" id="prDiapo"></div></div>
   <div class="pr-luz" id="prLuz" aria-hidden="true"></div>
+  <div class="toast" id="toastPr" role="status" aria-live="polite"></div>
   <div class="pr-controles">
     <button id="prAnt" aria-label="Diapositiva anterior">‹</button>
     <button id="prPausa">Pausa</button>
+    <button id="prGuardar">Guardar foto</button>
     <button id="prSig" aria-label="Diapositiva siguiente">›</button>
     <span class="pr-cuenta" id="prCuenta"></span>
     <button id="prSalir">Salir</button>
@@ -994,7 +1001,7 @@ function clic() {
 
 let temporizadorToast;
 function toast(texto) {
-  const t = $("visor").open ? $("toastVisor") : $("firmar").open ? $("toastFirmar") : $("plano").open ? $("toastPlano") : $("hoja").open ? $("toastHoja") : $("visor").open ? $("toastVisor") : $("toast");
+  const t = !$("proyector").hidden ? $("toastPr") : $("visor").open ? $("toastVisor") : $("firmar").open ? $("toastFirmar") : $("plano").open ? $("toastPlano") : $("hoja").open ? $("toastHoja") : $("visor").open ? $("toastVisor") : $("toast");
   t.textContent = texto; t.classList.add("ver");
   clearTimeout(temporizadorToast);
   temporizadorToast = setTimeout(() => t.classList.remove("ver"), 2800);
@@ -1394,7 +1401,7 @@ function pintarMensajes(lista, nuevo = -1) {
   $("dMensajes").innerHTML = lista.map((m, i) => {
     const g = ((i * 53) % 5 - 2) * .6;
     return `<div class="dedicatoria" style="--g:${g}deg;--boli:${BOLIS[i % BOLIS.length]}">
-      <p>${esc(m.mensaje)}</p><span class="ded-firma">${esc(m.autor)}</span></div>`;
+      <p>${esc(m.mensaje)}</p><span class="ded-firma"><span>${esc(m.autor)}</span></span></div>`;
   }).join("");
   if (nuevo >= 0) $("dMensajes").children[nuevo]?.scrollIntoView({ behavior: reducir ? "auto" : "smooth", block: "center" });
 }
@@ -1522,8 +1529,7 @@ function mostrarParaGuardar(url, dialogo) {
 }
 
 /* la copia de una foto: con su marco, la fecha quemada y el nombre */
-async function generarCopia(p) {
-  const img = $("vImg");
+async function generarCopia(p, img = $("vImg")) {
   await cargarFuentes();
   const s = Math.min(1100 / img.naturalWidth, 1300 / img.naturalHeight, 1);
   const w = Math.round(img.naturalWidth * s), h = Math.round(img.naturalHeight * s);
@@ -1852,6 +1858,7 @@ function verDiapo(i, conEfecto = true) {
     caja.innerHTML = htmlDiapo(diapos[diapo]);
     const fotos = diapos.length - 2;
     $("prCuenta").textContent = diapos[diapo].tipo === "foto" ? `${diapo} / ${fotos}` : "";
+    $("prGuardar").hidden = diapos[diapo].tipo !== "foto";
     caja.classList.add("cae");
     requestAnimationFrame(() => requestAnimationFrame(() => caja.classList.remove("cae")));
     // precarga la siguiente
@@ -1876,7 +1883,6 @@ function abrirProyector() {
   diapos = [{ tipo: "titulo" }, ...colgadas.filter(p => p.foto).map(p => ({ tipo: "foto", p })), { tipo: "fin" }];
   const pr = $("proyector");
   pr.hidden = false;
-  document.body.style.overflow = "hidden";
   prPausado = false; $("prPausa").textContent = "Pausa";
   if (pr.requestFullscreen) pr.requestFullscreen().catch(() => {});
   verDiapo(0, false);
@@ -1888,7 +1894,6 @@ function cerrarProyector() {
   if (pr.hidden) return;
   pr.hidden = true;
   clearTimeout(prTimer); clearTimeout(prQuieto);
-  document.body.style.overflow = "";
   if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
 }
 function despertar() {
@@ -1902,6 +1907,17 @@ document.querySelectorAll("[data-proyector]").forEach(b => b.addEventListener("c
 $("prSig").addEventListener("click", () => verDiapo(diapo + 1));
 $("prAnt").addEventListener("click", () => verDiapo(diapo - 1));
 $("prSalir").addEventListener("click", cerrarProyector);
+$("prGuardar").addEventListener("click", async () => {
+  const d = diapos[diapo];
+  if (!d || d.tipo !== "foto") return;
+  const img = $("prDiapo").querySelector("img");
+  if (!img || !img.complete || !img.naturalWidth) { toast("La foto aún se está cargando."); return; }
+  prPausado = true; $("prPausa").textContent = "Seguir"; programar();   // se para mientras guardas
+  try {
+    const blob = await generarCopia(d.p, img);
+    entregar(blob, `carrete-2bach-${slug(d.p.nombre)}.jpg`, $("proyector"));
+  } catch (e) { toast("No se ha podido preparar la copia de esta foto."); }
+});
 $("prPausa").addEventListener("click", () => {
   prPausado = !prPausado;
   $("prPausa").textContent = prPausado ? "Seguir" : "Pausa";
@@ -2285,6 +2301,30 @@ function prepararMosaico() {
 $("mosaicoGuardar").addEventListener("click", () => {
   if (mosaicoBlob) entregar(mosaicoBlob, `mosaico-${slug(datos.titulo || "2bach")}.jpg`, document.body);
 });
+
+/* ============ BLOQUEAR EL FONDO ============
+   Con cualquier ventana abierta (foto, plano, hoja, firma, proyector) la página de atrás no se mueve. */
+let scrollGuardado = 0, fondoBloqueado = false;
+function actualizarBloqueo() {
+  const abierto = [...document.querySelectorAll("dialog")].some(d => d.open) || !$("proyector").hidden;
+  if (abierto === fondoBloqueado) return;
+  fondoBloqueado = abierto;
+  const b = document.body;
+  if (abierto) {
+    scrollGuardado = window.scrollY;
+    b.style.position = "fixed"; b.style.top = `-${scrollGuardado}px`;
+    b.style.left = "0"; b.style.right = "0"; b.style.overflow = "hidden";
+  } else {
+    b.style.position = b.style.top = b.style.left = b.style.right = b.style.overflow = "";
+    const anterior = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = "auto";
+    window.scrollTo(0, scrollGuardado);
+    document.documentElement.style.scrollBehavior = anterior;
+  }
+}
+const vigilante = new MutationObserver(actualizarBloqueo);
+document.querySelectorAll("dialog").forEach(d => vigilante.observe(d, { attributes: true, attributeFilter: ["open"] }));
+vigilante.observe($("proyector"), { attributes: true, attributeFilter: ["hidden"] });
 
 /* ============ ARRANQUE ============ */
 fetch("datos.json", { cache: "no-store" })
