@@ -58,6 +58,36 @@ button,input,textarea{font:inherit;color:inherit}
   0%{opacity:0}8%{opacity:.8}12%{opacity:.1}20%{opacity:.9}24%{opacity:.25}34%{opacity:1}100%{opacity:1}
 }
 
+/* ============ DÍA DE CUMPLEAÑOS ============ */
+body.fiesta{--seguridad:#ffb020}
+body.fiesta .luz{
+  background:
+    radial-gradient(60vmax 45vmax at 78% -8%,rgba(255,184,60,.5),rgba(255,184,60,0) 70%),
+    radial-gradient(40vmax 30vmax at 0% 30%,rgba(255,214,130,.14),rgba(255,214,130,0) 70%);
+}
+body.fiesta .contador .muesca.hecha{stroke:#ffc861}
+.de-quien{color:#ffc56b}
+h1.largo{font-size:clamp(58px,9.5vw,160px)}
+h1.muy-largo{font-size:clamp(46px,6.8vw,112px)}
+h1.fiesta-h1{cursor:pointer}
+.confeti{position:fixed;inset:0;z-index:40;pointer-events:none;overflow:hidden}
+.trozo{
+  position:absolute;top:-70px;left:var(--x);width:var(--w);height:34px;border-radius:2px;
+  display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden;
+  font-family:var(--titulo);font-weight:700;font-size:11px;letter-spacing:.12em;color:#ffb46a;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='7'><rect x='4' y='1' width='6' height='5' rx='1.2' fill='%231b0b0c'/></svg>") 0 2px / 14px 7px repeat-x,
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='7'><rect x='4' y='1' width='6' height='5' rx='1.2' fill='%231b0b0c'/></svg>") 0 calc(100% - 2px) / 14px 7px repeat-x,
+    linear-gradient(180deg,#4a1e0b,#7a3a18 35%,#7a3a18 65%,#4a1e0b);
+  box-shadow:0 6px 14px rgba(0,0,0,.4);
+  animation:cae var(--d) cubic-bezier(.35,.1,.6,1) var(--r) both;
+}
+@keyframes cae{
+  0%{transform:translate(0,0) rotate(var(--g0));opacity:1}
+  85%{opacity:1}
+  100%{transform:translate(var(--dx),calc(100vh + 120px)) rotate(var(--g1));opacity:0}
+}
+
 /* ============ PORTADA ============ */
 .portada{
   max-width:1320px;margin:0 auto;
@@ -200,13 +230,15 @@ h1{
 .copia-pie .edad{font-size:13px;font-weight:600;color:#8a7d73;white-space:nowrap}
 
 /* recién llegada: papel sin revelar */
-.copia.sin-revelar .copia-img img{opacity:0}
+/* debajo del papel, la foto a medio revelar: al frotar aparece primero tenue y sepia */
+.copia-img img{transition:filter 1.8s ease}
+.copia .sello{transition:opacity 1.2s ease .6s}
+.copia.sin-revelar .copia-img img{filter:sepia(.85) brightness(1.2) contrast(.6) saturate(.6)}
 .copia.sin-revelar .sello{opacity:0}
 .copia.sin-revelar .copia-img{background:linear-gradient(170deg,#f3efe6,#e7e1d4)}
-.copia.sin-revelar .copia-img::after{
-  content:"Toca para revelar";position:absolute;inset:0;display:grid;place-items:center;
-  font-family:var(--mano);font-size:22px;color:#8f8277;
-}
+.revelador{position:absolute;inset:0;z-index:2;width:100%;height:100%;touch-action:none;cursor:grab;transition:opacity 1s ease}
+.revelador:active{cursor:grabbing}
+.copia.terminando .revelador{opacity:0}
 .copia.revelando .copia-img img{animation:revela 3s cubic-bezier(.4,.1,.3,1) both}
 .copia.revelando .sello{animation:revela-sello 3s ease both}
 .copia.revelando .copia-img::before{
@@ -436,6 +468,30 @@ h1{
 #firmar select{-webkit-user-select:auto;user-select:auto}
 .pad-guia{position:absolute;left:6%;right:6%;bottom:22%;border-top:1.5px dashed #cfc6b4;pointer-events:none;font-size:12px;color:#a3978b;padding-top:4px}
 
+/* ============ MOSAICO ============ */
+.mosaico-caja{max-width:1320px;margin:0 auto;padding:clamp(70px,10vw,140px) 5vw 0}
+.mosaico-caja[hidden]{display:none}
+.mosaico-caja h2{
+  margin:0;font-family:var(--titulo);font-weight:900;text-transform:uppercase;
+  font-size:clamp(44px,7vw,96px);line-height:.86;color:var(--papel);
+}
+.mosaico-caja > p{margin:16px 0 0;max-width:34em;color:var(--suave);font-size:clamp(16px,1.5vw,19px)}
+.mosaico-marco{
+  position:relative;margin-top:clamp(28px,4vw,44px);min-height:200px;overflow:auto;border-radius:4px;
+  background:#0d0506;box-shadow:0 40px 60px -30px rgba(0,0,0,.95),inset 0 0 0 1px rgba(242,228,223,.08);
+  display:grid;place-items:center;
+}
+.mosaico-marco img{display:block;width:100%;height:auto;cursor:zoom-in}
+.mosaico-marco.zoom{max-height:80vh;place-items:start}
+.mosaico-marco.zoom img{width:auto;max-width:none;cursor:zoom-out}
+.mosaico-marco.bloqueado{overflow:hidden}
+.mosaico-marco.bloqueado img{filter:blur(10px) brightness(.4) saturate(.7);transform:scale(1.08);cursor:default}
+.candado{
+  position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:10px;padding:24px;text-align:center;
+}
+.candado b{font-family:var(--titulo);font-weight:900;text-transform:uppercase;font-size:clamp(30px,4.5vw,58px);line-height:.9;color:var(--papel)}
+.candado span{max-width:26em;color:#e6cfc6;font-size:clamp(15px,1.4vw,18px)}
+
 /* ============ LO QUE SE QUEDA ============ */
 .recuerdo{max-width:1320px;margin:0 auto;padding:clamp(70px,10vw,140px) 5vw 30px}
 .recuerdo h2{
@@ -632,7 +688,7 @@ dialog .toast{bottom:96px}
 
 <header class="portada">
   <div>
-    <h1>El carrete<br>de 2º Bach</h1>
+    <h1 id="titulo">El carrete<br>de 2º Bach</h1>
     <p class="entradilla" id="entradilla">Una foto de toda la clase en cada cumpleaños, hecha ese mismo día.</p>
   </div>
   <div class="contador" id="contador" role="img" aria-label="Contador del carrete"></div>
@@ -680,6 +736,16 @@ dialog .toast{bottom:96px}
       <button class="btn-hoja" type="button" id="abrirFirma">Firmar la tapa</button>
       <p class="tapa-faltan" id="tapaFaltan"></p>
     </div>
+  </div>
+</section>
+
+<section class="mosaico-caja" id="mosaicoCaja" hidden aria-labelledby="mosaicoTitulo">
+  <h2 id="mosaicoTitulo">El mosaico<br>de la clase</h2>
+  <p id="mosaicoTxt">Todas las fotos del curso juntas en una sola imagen. De lejos se lee la clase; de cerca, cada cumpleaños.</p>
+  <div class="mosaico-marco" id="mosaicoMarco"><p class="hoja-estado">Revelando el mosaico…</p></div>
+  <div class="hoja-cta">
+    <button class="btn-hoja" type="button" id="mosaicoGuardar" hidden>Guardar el póster</button>
+    <span id="mosaicoNota"></span>
   </div>
 </section>
 
@@ -808,7 +874,7 @@ dialog .toast{bottom:96px}
    web se comporta como si fuera ese día.
 ============================================================ */
 const URL_MENSAJES =
-"https://script.google.com/macros/s/AKfycbx2ttHOz5Ni5pITnqZKdVAkkPC39WF8H7UWjmJQgSvGGv3gWiVxdsjhKGdMqKmUf0N2pg/exec";
+"https://script.google.com/macros/s/AKfycbwJKg3wDqoFjjWjABIoOqWWvD3s7vhU3Fp2CSD-BfW0UaWHqdd-im_7SYApF0aAjmTYpQ/exec";
 const DIAS_SIN_REVELAR = 14;
 const LUGAR = { nombre: "Guillena", lat: 37.5406, lon: -6.0603 };  // para el tiempo de cada día
 const SEGUNDOS_DIAPO = 7;                                           // modo proyector
@@ -935,7 +1001,7 @@ function toast(texto) {
 }
 
 /* ============ CONTADOR ============ */
-function pintarContador(total, hechas) {
+function pintarContador(total, hechas, fiesta) {
   const quedan = Math.max(0, total - hechas);
   let muescas = "";
   for (let i = 0; i < total; i++) {
@@ -945,8 +1011,8 @@ function pintarContador(total, hechas) {
     muescas += `<line class="muesca${i < hechas ? " hecha" : ""}" style="--i:${i}" x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`;
   }
   $("contador").innerHTML = `<svg viewBox="0 0 200 200">${muescas}
-    <text class="num" x="100" y="118" text-anchor="middle">${quedan}</text>
-    <text class="num-txt" x="100" y="142" text-anchor="middle">${quedan === 1 ? "foto por hacer" : "fotos por hacer"}</text></svg>`;
+    <text class="num" x="100" y="118" text-anchor="middle">${fiesta ? fiesta.num : quedan}</text>
+    <text class="num-txt" x="100" y="142" text-anchor="middle">${fiesta ? fiesta.txt : quedan === 1 ? "foto por hacer" : "fotos por hacer"}</text></svg>`;
   $("contador").setAttribute("aria-label", `Llevamos ${hechas} de ${total} fotos. Quedan ${quedan}.`);
 }
 
@@ -1015,6 +1081,7 @@ function pintarTendedero() {
       li.innerHTML = botonSinFoto(p);
     }, { once: true });
   });
+  cont.querySelectorAll(".copia.sin-revelar").forEach(prepararRevelado);
   colgar();
 }
 
@@ -1053,7 +1120,91 @@ function colgar() {
 }
 let tRes; addEventListener("resize", () => { clearTimeout(tRes); tRes = setTimeout(colgar, 120); });
 
+/* frotar con el dedo (o pasar el ratón) sobre el papel: la foto aparece donde frotas */
+function prepararRevelado(boton) {
+  const caja = boton.querySelector(".copia-img");
+  if (!caja || caja.querySelector(".revelador")) return;
+  const cv = document.createElement("canvas");
+  cv.className = "revelador"; cv.setAttribute("aria-hidden", "true");
+  caja.appendChild(cv);
+  const g = cv.getContext("2d");
+  const COLS = 16, ROWS = 20, rej = new Float32Array(COLS * ROWS);
+  let w = 0, h = 0, empezado = false, ultimo = null, hecho = false;
+  boton._frotado = 0;
+
+  const pintar = () => {
+    w = caja.clientWidth; h = caja.clientHeight;
+    if (!w || !h) return;
+    const ratio = window.devicePixelRatio || 1;
+    cv.width = Math.round(w * ratio); cv.height = Math.round(h * ratio);
+    g.setTransform(ratio, 0, 0, ratio, 0, 0);
+    const fondo = g.createLinearGradient(0, 0, w * .3, h);
+    fondo.addColorStop(0, "#f4f0e7"); fondo.addColorStop(1, "#e5dfd1");
+    g.fillStyle = fondo; g.fillRect(0, 0, w, h);
+    g.fillStyle = "#8f8277"; g.textAlign = "center";
+    g.font = `${Math.round(Math.min(24, w / 9))}px 'Nothing You Could Do', cursive`;
+    g.fillText("Frota para revelar", w / 2, h / 2);
+    g.font = `600 ${Math.round(Math.min(12, w / 18))}px Figtree, sans-serif`; g.fillStyle = "#a79b8f";
+    g.fillText(esTactil ? "con el dedo" : "pasando el ratón", w / 2, h / 2 + 24);
+  };
+  pintar();
+  const ro = new ResizeObserver(() => { if (!empezado) pintar(); });
+  ro.observe(caja);
+  document.fonts?.ready.then(() => { if (!empezado) pintar(); });
+
+  const dab = (x, y) => {
+    const rad = Math.max(w, h) * .14;
+    g.globalCompositeOperation = "destination-out";
+    const gr = g.createRadialGradient(x, y, 0, x, y, rad);
+    gr.addColorStop(0, "rgba(0,0,0,.2)"); gr.addColorStop(.6, "rgba(0,0,0,.1)"); gr.addColorStop(1, "rgba(0,0,0,0)");
+    g.fillStyle = gr; g.beginPath(); g.arc(x, y, rad, 0, Math.PI * 2); g.fill();
+    g.globalCompositeOperation = "source-over";
+    // cuánto se ha frotado cada zona
+    const cw = w / COLS, ch = h / ROWS;
+    for (let r = Math.max(0, Math.floor((y - rad) / ch)); r <= Math.min(ROWS - 1, Math.floor((y + rad) / ch)); r++) {
+      for (let c = Math.max(0, Math.floor((x - rad) / cw)); c <= Math.min(COLS - 1, Math.floor((x + rad) / cw)); c++) {
+        const d = Math.hypot((c + .5) * cw - x, (r + .5) * ch - y);
+        if (d < rad) rej[r * COLS + c] += .2 * (1 - d / rad);
+      }
+    }
+    boton._frotado++;
+  };
+  const avance = () => { let n = 0; for (const v of rej) if (v >= .6) n++; return n / rej.length; };
+
+  const mover = e => {
+    if (hecho) return;
+    if (e.pointerType !== "mouse" && !e.buttons && ultimo === null) return;
+    const r = cv.getBoundingClientRect();
+    const p = [(e.clientX - r.left) * (w / r.width), (e.clientY - r.top) * (h / r.height)];
+    empezado = true;
+    if (ultimo) {
+      const dist = Math.hypot(p[0] - ultimo[0], p[1] - ultimo[1]);
+      const pasos = Math.max(1, Math.ceil(dist / (Math.max(w, h) * .04)));
+      for (let i = 1; i <= pasos; i++) dab(ultimo[0] + (p[0] - ultimo[0]) * i / pasos, ultimo[1] + (p[1] - ultimo[1]) * i / pasos);
+    } else dab(p[0], p[1]);
+    ultimo = p;
+    if (avance() > .62) terminar();
+  };
+  const terminar = () => {
+    if (hecho) return;
+    hecho = true; ro.disconnect();
+    const p = colgadas.find(x => String(x.id) === boton.dataset.id);
+    boton.classList.add("terminando");
+    boton.classList.remove("sin-revelar");
+    boton.setAttribute("aria-label", `Ver la foto de ${p.nombre}`);
+    clic();
+    marcarVisto(p.id);
+    setTimeout(() => { cv.remove(); boton.classList.remove("terminando"); }, 1100);
+  };
+  cv.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse") cv.setPointerCapture(e.pointerId); ultimo = null; mover(e); });
+  cv.addEventListener("pointermove", mover);
+  ["pointerup", "pointercancel"].forEach(ev => cv.addEventListener(ev, e => { if (e.pointerType !== "mouse") ultimo = null; }));
+  cv.addEventListener("pointerleave", () => { ultimo = null; });
+  boton._revelarYa = terminar;
+}
+
 function revelar(boton) {
+  if (boton._revelarYa) { boton._revelarYa(); return; }
   const p = colgadas.find(x => String(x.id) === boton.dataset.id);
   boton.classList.remove("sin-revelar");
   boton.classList.add("revelando");
@@ -1062,6 +1213,50 @@ function revelar(boton) {
   marcarVisto(p.id);
   setTimeout(() => boton.classList.remove("revelando"), 3100);
 }
+
+/* ============ DÍA DE CUMPLEAÑOS: la web se viste para quien cumple ============ */
+let fiestaHoy = null;
+function ponerFiesta(personas) {
+  if (!personas.length) return;
+  fiestaHoy = personas;
+  document.body.classList.add("fiesta");
+  const nombres = personas.map(p => p.nombre);
+  const lista = nombres.length > 1 ? nombres.slice(0, -1).join(", ") + " y " + nombres.at(-1) : nombres[0];
+  const h1 = $("titulo");
+  h1.innerHTML = `El carrete<br><span class="de-quien">de ${esc(lista)}</span>`;
+  h1.classList.toggle("largo", lista.length > 9 && lista.length <= 18);
+  h1.classList.toggle("muy-largo", lista.length > 18);
+  h1.classList.add("fiesta-h1");
+  h1.title = "Toca para otra lluvia de película";
+  document.title = `El carrete de ${lista}`;
+  const edades = [...new Set(personas.map(p => p.edadHoy).filter(Boolean))];
+  pintarContador(TOTAL, colgadas.length, edades.length === 1
+    ? { num: edades[0], txt: "años hoy" }
+    : { num: personas.length, txt: "cumplen hoy" });
+  const una = personas.length === 1 && personas[0].edadHoy;
+  $("entradilla").innerHTML = `Hoy el carrete es de <strong>${esc(lista)}</strong>${una ? `, que cumple ${una}` : ""}. ${
+    personas[0].enCurso ? "Su foto espera en el tendedero." : "Aquí sigue su foto de clase."}`;
+  lluviaDePelicula();
+}
+
+function lluviaDePelicula() {
+  if (reducir || !fiestaHoy) return;
+  document.querySelector(".confeti")?.remove();
+  const capa = document.createElement("div");
+  capa.className = "confeti"; capa.setAttribute("aria-hidden", "true");
+  const piezas = window.innerWidth < 600 ? 18 : 30;
+  let html = "";
+  for (let i = 0; i < piezas; i++) {
+    const p = fiestaHoy[i % fiestaHoy.length];
+    const etiqueta = `${p.nombre.toUpperCase()}${p.edadHoy ? "  ▸ " + p.edadHoy : ""}`;
+    const w = 90 + Math.random() * 70;
+    html += `<span class="trozo" style="--x:${(Math.random() * 100).toFixed(1)}%;--w:${w.toFixed(0)}px;--d:${(4 + Math.random() * 3.5).toFixed(2)}s;--r:${(Math.random() * 2.2).toFixed(2)}s;--g0:${(Math.random() * 90 - 45).toFixed(0)}deg;--g1:${(Math.random() * 540 - 270).toFixed(0)}deg;--dx:${(Math.random() * 240 - 120).toFixed(0)}px">${esc(etiqueta)}</span>`;
+  }
+  capa.innerHTML = html;
+  document.body.appendChild(capa);
+  setTimeout(() => capa.remove(), 10500);
+}
+$("titulo").addEventListener("click", () => { if (fiestaHoy) lluviaDePelicula(); });
 
 /* ============ TEXTOS DE CABECERA ============ */
 function pintarTextos(total) {
@@ -1100,7 +1295,7 @@ function abrir(id) {
   if (!$("visor").open) $("visor").showModal();
   marcarVisto(colgadas[i].id);
   const b = document.querySelector(`.copia[data-id="${CSS.escape(String(id))}"]`);
-  if (b && b.classList.contains("sin-revelar")) { b.classList.remove("sin-revelar"); b.setAttribute("aria-label", `Ver la foto de ${colgadas[i].nombre}`); }
+  if (b && b.classList.contains("sin-revelar")) { b.querySelector(".revelador")?.remove(); b.classList.remove("sin-revelar"); b.setAttribute("aria-label", `Ver la foto de ${colgadas[i].nombre}`); }
   history.replaceState(null, "", `#cumple-${encodeURIComponent(id)}`);
 }
 
@@ -1498,7 +1693,12 @@ document.addEventListener("click", e => {
   const copia = e.target.closest(".copia");
   if (copia) {
     if (copia.classList.contains("sin-foto")) return;
-    if (copia.classList.contains("sin-revelar")) { revelar(copia); return; }
+    if (copia.classList.contains("sin-revelar")) {
+      if (e.detail === 0) revelar(copia);   // con el teclado: se revela de golpe
+      else if ((copia._frotado || 0) < 3) toast(esTactil ? "Frota la foto con el dedo para revelarla." : "Pasa el ratón por encima de la foto para revelarla.");
+      return;
+    }
+    if (copia.classList.contains("terminando")) return;
     if (copia.classList.contains("revelando")) return;
     abrir(copia.dataset.id); return;
   }
@@ -1730,7 +1930,7 @@ $("proyector").addEventListener("touchend", e => {
 /* ============ ANIVERSARIO: cuando el curso ya ha pasado ============ */
 function pintarAniversario() {
   const finCurso = new Date(ANIO0 + 1, 7, 31);
-  if (HOY <= finCurso || !alumnos.length) return false;
+  if (HOY <= finCurso || !alumnos.length) return [];
   const edadHoy = (p, fecha) => p.edad ? Number(p.edad) + (fecha.getFullYear() - p.f.getFullYear()) : null;
   const hoy = alumnos.filter(p => p.f.getMonth() === HOY.getMonth() && p.f.getDate() === HOY.getDate());
 
@@ -1755,7 +1955,7 @@ function pintarAniversario() {
       edad ? `. Cumplirá ${edad}` : ""}. ${faltan === 1 ? "Es mañana." : `Faltan ${faltan} días.`}`;
     $("proximo").hidden = false;
   }
-  return true;
+  return hoy;
 }
 
 /* ============ FICHA TÉCNICA ============ */
@@ -1977,6 +2177,115 @@ $("fEnviar").addEventListener("click", async () => {
   }
 });
 
+/* ============ EL MOSAICO DE LA CLASE ============ */
+let mosaicoBlob = null;
+
+function azar(semilla) { let a = semilla >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+
+async function generarMosaico(ancho, lado) {
+  const conFoto = colgadas.filter(p => p.foto);
+  const imgs = (await Promise.all(conFoto.map(p => cargarImagen(p.foto)))).filter(Boolean);
+  if (!imgs.length) return null;
+  await cargarFuentes();
+
+  const cols = Math.round(ancho / lado), filas = Math.round(cols * 2 / 3);
+  const W = cols * lado, H = filas * lado;
+
+  // cada foto, recortada en cuadrado del tamaño de una tesela
+  const teselas = imgs.map(im => {
+    const c = document.createElement("canvas"); c.width = c.height = lado;
+    const m = Math.min(im.naturalWidth, im.naturalHeight);
+    c.getContext("2d").drawImage(im, (im.naturalWidth - m) / 2, (im.naturalHeight - m) / 2, m, m, 0, 0, lado, lado);
+    return c;
+  });
+
+  // la plantilla: el texto dibujado a la resolución de la cuadrícula
+  const pl = document.createElement("canvas"); pl.width = cols; pl.height = filas;
+  const pg = pl.getContext("2d");
+  pg.fillStyle = "#000"; pg.fillRect(0, 0, cols, filas);
+  pg.fillStyle = pg.strokeStyle = "#fff"; pg.textAlign = "center"; pg.textBaseline = "middle"; pg.lineJoin = "round";
+  const titulo = (datos.titulo || "2º Bach").toUpperCase();
+  const fuente = t => `900 ${t}px 'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif`;
+  let t = filas * .66;
+  pg.font = fuente(t);
+  const anchoTxt = pg.measureText(titulo).width;
+  if (anchoTxt > cols * .92) { t *= cols * .92 / anchoTxt; pg.font = fuente(t); }
+  const yTit = datos.curso ? filas * .4 : filas * .5;
+  pg.lineWidth = Math.max(1, t * .07);        // engorda un poco las letras para que se lean de lejos
+  pg.fillText(titulo, cols / 2, yTit); pg.strokeText(titulo, cols / 2, yTit);
+  if (datos.curso) {
+    const tc = filas * .19;
+    pg.font = fuente(tc); pg.lineWidth = Math.max(.6, tc * .03);
+    pg.fillText(String(datos.curso), cols / 2, filas * .82); pg.strokeText(String(datos.curso), cols / 2, filas * .82);
+  }
+  const mapa = pg.getImageData(0, 0, cols, filas).data;
+
+  const c = document.createElement("canvas"); c.width = W; c.height = H;
+  const g = c.getContext("2d");
+  g.fillStyle = "#0d0506"; g.fillRect(0, 0, W, H);
+  const rnd = azar(2026);
+  const hueco = Math.max(1, Math.round(lado * .04));
+  let previa = -1;
+  const encima = new Array(cols).fill(-1);
+  for (let y = 0; y < filas; y++) {
+    for (let x = 0; x < cols; x++) {
+      let k;
+      do { k = Math.floor(rnd() * teselas.length); } while (teselas.length > 2 && (k === previa || k === encima[x]));
+      previa = k; encima[x] = k;
+      const px = x * lado, py = y * lado;
+      g.drawImage(teselas[k], px + hueco, py + hueco, lado - hueco * 2, lado - hueco * 2);
+      const dentro = mapa[(y * cols + x) * 4] > 110;
+      if (dentro) { g.fillStyle = "rgba(255,190,110,.14)"; g.fillRect(px + hueco, py + hueco, lado - hueco * 2, lado - hueco * 2); }
+      else { g.fillStyle = "rgba(13,5,6,.8)"; g.fillRect(px, py, lado, lado); }
+    }
+  }
+  // viñeta suave
+  const v = g.createRadialGradient(W / 2, H / 2, H * .35, W / 2, H / 2, W * .7);
+  v.addColorStop(0, "rgba(0,0,0,0)"); v.addColorStop(1, "rgba(0,0,0,.45)");
+  g.fillStyle = v; g.fillRect(0, 0, W, H);
+  // pie
+  g.fillStyle = "rgba(242,228,223,.75)"; g.textAlign = "right";
+  g.font = `600 ${Math.round(lado * .55)}px Figtree, sans-serif`;
+  g.fillText(`El carrete de ${datos.titulo || "2º Bach"}, IES El Molinillo`, W - lado * .8, H - lado * .6);
+  return aBlob(c);
+}
+
+function prepararMosaico() {
+  if (!colgadas.some(p => p.foto)) return;
+  const caja = $("mosaicoCaja");
+  caja.hidden = false;
+  const completo = alumnos.length >= TOTAL && alumnos.every(p => p.revelado);
+  const ultimo = alumnos.at(-1);
+  const io = new IntersectionObserver(async ent => {
+    if (!ent.some(e => e.isIntersecting)) return;
+    io.disconnect();
+    const marco = $("mosaicoMarco");
+    try {
+      const blob = completo ? await generarMosaico(3072, 32) : await generarMosaico(960, 12);
+      if (!blob) { caja.hidden = true; return; }
+      const url = URL.createObjectURL(blob);
+      if (completo) {
+        mosaicoBlob = blob;
+        marco.innerHTML = `<img src="${url}" alt="Mosaico con el nombre de la clase formado por todas las fotos del curso">`;
+        $("mosaicoGuardar").hidden = false;
+        $("mosaicoNota").textContent = "Toca la imagen para verla de cerca. El póster se guarda en alta calidad, listo para imprimir.";
+        marco.querySelector("img").addEventListener("click", () => marco.classList.toggle("zoom"));
+      } else {
+        marco.classList.add("bloqueado");
+        const faltan = TOTAL - colgadas.length;
+        marco.innerHTML = `<img src="${url}" alt=""><div class="candado"><b>Todavía revelándose</b><span>${
+          ultimo && !ultimo.revelado ? `Se revela con el último cumpleaños del curso, el de ${esc(ultimo.nombre)}, el ${fechaLarga(ultimo.f)}. ` : ""}Faltan ${faltan} ${faltan === 1 ? "cumpleaños" : "cumpleaños"}.</span></div>`;
+      }
+    } catch (e) {
+      console.error("Mosaico:", e); caja.hidden = true;
+    }
+  }, { rootMargin: "300px" });
+  io.observe(caja);
+}
+$("mosaicoGuardar").addEventListener("click", () => {
+  if (mosaicoBlob) entregar(mosaicoBlob, `mosaico-${slug(datos.titulo || "2bach")}.jpg`, document.body);
+});
+
 /* ============ ARRANQUE ============ */
 fetch("datos.json", { cache: "no-store" })
   .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
@@ -1999,10 +2308,16 @@ fetch("datos.json", { cache: "no-store" })
     pintarTendedero();
     pintarTextos(total);
     pintarAula();
-    pintarAniversario();
+    const aniv = pintarAniversario();
+    const edadAniv = p => p.edad ? Number(p.edad) + (HOY.getFullYear() - p.f.getFullYear()) : null;
+    ponerFiesta([
+      ...alumnos.filter(p => p.esHoy).map(p => ({ nombre: p.nombre, edadHoy: p.edad ? Number(p.edad) : null, enCurso: true })),
+      ...aniv.map(p => ({ nombre: p.nombre, edadHoy: edadAniv(p), enCurso: false }))
+    ]);
     pintarFicha();
     pintarTapa();
     cargarFirmas();
+    prepararMosaico();
     cargarTiempo().then(pintarFicha);
 
     const porEnlace = () => {
