@@ -323,7 +323,7 @@ h1{
   cursor:pointer;background:#4c2517;color:var(--papel);
   box-shadow:0 0 0 1.5px var(--ambar),0 0 28px rgba(255,162,51,.32);
 }
-.pupitre.encendido .pp-foto{box-shadow:0 0 0 2px var(--ambar);background:var(--ambar);color:var(--tinta);font-size:18px;font-weight:900}
+.pupitre.encendido .pp-foto{box-shadow:0 0 0 2px var(--ambar);background:var(--ambar);color:var(--tinta);font-weight:900}
 .pupitre.encendido:hover,.pupitre.encendido:focus-visible{background:#5c2d1b}
 .pupitre.hoy{animation:late 2.4s ease-in-out infinite}
 @keyframes late{50%{box-shadow:0 0 0 2px var(--ambar),0 0 44px rgba(255,162,51,.65)}}
@@ -484,8 +484,18 @@ h1{
   display:grid;place-items:center;
 }
 .mosaico-marco img{display:block;width:100%;height:auto;cursor:zoom-in}
-.mosaico-marco.zoom{max-height:80vh;place-items:start}
-.mosaico-marco.zoom img{width:auto;max-width:none;cursor:zoom-out}
+/* visor del mosaico: pellizcar, arrastrar, rueda, doble toque y botones */
+.mv-dentro{
+  height:100%;display:grid;grid-template-rows:1fr auto auto;grid-template-columns:minmax(0,1fr);gap:10px;
+  padding:calc(66px + env(safe-area-inset-top,0px)) 12px calc(14px + env(safe-area-inset-bottom,0px));
+}
+.mv-zona{position:relative;overflow:hidden;touch-action:none;cursor:grab;border-radius:4px;background:#0d0506;box-shadow:inset 0 0 0 1px rgba(242,228,223,.08)}
+.mv-zona.arrastrando{cursor:grabbing}
+.mv-zona img{position:absolute;left:0;top:0;max-width:none;transform-origin:0 0;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;will-change:transform}
+.mv-zona.suave img{transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+.mv-barra button{min-width:48px;justify-content:center;font-size:17px}
+.mv-barra .principal{font-size:15px}
+.mv-ayuda{margin:0;text-align:center;font-size:13px;color:var(--suave)}
 .mosaico-marco.bloqueado{overflow:hidden}
 .mosaico-marco.bloqueado img{filter:blur(10px) brightness(.4) saturate(.7);transform:scale(1.08);cursor:default}
 .candado{
@@ -880,6 +890,21 @@ dialog .toast{bottom:96px}
   <div class="toast" id="toastFirmar" role="status" aria-live="polite"></div>
 </dialog>
 
+<dialog class="visor" id="mosaicoVer" aria-label="Mosaico de la clase">
+  <button class="cerrar" id="mvCerrar" aria-label="Cerrar">×</button>
+  <div class="mv-dentro">
+    <div class="mv-zona" id="mvZona"><img id="mvImg" alt="Mosaico con el nombre de la clase formado por todas las fotos del curso" draggable="false"></div>
+    <div class="barra mv-barra">
+      <button id="mvMenos" aria-label="Alejar">−</button>
+      <button id="mvAjustar">Ver entero</button>
+      <button id="mvMas" aria-label="Acercar">+</button>
+      <button class="principal" id="mvGuardar">Guardar el póster</button>
+    </div>
+    <p class="mv-ayuda" id="mvAyuda"></p>
+  </div>
+  <div class="toast" id="toastMv" role="status" aria-live="polite"></div>
+</dialog>
+
 <dialog class="visor" id="plano" aria-labelledby="planoTitulo">
   <button class="cerrar" id="plCerrar" aria-label="Cerrar">×</button>
   <div class="plano-dentro">
@@ -1028,7 +1053,7 @@ function clic() {
 
 let temporizadorToast;
 function toast(texto) {
-  const t = !$("proyector").hidden ? $("toastPr") : $("visor").open ? $("toastVisor") : $("firmar").open ? $("toastFirmar") : $("plano").open ? $("toastPlano") : $("hoja").open ? $("toastHoja") : $("visor").open ? $("toastVisor") : $("toast");
+  const t = !$("proyector").hidden ? $("toastPr") : $("mosaicoVer").open ? $("toastMv") : $("visor").open ? $("toastVisor") : $("firmar").open ? $("toastFirmar") : $("plano").open ? $("toastPlano") : $("hoja").open ? $("toastHoja") : $("visor").open ? $("toastVisor") : $("toast");
   t.textContent = texto; t.classList.add("ver");
   clearTimeout(temporizadorToast);
   temporizadorToast = setTimeout(() => t.classList.remove("ver"), 2800);
@@ -1834,7 +1859,7 @@ function pintarAula() {
     if (!p) return `<div class="pupitre" aria-hidden="true"><span class="pp-foto">?</span><span class="pp-nom">&nbsp;</span></div>`;
     if (p.revelado) {
       return `<button class="pupitre encendido${p.esHoy ? " hoy" : ""}" data-id="${esc(p.id)}" aria-label="Ver la foto de ${esc(p.nombre)}">
-        <span class="pp-foto">${esc(p.nombre.charAt(0))}</span><span class="pp-nom">${esc(p.nombre)}</span></button>`;
+        <span class="pp-foto">${p.f.getDate()}<br>${MESES_CORTO[p.f.getMonth()]}</span><span class="pp-nom">${esc(p.nombre)}</span></button>`;
     }
     return `<button class="pupitre futuro" data-futuro="${esc(p.id)}" aria-label="${esc(p.nombre)}: se enciende el ${fechaLarga(p.f)}">
       <span class="pp-foto">${p.f.getDate()}<br>${MESES_CORTO[p.f.getMonth()]}</span><span class="pp-nom">${esc(p.nombre)}</span></button>`;
@@ -2236,7 +2261,108 @@ $("fEnviar").addEventListener("click", async () => {
 });
 
 /* ============ EL MOSAICO DE LA CLASE ============ */
-let mosaicoBlob = null;
+let mosaicoBlob = null, mosaicoUrl = null;
+
+/* ---- visor con zoom ---- */
+const mv = { esc: 1, tx: 0, ty: 0, min: 1, max: 8, dedos: new Map(), ultimoToque: 0, distPrev: 0, medioPrev: null, arrastre: null };
+function mvAplicar() {
+  const z = $("mvZona"), img = $("mvImg");
+  const zw = z.clientWidth, zh = z.clientHeight, iw = img.naturalWidth * mv.esc, ih = img.naturalHeight * mv.esc;
+  mv.tx = iw <= zw ? (zw - iw) / 2 : Math.min(0, Math.max(zw - iw, mv.tx));
+  mv.ty = ih <= zh ? (zh - ih) / 2 : Math.min(0, Math.max(zh - ih, mv.ty));
+  img.style.transform = `translate(${mv.tx}px,${mv.ty}px) scale(${mv.esc})`;
+}
+function mvAjustar(suave) {
+  const z = $("mvZona"), img = $("mvImg");
+  if (!img.naturalWidth) return;
+  mv.min = Math.min(z.clientWidth / img.naturalWidth, z.clientHeight / img.naturalHeight);
+  mv.max = Math.max(mv.min * 10, 1.5);
+  mv.esc = mv.min;
+  z.classList.toggle("suave", !!suave);
+  mvAplicar();
+}
+function mvZoom(factor, cx, cy, suave) {
+  const z = $("mvZona");
+  if (cx == null) { cx = z.clientWidth / 2; cy = z.clientHeight / 2; }
+  const nueva = Math.min(mv.max, Math.max(mv.min, mv.esc * factor));
+  mv.tx = cx - (cx - mv.tx) * (nueva / mv.esc);
+  mv.ty = cy - (cy - mv.ty) * (nueva / mv.esc);
+  mv.esc = nueva;
+  z.classList.toggle("suave", !!suave);
+  mvAplicar();
+}
+async function abrirVisorMosaico() {
+  if (!mosaicoUrl) return;
+  const img = $("mvImg");
+  $("mvAyuda").textContent = esTactil
+    ? "Pellizca para acercar, arrastra para moverte y toca dos veces para ampliar o volver."
+    : "Rueda del ratón o + y − para acercar, arrastra para moverte, doble clic para ampliar o volver.";
+  $("mosaicoVer").showModal();
+  if (img.src !== mosaicoUrl) { img.src = mosaicoUrl; try { await img.decode(); } catch (e) {} }
+  requestAnimationFrame(() => mvAjustar(false));
+}
+(() => {
+  const z = $("mvZona");
+  const local = e => { const r = z.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  z.addEventListener("pointerdown", e => {
+    z.setPointerCapture(e.pointerId);
+    mv.dedos.set(e.pointerId, local(e));
+    z.classList.remove("suave"); z.classList.add("arrastrando");
+    if (mv.dedos.size === 2) {
+      const [a, b] = [...mv.dedos.values()];
+      mv.distPrev = Math.hypot(a[0] - b[0], a[1] - b[1]);
+      mv.medioPrev = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+    }
+    mv.arrastre = { x: e.clientX, y: e.clientY, movido: false };
+  });
+  z.addEventListener("pointermove", e => {
+    if (!mv.dedos.has(e.pointerId)) return;
+    const prev = mv.dedos.get(e.pointerId), ahora = local(e);
+    mv.dedos.set(e.pointerId, ahora);
+    if (mv.dedos.size === 2) {
+      const [a, b] = [...mv.dedos.values()];
+      const dist = Math.hypot(a[0] - b[0], a[1] - b[1]), medio = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+      if (mv.distPrev) mvZoom(dist / mv.distPrev, medio[0], medio[1]);
+      mv.tx += medio[0] - mv.medioPrev[0]; mv.ty += medio[1] - mv.medioPrev[1];
+      mv.distPrev = dist; mv.medioPrev = medio;
+      mvAplicar();
+    } else if (mv.dedos.size === 1) {
+      mv.tx += ahora[0] - prev[0]; mv.ty += ahora[1] - prev[1];
+      mvAplicar();
+    }
+    if (mv.arrastre && Math.hypot(e.clientX - mv.arrastre.x, e.clientY - mv.arrastre.y) > 8) mv.arrastre.movido = true;
+  });
+  const soltar = e => {
+    if (!mv.dedos.has(e.pointerId)) return;
+    const quedaban = mv.dedos.size;
+    mv.dedos.delete(e.pointerId);
+    if (mv.dedos.size < 2) { mv.distPrev = 0; }
+    if (!mv.dedos.size) z.classList.remove("arrastrando");
+    // doble toque / doble clic: acercar ahí o volver a verlo entero
+    if (quedaban === 1 && mv.arrastre && !mv.arrastre.movido && e.type === "pointerup") {
+      const t = Date.now();
+      if (t - mv.ultimoToque < 320) {
+        const [cx, cy] = local(e);
+        if (mv.esc > mv.min * 1.4) mvAjustar(true); else mvZoom(4, cx, cy, true);
+        mv.ultimoToque = 0;
+      } else mv.ultimoToque = t;
+    }
+  };
+  ["pointerup", "pointercancel"].forEach(ev => z.addEventListener(ev, soltar));
+  z.addEventListener("wheel", e => {
+    e.preventDefault();
+    const [cx, cy] = local(e);
+    mvZoom(Math.exp(-e.deltaY * .0018), cx, cy);
+  }, { passive: false });
+})();
+$("mvMas").addEventListener("click", () => mvZoom(1.8, null, null, true));
+$("mvMenos").addEventListener("click", () => mvZoom(1 / 1.8, null, null, true));
+$("mvAjustar").addEventListener("click", () => mvAjustar(true));
+$("mvCerrar").addEventListener("click", () => $("mosaicoVer").close());
+$("mvGuardar").addEventListener("click", () => {
+  if (mosaicoBlob) entregar(mosaicoBlob, `mosaico-${slug(datos.titulo || "2bach")}.jpg`, $("mosaicoVer"));
+});
+addEventListener("resize", () => { if ($("mosaicoVer").open) mvAjustar(false); });
 
 function azar(semilla) { let a = semilla >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
 
@@ -2326,8 +2452,9 @@ function prepararMosaico() {
         mosaicoBlob = blob;
         marco.innerHTML = `<img src="${url}" alt="Mosaico con el nombre de la clase formado por todas las fotos del curso">`;
         $("mosaicoGuardar").hidden = false;
+        mosaicoUrl = url;
         $("mosaicoNota").textContent = "Toca la imagen para verla de cerca. El póster se guarda en alta calidad, listo para imprimir.";
-        marco.querySelector("img").addEventListener("click", () => marco.classList.toggle("zoom"));
+        marco.querySelector("img").addEventListener("click", abrirVisorMosaico);
       } else {
         marco.classList.add("bloqueado");
         const faltan = TOTAL - colgadas.length;
