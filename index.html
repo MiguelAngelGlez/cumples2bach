@@ -581,60 +581,35 @@ dialog.visor::backdrop{background:rgba(22,5,6,.9);backdrop-filter:blur(5px)}
   background-color:#f1ede4;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='160'><text x='0' y='90' transform='rotate(-24 130 80)' font-family='Arial' font-size='13' letter-spacing='3' fill='%23d8d1c2'>PAPEL FOTOGRÁFICO  2º BACH</text></svg>");
 }
-.dorso h3{margin:0;font-family:var(--mano);font-weight:400;font-size:clamp(34px,6vw,46px);line-height:1.1}
-.dorso-sub{margin:4px 0 26px;font-size:14px;color:#7e7168}
-.nota-dia{
-  margin:-8px 0 28px;padding:2px 0 2px 14px;border-left:3px solid #cbbfa8;
-  font-family:var(--mano);font-size:22px;line-height:1.3;color:#5d524b;
+/* el reverso de la foto: como el de una copia de laboratorio, escrito a lápiz */
+.dorso{display:flex;flex-direction:column}
+.rev{flex:1;display:flex;flex-direction:column;justify-content:center;position:relative;padding-top:24px}
+.rev-num{
+  position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;
+  font-family:var(--titulo);font-weight:700;font-size:13px;letter-spacing:.14em;color:#b3a795;
 }
-/* cada dedicatoria es una notita pegada con cinta por detrás de la foto */
-#dMensajes{display:grid;gap:30px;padding:14px 4px 6px}
-.dedicatoria{
-  position:relative;padding:24px 20px 0;border-radius:2px;
-  background:linear-gradient(180deg,#fffdf8,#fbf7ee);
-  box-shadow:0 1px 0 rgba(0,0,0,.04),0 14px 22px -16px rgba(70,45,20,.55);
-  rotate:var(--g,0deg);translate:var(--desp,0) 0;
+.rev-lapiz{color:#4f4740;font-family:var(--mano);transform:rotate(-2.5deg)}
+.rev-nombre{margin:0;font-size:clamp(40px,8.5vw,60px);line-height:1.05;color:#2f2a26}
+.rev-linea{margin:10px 0 0;font-size:clamp(22px,4.4vw,28px);line-height:1.3}
+.rev-tiempo{margin:2px 0 0;font-size:clamp(18px,3.4vw,22px);color:#7a6f66}
+.rev-nota{margin:18px 0 0;font-size:clamp(20px,3.8vw,24px);line-height:1.3;color:#5d524b}
+.rev-frase{
+  margin:clamp(28px,6vh,52px) 0 0;padding-top:18px;border-top:1.5px dashed #cfc4b1;
+  font-family:var(--cuerpo);font-size:clamp(16px,2.6vw,19px);font-weight:500;line-height:1.5;color:#5d524b;max-width:22em;
 }
-.dedicatoria::before{   /* la cinta */
-  content:"";position:absolute;left:50%;top:-12px;width:92px;height:24px;translate:-50% 0;rotate:var(--cinta,-3deg);
-  background:rgba(232,219,181,.9);box-shadow:0 1px 2px rgba(0,0,0,.08);
-  clip-path:polygon(0 12%,6% 0,12% 10%,20% 2%,30% 9%,40% 0,50% 10%,60% 2%,70% 9%,80% 0,88% 10%,94% 2%,100% 12%,98% 50%,100% 88%,93% 100%,85% 90%,75% 99%,65% 91%,55% 100%,45% 90%,35% 99%,25% 91%,15% 100%,6% 90%,0 98%,2% 50%);
+.rev-sello{
+  align-self:flex-end;margin-top:26px;width:clamp(96px,22vw,124px);aspect-ratio:1;border-radius:50%;
+  display:grid;place-content:center;text-align:center;gap:2px;rotate:-14deg;
+  border:2.5px solid rgba(110,52,140,.55);box-shadow:inset 0 0 0 4px #f1ede4,inset 0 0 0 5.5px rgba(110,52,140,.45);
+  color:rgba(110,52,140,.65);font-family:var(--titulo);font-weight:700;line-height:1.05;
 }
-.dedicatoria p{
-  margin:0;font-family:var(--mano);font-size:23px;line-height:1.38;color:var(--boli,#1f3a9e);
-  white-space:pre-wrap;overflow-wrap:anywhere;
-}
-.ded-pie{
-  display:flex;justify-content:space-between;align-items:baseline;gap:12px;
-  margin:18px -20px 0;padding:10px 20px 11px;border-top:1px dashed #ddd2bf;
-}
-.ded-de{font-family:var(--titulo);font-weight:700;font-size:19px;letter-spacing:.07em;text-transform:uppercase;color:var(--tinta);overflow-wrap:anywhere}
-.ded-de small{margin-right:6px;font-family:var(--cuerpo);font-weight:600;font-size:12px;letter-spacing:0;text-transform:none;color:#9a8d82}
-.ded-fecha{flex:none;font-size:12px;font-weight:600;color:#9a8d82}
-.dedicatoria.nueva{animation:pegar .7s cubic-bezier(.2,.8,.2,1)}
-@keyframes pegar{from{opacity:0;scale:1.08;translate:0 -10px}}
-.nota{font-size:15px;color:#7e7168}
-
-.escribir{margin-top:14px;padding-top:22px;border-top:1.5px dashed #cfc6b4}
-.btn-dorso{
-  padding:11px 20px;border:1.5px solid var(--tinta);border-radius:4px;background:transparent;color:var(--tinta);
-  font-weight:600;cursor:pointer;
-}
-.btn-dorso:hover{background:var(--tinta);color:var(--papel)}
-.form-dorso{display:grid;gap:12px}
-.form-dorso[hidden]{display:none}
-.form-dorso label{font-size:13px;font-weight:600;color:#6e625a}
-.form-dorso input,.form-dorso textarea{
-  width:100%;padding:10px 12px;border:1.5px solid #cfc6b4;border-radius:4px;background:#fbf9f4;color:var(--tinta);
-}
-.form-dorso textarea{min-height:110px;resize:vertical;font-family:var(--mano);font-size:21px;line-height:1.3}
-.form-dorso input:focus,.form-dorso textarea:focus{outline:none;border-color:var(--tinta)}
+.rev-sello small{font-size:10px;letter-spacing:.16em}
+.rev-sello b{font-size:clamp(20px,4.4vw,26px);letter-spacing:.02em}
 .form-fila{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
 .form-fila .cuenta{margin-left:auto;font-size:12.5px;color:#8a7d73}
 .btn-firmar{padding:11px 20px;border:0;border-radius:4px;background:var(--tinta);color:var(--papel);font-weight:600;cursor:pointer}
 .btn-firmar:disabled{opacity:.6;cursor:wait}
 .btn-texto{padding:11px 8px;border:0;background:none;color:#6e625a;font-weight:600;cursor:pointer;text-decoration:underline}
-.trampa{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .aviso{margin:0;font-size:14px;font-weight:600;color:#2f6b3a}
 .aviso.error{color:#b3261e}
 
@@ -754,7 +729,7 @@ dialog .toast{bottom:96px}
 <main class="tendedero" id="tendedero">
   <div class="tendedero-cab">
     <h2>Colgadas<br>a secar</h2>
-    <p>Toca una foto para verla en grande. Dale la vuelta: detrás se escriben las dedicatorias.</p>
+    <p>Toca una foto para verla en grande y dale la vuelta: por detrás, como en las fotos de antes, queda apuntado el día.</p>
   </div>
   <div id="cordeles"></div>
 </main>
@@ -821,36 +796,13 @@ dialog .toast{bottom:96px}
           <div class="frente-pie"><span class="nombre" id="vNombre"></span><span class="edad"><span id="vEdad"></span><span class="tiempo" id="vTiempo"></span></span></div>
         </div>
         <div class="cara dorso" id="dorso" aria-hidden="true">
-          <h3 id="dPara"></h3>
-          <p class="dorso-sub" id="dSub"></p>
-          <p class="nota-dia" id="dNota" hidden></p>
-          <div id="dMensajes"></div>
-          <div class="escribir">
-            <button class="btn-dorso" id="dEscribir" type="button">Escribir una dedicatoria</button>
-            <form class="form-dorso" id="dForm" hidden novalidate>
-              <div>
-                <label for="dAutor">Tu nombre</label>
-                <input id="dAutor" maxlength="40" autocomplete="off" autocapitalize="words" spellcheck="false" required>
-              </div>
-              <div>
-                <label for="dTexto">Tu dedicatoria</label>
-                <textarea id="dTexto" maxlength="300" required></textarea>
-              </div>
-              <input class="trampa" id="dTrampa" tabindex="-1" autocomplete="off" aria-hidden="true">
-              <div class="form-fila">
-                <button class="btn-firmar" id="dEnviar" type="submit">Firmar y enviar</button>
-                <button class="btn-texto" id="dCancelar" type="button">Cancelar</button>
-                <span class="cuenta" id="dCuenta">0 / 300</span>
-              </div>
-            </form>
-            <p class="aviso" id="dAviso" hidden></p>
-          </div>
+          <div class="rev" id="reverso"></div>
         </div>
       </div>
     </div>
     <div class="barra">
       <button class="flecha" id="vAnterior" aria-label="Foto anterior">‹</button>
-      <button class="principal" id="vGirar">Dar la vuelta <span class="contar" id="vContar">…</span></button>
+      <button class="principal" id="vGirar">Dar la vuelta</button>
       <button id="vGuardar" class="guardar">⤓ Guardar<span class="solo-ancho"> foto</span></button>
       <button class="flecha" id="vSiguiente" aria-label="Foto siguiente">›</button>
     </div>
@@ -948,7 +900,6 @@ const PLANO_CLASE = [
 
 const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
 const MESES_CORTO = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
-const BOLIS = ["#1f3a9e","#1d1613","#b3261e","#1f6b4a"];
 
 const $ = id => document.getElementById(id);
 const dos = n => String(n).padStart(2, "0");
@@ -1018,7 +969,6 @@ let colgadas = [];     // los ya revelados que tienen foto, de septiembre a agos
 let enTendedero = [];  // todos los ya revelados (con o sin foto)
 let TOTAL = 29;
 let actual = -1;
-const cacheMensajes = new Map();
 
 const CLAVE_VISTOS = "carrete2bach-vistos";
 let vistos = new Set();
@@ -1148,7 +1098,7 @@ const giroDe = p => (((Number(p.id) || p.idx) * 37) % 7 - 3) * .7;
 
 /* un cumpleaños que ya ha pasado sin foto: se cuelga su inicial */
 function botonSinFoto(p) {
-  return `<button class="copia" style="--giro:${giroDe(p)}deg" data-id="${esc(p.id)}" aria-label="${esc(p.nombre)}, ${fechaLarga(p.f)}. Sin foto. Ver sus dedicatorias">
+  return `<button class="copia" style="--giro:${giroDe(p)}deg" data-id="${esc(p.id)}" aria-label="${esc(p.nombre)}, ${fechaLarga(p.f)}. Sin foto">
     <span class="pinza" aria-hidden="true"></span>
     <span class="copia-img inicial-img"><span class="sin-foto-txt">Sin foto</span><span class="letra">${esc(p.nombre.charAt(0))}</span>${selloSVG(estampa(p.f))}</span>
     <span class="copia-pie"><span class="nombre">${esc(p.nombre)}</span>${p.edad ? `<span class="edad">${esc(p.edad)} años</span>` : ""}</span>
@@ -1372,16 +1322,39 @@ function pintarVisor() {
   $("vNombre").textContent = p.nombre;
   $("vEdad").textContent = p.edad ? `${p.edad} años, ${fechaLarga(p.f)}` : fechaLarga(p.f);
   $("vTiempo").textContent = textoTiempo(p);
-  $("dPara").textContent = `Para ${p.nombre}`;
-  $("dSub").textContent = `Dedicatorias escritas por detrás de la foto del ${fechaLarga(p.f)}.`;
-  $("dNota").textContent = p.nota || ""; $("dNota").hidden = !p.nota;
-  $("dForm").hidden = true; $("dEscribir").hidden = false; $("dAviso").hidden = true;
+  pintarReverso(p);
   // la copia para guardar se prepara ya, así en el móvil se puede compartir al instante
   copiaLista = null;
   if (p.foto) img.decode().then(() => generarCopia(p)).then(blob => { if (colgadas[actual] === p) copiaLista = { p, blob }; }).catch(() => {});
   const multi = colgadas.length > 1;
   $("vAnterior").hidden = $("vSiguiente").hidden = !multi;
-  cargarMensajes(p.id);
+}
+
+/* lo que queda apuntado por detrás de cada foto */
+const FRASES = [
+  "Un día normal de clase. Por eso merecía una foto.",
+  "Así éramos. Justo así.",
+  "Nadie sabía que esta foto iba a durar tanto.",
+  "La clase, tal cual estaba ese día.",
+  "Guardada para cuando haga falta volver.",
+  "No hubo segunda toma. Salió así, y así se queda.",
+  "Otro día en el que estuvimos todos.",
+  "Dentro de unos años, esta será la buena."
+];
+function pintarReverso(p) {
+  const k = alumnos.indexOf(p);
+  const frase = FRASES[(Math.abs(Number(p.id) || k) * 7) % FRASES.length];
+  const t = textoTiempo(p);
+  $("reverso").innerHTML = `
+    <div class="rev-num" aria-hidden="true"><span>Nº ${dos(k + 1)}</span><span>${esc((datos.titulo || "2º Bach").toUpperCase())}</span></div>
+    <div class="rev-lapiz">
+      <p class="rev-nombre">${esc(p.nombre)}</p>
+      <p class="rev-linea">${p.edad ? `${esc(p.edad)} años · ` : ""}${fechaLarga(p.f)} de ${p.f.getFullYear()}</p>
+      ${t ? `<p class="rev-tiempo">${esc(t)}</p>` : ""}
+      ${p.nota ? `<p class="rev-nota">${esc(p.nota)}</p>` : ""}
+    </div>
+    <p class="rev-frase">${p.foto ? frase : "Ese día no hubo foto. El cumpleaños, sí."}</p>
+    <div class="rev-sello" aria-hidden="true"><small>REVELADO</small><b>${dos(p.f.getDate())}·${dos(p.f.getMonth() + 1)}</b><small>${esc(datos.curso || "")}</small></div>`;
 }
 
 function girar(forzar) {
@@ -1421,108 +1394,6 @@ $("frente").addEventListener("touchend", e => {
   if (toqueX === null) return;
   const dx = e.changedTouches[0].clientX - toqueX; toqueX = null;
   if (Math.abs(dx) > 50) mover(dx < 0 ? 1 : -1);
-});
-
-/* ============ DEDICATORIAS ============ */
-async function cargarMensajes(id) {
-  const clave = String(id);
-  $("vContar").textContent = "…";
-  if (cacheMensajes.has(clave)) { pintarMensajes(cacheMensajes.get(clave)); return; }
-  $("dMensajes").innerHTML = `<p class="nota">Leyendo el dorso…</p>`;
-  try {
-    const r = await fetch(`${URL_MENSAJES}?id=${encodeURIComponent(id)}`);
-    const lista = await r.json();
-    cacheMensajes.set(clave, Array.isArray(lista) ? lista : []);
-  } catch (e) {
-    console.error("Error cargando dedicatorias:", e);
-    if (String(colgadas[actual]?.id) === clave) {
-      $("vContar").textContent = "0";
-      $("dMensajes").innerHTML = `<p class="nota">No se han podido cargar las dedicatorias. Cierra la foto y vuelve a abrirla en unos segundos.</p>`;
-    }
-    return;
-  }
-  if (String(colgadas[actual]?.id) === clave) pintarMensajes(cacheMensajes.get(clave));
-}
-
-/* la fecha de la hoja puede llegar como "12/10/2026" o como fecha de Google (2026-10-11T22:00:00.000Z) */
-function fechaCorta(v) {
-  if (!v) return "";
-  const t = String(v).trim();
-  let m = t.match(/^(\d{1,2})\/(\d{1,2})\/\d{2,4}$/);
-  if (m) return `${+m[1]} ${MESES_CORTO[+m[2] - 1] || ""}`.trim();
-  const d = new Date(t);
-  return isNaN(d) ? "" : `${d.getDate()} ${MESES_CORTO[d.getMonth()]}`;
-}
-
-function pintarMensajes(lista, nuevo = -1) {
-  $("vContar").textContent = lista.length;
-  if (!lista.length) {
-    $("dMensajes").innerHTML = `<p class="nota">El dorso está en blanco. Escribe la primera dedicatoria.</p>`;
-    return;
-  }
-  $("dMensajes").innerHTML = lista.map((m, i) => {
-    const g = ((i * 53) % 5 - 2) * .45;
-    const desp = i % 2 ? "8px" : "-4px";
-    const cinta = ((i * 31) % 7 - 3) * 1.5;
-    const f = fechaCorta(m.fecha);
-    return `<div class="dedicatoria${i === nuevo ? " nueva" : ""}" style="--g:${g}deg;--desp:${desp};--cinta:${cinta}deg;--boli:${BOLIS[i % BOLIS.length]}">
-      <p>${esc(m.mensaje)}</p>
-      <div class="ded-pie"><span class="ded-de"><small>de</small>${esc(m.autor)}</span>${f ? `<span class="ded-fecha">${f}</span>` : ""}</div>
-    </div>`;
-  }).join("");
-  if (nuevo >= 0) $("dMensajes").children[nuevo]?.scrollIntoView({ behavior: reducir ? "auto" : "smooth", block: "center" });
-}
-
-function aviso(texto, error = false) {
-  const a = $("dAviso");
-  a.textContent = texto; a.classList.toggle("error", error); a.hidden = false;
-}
-
-
-$("dEscribir").addEventListener("click", () => {
-  $("dAviso").hidden = true; $("dEscribir").hidden = true; $("dForm").hidden = false;
-  $("dAutor").value = ""; $("dTexto").value = ""; $("dCuenta").textContent = "0 / 300";
-  ($("dAutor").value ? $("dTexto") : $("dAutor")).focus();
-});
-$("dCancelar").addEventListener("click", () => { $("dForm").hidden = true; $("dEscribir").hidden = false; });
-$("dTexto").addEventListener("input", e => { $("dCuenta").textContent = `${e.target.value.length} / 300`; });
-
-$("dForm").addEventListener("submit", async e => {
-  e.preventDefault();
-  if ($("dTrampa").value) return;
-  const autor = $("dAutor").value.trim();
-  const mensaje = $("dTexto").value.trim();
-  if (!autor || !mensaje) { aviso("Escribe tu nombre y tu dedicatoria antes de enviar.", true); return; }
-  try {
-    const ultimo = Number(localStorage.getItem("ultimoMensajeCumple") || 0);
-    if (Date.now() - ultimo < 15000) { aviso("Espera unos segundos antes de enviar otra dedicatoria.", true); return; }
-  } catch (err) {}
-
-  const p = colgadas[actual];
-  const boton = $("dEnviar");
-  boton.disabled = true; boton.textContent = "Enviando…";
-  const hoy = new Date();
-  try {
-    await enviarAlScript({
-      idAlumno: p.id, nombreAlumno: p.nombre, autor, mensaje,
-      fecha: `${dos(hoy.getDate())}/${dos(hoy.getMonth() + 1)}/${hoy.getFullYear()}`,
-      aprobado: "SI"
-    });
-    try {
-      localStorage.setItem("ultimoMensajeCumple", String(Date.now()));
-    } catch (err) {}
-    const lista = (cacheMensajes.get(String(p.id)) || []).concat({ autor, mensaje, fecha: `${dos(hoy.getDate())}/${dos(hoy.getMonth() + 1)}/${hoy.getFullYear()}` });
-    cacheMensajes.set(String(p.id), lista);
-    $("dTexto").value = ""; $("dCuenta").textContent = "0 / 300";
-    $("dForm").hidden = true; $("dEscribir").hidden = false;
-    pintarMensajes(lista, lista.length - 1);
-    aviso("Dedicatoria enviada. Ya está escrita en el dorso.");
-  } catch (err) {
-    console.error("Error enviando dedicatoria:", err);
-    aviso(err.delScript ? `No se ha guardado: ${err.message}` : "No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.", true);
-  } finally {
-    boton.disabled = false; boton.textContent = "Firmar y enviar";
-  }
 });
 
 /* envía al script de Google y comprueba que ha contestado "ok".
@@ -1835,7 +1706,7 @@ async function cargarTiempo() {
     try { localStorage.setItem(CLAVE, JSON.stringify(guardado)); } catch (e) {}
   }
   colgadas.forEach(p => { p.tiempo = guardado[iso(p.f)] || deHoy[iso(p.f)] || null; });
-  if ($("visor").open && colgadas[actual]) $("vTiempo").textContent = textoTiempo(colgadas[actual]);
+  if ($("visor").open && colgadas[actual]) { $("vTiempo").textContent = textoTiempo(colgadas[actual]); pintarReverso(colgadas[actual]); }
 }
 
 /* ============ EL AULA ============ */
